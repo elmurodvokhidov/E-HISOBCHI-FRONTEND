@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { authLogout, authStart } from "../../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function AdminDashboard() {
     const dispatch = useDispatch();
@@ -9,8 +10,14 @@ function AdminDashboard() {
     const exitHandler = () => {
         dispatch(authStart());
         dispatch(authLogout());
-        navigate("/teacher/login");
+        navigate("/admin/login");
     };
+
+    useEffect(() => {
+        if (!localStorage.getItem("x-token")) {
+            navigate("/admin/login");
+        }
+    }, [navigate]);
 
     return (
         <div>
