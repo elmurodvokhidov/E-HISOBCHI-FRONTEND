@@ -5,7 +5,7 @@ const initialState = {
     isLoading: false,
     isLogin: false,
     user: null,
-    error: null
+    isError: null
 }
 
 const AuthSlice = createSlice({
@@ -24,7 +24,7 @@ const AuthSlice = createSlice({
         },
         authFailure: (state, action) => {
             state.isLoading = false;
-            state.error = action.payload;
+            state.isError = action.payload;
         },
         authLogout: (state, action) => {
             state.isLoading = false;
