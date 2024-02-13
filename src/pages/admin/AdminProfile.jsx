@@ -1,9 +1,8 @@
 import { useDispatch } from "react-redux";
 import { authLogout, authStart } from "../../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
-function AdminDashboard() {
+function AdminProfile() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -13,17 +12,12 @@ function AdminDashboard() {
         navigate("/admin/login");
     };
 
-    useEffect(() => {
-        if (!localStorage.getItem("x-token")) {
-            navigate("/admin/login");
-        }
-    }, [navigate]);
-
     return (
-        <div>
-            <button onClick={exitHandler} className="border-2">Exit</button>
+        <div className="w-full h-fullVH overflow-auto pt-24 px-10">
+            <h1>Admin Profile</h1>
+            <button onClick={exitHandler} className="border-2 px-5">exit</button>
         </div>
     )
 }
 
-export default AdminDashboard
+export default AdminProfile

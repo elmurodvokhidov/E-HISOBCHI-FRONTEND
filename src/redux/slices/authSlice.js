@@ -20,7 +20,6 @@ const AuthSlice = createSlice({
             state.isLogin = true;
             state.user = action.payload.data;
             saveToLocalStorage("x-id", action.payload.data._id);
-            console.log(action.payload);
         },
         authFailure: (state, action) => {
             state.isLoading = false;

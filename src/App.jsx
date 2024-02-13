@@ -6,10 +6,16 @@ import { authSuccess } from "./redux/slices/authSlice";
 import AuthService from "./config/authService";
 import Login from "./components/Login";
 import TeacherLogin from "./pages/teacher/TeacherLogin";
-import AdminDashboard from "./pages/admin/AdminDashboard";
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";
 import StudentLogin from "./pages/student/StudentLogin";
 import StudentDashboard from "./pages/student/StudentDashboard";
+import Notice from "./pages/admin/Notice";
+import Admins from "./pages/admin/Admins";
+import Teachers from "./pages/admin/Teachers";
+import Students from "./pages/admin/Students";
+import AdminLayout from "./pages/admin/AdminLayout";
+import Dashboard from "./pages/admin/Dashboard";
+import AdminProfile from "./pages/admin/AdminProfile";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,10 +32,10 @@ function App() {
           const { data } = await AuthService.getTeacher(id);
           dispatch(authSuccess(data));
         }
-        // else if (localStorage.getItem("x-auth") === "student") {
-        //   const { data } = await AuthService.getStudent(id);
-        //   dispatch(authSuccess(data));
-        // }
+        else if (localStorage.getItem("x-auth") === "student") {
+          const { data } = await AuthService.getStudent(id);
+          dispatch(authSuccess(data));
+        }
       } catch (error) {
         console.log(error);
       }
@@ -47,7 +53,14 @@ function App() {
 
         {/* admin routes */}
         <Route path="admin/login" element={<AdminLogin />} />
-        <Route path="admin/dashboard" element={<AdminDashboard />} />
+        <Route path="admin" element={<AdminLayout />}>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="notice" element={<Notice />}></Route>
+          <Route path="admins" element={<Admins />}></Route>
+          <Route path="teachers" element={<Teachers />}></Route>
+          <Route path="students" element={<Students />}></Route>
+          <Route path="profile" element={<AdminProfile />}></Route>
+        </Route>
 
         {/* teacher routes */}
         <Route path="teacher/login" element={<TeacherLogin />} />

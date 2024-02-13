@@ -55,8 +55,8 @@ function AdminLogin() {
 
     return (
         <div className="w-full h-fullVH flex flex-col items-center justify-center gap-4 font-montserrat bg-slate-400">
-            <NavLink to="/" className="flex items-center gap-2 fixed top-12 left-12 text-xl hover:text-slate-200 transition-all duration-200"><span><MdKeyboardBackspace /></span> Back to Homepage</NavLink>
-            <span className="text-8xl"><MdAdminPanelSettings /></span>
+            <NavLink to="/" className="flex items-center gap-2 fixed top-12 left-12 text-xl hover:text-slate-200 transition-all duration-200"><MdKeyboardBackspace /> Back to Homepage</NavLink>
+            <MdAdminPanelSettings className="text-8xl" />
             <h1 className="text-4xl mb-4">Enter your account credentials</h1>
             <form className="w-1/4 flex flex-col gap-4">
                 <div className="flex flex-col gap-1">
