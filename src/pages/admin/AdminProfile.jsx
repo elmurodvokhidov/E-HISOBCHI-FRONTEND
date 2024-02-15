@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authFailure, authLogout, authStart, authSuccess } from "../../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import logo from "../../img/uitc_logo.png";
-import { Toast } from "../../config/sweetToast";
+import { Toast, ToastLeft } from "../../config/sweetToast";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
@@ -93,14 +93,14 @@ function AdminProfile() {
                     }
                 }
                 else {
-                    await Toast.fire({
+                    await ToastLeft.fire({
                         icon: "error",
                         title: "Password must be longer than 8 characters!"
                     });
                 }
             }
             else {
-                await Toast.fire({
+                await ToastLeft.fire({
                     icon: "error",
                     title: "Please fill in the all blanks!"
                 });
@@ -135,7 +135,7 @@ function AdminProfile() {
                 }
             }
             else {
-                await Toast.fire({
+                await ToastLeft.fire({
                     icon: "error",
                     title: "Please fill in the all blanks!"
                 });
@@ -144,26 +144,26 @@ function AdminProfile() {
     };
 
     return (
-        <div className="w-full h-screen overflow-auto pt-24 px-10 font-montserrat">
+        <div className="w-full h-screen overflow-auto pt-24 px-10">
             <div className="flex justify-between border-b-2 pb-16 relative">
                 <h1 className="capitalize text-3xl">account credentials</h1>
-                <button onClick={logoutHandler} className="border-2 rounded border-red-500 px-5 hover:bg-red-500 transition-all hover:text-white duration-300">Exit</button>
+                <button onClick={logoutHandler} className="border-2 rounded border-cyan-600 px-5 hover:bg-red-500 hover:border-red-500 transition-all hover:text-white duration-300">Exit</button>
                 <p className="absolute bottom-[-1px] border-b-2 uppercase text-[14px] pb-2 border-cyan-600 text-cyan-600">{localStorage.getItem("x-auth")}</p>
             </div>
 
             <div className="w-fit border-2 py-8 px-6 my-20 rounded shadow-dim">
                 <div className="flex justify-start gap-10">
-                    <figure className={`w-[100px] h-[100px] rounded-[50%] overflow-hidden bg-slate-100 mt-2 ${!user ? "bg-gray-400 animate-pulse" : null}`}>
+                    <figure className={`w-[100px] h-[100px] rounded-[50%] overflow-hidden bg-slate-100 mt-2 ${!user ? "bg-gray-300 animate-pulse" : null}`}>
                         {user ? <img className="w-full h-full object-cover" src={logo} alt="logo" /> : null}
                     </figure>
 
                     {!user ?
                         <div className="flex flex-col gap-1 animate-pulse">
-                            <h1 className="w-40 h-10 rounded bg-gray-400">&nbsp;</h1>
-                            <h1 className="w-32 h-4 rounded bg-gray-400">&nbsp;</h1>
+                            <h1 className="w-40 h-10 rounded bg-gray-300">&nbsp;</h1>
+                            <h1 className="w-32 h-4 rounded bg-gray-300">&nbsp;</h1>
                             <div className="flex gap-6 mt-4">
-                                <h4 className="w-32 h-8 rounded bg-gray-400">&nbsp;</h4>
-                                <h4 className="w-32 h-8 rounded bg-gray-400">&nbsp;</h4>
+                                <h4 className="w-32 h-8 rounded bg-gray-300">&nbsp;</h4>
+                                <h4 className="w-32 h-8 rounded bg-gray-300">&nbsp;</h4>
                             </div>
                         </div> :
                         <div className="flex flex-col">
@@ -235,7 +235,7 @@ function AdminProfile() {
                                 </>
                                 : null
                         }
-                        <button onClick={(e) => updateHandler(e)} className="w-fit px-6 py-1 mt-8 border-2 border-cyan-600 rounded-lg hover:text-white hover:bg-cyan-600 transition-all duration-300">{isLoading ? "Loading..." : passModal ? "Update Password" : "Save"}</button>
+                        <button disabled={isLoading ? true : false} onClick={(e) => updateHandler(e)} className="w-fit px-6 py-1 mt-8 border-2 border-cyan-600 rounded-lg hover:text-white hover:bg-cyan-600 transition-all duration-300">{isLoading ? "Loading..." : passModal ? "Update Password" : "Save"}</button>
                     </div>
                 </form>
             </div>

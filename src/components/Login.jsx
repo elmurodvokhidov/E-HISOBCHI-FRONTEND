@@ -1,10 +1,27 @@
 import { MdAdminPanelSettings } from "react-icons/md";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { PiStudentFill } from "react-icons/pi";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import logo from "../img/uitc_logo.png";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 function Login() {
+    const { isLogin } = useSelector(state => state.auth);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isLogin && localStorage.getItem("x-auth") === "admin") {
+            navigate("/admin/dashboard");
+        }
+        if (isLogin && localStorage.getItem("x-auth") === "teacher") {
+            navigate("/teacher/dashboard");
+        }
+        if (isLogin && localStorage.getItem("x-auth") === "student") {
+            navigate("/student/dashboard");
+        }
+    }, [isLogin, navigate]);
+
     return (
         <div className="w-full h-screen font-montserrat flex flex-col items-center justify-center gap-10">
             <figure className="w-96">

@@ -51,7 +51,9 @@ function StudentLogin() {
     };
 
     useEffect(() => {
-        if (isLogin) return navigate("/student/dashboard");
+        if (isLogin && localStorage.getItem("x-auth") === "student") {
+            navigate("/student/dashboard");
+        }
     }, [isLogin, navigate]);
 
     return (

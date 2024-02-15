@@ -26,6 +26,14 @@ const AuthService = {
         const res = api.put("/admin/update-password", newPass);
         return res;
     },
+    async getAllTeachers() {
+        const res = api.get("/admin/get-all-teacher");
+        return res;
+    },
+    async addNewTeacher(teacher) {
+        const res = api.post("/admin/add-teacher", teacher);
+        return res;
+    },
 
 
 

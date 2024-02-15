@@ -50,7 +50,7 @@ function AdminLogin() {
     };
 
     useEffect(() => {
-        if (isLogin) {
+        if (isLogin && localStorage.getItem("x-auth") === "admin") {
             navigate("/admin/dashboard");
         }
     }, [isLogin, navigate]);

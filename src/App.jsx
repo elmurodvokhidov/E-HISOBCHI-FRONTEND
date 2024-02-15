@@ -16,6 +16,7 @@ import Students from "./pages/admin/Students";
 import AdminLayout from "./pages/admin/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
 import AdminProfile from "./pages/admin/AdminProfile";
+import TeacherInfo from "./pages/admin/TeacherInfo";
 
 function App() {
   const dispatch = useDispatch();
@@ -58,6 +59,7 @@ function App() {
           <Route path="notice" element={<Notice />}></Route>
           <Route path="admins" element={<Admins />}></Route>
           <Route path="teachers" element={<Teachers />}></Route>
+          <Route path="teacher-info/:id" element={<TeacherInfo />} />
           <Route path="students" element={<Students />}></Route>
           <Route path="profile" element={<AdminProfile />}></Route>
         </Route>

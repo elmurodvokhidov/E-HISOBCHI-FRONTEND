@@ -5,6 +5,8 @@ const initialState = {
     isLoading: false,
     isLogin: false,
     user: null,
+    teachers: null,
+    students: null,
     isError: null
 }
 
@@ -12,7 +14,7 @@ const AuthSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        authStart: (state, action) => {
+        authStart: (state) => {
             state.isLoading = true;
         },
         authSuccess: (state, action) => {
@@ -25,12 +27,32 @@ const AuthSlice = createSlice({
             state.isLoading = false;
             state.isError = action.payload;
         },
-        authLogout: (state, action) => {
+        authLogout: (state) => {
             state.isLoading = false;
             state.isLogin = false;
             state.user = null;
             localStorage.clear();
-        }
+        },
+
+
+        // teacher
+        teacherStart: (state) => {
+            state.isLoading = true;
+        },
+        teacherSuccess: (state, action) => {
+            state.isLoading = false;
+            state.isLogin = true;
+            state.teachers = action.payload?.data;
+        },
+        newTeacherSuccess: (state, action) => {
+            state.isLoading = false;
+            state.isLogin = true;
+            state.teachers.push(action.payload?.data);
+        },
+        teacherFailure: (state, action) => {
+            state.isLoading = false;
+            state.isError = action.payload;
+        },
     }
 });
 
@@ -39,5 +61,11 @@ export const {
     authSuccess,
     authFailure,
     authLogout,
+
+    // teacher
+    teacherStart,
+    teacherSuccess,
+    newTeacherSuccess,
+    teacherFailure,
 } = AuthSlice.actions;
 export default AuthSlice.reducer;

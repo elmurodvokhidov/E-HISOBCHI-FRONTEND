@@ -51,7 +51,7 @@ function TeacherLogin() {
     };
 
     useEffect(() => {
-        if (isLogin) {
+        if (isLogin && localStorage.getItem("x-auth") === "teacher") {
             navigate("/teacher/dashboard");
         }
     }, [isLogin, navigate]);
