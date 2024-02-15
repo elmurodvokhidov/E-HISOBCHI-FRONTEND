@@ -7,13 +7,13 @@ function AdminLayout() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!localStorage.getItem("x-token")) {
+        if (localStorage.getItem("x-token") === null) {
             navigate("/admin/login");
         }
     }, [navigate]);
 
     return (
-        <div className="w-full h-fullVH overflow-hidden">
+        <div className="w-full h-screen overflow-hidden">
             <Navbar />
             <div className="flex">
                 <AdminSidebar />

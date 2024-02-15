@@ -11,24 +11,32 @@ api.interceptors.request.use((req) => {
 const AuthService = {
     // admdin
     async adminLogin(admin) {
-        const response = api.post("/admin/login", admin);
-        return response;
+        const res = api.post("/admin/login", admin);
+        return res;
     },
     async getAdmin(id) {
-        const response = api.get(`/admin/info/${id}`);
-        return response;
+        const res = api.get(`/admin/info/${id}`);
+        return res;
+    },
+    async updateAdminProfile(id, updatedAdmin) {
+        const res = api.put(`/admin/update-profile/${id}`, updatedAdmin);
+        return res;
+    },
+    async updateAdminPass(newPass) {
+        const res = api.put("/admin/update-password", newPass);
+        return res;
     },
 
 
 
     // teacher
     async teacherLogin(teacher) {
-        const response = api.post("/teacher/login", teacher);
-        return response;
+        const res = api.post("/teacher/login", teacher);
+        return res;
     },
     async getTeacher(id) {
-        const response = api.get(`/teacher/info/${id}`);
-        return response;
+        const res = api.get(`/teacher/info/${id}`);
+        return res;
     },
 
 

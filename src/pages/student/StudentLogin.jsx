@@ -45,7 +45,7 @@ function StudentLogin() {
             dispatch(authFailure(error.response.data.message));
             await Toast.fire({
                 icon: "error",
-                title: error.response.data.message
+                title: error.response.data.message || error.message
             });
         }
     };
@@ -55,7 +55,7 @@ function StudentLogin() {
     }, [isLogin, navigate]);
 
     return (
-        <div className="w-full h-fullVH flex flex-col items-center justify-center gap-4 font-montserrat bg-slate-400">
+        <div className="w-full h-screen flex flex-col items-center justify-center gap-4 font-montserrat bg-slate-400">
             <NavLink to="/" className="flex items-center gap-2 fixed top-12 left-12 text-xl hover:text-slate-200 transition-all duration-200"><span><MdKeyboardBackspace /></span> Back to Homepage</NavLink>
             <span className="text-8xl"><PiStudentFill /></span>
             <h1 className="text-4xl mb-4">Enter your account credentials</h1>

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { rmFromLocalStorage, saveToLocalStorage } from "../../config/localStorageService";
+import { saveToLocalStorage } from "../../config/localStorageService";
 
 const initialState = {
     isLoading: false,
@@ -18,8 +18,8 @@ const AuthSlice = createSlice({
         authSuccess: (state, action) => {
             state.isLoading = false;
             state.isLogin = true;
-            state.user = action.payload.data;
-            saveToLocalStorage("x-id", action.payload.data._id);
+            state.user = action.payload?.data;
+            saveToLocalStorage("x-id", action.payload?.data._id);
         },
         authFailure: (state, action) => {
             state.isLoading = false;
@@ -28,7 +28,8 @@ const AuthSlice = createSlice({
         authLogout: (state, action) => {
             state.isLoading = false;
             state.isLogin = false;
-            rmFromLocalStorage("x-token");
+            state.user = null;
+            localStorage.clear();
         }
     }
 });
