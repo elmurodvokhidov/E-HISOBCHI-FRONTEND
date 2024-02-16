@@ -7,20 +7,20 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 function Login() {
-    const { isLogin } = useSelector(state => state.auth);
+    const { isLoggedIn } = useSelector(state => state.auth);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (isLogin && localStorage.getItem("x-auth") === "admin") {
+        if (isLoggedIn && localStorage.getItem("x-auth") === "admin") {
             navigate("/admin/dashboard");
         }
-        if (isLogin && localStorage.getItem("x-auth") === "teacher") {
+        if (isLoggedIn && localStorage.getItem("x-auth") === "teacher") {
             navigate("/teacher/dashboard");
         }
-        if (isLogin && localStorage.getItem("x-auth") === "student") {
+        if (isLoggedIn && localStorage.getItem("x-auth") === "student") {
             navigate("/student/dashboard");
         }
-    }, [isLogin, navigate]);
+    }, [isLoggedIn, navigate]);
 
     return (
         <div className="w-full h-screen font-montserrat flex flex-col items-center justify-center gap-10">

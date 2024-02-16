@@ -5,7 +5,7 @@ import logo from "../img/uitc_logo.png"
 import AnimationBtn from "./AnimationBtn";
 
 function Navbar() {
-    const { user } = useSelector(state => state.auth);
+    const { auth } = useSelector(state => state.auth);
     return (
         <div className="w-full fixed z-10 top-0 flex items-center justify-between py-2 px-10 shadow-dim font-montserrat bg-white">
             <div className="logo w-14">
@@ -14,7 +14,7 @@ function Navbar() {
 
             <div className="right">
                 <Link to="profile" className="flex items-center gap-2">
-                    <span className="text-[16px] text-black">{user ? user?.first_name : <AnimationBtn />}
+                    <span className="text-[16px] text-black">{auth ? auth?.first_name : <AnimationBtn />}
                     </span>
                     <IoPersonCircleOutline className="text-3xl text-gray-500" />
                 </Link>

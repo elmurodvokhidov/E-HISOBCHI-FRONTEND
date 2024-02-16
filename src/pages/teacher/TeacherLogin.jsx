@@ -13,7 +13,7 @@ function TeacherLogin() {
         email: "",
         password: ""
     });
-    const { isLoading, isLogin } = useSelector(state => state.auth);
+    const { isLoading, isLoggedIn } = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -51,10 +51,10 @@ function TeacherLogin() {
     };
 
     useEffect(() => {
-        if (isLogin && localStorage.getItem("x-auth") === "teacher") {
+        if (isLoggedIn && localStorage.getItem("x-auth") === "teacher") {
             navigate("/teacher/dashboard");
         }
-    }, [isLogin, navigate]);
+    }, [isLoggedIn, navigate]);
 
     return (
         <div className="w-full h-screen flex flex-col items-center justify-center gap-4 font-montserrat bg-slate-400">

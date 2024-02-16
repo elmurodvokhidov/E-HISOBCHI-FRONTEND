@@ -10,7 +10,7 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import AuthService from "../../config/authService";
 
 function AdminProfile() {
-    const { user, isLoading } = useSelector(state => state.auth);
+    const { auth, isLoading } = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [modal, setModal] = useState(false);
@@ -65,7 +65,7 @@ function AdminProfile() {
 
     const openModal = () => {
         setModal(true);
-        setUpdatedAdmin(user);
+        setUpdatedAdmin(auth);
     };
 
     const updateHandler = async (e) => {
@@ -75,7 +75,7 @@ function AdminProfile() {
                 if (newPass.newPassword.length >= 8) {
                     try {
                         dispatch(authStart());
-                        const { data } = await AuthService.updateAdminPass({ ...newPass, email: user?.email });
+                        const { data } = await AuthService.updateAdminPass({ ...newPass, email: auth?.email });
                         dispatch(authSuccess(data));
                         setModal(false);
                         setPassModal(false);
@@ -153,11 +153,11 @@ function AdminProfile() {
 
             <div className="w-fit border-2 py-8 px-6 my-20 rounded shadow-dim">
                 <div className="flex justify-start gap-10">
-                    <figure className={`w-[100px] h-[100px] rounded-[50%] overflow-hidden bg-slate-100 mt-2 ${!user ? "bg-gray-300 animate-pulse" : null}`}>
-                        {user ? <img className="w-full h-full object-cover" src={logo} alt="logo" /> : null}
+                    <figure className={`w-[100px] h-[100px] rounded-[50%] overflow-hidden bg-slate-100 mt-2 ${!auth ? "bg-gray-300 animate-pulse" : null}`}>
+                        {auth ? <img className="w-full h-full object-cover" src={logo} alt="logo" /> : null}
                     </figure>
 
-                    {!user ?
+                    {!auth ?
                         <div className="flex flex-col gap-1 animate-pulse">
                             <h1 className="w-40 h-10 rounded bg-gray-300">&nbsp;</h1>
                             <h1 className="w-32 h-4 rounded bg-gray-300">&nbsp;</h1>
@@ -167,18 +167,18 @@ function AdminProfile() {
                             </div>
                         </div> :
                         <div className="flex flex-col">
-                            <h1 className="capitalize text-4xl">{user.first_name}</h1>
-                            <h2 className="capitalize text-2xl">{user.last_name}</h2>
-                            <h3 className="text-[14px] mt-1">{user.email}</h3>
+                            <h1 className="capitalize text-4xl">{auth.first_name}</h1>
+                            <h2 className="capitalize text-2xl">{auth.last_name}</h2>
+                            <h3 className="text-[14px] mt-1">{auth.email}</h3>
                             <div className="flex gap-6 text-[14px]">
-                                <h4>Tug'ilgan sana: <span className="underline">{user.dob}</span></h4>
-                                <h4>Telefon: <span className="underline">+{user.contactNumber}</span></h4>
+                                <h4>Date of Bithday: <span className="underline">{auth.dob}</span></h4>
+                                <h4>Phone: <span className="underline">+{auth.contactNumber}</span></h4>
                             </div>
                         </div>
                     }
 
                     <div>
-                        <button disabled={user ? false : true} onClick={() => openModal()} className="border-2 rounded ml-16 px-6 py-1 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">{user ? "Edit" : "Loading..."}</button>
+                        <button disabled={auth ? false : true} onClick={() => openModal()} className="border-2 rounded ml-16 px-6 py-1 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">{auth ? "Edit" : "Loading..."}</button>
                     </div>
                 </div>
             </div>

@@ -3,11 +3,11 @@ import AuthService from "../../config/authService";
 import { useDispatch, useSelector } from "react-redux";
 import { IoMdMore } from "react-icons/io";
 import {
+    allTeacherSuccess,
     newTeacherSuccess,
     teacherFailure,
-    teacherStart,
-    teacherSuccess
-} from "../../redux/slices/authSlice";
+    teacherStart
+} from "../../redux/slices/teacherSlice";
 import { Link, NavLink } from "react-router-dom";
 import { IoCloseOutline } from "react-icons/io5";
 import { LiaEditSolid } from "react-icons/lia";
@@ -15,7 +15,8 @@ import { RiDeleteBin7Line } from "react-icons/ri";
 import { Toast, ToastLeft } from "../../config/sweetToast";
 
 function Teachers() {
-    const { isLoading, teachers } = useSelector(state => state.auth);
+    const { isLoading } = useSelector((state) => state.auth);
+    const { teachers } = useSelector(state => state.teacher);
     const dispatch = useDispatch();
     const [modal, setModal] = useState(false);
     const [more, setMore] = useState(null);
@@ -36,7 +37,7 @@ function Teachers() {
             try {
                 dispatch(teacherStart());
                 const { data } = await AuthService.getAllTeachers();
-                dispatch(teacherSuccess(data));
+                dispatch(allTeacherSuccess(data));
             } catch (error) {
                 dispatch(teacherFailure(error.message));
             }

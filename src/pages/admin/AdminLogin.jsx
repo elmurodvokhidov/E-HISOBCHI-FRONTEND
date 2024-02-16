@@ -12,7 +12,7 @@ function AdminLogin() {
         email: "",
         password: ""
     });
-    const { isLoading, isLogin } = useSelector(state => state.auth);
+    const { isLoading, isLoggedIn } = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -50,10 +50,10 @@ function AdminLogin() {
     };
 
     useEffect(() => {
-        if (isLogin && localStorage.getItem("x-auth") === "admin") {
+        if (isLoggedIn && localStorage.getItem("x-auth") === "admin") {
             navigate("/admin/dashboard");
         }
-    }, [isLogin, navigate]);
+    }, [isLoggedIn, navigate]);
 
     return (
         <div className="w-full h-screen flex flex-col items-center justify-center gap-4 font-montserrat bg-slate-400">
