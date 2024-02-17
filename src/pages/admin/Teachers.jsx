@@ -8,15 +8,18 @@ import {
     teacherFailure,
     teacherStart
 } from "../../redux/slices/teacherSlice";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { IoCloseOutline } from "react-icons/io5";
 import { LiaEditSolid } from "react-icons/lia";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { Toast, ToastLeft } from "../../config/sweetToast";
+import TeacherEditModal from "../../components/TeacherEditModal";
+import Swal from "sweetalert2";
 
 function Teachers() {
     const { isLoading } = useSelector((state) => state.auth);
     const { teachers } = useSelector(state => state.teacher);
+    const [teacher, setTeacher] = useState(null);
     const dispatch = useDispatch();
     const [modal, setModal] = useState(false);
     const [more, setMore] = useState(null);
@@ -31,18 +34,28 @@ function Teachers() {
         newPassword: "",
         confirmPassword: "",
     });
+    const [editModal, setEditModal] = useState(false);
+    const [updatedTeacher, setUpdatedTeacher] = useState({
+        first_name: "",
+        last_name: "",
+        email: "",
+        dob: "",
+        contactNumber: "",
+        gender: "",
+        specialist_in: "",
+    });
+
+    const getAllTeachers = async () => {
+        try {
+            dispatch(teacherStart());
+            const { data } = await AuthService.getAllTeachers();
+            dispatch(allTeacherSuccess(data));
+        } catch (error) {
+            dispatch(teacherFailure(error.message));
+        }
+    };
 
     useEffect(() => {
-        const getAllTeachers = async () => {
-            try {
-                dispatch(teacherStart());
-                const { data } = await AuthService.getAllTeachers();
-                dispatch(allTeacherSuccess(data));
-            } catch (error) {
-                dispatch(teacherFailure(error.message));
-            }
-        };
-
         getAllTeachers();
     }, []);
 
@@ -113,6 +126,42 @@ function Teachers() {
         }
     };
 
+    const openModal = (id) => {
+        setTeacher(teachers.filter(teacher => teacher._id === id)[0]);
+        setEditModal(true);
+        setUpdatedTeacher(teachers.filter(teacher => teacher._id === id)[0]);
+    };
+
+    const deleteTeacher = async (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(teacherStart());
+                AuthService.deleteTeacher(id).then(() => {
+                    getAllTeachers();
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your file has been deleted.",
+                        icon: "success"
+                    });
+                }).catch((error) => {
+                    dispatch(teacherFailure(error.response?.data.message));
+                    ToastLeft.fire({
+                        icon: "error",
+                        title: error.response?.data.message || error.message
+                    });
+                });
+            }
+        });
+    };
+
     return (
         <div className="w-full h-screen overflow-auto pt-24 px-10" onClick={() => setMore(null)}>
             <div className="flex justify-between relative">
@@ -138,8 +187,8 @@ function Teachers() {
                                     <IoMdMore />
                                     {/* more btn modal */}
                                     <div className={`${more === teacher._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute lg:left-8 2xsm:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] bg-white`}>
-                                        <Link className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500" to={`/admin/teacher-update/${teacher._id}`}><LiaEditSolid /> Edit</Link>
-                                        <button className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-red-500" onClick={() => deleteTeacher(teacher._id)}><RiDeleteBin7Line /> Delete</button>
+                                        <button onClick={() => openModal(teacher._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"><LiaEditSolid /> Edit</button>
+                                        <button onClick={() => deleteTeacher(teacher._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-red-500"><RiDeleteBin7Line /> Delete</button>
                                     </div>
                                 </div>
                             </div>
@@ -208,6 +257,16 @@ function Teachers() {
                     </div>
                 </form>
             </div>
+
+            {/* profile edit modal */}
+            <TeacherEditModal
+                teacher={teacher}
+                modal={editModal}
+                setModal={setEditModal}
+                updatedTeacher={updatedTeacher}
+                setUpdatedTeacher={setUpdatedTeacher}
+                getAllTeachers={getAllTeachers}
+            />
         </div>
     )
 }
