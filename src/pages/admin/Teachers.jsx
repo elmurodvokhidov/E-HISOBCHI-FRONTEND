@@ -259,7 +259,7 @@ function Teachers() {
                         <div key={index} className="lg:w-3/4 md:w-[100%] flex justify-between capitalize text-[15px] border-2 rounded-lg p-4 shadow-smooth">
                             <NavLink to={`/admin/teacher-info/${teacher._id}`} className="hover:text-cyan-600">{teacher.first_name} {teacher.last_name}</NavLink>
                             <div className="flex gap-8">
-                                <h3 className="underline">{teacher.contactNumber}</h3>
+                                <h3 className="text-blue-400">{teacher.contactNumber}</h3>
                                 {/* more button */}
                                 <div onClick={(e) => {
                                     e.stopPropagation()

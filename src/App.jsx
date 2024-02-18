@@ -17,6 +17,8 @@ import AdminLayout from "./pages/admin/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
 import AdminProfile from "./pages/admin/AdminProfile";
 import TeacherInfo from "./pages/admin/TeacherInfo";
+import StudentInfo from "./pages/admin/StudentInfo";
+import NotFound from "./components/NotFound";
 
 function App() {
   const dispatch = useDispatch();
@@ -51,6 +53,7 @@ function App() {
     <div className="app">
       <Routes>
         <Route index element={<Login />} />
+        <Route path="*" element={<NotFound />} />
 
         {/* admin routes */}
         <Route path="admin/login" element={<AdminLogin />} />
@@ -61,6 +64,7 @@ function App() {
           <Route path="teachers" element={<Teachers />}></Route>
           <Route path="teacher-info/:id" element={<TeacherInfo />} />
           <Route path="students" element={<Students />}></Route>
+          <Route path="student-info/:id" element={<StudentInfo />} />
           <Route path="profile" element={<AdminProfile />}></Route>
         </Route>
 

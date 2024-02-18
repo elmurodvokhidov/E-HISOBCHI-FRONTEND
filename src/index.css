@@ -56,6 +56,11 @@
     background: white;
 }
 
+.students .more::before {
+    transform: skew(-45deg);
+    left: 90%;
+}
+
 @keyframes jump {
 
     0%,

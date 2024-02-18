@@ -54,6 +54,18 @@ const AuthService = {
         const response = api.get("/admin/get-all-student");
         return response;
     },
+    async updateStudent(id, updatedTeacher) {
+        const response = api.put(`/admin/update-student/${id}`, updatedTeacher);
+        return response;
+    },
+    async updateStudentPass(newPass) {
+        const response = api.put("/admin/update-student-password", newPass);
+        return response;
+    },
+    async deleteStudent(id) {
+        const response = api.delete(`/admin/delete-student/${id}`);
+        return response;
+    },
 
 
 
