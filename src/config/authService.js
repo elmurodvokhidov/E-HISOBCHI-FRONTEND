@@ -18,6 +18,14 @@ const AuthService = {
         const response = api.get(`/admin/info/${id}`);
         return response;
     },
+    async getAllAdmin() {
+        const response = api.get("/admin/get-all-admin");
+        return response;
+    },
+    async deleteAdmin(id) {
+        const response = api.delete(`/admin/delete-admin/${id}`);
+        return response;
+    },
     async updateAdminProfile(id, updatedAdmin) {
         const response = api.put(`/admin/update-profile/${id}`, updatedAdmin);
         return response;
