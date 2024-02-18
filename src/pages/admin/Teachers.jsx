@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoMdMore } from "react-icons/io";
 import {
     allTeacherSuccess,
+    getTeacherSuccess,
     newTeacherSuccess,
     teacherFailure,
     teacherStart
@@ -35,6 +36,7 @@ function Teachers() {
         confirmPassword: "",
     });
     const [editModal, setEditModal] = useState(false);
+    const [passModal, setPassModal] = useState(false);
     const [updatedTeacher, setUpdatedTeacher] = useState({
         first_name: "",
         last_name: "",
@@ -43,6 +45,10 @@ function Teachers() {
         contactNumber: "",
         gender: "",
         specialist_in: "",
+    });
+    const [newPass, setNewPass] = useState({
+        newPassword: "",
+        confirmPassword: ""
     });
 
     const getAllTeachers = async () => {
@@ -130,6 +136,84 @@ function Teachers() {
         setTeacher(teachers.filter(teacher => teacher._id === id)[0]);
         setEditModal(true);
         setUpdatedTeacher(teachers.filter(teacher => teacher._id === id)[0]);
+    };
+
+    const updateHandler = async (e) => {
+        e.preventDefault();
+        if (passModal) {
+            if (newPass.newPassword !== "" && newPass.confirmPassword !== "") {
+                if (newPass.newPassword.length >= 8) {
+                    try {
+                        dispatch(teacherStart());
+                        const { data } = await AuthService.updateTeacherPass({ ...newPass, email: teacher?.email });
+                        dispatch(getTeacherSuccess(data));
+                        setEditModal(false);
+                        setPassModal(false);
+                        setNewPass({ newPassword: "", confirmPassword: "" });
+                        await Toast.fire({
+                            icon: "success",
+                            title: data.message
+                        });
+                    } catch (error) {
+                        dispatch(teacherFailure(error.response.data.message));
+                        await ToastLeft.fire({
+                            icon: "error",
+                            title: error.response.data.message || error.message
+                        });
+                    }
+                }
+                else {
+                    await ToastLeft.fire({
+                        icon: "error",
+                        title: "Password must be longer than 8 characters!"
+                    });
+                }
+            }
+            else {
+                await ToastLeft.fire({
+                    icon: "error",
+                    title: "Please fill in the all blanks!"
+                });
+            }
+        }
+        else {
+            if (
+                updatedTeacher.first_name !== "" &&
+                updatedTeacher.last_name !== "" &&
+                updatedTeacher.email !== "" &&
+                updatedTeacher.dob !== "" &&
+                updatedTeacher.contactNumber !== "" &&
+                updatedTeacher.specialist_in !== "" &&
+                updatedTeacher.gender !== ""
+            ) {
+                try {
+                    dispatch(teacherStart());
+                    const { _id, __v, password, passwordUpdated, created_at, ...newTeacherCred } = updatedTeacher;
+                    const { data } = await AuthService.updateTeacher(updatedTeacher._id, newTeacherCred);
+                    dispatch(getTeacherSuccess(data));
+                    setEditModal(false);
+                    setPassModal(false);
+                    setNewPass({ newPassword: "", confirmPassword: "" });
+                    await Toast.fire({
+                        icon: "success",
+                        title: data.message
+                    });
+                } catch (error) {
+                    dispatch(teacherFailure(error.response?.data.error));
+                    await ToastLeft.fire({
+                        icon: "error",
+                        title: error.response?.data.error || error.message
+                    });
+                }
+            }
+            else {
+                await ToastLeft.fire({
+                    icon: "error",
+                    title: "Please fill in the all blanks!"
+                });
+            }
+        }
+        getAllTeachers();
     };
 
     const deleteTeacher = async (id) => {
@@ -260,12 +344,15 @@ function Teachers() {
 
             {/* profile edit modal */}
             <TeacherEditModal
-                teacher={teacher}
                 modal={editModal}
                 setModal={setEditModal}
                 updatedTeacher={updatedTeacher}
                 setUpdatedTeacher={setUpdatedTeacher}
-                getAllTeachers={getAllTeachers}
+                updateHandler={updateHandler}
+                newPass={newPass}
+                setNewPass={setNewPass}
+                passModal={passModal}
+                setPassModal={setPassModal}
             />
         </div>
     )

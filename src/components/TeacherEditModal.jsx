@@ -1,19 +1,19 @@
 import { IoCloseOutline } from "react-icons/io5";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Toast, ToastLeft } from "../config/sweetToast";
-import { getTeacherSuccess, teacherFailure, teacherStart } from "../redux/slices/teacherSlice";
-import AuthService from "../config/authService";
 
-function TeacherEditModal({ teacher, modal, setModal, updatedTeacher, setUpdatedTeacher, getAllTeachers }) {
+function TeacherEditModal({
+    updateHandler,
+    newPass,
+    setNewPass,
+    passModal,
+    setPassModal,
+    modal,
+    setModal,
+    updatedTeacher,
+    setUpdatedTeacher
+}) {
     const { isLoading } = useSelector(state => state.teacher);
-    const dispatch = useDispatch();
-    const [passModal, setPassModal] = useState(false);
-    const [newPass, setNewPass] = useState({
-        newPassword: "",
-        confirmPassword: ""
-    });
 
     const getTeacherCred = (e) => {
         setUpdatedTeacher({
@@ -29,83 +29,6 @@ function TeacherEditModal({ teacher, modal, setModal, updatedTeacher, setUpdated
         });
     };
 
-    const updateHandler = async (e) => {
-        e.preventDefault();
-        if (passModal) {
-            if (newPass.newPassword !== "" && newPass.confirmPassword !== "") {
-                if (newPass.newPassword.length >= 8) {
-                    try {
-                        dispatch(teacherStart());
-                        const { data } = await AuthService.updateTeacherPass({ ...newPass, email: teacher?.email });
-                        dispatch(getTeacherSuccess(data));
-                        setModal(false);
-                        setPassModal(false);
-                        setNewPass({ newPassword: "", confirmPassword: "" });
-                        await Toast.fire({
-                            icon: "success",
-                            title: data.message
-                        });
-                    } catch (error) {
-                        dispatch(teacherFailure(error.response.data.message));
-                        await ToastLeft.fire({
-                            icon: "error",
-                            title: error.response.data.message || error.message
-                        });
-                    }
-                }
-                else {
-                    await ToastLeft.fire({
-                        icon: "error",
-                        title: "Password must be longer than 8 characters!"
-                    });
-                }
-            }
-            else {
-                await ToastLeft.fire({
-                    icon: "error",
-                    title: "Please fill in the all blanks!"
-                });
-            }
-        }
-        else {
-            if (
-                updatedTeacher.first_name !== "" &&
-                updatedTeacher.last_name !== "" &&
-                updatedTeacher.email !== "" &&
-                updatedTeacher.dob !== "" &&
-                updatedTeacher.contactNumber !== "" &&
-                updatedTeacher.specialist_in !== "" &&
-                updatedTeacher.gender !== ""
-            ) {
-                try {
-                    dispatch(teacherStart());
-                    const { _id, __v, password, passwordUpdated, created_at, ...newTeacherCred } = updatedTeacher;
-                    const { data } = await AuthService.updateTeacher(updatedTeacher._id, newTeacherCred);
-                    dispatch(getTeacherSuccess(data));
-                    setModal(false);
-                    setPassModal(false);
-                    setNewPass({ newPassword: "", confirmPassword: "" });
-                    await Toast.fire({
-                        icon: "success",
-                        title: data.message
-                    });
-                } catch (error) {
-                    dispatch(teacherFailure(error.response?.data.error));
-                    await ToastLeft.fire({
-                        icon: "error",
-                        title: error.response?.data.error || error.message
-                    });
-                }
-            }
-            else {
-                await ToastLeft.fire({
-                    icon: "error",
-                    title: "Please fill in the all blanks!"
-                });
-            }
-        }
-        getAllTeachers();
-    };
 
     return (
         <div onClick={() => {
