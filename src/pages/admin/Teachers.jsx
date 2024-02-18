@@ -18,8 +18,7 @@ import TeacherEditModal from "../../components/TeacherEditModal";
 import Swal from "sweetalert2";
 
 function Teachers() {
-    const { isLoading } = useSelector((state) => state.auth);
-    const { teachers } = useSelector(state => state.teacher);
+    const { teachers, isLoading } = useSelector(state => state.teacher);
     const [teacher, setTeacher] = useState(null);
     const dispatch = useDispatch();
     const [modal, setModal] = useState(false);
@@ -89,7 +88,6 @@ function Teachers() {
     const addNewTeacher = async (e) => {
         e.preventDefault();
         if (
-
             newTeacher.first_name !== "" &&
             newTeacher.last_name !== "" &&
             newTeacher.email !== "" &&
@@ -230,10 +228,9 @@ function Teachers() {
                 dispatch(teacherStart());
                 AuthService.deleteTeacher(id).then(() => {
                     getAllTeachers();
-                    Swal.fire({
-                        title: "Deleted!",
-                        text: "Your file has been deleted.",
-                        icon: "success"
+                    Toast.fire({
+                        icon: "success",
+                        title: "Teacher deleted successfully!"
                     });
                 }).catch((error) => {
                     dispatch(teacherFailure(error.response?.data.message));

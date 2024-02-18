@@ -9,7 +9,7 @@ api.interceptors.request.use((req) => {
 });
 
 const AuthService = {
-    // admdin
+    // admin
     async adminLogin(admin) {
         const response = api.post("/admin/login", admin);
         return response;
@@ -44,6 +44,14 @@ const AuthService = {
     },
     async deleteTeacher(id) {
         const response = api.delete(`/admin/delete-teacher/${id}`);
+        return response;
+    },
+    async addNewStudent(student) {
+        const response = api.post("/admin/add-student", student);
+        return response;
+    },
+    async getAllStudents() {
+        const response = api.get("/admin/get-all-student");
         return response;
     },
 

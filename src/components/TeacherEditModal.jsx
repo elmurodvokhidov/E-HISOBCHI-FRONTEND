@@ -1,6 +1,6 @@
 import { IoCloseOutline } from "react-icons/io5";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 function TeacherEditModal({
     updateHandler,
