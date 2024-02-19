@@ -19,6 +19,7 @@ import AdminProfile from "./pages/admin/AdminProfile";
 import TeacherInfo from "./pages/admin/TeacherInfo";
 import StudentInfo from "./pages/admin/StudentInfo";
 import NotFound from "./components/NotFound";
+import AdminInfo from "./pages/admin/AdminInfo";
 
 function App() {
   const dispatch = useDispatch();
@@ -60,7 +61,8 @@ function App() {
         <Route path="admin" element={<AdminLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="notice" element={<Notice />}></Route>
-          <Route path="admins" element={<Admins />}></Route>
+          <Route path="admins" element={<Admins />} />
+          <Route path="admin-info/:id" element={<AdminInfo />} />
           <Route path="teachers" element={<Teachers />}></Route>
           <Route path="teacher-info/:id" element={<TeacherInfo />} />
           <Route path="students" element={<Students />}></Route>
