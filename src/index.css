@@ -56,7 +56,8 @@
     background: white;
 }
 
-.students .more::before {
+.students .more::before,
+.notices .more::before {
     transform: skew(-45deg);
     left: 90%;
 }

@@ -63,11 +63,11 @@ function AdminLogin() {
             <form className="w-1/4 flex flex-col gap-4">
                 <div className="flex flex-col gap-1">
                     <label htmlFor="email">Email Address</label>
-                    <input onChange={(e) => getAdminDetails(e)} className="p-2 rounded border-2" type="email" name="email" id="email" placeholder="your email" />
+                    <input disabled={isLoading ? true : false} onChange={(e) => getAdminDetails(e)} className="p-2 rounded border-2" type="email" name="email" id="email" placeholder="your email" />
                 </div>
                 <div className="flex flex-col gap-1">
                     <label htmlFor="password">Password</label>
-                    <input onChange={(e) => getAdminDetails(e)} className="p-2 rounded border-2" type="password" name="password" id="password" placeholder="your password" />
+                    <input disabled={isLoading ? true : false} onChange={(e) => getAdminDetails(e)} className="p-2 rounded border-2" type="password" name="password" id="password" placeholder="your password" />
                 </div>
                 <button disabled={isLoading ? true : false} onClick={(e) => loginHandler(e)} className="rounded mt-5 p-2 border-2 hover:bg-slate-200 transition-all duration-200">{isLoading ? "Loading..." : "Login"}</button>
             </form>

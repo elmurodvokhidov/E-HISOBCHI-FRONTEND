@@ -74,6 +74,10 @@ const AuthService = {
         const response = api.delete(`/admin/delete-student/${id}`);
         return response;
     },
+    async getAllNotices() {
+        const response = api.get("/admin/get-notice");
+        return response;
+    },
 
 
 
