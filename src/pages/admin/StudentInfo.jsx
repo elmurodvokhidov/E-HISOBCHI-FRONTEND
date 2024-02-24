@@ -9,7 +9,7 @@ import {
 } from "../../redux/slices/studentSlice";
 import logo from "../../img/uitc_logo.png";
 import AuthService from "../../config/authService";
-import ProfileCardSkeleton from "../../components/ProfileCardSkeleton";
+import ProfileCardSkeleton from "../../components/loaders/ProfileCardSkeleton";
 import StudentEditModal from "../../components/StudentEditModal";
 
 function StudentInfo() {

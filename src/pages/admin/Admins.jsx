@@ -1,12 +1,88 @@
 import { useDispatch, useSelector } from "react-redux"
-import { adminFailure, adminStart, allAdminSuccess } from "../../redux/slices/adminSlice";
+import { adminFailure, adminStart, allAdminSuccess, newAdminSuccess } from "../../redux/slices/adminSlice";
 import AuthService from "../../config/authService";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { IoCloseOutline } from "react-icons/io5";
+import { Toast, ToastLeft } from "../../config/sweetToast";
 
 function Admins() {
-    const { admins } = useSelector(state => state.admin);
+    const { admins, isLoading } = useSelector(state => state.admin);
     const dispatch = useDispatch();
+    const [modal, setModal] = useState(false);
+    const [newAdmin, setNewAdmin] = useState({
+        first_name: "",
+        last_name: "",
+        email: "",
+        dob: "",
+        contactNumber: "",
+        avatar: "test.png",
+        newPassword: "",
+        confirmPassword: "",
+    });
+
+    const getNewAdminCred = (e) => {
+        setNewAdmin({
+            ...newAdmin,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const clearModal = () => {
+        setNewAdmin({
+            first_name: "",
+            last_name: "",
+            email: "",
+            dob: "",
+            contactNumber: "",
+            avatar: "test.png",
+            newPassword: "",
+            confirmPassword: "",
+        });
+    };
+
+    const addNewAdmin = async (e) => {
+        e.preventDefault();
+        if (
+            newAdmin.first_name !== "" &&
+            newAdmin.last_name !== "" &&
+            newAdmin.email !== "" &&
+            newAdmin.dob !== "" &&
+            newAdmin.contactNumber !== ""
+        ) {
+            if (newAdmin.newPassword.length >= 8) {
+                try {
+                    dispatch(adminStart());
+                    const { data } = await AuthService.addNewAdmin(newAdmin);
+                    dispatch(newAdminSuccess(data));
+                    clearModal();
+                    setModal(false);
+                    await Toast.fire({
+                        icon: "success",
+                        title: data.message
+                    });
+                } catch (error) {
+                    dispatch(adminFailure(error.response?.data.message));
+                    await ToastLeft.fire({
+                        icon: "error",
+                        title: error.response?.data.message || error.message
+                    });
+                }
+            }
+            else {
+                await ToastLeft.fire({
+                    icon: "error",
+                    title: "Password must be longer than 8 characters!"
+                });
+            }
+        }
+        else {
+            await ToastLeft.fire({
+                icon: "error",
+                title: "Please fill in the all blanks!"
+            });
+        }
+    };
 
     const getAllAdmins = async () => {
         dispatch(adminStart());
@@ -29,7 +105,7 @@ function Admins() {
                     <h1 className="capitalize text-3xl">Admins</h1>
                     <p>Total <span className="inline-block w-4 h-[1px] mx-1 align-middle bg-black"></span> <span>{admins?.length}</span></p>
                 </div>
-                <button className="border-2 border-cyan-600 rounded px-5 hover:bg-cyan-600 hover:text-white transition-all duration-300">Add new admin</button>
+                <button onClick={() => setModal(true)} className="border-2 border-cyan-600 rounded px-5 hover:bg-cyan-600 hover:text-white transition-all duration-300">Add new admin</button>
             </div>
 
             <ul role="list" className="mt-4 divide-y divide-gray-100">
@@ -46,7 +122,7 @@ function Admins() {
                                 </div>
                                 <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
                                     <p className="text-sm leading-6 text-gray-900">Adminstartor</p>
-                                    <p className="mt-1 text-xs leading-5 text-gray-500">Last seen <time dateTime="2023-01-23T13:23Z">3h ago</time></p>
+                                    <p className="mt-1 text-xs leading-5 text-gray-500">Create at <time dateTime={admin.createdAt}>{admin.createdAt.slice(0, 10)}</time></p>
                                 </div>
                             </li>
                         )) :
@@ -59,6 +135,53 @@ function Admins() {
                         </>
                 }
             </ul>
+
+            {/* add new modal */}
+            <div onClick={() => setModal(false)} className="w-full h-screen fixed top-0 left-0 z-20" style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modal ? "1" : "0", zIndex: modal ? "20" : "-1" }}>
+                <form onClick={(e) => e.stopPropagation()} className="w-[30%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white" style={{ right: modal ? "0" : "-200%" }}>
+                    <div className="flex justify-between text-xl p-5 border-b-2"><h1>New admin credentials</h1> <button type="button" onClick={() => setModal(false)} className="hover:text-red-500 transition-all duration-300"><IoCloseOutline /></button></div>
+                    <div className="flex flex-col gap-2 px-5 py-7">
+                        <div className="flex flex-col">
+                            <label htmlFor="first_name" className="text-[14px]">First Name</label>
+                            <input onChange={(e) => getNewAdminCred(e)} value={newAdmin.first_name} type="text" name="first_name" id="first_name" className="border-2 border-gray-500 rounded px-2 py-1" />
+                        </div>
+                        <div className="flex flex-col">
+                            <label htmlFor="last_name" className="text-[14px]">Last Name</label>
+                            <input onChange={(e) => getNewAdminCred(e)} value={newAdmin.last_name} type="text" name="last_name" id="last_name" className="border-2 border-gray-500 rounded px-2 py-1" />
+                        </div>
+                        <div className="flex flex-col">
+                            <label htmlFor="email" className="text-[14px]">Email</label>
+                            <input onChange={(e) => getNewAdminCred(e)} value={newAdmin.email} type="email" name="email" id="email" className="border-2 border-gray-500 rounded px-2 py-1" />
+                        </div>
+                        <div className="flex justify-between">
+                            <div className="w-[47%] flex flex-col">
+                                <label htmlFor="dob" className="text-[14px]">Date of birthday</label>
+                                <input onChange={(e) => getNewAdminCred(e)} value={newAdmin.dob} type="text" name="dob" id="dob" className="border-2 border-gray-500 rounded px-2 py-1" placeholder="dd/mm/yyyy" />
+                            </div>
+                            <div className="w-[47%] flex flex-col">
+                                <label htmlFor="contactNumber" className="text-[14px]">Contact Number</label>
+                                <input onChange={(e) => getNewAdminCred(e)} value={newAdmin.contactNumber} type="number" name="contactNumber" id="contactNumber" className="border-2 border-gray-500 rounded px-2 py-1" placeholder='without "+"' />
+                            </div>
+                        </div>
+                        <div className="flex flex-col">
+                            <label htmlFor="avatar" className="text-[14px]">Photo</label>
+                            <input type="file" name="avatar" id="avatar" className="border-2 border-gray-500 rounded px-2 py-1" />
+                        </div>
+
+                        <div className="flex justify-between">
+                            <div className="w-[47%] flex flex-col">
+                                <label htmlFor="newPassword" className="text-[14px]">New Password</label>
+                                <input onChange={(e) => getNewAdminCred(e)} value={newAdmin.newPassword} type="text" name="newPassword" id="newPassword" className="border-2 border-gray-500 rounded px-2 py-1" />
+                            </div>
+                            <div className="w-[47%] flex flex-col">
+                                <label htmlFor="confirmPassword" className="text-[14px]">Confirm Password</label>
+                                <input onChange={(e) => getNewAdminCred(e)} value={newAdmin.confirmPassword} type="text" name="confirmPassword" id="confirmPassword" className="border-2 border-gray-500 rounded px-2 py-1" />
+                            </div>
+                        </div>
+                        <button disabled={isLoading ? true : false} onClick={(e) => addNewAdmin(e)} className="w-fit px-6 py-1 mt-8 border-2 border-cyan-600 rounded-lg hover:text-white hover:bg-cyan-600 transition-all duration-300">{isLoading ? "Loading..." : "Add"}</button>
+                    </div>
+                </form>
+            </div>
 
         </div>
     )

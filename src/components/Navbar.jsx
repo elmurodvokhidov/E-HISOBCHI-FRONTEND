@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import logo from "../img/uitc_logo.png"
-import AnimationBtn from "./AnimationBtn";
+import LoaderDots from "./loaders/LoaderDots";
 
 function Navbar() {
     const { auth } = useSelector(state => state.auth);
@@ -14,7 +14,7 @@ function Navbar() {
 
             <div className="right">
                 <Link to="profile" className="flex items-center gap-2">
-                    <span className="text-[16px] text-black">{auth ? auth?.first_name : <AnimationBtn />}
+                    <span className="text-[16px] text-black">{auth ? auth?.first_name : <LoaderDots />}
                     </span>
                     <IoPersonCircleOutline className="text-3xl text-gray-500" />
                 </Link>
