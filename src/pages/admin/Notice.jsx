@@ -4,12 +4,71 @@ import { LiaEditSolid } from "react-icons/lia";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import AuthService from "../../config/authService";
-import { allNoticeSuccess, noticeFailure, noticeStart } from "../../redux/slices/noticeSlice";
+import { allNoticeSuccess, newNoticeSuccess, noticeFailure, noticeStart } from "../../redux/slices/noticeSlice";
+import { IoCloseOutline } from "react-icons/io5";
+import { Toast, ToastLeft } from "../../config/sweetToast";
 
 function Notice() {
     const { notices, isLoading } = useSelector(state => state.notice);
     const dispatch = useDispatch();
     const [more, setMore] = useState(false);
+    const [modal, setModal] = useState(false);
+    const [newNotice, setNewNotice] = useState({
+        topic: "",
+        content: "",
+        from: "",
+        to: "",
+    });
+
+    const getNewNoticeCred = (e) => {
+        setNewNotice({
+            ...newNotice,
+            [e.target.name]: e.target.value
+        });
+    }
+
+    const clearModal = () => {
+        setNewNotice({
+            topic: "",
+            content: "",
+            from: "",
+            to: "",
+        });
+    };
+
+    const addNewNotice = async (e) => {
+        e.preventDefault();
+        if (
+            newNotice.topic !== "" &&
+            newNotice.content !== "" &&
+            newNotice.from !== "" &&
+            newNotice.to !== ""
+        ) {
+            try {
+                dispatch(noticeStart());
+                const { data } = await AuthService.addNewNotice(newNotice);
+                dispatch(newNoticeSuccess(data));
+                clearModal();
+                setModal(false);
+                await Toast.fire({
+                    icon: "success",
+                    title: data.message
+                });
+            } catch (error) {
+                dispatch(noticeFailure(error.response?.data.message));
+                await ToastLeft.fire({
+                    icon: "error",
+                    title: error.response?.data.message || error.message
+                });
+            }
+        }
+        else {
+            await ToastLeft.fire({
+                icon: "error",
+                title: "Please fill in the all blanks!"
+            });
+        }
+    }
 
     const getNotices = async () => {
         try {
@@ -27,7 +86,10 @@ function Notice() {
 
     return (
         <div className="notices w-full h-screen overflow-auto pt-24 px-10" onClick={() => setMore(false)}>
-            <h1 className="text-2xl">Recently created notices</h1>
+            <div className="flex justify-between relative">
+                <h1 className="text-2xl">Recently created notices</h1>
+                <button onClick={() => setModal(true)} className="border-2 border-cyan-600 rounded px-5 hover:bg-cyan-600 hover:text-white transition-all duration-300">Create notice</button>
+            </div>
             <div className="container mx-auto py-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                     {
@@ -121,6 +183,33 @@ function Notice() {
                 </div>
             </div>
 
+            {/* create notice modal */}
+            <div onClick={() => setModal(false)} className="w-full h-screen fixed top-0 left-0 z-20" style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modal ? "1" : "0", zIndex: modal ? "20" : "-1" }}>
+                <form onClick={(e) => e.stopPropagation()} className="w-[30%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white" style={{ right: modal ? "0" : "-200%" }}>
+                    <div className="flex justify-between text-xl p-5 border-b-2"><h1>New notice credentials</h1> <button type="button" onClick={() => setModal(false)} className="hover:text-red-500 transition-all duration-300"><IoCloseOutline /></button></div>
+                    <div className="flex flex-col gap-2 px-5 py-7">
+                        <div className="flex flex-col">
+                            <label htmlFor="topic" className="text-[14px]">Topic</label>
+                            <input onChange={getNewNoticeCred} value={newNotice.topic} type="text" name="topic" id="topic" className="border-2 border-gray-500 rounded px-2 py-1" />
+                        </div>
+                        <div className="flex flex-col">
+                            <label htmlFor="content" className="text-[14px]">Contect</label>
+                            <textarea onChange={getNewNoticeCred} value={newNotice.content} className="border-2 border-gray-500 rounded px-2 py-1" name="content" id="content" cols="30" rows="10"></textarea>
+                        </div>
+                        <div className="flex justify-between">
+                            <div className="w-[47%] flex flex-col">
+                                <label htmlFor="from" className="text-[14px]">From:</label>
+                                <input onChange={getNewNoticeCred} value={newNotice.from} type="text" name="from" id="from" className="border-2 border-gray-500 rounded px-2 py-1" />
+                            </div>
+                            <div className="w-[47%] flex flex-col">
+                                <label htmlFor="to" className="text-[14px]">To</label>
+                                <input onChange={getNewNoticeCred} value={newNotice.to} type="text" name="to" id="to" className="border-2 border-gray-500 rounded px-2 py-1" />
+                            </div>
+                        </div>
+                        <button disabled={isLoading ? true : false} onClick={addNewNotice} className="w-fit px-6 py-1 mt-8 border-2 border-cyan-600 rounded-lg hover:text-white hover:bg-cyan-600 transition-all duration-300">{isLoading ? "Loading..." : "Add"}</button>
+                    </div>
+                </form>
+            </div>
         </div>
     )
 }

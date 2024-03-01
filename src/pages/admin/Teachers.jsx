@@ -290,24 +290,24 @@ function Teachers() {
                     <div className="flex flex-col gap-2 px-5 py-7">
                         <div className="flex flex-col">
                             <label htmlFor="first_name" className="text-[14px]">First Name</label>
-                            <input onChange={(e) => getTeacherCred(e)} value={newTeacher.first_name} type="text" name="first_name" id="first_name" className="border-2 border-gray-500 rounded px-2 py-1" />
+                            <input onChange={getTeacherCred} value={newTeacher.first_name} type="text" name="first_name" id="first_name" className="border-2 border-gray-500 rounded px-2 py-1" />
                         </div>
                         <div className="flex flex-col">
                             <label htmlFor="last_name" className="text-[14px]">Last Name</label>
-                            <input onChange={(e) => getTeacherCred(e)} value={newTeacher.last_name} type="text" name="last_name" id="last_name" className="border-2 border-gray-500 rounded px-2 py-1" />
+                            <input onChange={getTeacherCred} value={newTeacher.last_name} type="text" name="last_name" id="last_name" className="border-2 border-gray-500 rounded px-2 py-1" />
                         </div>
                         <div className="flex flex-col">
                             <label htmlFor="email" className="text-[14px]">Email</label>
-                            <input onChange={(e) => getTeacherCred(e)} value={newTeacher.email} type="email" name="email" id="email" className="border-2 border-gray-500 rounded px-2 py-1" />
+                            <input onChange={getTeacherCred} value={newTeacher.email} type="email" name="email" id="email" className="border-2 border-gray-500 rounded px-2 py-1" />
                         </div>
                         <div className="flex justify-between">
                             <div className="w-[47%] flex flex-col">
                                 <label htmlFor="dob" className="text-[14px]">Date of birthday</label>
-                                <input onChange={(e) => getTeacherCred(e)} value={newTeacher.dob} type="text" name="dob" id="dob" className="border-2 border-gray-500 rounded px-2 py-1" placeholder="dd/mm/yyyy" />
+                                <input onChange={getTeacherCred} value={newTeacher.dob} type="text" name="dob" id="dob" className="border-2 border-gray-500 rounded px-2 py-1" placeholder="dd/mm/yyyy" />
                             </div>
                             <div className="w-[47%] flex flex-col">
                                 <label htmlFor="contactNumber" className="text-[14px]">Contact Number</label>
-                                <input onChange={(e) => getTeacherCred(e)} value={newTeacher.contactNumber} type="number" name="contactNumber" id="contactNumber" className="border-2 border-gray-500 rounded px-2 py-1" placeholder='without "+"' />
+                                <input onChange={getTeacherCred} value={newTeacher.contactNumber} type="number" name="contactNumber" id="contactNumber" className="border-2 border-gray-500 rounded px-2 py-1" placeholder='without "+"' />
                             </div>
                         </div>
                         <div className="flex flex-col">
@@ -317,24 +317,24 @@ function Teachers() {
                         <div className="flex justify-between">
                             <div className="w-[47%] flex flex-col">
                                 <label htmlFor="specialist_in" className="text-[14px]">Specialist in</label>
-                                <input onChange={(e) => getTeacherCred(e)} value={newTeacher.specialist_in} type="text" name="specialist_in" id="specialist_in" className="border-2 border-gray-500 rounded px-2 py-1" />
+                                <input onChange={getTeacherCred} value={newTeacher.specialist_in} type="text" name="specialist_in" id="specialist_in" className="border-2 border-gray-500 rounded px-2 py-1" />
                             </div>
                             <div className="w-[47%] flex flex-col">
                                 <label htmlFor="gender" className="text-[14px]">Gender</label>
-                                <input onChange={(e) => getTeacherCred(e)} value={newTeacher.gender} type="text" name="gender" id="gender" className="border-2 border-gray-500 rounded px-2 py-1" />
+                                <input onChange={getTeacherCred} value={newTeacher.gender} type="text" name="gender" id="gender" className="border-2 border-gray-500 rounded px-2 py-1" />
                             </div>
                         </div>
                         <div className="flex justify-between">
                             <div className="w-[47%] flex flex-col">
                                 <label htmlFor="newPassword" className="text-[14px]">New Password</label>
-                                <input onChange={(e) => getTeacherCred(e)} value={newTeacher.newPassword} type="text" name="newPassword" id="newPassword" className="border-2 border-gray-500 rounded px-2 py-1" />
+                                <input onChange={getTeacherCred} value={newTeacher.newPassword} type="text" name="newPassword" id="newPassword" className="border-2 border-gray-500 rounded px-2 py-1" />
                             </div>
                             <div className="w-[47%] flex flex-col">
                                 <label htmlFor="confirmPassword" className="text-[14px]">Confirm Password</label>
-                                <input onChange={(e) => getTeacherCred(e)} value={newTeacher.confirmPassword} type="text" name="confirmPassword" id="confirmPassword" className="border-2 border-gray-500 rounded px-2 py-1" />
+                                <input onChange={getTeacherCred} value={newTeacher.confirmPassword} type="text" name="confirmPassword" id="confirmPassword" className="border-2 border-gray-500 rounded px-2 py-1" />
                             </div>
                         </div>
-                        <button disabled={isLoading ? true : false} onClick={(e) => addNewTeacher(e)} className="w-fit px-6 py-1 mt-8 border-2 border-cyan-600 rounded-lg hover:text-white hover:bg-cyan-600 transition-all duration-300">{isLoading ? "Loading..." : "Add"}</button>
+                        <button disabled={isLoading ? true : false} onClick={addNewTeacher} className="w-fit px-6 py-1 mt-8 border-2 border-cyan-600 rounded-lg hover:text-white hover:bg-cyan-600 transition-all duration-300">{isLoading ? "Loading..." : "Add"}</button>
                     </div>
                 </form>
             </div>

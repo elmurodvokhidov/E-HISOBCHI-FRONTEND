@@ -82,6 +82,10 @@ const AuthService = {
         const response = api.get("/admin/get-notice");
         return response;
     },
+    async addNewNotice(notice) {
+        const response = api.post("/admin/create-notice", notice);
+        return response;
+    },
 
 
 

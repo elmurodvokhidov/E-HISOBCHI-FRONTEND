@@ -143,24 +143,24 @@ function Admins() {
                     <div className="flex flex-col gap-2 px-5 py-7">
                         <div className="flex flex-col">
                             <label htmlFor="first_name" className="text-[14px]">First Name</label>
-                            <input onChange={(e) => getNewAdminCred(e)} value={newAdmin.first_name} type="text" name="first_name" id="first_name" className="border-2 border-gray-500 rounded px-2 py-1" />
+                            <input onChange={getNewAdminCred} value={newAdmin.first_name} type="text" name="first_name" id="first_name" className="border-2 border-gray-500 rounded px-2 py-1" />
                         </div>
                         <div className="flex flex-col">
                             <label htmlFor="last_name" className="text-[14px]">Last Name</label>
-                            <input onChange={(e) => getNewAdminCred(e)} value={newAdmin.last_name} type="text" name="last_name" id="last_name" className="border-2 border-gray-500 rounded px-2 py-1" />
+                            <input onChange={getNewAdminCred} value={newAdmin.last_name} type="text" name="last_name" id="last_name" className="border-2 border-gray-500 rounded px-2 py-1" />
                         </div>
                         <div className="flex flex-col">
                             <label htmlFor="email" className="text-[14px]">Email</label>
-                            <input onChange={(e) => getNewAdminCred(e)} value={newAdmin.email} type="email" name="email" id="email" className="border-2 border-gray-500 rounded px-2 py-1" />
+                            <input onChange={getNewAdminCred} value={newAdmin.email} type="email" name="email" id="email" className="border-2 border-gray-500 rounded px-2 py-1" />
                         </div>
                         <div className="flex justify-between">
                             <div className="w-[47%] flex flex-col">
                                 <label htmlFor="dob" className="text-[14px]">Date of birthday</label>
-                                <input onChange={(e) => getNewAdminCred(e)} value={newAdmin.dob} type="text" name="dob" id="dob" className="border-2 border-gray-500 rounded px-2 py-1" placeholder="dd/mm/yyyy" />
+                                <input onChange={getNewAdminCred} value={newAdmin.dob} type="text" name="dob" id="dob" className="border-2 border-gray-500 rounded px-2 py-1" placeholder="dd/mm/yyyy" />
                             </div>
                             <div className="w-[47%] flex flex-col">
                                 <label htmlFor="contactNumber" className="text-[14px]">Contact Number</label>
-                                <input onChange={(e) => getNewAdminCred(e)} value={newAdmin.contactNumber} type="number" name="contactNumber" id="contactNumber" className="border-2 border-gray-500 rounded px-2 py-1" placeholder='without "+"' />
+                                <input onChange={getNewAdminCred} value={newAdmin.contactNumber} type="number" name="contactNumber" id="contactNumber" className="border-2 border-gray-500 rounded px-2 py-1" placeholder='without "+"' />
                             </div>
                         </div>
                         <div className="flex flex-col">
@@ -171,14 +171,14 @@ function Admins() {
                         <div className="flex justify-between">
                             <div className="w-[47%] flex flex-col">
                                 <label htmlFor="newPassword" className="text-[14px]">New Password</label>
-                                <input onChange={(e) => getNewAdminCred(e)} value={newAdmin.newPassword} type="text" name="newPassword" id="newPassword" className="border-2 border-gray-500 rounded px-2 py-1" />
+                                <input onChange={getNewAdminCred} value={newAdmin.newPassword} type="text" name="newPassword" id="newPassword" className="border-2 border-gray-500 rounded px-2 py-1" />
                             </div>
                             <div className="w-[47%] flex flex-col">
                                 <label htmlFor="confirmPassword" className="text-[14px]">Confirm Password</label>
-                                <input onChange={(e) => getNewAdminCred(e)} value={newAdmin.confirmPassword} type="text" name="confirmPassword" id="confirmPassword" className="border-2 border-gray-500 rounded px-2 py-1" />
+                                <input onChange={getNewAdminCred} value={newAdmin.confirmPassword} type="text" name="confirmPassword" id="confirmPassword" className="border-2 border-gray-500 rounded px-2 py-1" />
                             </div>
                         </div>
-                        <button disabled={isLoading ? true : false} onClick={(e) => addNewAdmin(e)} className="w-fit px-6 py-1 mt-8 border-2 border-cyan-600 rounded-lg hover:text-white hover:bg-cyan-600 transition-all duration-300">{isLoading ? "Loading..." : "Add"}</button>
+                        <button disabled={isLoading ? true : false} onClick={addNewAdmin} className="w-fit px-6 py-1 mt-8 border-2 border-cyan-600 rounded-lg hover:text-white hover:bg-cyan-600 transition-all duration-300">{isLoading ? "Loading..." : "Add"}</button>
                     </div>
                 </form>
             </div>

@@ -375,24 +375,24 @@ function Students() {
                     <div className="flex flex-col gap-2 px-5 py-7">
                         <div className="flex flex-col">
                             <label htmlFor="first_name" className="text-[14px]">First Name</label>
-                            <input onChange={(e) => getStudentCred(e)} value={newStudent.first_name} type="text" name="first_name" id="first_name" className="border-2 border-gray-500 rounded px-2 py-1" />
+                            <input onChange={getStudentCred} value={newStudent.first_name} type="text" name="first_name" id="first_name" className="border-2 border-gray-500 rounded px-2 py-1" />
                         </div>
                         <div className="flex flex-col">
                             <label htmlFor="last_name" className="text-[14px]">Last Name</label>
-                            <input onChange={(e) => getStudentCred(e)} value={newStudent.last_name} type="text" name="last_name" id="last_name" className="border-2 border-gray-500 rounded px-2 py-1" />
+                            <input onChange={getStudentCred} value={newStudent.last_name} type="text" name="last_name" id="last_name" className="border-2 border-gray-500 rounded px-2 py-1" />
                         </div>
                         <div className="flex flex-col">
                             <label htmlFor="email" className="text-[14px]">Email</label>
-                            <input onChange={(e) => getStudentCred(e)} value={newStudent.email} type="email" name="email" id="email" className="border-2 border-gray-500 rounded px-2 py-1" />
+                            <input onChange={getStudentCred} value={newStudent.email} type="email" name="email" id="email" className="border-2 border-gray-500 rounded px-2 py-1" />
                         </div>
                         <div className="flex justify-between">
                             <div className="w-[47%] flex flex-col">
                                 <label htmlFor="dob" className="text-[14px]">Date of birthday</label>
-                                <input onChange={(e) => getStudentCred(e)} value={newStudent.dob} type="text" name="dob" id="dob" className="border-2 border-gray-500 rounded px-2 py-1" placeholder="dd/mm/yyyy" />
+                                <input onChange={getStudentCred} value={newStudent.dob} type="text" name="dob" id="dob" className="border-2 border-gray-500 rounded px-2 py-1" placeholder="dd/mm/yyyy" />
                             </div>
                             <div className="w-[47%] flex flex-col">
                                 <label htmlFor="contactNumber" className="text-[14px]">Contact Number</label>
-                                <input onChange={(e) => getStudentCred(e)} value={newStudent.contactNumber} type="number" name="contactNumber" id="contactNumber" className="border-2 border-gray-500 rounded px-2 py-1" placeholder='without "+"' />
+                                <input onChange={getStudentCred} value={newStudent.contactNumber} type="number" name="contactNumber" id="contactNumber" className="border-2 border-gray-500 rounded px-2 py-1" placeholder='without "+"' />
                             </div>
                         </div>
                         <div className="flex flex-col">
@@ -402,48 +402,48 @@ function Students() {
                         <div className="flex justify-between">
                             <div className="w-[30%] flex flex-col">
                                 <label htmlFor="course" className="text-[14px]">Course</label>
-                                <input onChange={(e) => getStudentCred(e)} value={newStudent.course} type="text" name="course" id="course" className="border-2 border-gray-500 rounded px-2 py-1" />
+                                <input onChange={getStudentCred} value={newStudent.course} type="text" name="course" id="course" className="border-2 border-gray-500 rounded px-2 py-1" />
                             </div>
                             <div className="w-[30%] flex flex-col">
                                 <label htmlFor="group" className="text-[14px]">Group</label>
-                                <input onChange={(e) => getStudentCred(e)} value={newStudent.group} type="text" name="group" id="group" className="border-2 border-gray-500 rounded px-2 py-1" />
+                                <input onChange={getStudentCred} value={newStudent.group} type="text" name="group" id="group" className="border-2 border-gray-500 rounded px-2 py-1" />
                             </div>
                             <div className="w-[30%] flex flex-col">
                                 <label htmlFor="gender" className="text-[14px]">Gender</label>
-                                <input onChange={(e) => getStudentCred(e)} value={newStudent.gender} type="text" name="gender" id="gender" className="border-2 border-gray-500 rounded px-2 py-1" />
+                                <input onChange={getStudentCred} value={newStudent.gender} type="text" name="gender" id="gender" className="border-2 border-gray-500 rounded px-2 py-1" />
                             </div>
                         </div>
 
                         <div className="grid grid-cols-2 justify-between gap-4">
                             <div className="w-[100%] flex flex-col">
                                 <label htmlFor="father_name" className="text-[14px]">Father Name</label>
-                                <input onChange={(e) => getStudentCred(e)} value={newStudent.father_name} type="text" name="father_name" id="father_name" className="border-2 border-gray-500 rounded px-2 py-1" />
+                                <input onChange={getStudentCred} value={newStudent.father_name} type="text" name="father_name" id="father_name" className="border-2 border-gray-500 rounded px-2 py-1" />
                             </div>
                             <div className="w-[100%] flex flex-col">
                                 <label htmlFor="fatherContactNumber" className="text-[14px]">Father Number</label>
-                                <input onChange={(e) => getStudentCred(e)} value={newStudent.fatherContactNumber} type="text" name="fatherContactNumber" id="fatherContactNumber" className="border-2 border-gray-500 rounded px-2 py-1" placeholder='without "+"' />
+                                <input onChange={getStudentCred} value={newStudent.fatherContactNumber} type="text" name="fatherContactNumber" id="fatherContactNumber" className="border-2 border-gray-500 rounded px-2 py-1" placeholder='without "+"' />
                             </div>
                             <div className="w-[100%] flex flex-col">
                                 <label htmlFor="mother_name" className="text-[14px]">Mother Name</label>
-                                <input onChange={(e) => getStudentCred(e)} value={newStudent.mother_name} type="text" name="mother_name" id="mother_name" className="border-2 border-gray-500 rounded px-2 py-1" />
+                                <input onChange={getStudentCred} value={newStudent.mother_name} type="text" name="mother_name" id="mother_name" className="border-2 border-gray-500 rounded px-2 py-1" />
                             </div>
                             <div className="w-[100%] flex flex-col">
                                 <label htmlFor="motherContactNumber" className="text-[14px]">Mother Number</label>
-                                <input onChange={(e) => getStudentCred(e)} value={newStudent.motherContactNumber} type="text" name="motherContactNumber" id="motherContactNumber" className="border-2 border-gray-500 rounded px-2 py-1" placeholder='without "+"' />
+                                <input onChange={getStudentCred} value={newStudent.motherContactNumber} type="text" name="motherContactNumber" id="motherContactNumber" className="border-2 border-gray-500 rounded px-2 py-1" placeholder='without "+"' />
                             </div>
                         </div>
 
                         <div className="flex justify-between">
                             <div className="w-[47%] flex flex-col">
                                 <label htmlFor="newPassword" className="text-[14px]">New Password</label>
-                                <input onChange={(e) => getStudentCred(e)} value={newStudent.newPassword} type="text" name="newPassword" id="newPassword" className="border-2 border-gray-500 rounded px-2 py-1" />
+                                <input onChange={getStudentCred} value={newStudent.newPassword} type="text" name="newPassword" id="newPassword" className="border-2 border-gray-500 rounded px-2 py-1" />
                             </div>
                             <div className="w-[47%] flex flex-col">
                                 <label htmlFor="confirmPassword" className="text-[14px]">Confirm Password</label>
-                                <input onChange={(e) => getStudentCred(e)} value={newStudent.confirmPassword} type="text" name="confirmPassword" id="confirmPassword" className="border-2 border-gray-500 rounded px-2 py-1" />
+                                <input onChange={getStudentCred} value={newStudent.confirmPassword} type="text" name="confirmPassword" id="confirmPassword" className="border-2 border-gray-500 rounded px-2 py-1" />
                             </div>
                         </div>
-                        <button disabled={isLoading ? true : false} onClick={(e) => addNewStudent(e)} className="w-fit px-6 py-1 mt-8 border-2 border-cyan-600 rounded-lg hover:text-white hover:bg-cyan-600 transition-all duration-300">{isLoading ? "Loading..." : "Add"}</button>
+                        <button disabled={isLoading ? true : false} onClick={addNewStudent} className="w-fit px-6 py-1 mt-8 border-2 border-cyan-600 rounded-lg hover:text-white hover:bg-cyan-600 transition-all duration-300">{isLoading ? "Loading..." : "Add"}</button>
                     </div>
                 </form>
             </div>
