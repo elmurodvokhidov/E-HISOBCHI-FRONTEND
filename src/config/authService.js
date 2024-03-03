@@ -86,6 +86,14 @@ const AuthService = {
         const response = api.post("/admin/create-notice", notice);
         return response;
     },
+    async updateNotice(id, updatedNotice) {
+        const response = api.put(`/admin/update-notice/${id}`, updatedNotice);
+        return response;
+    },
+    async deleteNotice(id) {
+        const response = api.delete(`/admin/delete-notice/${id}`);
+        return response;
+    },
 
 
 

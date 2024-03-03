@@ -4,9 +4,11 @@ import { LiaEditSolid } from "react-icons/lia";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import AuthService from "../../config/authService";
-import { allNoticeSuccess, newNoticeSuccess, noticeFailure, noticeStart } from "../../redux/slices/noticeSlice";
+import { allNoticeSuccess, getNoticeSuccess, newNoticeSuccess, noticeFailure, noticeStart } from "../../redux/slices/noticeSlice";
 import { IoCloseOutline } from "react-icons/io5";
 import { Toast, ToastLeft } from "../../config/sweetToast";
+import NoticeEditModal from "../../components/NoticeEditModal";
+import Swal from "sweetalert2";
 
 function Notice() {
     const { notices, isLoading } = useSelector(state => state.notice);
@@ -14,6 +16,14 @@ function Notice() {
     const [more, setMore] = useState(false);
     const [modal, setModal] = useState(false);
     const [newNotice, setNewNotice] = useState({
+        topic: "",
+        content: "",
+        from: "",
+        to: "",
+    });
+    const [notice, setNotice] = useState(null);
+    const [editModal, setEditModal] = useState(false);
+    const [updatedNotice, setUpdatedNotice] = useState({
         topic: "",
         content: "",
         from: "",
@@ -84,6 +94,76 @@ function Notice() {
         getNotices();
     }, []);
 
+    const openModal = (id) => {
+        setNotice(notices.filter(notice => notice._id === id)[0]);
+        setEditModal(true);
+        setUpdatedNotice(notices.filter(notice => notice._id === id)[0]);
+    };
+
+    const updateHandler = async (e) => {
+        e.preventDefault();
+        if (
+            updatedNotice.topic !== "" &&
+            updatedNotice.content !== "" &&
+            updatedNotice.from !== "" &&
+            updatedNotice.to !== ""
+        ) {
+            try {
+                dispatch(noticeStart());
+                const { _id, __v, ...newNoticeCred } = updatedNotice;
+                const { data } = await AuthService.updateNotice(updatedNotice._id, newNoticeCred);
+                dispatch(getNoticeSuccess(data));
+                setEditModal(false);
+                await Toast.fire({
+                    icon: "success",
+                    title: data.message
+                });
+            } catch (error) {
+                dispatch(noticeFailure(error.response?.data.error));
+                await ToastLeft.fire({
+                    icon: "error",
+                    title: error.response?.data.error || error.message
+                });
+            }
+        }
+        else {
+            await ToastLeft.fire({
+                icon: "error",
+                title: "Please fill in the all blanks!"
+            });
+        }
+        getNotices();
+    };
+
+    const deleteNotice = async (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(noticeStart());
+                AuthService.deleteNotice(id).then(() => {
+                    getNotices();
+                    Toast.fire({
+                        icon: "success",
+                        title: "Xabar muvaffaqiyatli o'chirildi!"
+                    });
+                }).catch((error) => {
+                    dispatch(noticeFailure(error.response?.data.message));
+                    ToastLeft.fire({
+                        icon: "error",
+                        title: error.response?.data.message || error.message
+                    });
+                });
+            }
+        });
+    };
+
     return (
         <div className="notices w-full h-screen overflow-auto pt-24 px-10" onClick={() => setMore(false)}>
             <div className="flex justify-between relative">
@@ -106,15 +186,15 @@ function Notice() {
                                             <IoMdMore />
                                             {/* more btn modal */}
                                             <div className={`${more === notice._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute 2xsm:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] bg-white`}>
-                                                <button className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"><LiaEditSolid /> Edit</button>
-                                                <button className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-red-500"><RiDeleteBin7Line /> Delete</button>
+                                                <button onClick={() => openModal(notice._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"><LiaEditSolid /> Edit</button>
+                                                <button onClick={() => deleteNotice(notice._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-red-500"><RiDeleteBin7Line /> Delete</button>
                                             </div>
                                         </div>
                                     </div>
                                     <p className="text-gray-600 mb-4">{notice.content}</p>
                                     <div className="flex justify-between items-center text-gray-500">
                                         <p className="text-sm">{notice.from}</p>
-                                        <p className="text-sm">Feb 22, 2024</p>
+                                        <p className="text-sm">{notice.createdAt < notice.updatedAt ? notice.updatedAt.slice(0, 10).split("-").reverse().join(".") : notice.createdAt.slice(0, 10).split("-").reverse().join(".")}</p>
                                     </div>
                                 </div>
                             )) :
@@ -193,7 +273,7 @@ function Notice() {
                             <input onChange={getNewNoticeCred} value={newNotice.topic} type="text" name="topic" id="topic" className="border-2 border-gray-500 rounded px-2 py-1" />
                         </div>
                         <div className="flex flex-col">
-                            <label htmlFor="content" className="text-[14px]">Contect</label>
+                            <label htmlFor="content" className="text-[14px]">Content</label>
                             <textarea onChange={getNewNoticeCred} value={newNotice.content} className="border-2 border-gray-500 rounded px-2 py-1" name="content" id="content" cols="30" rows="10"></textarea>
                         </div>
                         <div className="flex justify-between">
@@ -210,6 +290,15 @@ function Notice() {
                     </div>
                 </form>
             </div>
+
+            {/* notice edit modal */}
+            <NoticeEditModal
+                modal={editModal}
+                setModal={setEditModal}
+                updatedNotice={updatedNotice}
+                setUpdatedNotice={setUpdatedNotice}
+                updateHandler={updateHandler}
+            />
         </div>
     )
 }

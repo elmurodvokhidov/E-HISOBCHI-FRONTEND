@@ -122,7 +122,7 @@ function Admins() {
                                 </div>
                                 <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
                                     <p className="text-sm leading-6 text-gray-900">Adminstartor</p>
-                                    <p className="mt-1 text-xs leading-5 text-gray-500">Create at <time dateTime={admin.createdAt}>{admin.createdAt.slice(0, 10)}</time></p>
+                                    <p className="mt-1 text-xs leading-5 text-gray-500">Create at <time dateTime={admin.createdAt}>{admin.createdAt.slice(0, 10).split("-").reverse().join(".")}</time></p>
                                 </div>
                             </li>
                         )) :
