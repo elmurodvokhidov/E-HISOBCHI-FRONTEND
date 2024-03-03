@@ -115,7 +115,7 @@ function StudentInfo() {
             ) {
                 try {
                     dispatch(studentStart());
-                    const { _id, __v, password, passwordUpdated, created_at, ...newStudentCred } = updatedStudent;
+                    const { _id, __v, password, passwordUpdated, createdAt, updatedAt, ...newStudentCred } = updatedStudent;
                     const { data } = await AuthService.updateStudent(updatedStudent._id, newStudentCred);
                     dispatch(getStudentSuccess(data));
                     setModal(false);

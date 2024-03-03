@@ -105,7 +105,7 @@ function TeacherInfo() {
             ) {
                 try {
                     dispatch(teacherStart());
-                    const { _id, __v, password, passwordUpdated, created_at, ...newTeacherCred } = updatedTeacher;
+                    const { _id, __v, password, passwordUpdated, createdAt, updatedAt, ...newTeacherCred } = updatedTeacher;
                     const { data } = await AuthService.updateTeacher(updatedTeacher._id, newTeacherCred);
                     dispatch(getTeacherSuccess(data));
                     setModal(false);

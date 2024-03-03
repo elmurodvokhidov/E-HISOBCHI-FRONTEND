@@ -116,7 +116,7 @@ function AdminProfile() {
             ) {
                 try {
                     dispatch(authStart());
-                    const { _id, password, passwordUpdated, created_at, ...newAdminCred } = updatedAdmin;
+                    const { _id, password, passwordUpdated, createdAt, updatedAt, ...newAdminCred } = updatedAdmin;
                     const { data } = await AuthService.updateAdminProfile(updatedAdmin._id, newAdminCred);
                     dispatch(authSuccess(data));
                     setModal(false);

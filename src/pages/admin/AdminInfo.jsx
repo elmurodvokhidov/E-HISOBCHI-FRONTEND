@@ -26,6 +26,7 @@ function AdminInfo() {
 
         getOneAdmin();
     }, [id]);
+    
     return (
         <div className="admins w-full h-screen overflow-auto pt-24 px-10">
             <div>
