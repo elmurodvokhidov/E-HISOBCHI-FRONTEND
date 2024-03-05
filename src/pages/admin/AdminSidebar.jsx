@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 
 function AdminSidebar() {
     return (
-        <div className="sidebar pt-20 h-screen overflow-auto bg-white shadow-smooth font-montserrat">
+        <div className="sidebar pt-20 h-screen overflow-auto bg-white shadow-smooth">
             <NavLink to="/admin/dashboard" className="cell relative text-gray-500 border-b-2 py-4 px-6 flex flex-col items-center hover:text-cyan-600 transition-all duration-300">
                 <LuLayoutDashboard className="text-3xl" />
                 <h1 className="text-[16px]">Dashboard</h1>

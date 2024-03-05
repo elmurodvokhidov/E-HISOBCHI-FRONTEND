@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 
 function Notice() {
     const { notices, isLoading } = useSelector(state => state.notice);
+    const { auth } = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const [more, setMore] = useState(false);
     const [modal, setModal] = useState(false);
@@ -56,7 +57,7 @@ function Notice() {
         ) {
             try {
                 dispatch(noticeStart());
-                const { data } = await AuthService.addNewNotice(newNotice);
+                const { data } = await AuthService.addNewNotice({ ...newNotice, userId: auth?._id });
                 dispatch(newNoticeSuccess(data));
                 clearModal();
                 setModal(false);

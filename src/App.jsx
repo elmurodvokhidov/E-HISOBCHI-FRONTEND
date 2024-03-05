@@ -20,6 +20,8 @@ import TeacherInfo from "./pages/admin/TeacherInfo";
 import StudentInfo from "./pages/admin/StudentInfo";
 import NotFound from "./components/NotFound";
 import AdminInfo from "./pages/admin/AdminInfo";
+import TeacherLayout from "./pages/teacher/TeacherLayout";
+import StudentLayout from "./pages/student/StudentLayout";
 
 function App() {
   const dispatch = useDispatch();
@@ -60,23 +62,31 @@ function App() {
         <Route path="admin/login" element={<AdminLogin />} />
         <Route path="admin" element={<AdminLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="notice" element={<Notice />}></Route>
+          <Route path="notice" element={<Notice />} />
           <Route path="admins" element={<Admins />} />
           <Route path="admin-info/:id" element={<AdminInfo />} />
           <Route path="teachers" element={<Teachers />}></Route>
           <Route path="teacher-info/:id" element={<TeacherInfo />} />
           <Route path="students" element={<Students />}></Route>
           <Route path="student-info/:id" element={<StudentInfo />} />
-          <Route path="profile" element={<AdminProfile />}></Route>
+          <Route path="profile" element={<AdminProfile />} />
         </Route>
 
         {/* teacher routes */}
         <Route path="teacher/login" element={<TeacherLogin />} />
-        <Route path="teacher/dashboard" element={<TeacherDashboard />} />
+        <Route path="teacher" element={<TeacherLayout />}>
+          <Route path="dashboard" element={<TeacherDashboard />} />
+          <Route path="profile" element={<AdminProfile />} />
+          <Route path="notice" element={<Notice />} />
+        </Route>
 
         {/* student routes */}
         <Route path="student/login" element={<StudentLogin />} />
-        <Route path="student/dashboard" element={<StudentDashboard />} />
+        <Route path="student" element={<StudentLayout />}>
+          <Route path="dashboard" element={<StudentDashboard />} />
+          <Route path="profile" element={<AdminProfile />} />
+          <Route path="notice" element={<Notice />} />
+        </Route>
       </Routes>
     </div>
   );

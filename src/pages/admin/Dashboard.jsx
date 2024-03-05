@@ -7,6 +7,8 @@ import AuthService from "../../config/authService";
 import { allAdminSuccess } from "../../redux/slices/adminSlice";
 import { allTeacherSuccess } from "../../redux/slices/teacherSlice";
 import { allStudentSuccess } from "../../redux/slices/studentSlice";
+import SplineChart from "../../components/SplineChart";
+import TimelineChart from "../../components/TimelineChart";
 
 function Dashboard() {
     const { admins } = useSelector(state => state.admin);
@@ -35,7 +37,7 @@ function Dashboard() {
 
 
     return (
-        <div className="w-full h-screen overflow-auto pt-24 px-10">
+        <div className="w-full h-screen overflow-auto pt-24 pb-10 px-10">
             <section className="w-full flex items-center gap-5">
                 <div className="w-40 h-40 flex flex-col items-center justify-center border shadow-smooth">
                     <FaRegUser className="text-5xl text-cyan-600" />
@@ -60,6 +62,14 @@ function Dashboard() {
                     <h1 className="text-[14px] text-gray-500 mt-1">Students</h1>
                     <h1 className="text-3xl text-cyan-600 mt-3">{students ? students.length : 0}</h1>
                 </div>
+            </section>
+
+            <section className="my-8 shadow-smooth">
+                <SplineChart />
+            </section>
+
+            <section className="shadow-smooth">
+                <TimelineChart />
             </section>
         </div>
     )
