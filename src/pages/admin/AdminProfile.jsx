@@ -143,6 +143,61 @@ function AdminProfile() {
         }
     };
 
+    const huru = localStorage.getItem("x-auth");
+
+    function GlobalElement() {
+        switch (huru) {
+            case "admin": return (
+                <div className="flex flex-col">
+                    <h1 className="capitalize text-4xl">{auth.first_name}</h1>
+                    <h2 className="capitalize text-2xl">{auth.last_name}</h2>
+                    <h3 className="text-[14px] mt-1">{auth.email}</h3>
+                    <div className="flex gap-6 text-[14px]">
+                        <h4>Date of Bithday: <span className="underline">{auth.dob}</span></h4>
+                        <h4>Phone: <span className="underline">+{auth.contactNumber}</span></h4>
+                    </div>
+                </div>
+            )
+            case "teacher": return (
+                <div className="flex flex-col">
+                    <h1 className="capitalize text-4xl">{auth.first_name}</h1>
+                    <h2 className="capitalize text-2xl">{auth.last_name}</h2>
+                    <h3 className="text-[14px] mt-1">{auth.email}</h3>
+                    <div className="flex gap-6 text-[14px]">
+                        <h4>Date of Bithday: <span className="underline">{auth.dob}</span></h4>
+                        <h4>Phone: <span className="underline">+{auth.contactNumber}</span></h4>
+                    </div>
+                    <div className="flex gap-6 text-[14px]">
+                        <h4>Specialist In: <span className="underline">{auth.specialist_in}</span></h4>
+                        <h4>Gender: <span className="underline">{auth.gender}</span></h4>
+                    </div>
+                </div>
+            )
+            case "student": return (
+                <div className="flex flex-col">
+                    <h1 className="capitalize text-4xl">{auth.first_name}</h1>
+                    <h2 className="capitalize text-2xl">{auth.last_name}</h2>
+                    <h3 className="text-[14px] mt-1">{auth.email}</h3>
+                    <div className="flex gap-6 text-[14px]">
+                        <h4>Date of Bithday: <span className="underline">{auth.dob}</span></h4>
+                        <h4>Phone: <span className="underline">+{auth.contactNumber}</span></h4>
+                    </div>
+                </div>
+            )
+            default:
+                return (
+                    <div className="flex flex-col gap-1 animate-pulse">
+                        <h1 className="w-40 h-10 rounded bg-gray-300">&nbsp;</h1>
+                        <h1 className="w-32 h-4 rounded bg-gray-300">&nbsp;</h1>
+                        <div className="flex gap-6 mt-4">
+                            <h4 className="w-32 h-8 rounded bg-gray-300">&nbsp;</h4>
+                            <h4 className="w-32 h-8 rounded bg-gray-300">&nbsp;</h4>
+                        </div>
+                    </div>
+                )
+        }
+    }
+
     return (
         <div className="w-full h-screen overflow-auto pt-24 px-10">
             <div className="flex justify-between border-b-2 pb-16 relative">
@@ -166,15 +221,7 @@ function AdminProfile() {
                                 <h4 className="w-32 h-8 rounded bg-gray-300">&nbsp;</h4>
                             </div>
                         </div> :
-                        <div className="flex flex-col">
-                            <h1 className="capitalize text-4xl">{auth.first_name}</h1>
-                            <h2 className="capitalize text-2xl">{auth.last_name}</h2>
-                            <h3 className="text-[14px] mt-1">{auth.email}</h3>
-                            <div className="flex gap-6 text-[14px]">
-                                <h4>Date of Bithday: <span className="underline">{auth.dob}</span></h4>
-                                <h4>Phone: <span className="underline">+{auth.contactNumber}</span></h4>
-                            </div>
-                        </div>
+                        <GlobalElement />
                     }
 
                     <div>

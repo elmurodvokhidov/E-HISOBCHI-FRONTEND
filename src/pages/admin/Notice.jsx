@@ -179,18 +179,24 @@ function Notice() {
                                 <div key={index} className="bg-white rounded-lg shadow-md p-6">
                                     <div className="flex justify-between">
                                         <h2 className="text-xl font-semibold mb-2">{notice.topic}</h2>
-                                        {/* more button */}
-                                        <div onClick={(e) => {
-                                            e.stopPropagation()
-                                            setMore(notice._id)
-                                        }} className="relative cursor-pointer text-cyan-600 text-xl">
-                                            <IoMdMore />
-                                            {/* more btn modal */}
-                                            <div className={`${more === notice._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute 2xsm:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] bg-white`}>
-                                                <button onClick={() => openModal(notice._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"><LiaEditSolid /> Edit</button>
-                                                <button onClick={() => deleteNotice(notice._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-red-500"><RiDeleteBin7Line /> Delete</button>
-                                            </div>
-                                        </div>
+                                        {
+                                            notice.author._id === auth._id ? (
+                                                <>
+                                                    {/* more button */}
+                                                    <div onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        setMore(notice._id)
+                                                    }} className="relative cursor-pointer text-cyan-600 text-xl">
+                                                        <IoMdMore />
+                                                        {/* more btn modal */}
+                                                        <div className={`${more === notice._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute 2xsm:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] bg-white`}>
+                                                            <button onClick={() => openModal(notice._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"><LiaEditSolid /> Edit</button>
+                                                            <button onClick={() => deleteNotice(notice._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-red-500"><RiDeleteBin7Line /> Delete</button>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            ) : null
+                                        }
                                     </div>
                                     <p className="text-gray-600 mb-4">{notice.content}</p>
                                     <div className="flex justify-between items-center text-gray-500">
