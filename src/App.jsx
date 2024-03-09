@@ -15,7 +15,7 @@ import Teachers from "./pages/admin/Teachers";
 import Students from "./pages/admin/Students";
 import AdminLayout from "./pages/admin/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
-import AdminProfile from "./pages/admin/AdminProfile";
+import Profile from "./components/Profile";
 import TeacherInfo from "./pages/admin/TeacherInfo";
 import StudentInfo from "./pages/admin/StudentInfo";
 import NotFound from "./components/NotFound";
@@ -69,14 +69,14 @@ function App() {
           <Route path="teacher-info/:id" element={<TeacherInfo />} />
           <Route path="students" element={<Students />}></Route>
           <Route path="student-info/:id" element={<StudentInfo />} />
-          <Route path="profile" element={<AdminProfile />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
 
         {/* teacher routes */}
         <Route path="teacher/login" element={<TeacherLogin />} />
         <Route path="teacher" element={<TeacherLayout />}>
           <Route path="dashboard" element={<TeacherDashboard />} />
-          <Route path="profile" element={<AdminProfile />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="notice" element={<Notice />} />
         </Route>
 
@@ -84,7 +84,7 @@ function App() {
         <Route path="student/login" element={<StudentLogin />} />
         <Route path="student" element={<StudentLayout />}>
           <Route path="dashboard" element={<StudentDashboard />} />
-          <Route path="profile" element={<AdminProfile />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="notice" element={<Notice />} />
         </Route>
       </Routes>

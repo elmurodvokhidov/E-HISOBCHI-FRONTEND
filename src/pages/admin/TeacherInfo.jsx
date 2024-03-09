@@ -9,7 +9,7 @@ import {
 } from "../../redux/slices/teacherSlice";
 import logo from "../../img/uitc_logo.png";
 import AuthService from "../../config/authService";
-import TeacherEditModal from "../../components/TeacherEditModal";
+import TeacherEditModal from "../../components/modals/TeacherEditModal";
 import ProfileCardSkeleton from "../../components/loaders/ProfileCardSkeleton";
 
 function TeacherInfo() {

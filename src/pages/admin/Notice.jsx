@@ -7,7 +7,7 @@ import AuthService from "../../config/authService";
 import { allNoticeSuccess, getNoticeSuccess, newNoticeSuccess, noticeFailure, noticeStart } from "../../redux/slices/noticeSlice";
 import { IoCloseOutline } from "react-icons/io5";
 import { Toast, ToastLeft } from "../../config/sweetToast";
-import NoticeEditModal from "../../components/NoticeEditModal";
+import NoticeEditModal from "../../components/modals/NoticeEditModal";
 import Swal from "sweetalert2";
 
 function Notice() {

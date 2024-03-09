@@ -14,7 +14,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import { LiaEditSolid } from "react-icons/lia";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { Toast, ToastLeft } from "../../config/sweetToast";
-import TeacherEditModal from "../../components/TeacherEditModal";
+import TeacherEditModal from "../../components/modals/TeacherEditModal";
 import Swal from "sweetalert2";
 
 function Teachers() {

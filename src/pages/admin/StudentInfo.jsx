@@ -10,7 +10,7 @@ import {
 import logo from "../../img/uitc_logo.png";
 import AuthService from "../../config/authService";
 import ProfileCardSkeleton from "../../components/loaders/ProfileCardSkeleton";
-import StudentEditModal from "../../components/StudentEditModal";
+import StudentEditModal from "../../components/modals/StudentEditModal";
 
 function StudentInfo() {
     const { student } = useSelector(state => state.student);

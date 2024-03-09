@@ -8,7 +8,7 @@ import { LiaEditSolid } from "react-icons/lia";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
 import { IoMdMore } from "react-icons/io";
-import StudentEditModal from "../../components/StudentEditModal";
+import StudentEditModal from "../../components/modals/StudentEditModal";
 import Swal from "sweetalert2";
 
 function Students() {

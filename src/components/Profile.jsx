@@ -1,15 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
-import { authFailure, authLogout, authStart, authSuccess } from "../../redux/slices/authSlice";
+import { authFailure, authLogout, authStart, authSuccess } from "../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
-import logo from "../../img/uitc_logo.png";
-import { Toast, ToastLeft } from "../../config/sweetToast";
+import logo from "../img/uitc_logo.png";
+import { Toast, ToastLeft } from "../config/sweetToast";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
-import AuthService from "../../config/authService";
+import AuthService from "../config/authService";
 
-function AdminProfile() {
+function Profile() {
     const { auth, isLoading } = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -290,4 +290,4 @@ function AdminProfile() {
     )
 }
 
-export default AdminProfile
+export default Profile

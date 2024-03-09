@@ -7,8 +7,8 @@ import AuthService from "../../config/authService";
 import { allAdminSuccess } from "../../redux/slices/adminSlice";
 import { allTeacherSuccess } from "../../redux/slices/teacherSlice";
 import { allStudentSuccess } from "../../redux/slices/studentSlice";
-import SplineChart from "../../components/SplineChart";
-import TimelineChart from "../../components/TimelineChart";
+import SplineChart from "../../components/charts/SplineChart";
+import TimelineChart from "../../components/charts/TimelineChart";
 
 function Dashboard() {
     const { admins } = useSelector(state => state.admin);
