@@ -201,8 +201,8 @@ function Profile() {
     return (
         <div className="w-full h-screen overflow-auto pt-24 px-10">
             <div className="flex justify-between border-b-2 pb-16 relative">
-                <h1 className="capitalize text-3xl">account credentials</h1>
-                <button onClick={logoutHandler} className="border-2 rounded border-cyan-600 px-5 hover:bg-red-500 hover:border-red-500 transition-all hover:text-white duration-300">Exit</button>
+                <h1 className="capitalize text-3xl">Hisob qaydnomalari</h1>
+                <button onClick={logoutHandler} className="border-2 rounded border-cyan-600 px-5 hover:bg-red-500 hover:border-red-500 transition-all hover:text-white duration-300">Chiqish</button>
                 <p className="absolute bottom-[-1px] border-b-2 uppercase text-[14px] pb-2 border-cyan-600 text-cyan-600">{localStorage.getItem("x-auth")}</p>
             </div>
 
@@ -225,7 +225,7 @@ function Profile() {
                     }
 
                     <div>
-                        <button disabled={auth ? false : true} onClick={() => openModal()} className="border-2 rounded ml-16 px-6 py-1 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">{auth ? "Edit" : "Loading..."}</button>
+                        <button disabled={auth ? false : true} onClick={() => openModal()} className="border-2 rounded ml-16 px-6 py-1 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">{auth ? "Tahrirlash" : "Loading..."}</button>
                     </div>
                 </div>
             </div>
@@ -236,7 +236,7 @@ function Profile() {
                 setPassModal(false)
             }} className="w-full h-screen fixed top-0 left-0 z-20" style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modal ? "1" : "0", zIndex: modal ? "20" : "-1" }}>
                 <form onClick={(e) => e.stopPropagation()} className="w-[30%] h-screen fixed top-0 right-0 transition-all duration-300 bg-white" style={{ right: modal ? "0" : "-200%" }}>
-                    <div className="flex justify-between text-xl p-5 border-b-2"><h1>Update account</h1> <button type="button" onClick={() => {
+                    <div className="flex justify-between text-xl p-5 border-b-2"><h1>Hisobni yangilash</h1> <button type="button" onClick={() => {
                         setModal(false)
                         setPassModal(false)
                     }} className="hover:text-red-500 transition-all duration-300"><IoCloseOutline /></button></div>
@@ -267,22 +267,22 @@ function Profile() {
                             <label htmlFor="avatar" className="text-[14px]">Photo</label>
                             <input disabled={passModal ? true : false} type="file" name="avatar" id="avatar" className="border-2 border-gray-500 rounded px-2 py-1" />
                         </div>
-                        <button onClick={() => setPassModal(!passModal)} type="button" className="flex items-center justify-end gap-1">{passModal ? <FaAngleUp className="text-[14px]" /> : <FaAngleDown className="text-[14px]" />}Add new password</button>
+                        <button onClick={() => setPassModal(!passModal)} type="button" className="flex items-center justify-end gap-1">{passModal ? <FaAngleUp className="text-[14px]" /> : <FaAngleDown className="text-[14px]" />}Yangi parol qo'shing</button>
                         {
                             passModal ?
                                 <>
                                     <div className="flex flex-col">
-                                        <label htmlFor="newPassword" className="text-[14px]">New Password</label>
+                                        <label htmlFor="newPassword" className="text-[14px]">Yangi parol</label>
                                         <input onChange={(e) => getNewPass(e)} type="text" name="newPassword" id="newPassword" className="border-2 border-gray-500 rounded px-2 py-1" />
                                     </div>
                                     <div className="flex flex-col">
-                                        <label htmlFor="confirmPassword" className="text-[14px]">Confirm Password</label>
+                                        <label htmlFor="confirmPassword" className="text-[14px]">Parolni tasdiqlang</label>
                                         <input onChange={(e) => getNewPass(e)} type="text" name="confirmPassword" id="confirmPassword" className="border-2 border-gray-500 rounded px-2 py-1" />
                                     </div>
                                 </>
                                 : null
                         }
-                        <button disabled={isLoading ? true : false} onClick={(e) => updateHandler(e)} className="w-fit px-6 py-1 mt-8 border-2 border-cyan-600 rounded-lg hover:text-white hover:bg-cyan-600 transition-all duration-300">{isLoading ? "Loading..." : passModal ? "Update Password" : "Save"}</button>
+                        <button disabled={isLoading ? true : false} onClick={(e) => updateHandler(e)} className="w-fit px-6 py-1 mt-8 border-2 border-cyan-600 rounded-lg hover:text-white hover:bg-cyan-600 transition-all duration-300">{isLoading ? "Loading..." : passModal ? "Parolni yangilash" : "Saqlash"}</button>
                     </div>
                 </form>
             </div>

@@ -26,13 +26,13 @@ function AdminInfo() {
 
         getOneAdmin();
     }, [id]);
-    
+
     return (
         <div className="admins w-full h-screen overflow-auto pt-24 px-10">
             <div>
                 <div className="px-4 sm:px-0">
-                    <h3 className="text-base font-semibold leading-7 text-gray-900">Adminstrator Information</h3>
-                    <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Personal details and application.</p>
+                    <h3 className="text-base font-semibold leading-7 text-gray-900">Administrator ma'lumotlari</h3>
+                    <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Shaxsiy ma'lumotlar va ariza.</p>
                 </div>
                 {admin ?
                     <div className="mt-6 border-t border-gray-100">

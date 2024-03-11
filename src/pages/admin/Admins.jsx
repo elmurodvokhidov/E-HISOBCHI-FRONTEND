@@ -102,10 +102,10 @@ function Admins() {
         <div className="admins w-full h-screen overflow-auto pt-24 px-10">
             <div className="flex justify-between relative">
                 <div className="flex items-end gap-4 text-[14px]">
-                    <h1 className="capitalize text-3xl">Admins</h1>
-                    <p>Total <span className="inline-block w-4 h-[1px] mx-1 align-middle bg-black"></span> <span>{admins?.length}</span></p>
+                    <h1 className="capitalize text-3xl">Adminlar</h1>
+                    <p>Miqdor <span className="inline-block w-4 h-[1px] mx-1 align-middle bg-black"></span> <span>{admins?.length}</span></p>
                 </div>
-                <button onClick={() => setModal(true)} className="border-2 border-cyan-600 rounded px-5 hover:bg-cyan-600 hover:text-white transition-all duration-300">Add new admin</button>
+                <button onClick={() => setModal(true)} className="border-2 border-cyan-600 rounded px-5 hover:bg-cyan-600 hover:text-white transition-all duration-300">Yangi admin qo'shish</button>
             </div>
 
             <ul role="list" className="mt-4 divide-y divide-gray-100">

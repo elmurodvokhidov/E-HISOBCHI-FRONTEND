@@ -247,10 +247,10 @@ function Teachers() {
         <div className="w-full h-screen overflow-auto pt-24 px-10" onClick={() => setMore(null)}>
             <div className="flex justify-between relative">
                 <div className="flex items-end gap-4 text-[14px]">
-                    <h1 className="capitalize text-3xl">Teachers</h1>
-                    <p>Total <span className="inline-block w-4 h-[1px] mx-1 align-middle bg-black"></span> <span>{teachers?.length}</span></p>
+                    <h1 className="capitalize text-3xl">O'qituvchilar</h1>
+                    <p>Miqdor <span className="inline-block w-4 h-[1px] mx-1 align-middle bg-black"></span> <span>{teachers?.length}</span></p>
                 </div>
-                <button onClick={() => setModal(true)} className="border-2 border-cyan-600 rounded px-5 hover:bg-cyan-600 hover:text-white transition-all duration-300">Add new teacher</button>
+                <button onClick={() => setModal(true)} className="border-2 border-cyan-600 rounded px-5 hover:bg-cyan-600 hover:text-white transition-all duration-300">Yangi o'qituvchi qo'shish</button>
             </div>
 
             <div className="grid lg:grid-cols-2 2xsm:grid-cols-1 2xsm:gap-4 py-6">
@@ -268,8 +268,8 @@ function Teachers() {
                                     <IoMdMore />
                                     {/* more btn modal */}
                                     <div className={`${more === teacher._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute lg:left-8 2xsm:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] bg-white`}>
-                                        <button onClick={() => openModal(teacher._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"><LiaEditSolid /> Edit</button>
-                                        <button onClick={() => deleteTeacher(teacher._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-red-500"><RiDeleteBin7Line /> Delete</button>
+                                        <button onClick={() => openModal(teacher._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"><LiaEditSolid />Tahrirlash</button>
+                                        <button onClick={() => deleteTeacher(teacher._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-red-500"><RiDeleteBin7Line />O'chirish</button>
                                     </div>
                                 </div>
                             </div>
@@ -286,7 +286,7 @@ function Teachers() {
             {/* add new modal */}
             <div onClick={() => setModal(false)} className="w-full h-screen fixed top-0 left-0 z-20" style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modal ? "1" : "0", zIndex: modal ? "20" : "-1" }}>
                 <form onClick={(e) => e.stopPropagation()} className="w-[30%] h-screen fixed top-0 right-0 transition-all duration-300 bg-white" style={{ right: modal ? "0" : "-200%" }}>
-                    <div className="flex justify-between text-xl p-5 border-b-2"><h1>New teacher credentials</h1> <button type="button" onClick={() => setModal(false)} className="hover:text-red-500 transition-all duration-300"><IoCloseOutline /></button></div>
+                    <div className="flex justify-between text-xl p-5 border-b-2"><h1>Yangi o'qituvchi ma'lumotlari</h1> <button type="button" onClick={() => setModal(false)} className="hover:text-red-500 transition-all duration-300"><IoCloseOutline /></button></div>
                     <div className="flex flex-col gap-2 px-5 py-7">
                         <div className="flex flex-col">
                             <label htmlFor="first_name" className="text-[14px]">First Name</label>
@@ -326,15 +326,15 @@ function Teachers() {
                         </div>
                         <div className="flex justify-between">
                             <div className="w-[47%] flex flex-col">
-                                <label htmlFor="newPassword" className="text-[14px]">New Password</label>
+                                <label htmlFor="newPassword" className="text-[14px]">Yangi parol</label>
                                 <input onChange={getTeacherCred} value={newTeacher.newPassword} type="text" name="newPassword" id="newPassword" className="border-2 border-gray-500 rounded px-2 py-1" />
                             </div>
                             <div className="w-[47%] flex flex-col">
-                                <label htmlFor="confirmPassword" className="text-[14px]">Confirm Password</label>
+                                <label htmlFor="confirmPassword" className="text-[14px]">Parolni tasdiqlang</label>
                                 <input onChange={getTeacherCred} value={newTeacher.confirmPassword} type="text" name="confirmPassword" id="confirmPassword" className="border-2 border-gray-500 rounded px-2 py-1" />
                             </div>
                         </div>
-                        <button disabled={isLoading ? true : false} onClick={addNewTeacher} className="w-fit px-6 py-1 mt-8 border-2 border-cyan-600 rounded-lg hover:text-white hover:bg-cyan-600 transition-all duration-300">{isLoading ? "Loading..." : "Add"}</button>
+                        <button disabled={isLoading ? true : false} onClick={addNewTeacher} className="w-fit px-6 py-1 mt-8 border-2 border-cyan-600 rounded-lg hover:text-white hover:bg-cyan-600 transition-all duration-300">{isLoading ? "Loading..." : "Qo'shish"}</button>
                     </div>
                 </form>
             </div>

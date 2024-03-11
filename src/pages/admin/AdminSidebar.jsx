@@ -4,6 +4,8 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import { PiStudent } from "react-icons/pi";
 import { CgNotes } from "react-icons/cg";
 import { NavLink } from "react-router-dom";
+import { IoMdSettings } from "react-icons/io";
+
 
 function AdminSidebar() {
     return (
@@ -15,22 +17,27 @@ function AdminSidebar() {
 
             <NavLink to="notice" className="cell relative text-gray-500 border-b-2 py-4 px-6 flex flex-col items-center hover:text-cyan-600 transition-all duration-300">
                 <CgNotes className="text-3xl" />
-                <h1 className="text-[16px]">Notice</h1>
+                <h1 className="text-[16px]">Eslatmalar</h1>
             </NavLink>
 
             <NavLink to="admins" className="cell relative text-gray-500 border-b-2 py-4 px-6 flex flex-col items-center hover:text-cyan-600 transition-all duration-300">
                 <MdOutlineAdminPanelSettings className="text-3xl" />
-                <h1 className="text-[16px]">Admins</h1>
+                <h1 className="text-[16px]">Adminlar</h1>
             </NavLink>
 
             <NavLink to="teachers" className="cell relative text-gray-500 border-b-2 py-4 px-6 flex flex-col items-center hover:text-cyan-600 transition-all duration-300">
                 <FaChalkboardTeacher className="text-3xl" />
-                <h1 className="text-[16px]">Teachers</h1>
+                <h1 className="text-[16px]">O'qituvchilar</h1>
             </NavLink>
 
             <NavLink to="students" className="cell relative text-gray-500 border-b-2 py-4 px-6 flex flex-col items-center hover:text-cyan-600 transition-all duration-300">
                 <PiStudent className="text-3xl" />
-                <h1 className="text-[16px]">Students</h1>
+                <h1 className="text-[16px]">O'quvchilar</h1>
+            </NavLink>
+
+            <NavLink to="/" className="cell relative text-gray-500 border-b-2 py-4 px-6 flex flex-col items-center hover:text-cyan-600 transition-all duration-300">
+                <IoMdSettings className="text-3xl" />
+                <h1 className="text-[16px]">Sozlamalar</h1>
             </NavLink>
         </div>
     )

@@ -135,7 +135,7 @@ function TeacherInfo() {
     return (
         <div className="w-full h-screen overflow-auto pt-24 px-10">
             <div className="flex justify-between border-b-2 pb-16 relative">
-                <h1 className="capitalize text-3xl">account credentials</h1>
+                <h1 className="capitalize text-3xl">Hisob qaydnomalari</h1>
                 <p className="absolute bottom-[-1px] border-b-2 uppercase text-[14px] pb-2 border-cyan-600 text-cyan-600">teacher</p>
             </div>
 
@@ -164,7 +164,7 @@ function TeacherInfo() {
                     }
 
                     <div>
-                        <button disabled={teacher ? false : true} onClick={() => openModal()} className="border-2 rounded ml-16 px-6 py-1 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">{teacher ? "Edit" : "Loading..."}</button>
+                        <button disabled={teacher ? false : true} onClick={() => openModal()} className="border-2 rounded ml-16 px-6 py-1 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">{teacher ? "Tahrirlash" : "Loading..."}</button>
                     </div>
                 </div>
             </div>
