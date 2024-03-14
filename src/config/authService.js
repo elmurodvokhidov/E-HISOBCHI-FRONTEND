@@ -78,6 +78,10 @@ const AuthService = {
         const response = api.delete(`/admin/delete-student/${id}`);
         return response;
     },
+
+
+
+    // Notice
     async getAllNotices() {
         const response = api.get("/admin/get-notice");
         return response;
@@ -92,6 +96,30 @@ const AuthService = {
     },
     async deleteNotice(id) {
         const response = api.delete(`/admin/delete-notice/${id}`);
+        return response;
+    },
+
+
+
+    // Course
+    async getCourse(id) {
+        const response = api.get(`/admin/get-course/${id}`);
+        return response;
+    },
+    async getAllCourses() {
+        const response = api.get("/admin/get-all-course");
+        return response;
+    },
+    async addNewCourse(course) {
+        const response = api.post("/admin/add-course", course);
+        return response;
+    },
+    async updateCourse(id, updatedCourse) {
+        const response = api.put(`/admin/update-course/${id}`, updatedCourse);
+        return response;
+    },
+    async deleteCourse(id) {
+        const response = api.delete(`/admin/delete-course/${id}`);
         return response;
     },
 

@@ -281,7 +281,7 @@ function Notice() {
                         </div>
                         <div className="flex flex-col">
                             <label htmlFor="content" className="text-[14px]">Content</label>
-                            <textarea onChange={getNewNoticeCred} value={newNotice.content} className="border-2 border-gray-500 rounded px-2 py-1" name="content" id="content" cols="30" rows="10"></textarea>
+                            <textarea onChange={getNewNoticeCred} value={newNotice.content} className="border-2 border-gray-500 rounded px-2 py-1" name="content" id="content" cols="30" rows="5"></textarea>
                         </div>
                         <div className="flex justify-between">
                             <div className="w-[47%] flex flex-col">

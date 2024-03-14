@@ -29,13 +29,14 @@ function Profile() {
 
     const logoutHandler = () => {
         Swal.fire({
-            title: "Are you sure?",
-            text: "This action will not cause the account to be deleted!",
+            title: "Ishonchingiz komilmi?",
+            text: "Ushbu harakat hisobning o'chirilishiga olib kelmaydi!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, log out!"
+            cancelButtonText: "Yo'q",
+            confirmButtonText: "Ha, albatta!"
         }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(authStart());

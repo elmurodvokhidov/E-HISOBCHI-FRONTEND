@@ -22,6 +22,10 @@ import NotFound from "./components/NotFound";
 import AdminInfo from "./pages/admin/AdminInfo";
 import TeacherLayout from "./pages/teacher/TeacherLayout";
 import StudentLayout from "./pages/student/StudentLayout";
+import Courses from "./pages/courses/Courses";
+import Groups from "./pages/groups/Groups";
+import GeneralSettings from "./pages/admin/GeneralSettings";
+import Rooms from "./pages/admin/Rooms";
 
 function App() {
   const dispatch = useDispatch();
@@ -70,6 +74,10 @@ function App() {
           <Route path="students" element={<Students />}></Route>
           <Route path="student-info/:id" element={<StudentInfo />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="groups" element={<Groups />} />
+          <Route path="courses" element={<Courses />} />
+          <Route path="rooms" element={<Rooms />} />
+          <Route path="settings" element={<GeneralSettings />} />
         </Route>
 
         {/* teacher routes */}

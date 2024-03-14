@@ -105,7 +105,7 @@ function Admins() {
                     <h1 className="capitalize text-3xl">Adminlar</h1>
                     <p>Miqdor <span className="inline-block w-4 h-[1px] mx-1 align-middle bg-black"></span> <span>{admins?.length}</span></p>
                 </div>
-                <button onClick={() => setModal(true)} className="border-2 border-cyan-600 rounded px-5 hover:bg-cyan-600 hover:text-white transition-all duration-300">Yangi admin qo'shish</button>
+                <button onClick={() => setModal(true)} className="border-2 border-cyan-600 rounded px-5 hover:bg-cyan-600 hover:text-white transition-all duration-300">Yangisini qo'shish</button>
             </div>
 
             <ul role="list" className="mt-4 divide-y divide-gray-100">
@@ -139,7 +139,7 @@ function Admins() {
             {/* add new modal */}
             <div onClick={() => setModal(false)} className="w-full h-screen fixed top-0 left-0 z-20" style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modal ? "1" : "0", zIndex: modal ? "20" : "-1" }}>
                 <form onClick={(e) => e.stopPropagation()} className="w-[30%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white" style={{ right: modal ? "0" : "-200%" }}>
-                    <div className="flex justify-between text-xl p-5 border-b-2"><h1>New admin credentials</h1> <button type="button" onClick={() => setModal(false)} className="hover:text-red-500 transition-all duration-300"><IoCloseOutline /></button></div>
+                    <div className="flex justify-between text-xl p-5 border-b-2"><h1>Yangi admin ma'lumotlari</h1> <button type="button" onClick={() => setModal(false)} className="hover:text-red-500 transition-all duration-300"><IoCloseOutline /></button></div>
                     <div className="flex flex-col gap-2 px-5 py-7">
                         <div className="flex flex-col">
                             <label htmlFor="first_name" className="text-[14px]">First Name</label>
@@ -178,7 +178,7 @@ function Admins() {
                                 <input onChange={getNewAdminCred} value={newAdmin.confirmPassword} type="text" name="confirmPassword" id="confirmPassword" className="border-2 border-gray-500 rounded px-2 py-1" />
                             </div>
                         </div>
-                        <button disabled={isLoading ? true : false} onClick={addNewAdmin} className="w-fit px-6 py-1 mt-8 border-2 border-cyan-600 rounded-lg hover:text-white hover:bg-cyan-600 transition-all duration-300">{isLoading ? "Loading..." : "Add"}</button>
+                        <button disabled={isLoading ? true : false} onClick={addNewAdmin} className="w-fit px-6 py-1 mt-8 border-2 border-cyan-600 rounded-lg hover:text-white hover:bg-cyan-600 transition-all duration-300">{isLoading ? "Loading..." : "Qo'shish"}</button>
                     </div>
                 </form>
             </div>

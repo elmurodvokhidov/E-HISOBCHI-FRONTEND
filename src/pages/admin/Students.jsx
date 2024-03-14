@@ -295,7 +295,7 @@ function Students() {
                     <h1 className="capitalize text-3xl">O'qituvchilar</h1>
                     <p>Miqdor <span className="inline-block w-4 h-[1px] mx-1 align-middle bg-black"></span> <span>{students?.length}</span></p>
                 </div>
-                <button onClick={() => setModal(true)} className="border-2 border-cyan-600 rounded px-5 hover:bg-cyan-600 hover:text-white transition-all duration-300">Yangi o'qituvchi qo'shish</button>
+                <button onClick={() => setModal(true)} className="border-2 border-cyan-600 rounded px-5 hover:bg-cyan-600 hover:text-white transition-all duration-300">Yangisini qo'shish</button>
             </div>
 
             <div className="flex gap-4 py-5">

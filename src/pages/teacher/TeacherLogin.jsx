@@ -57,7 +57,7 @@ function TeacherLogin() {
     }, [isLoggedIn, navigate]);
 
     return (
-        <div className="w-full h-screen flex flex-col items-center justify-center gap-4 font-montserrat bg-slate-400">
+        <div className="w-full h-screen flex flex-col items-center justify-center gap-4 font-montserrat">
             <NavLink to="/" className="flex items-center gap-2 fixed top-12 left-12 text-xl hover:text-slate-200 transition-all duration-200"><span><MdKeyboardBackspace /></span> Back to Homepage</NavLink>
             <span className="text-8xl"><FaChalkboardTeacher /></span>
             <h1 className="text-4xl mb-4">Enter your account credentials</h1>
@@ -70,7 +70,7 @@ function TeacherLogin() {
                     <label htmlFor="password">Password</label>
                     <input disabled={isLoading ? true : false} onChange={(e) => getTeacherDetails(e)} className="p-2 rounded border-2" type="password" name="password" id="password" placeholder="your password" />
                 </div>
-                <button disabled={isLoading ? true : false} onClick={(e) => loginHandler(e)} className="rounded mt-5 p-2 border-2 hover:bg-slate-200 transition-all duration-200">{isLoading ? "Loading..." : "Login"}</button>
+                <button disabled={isLoading ? true : false} onClick={(e) => loginHandler(e)} className="rounded mt-5 p-2 border-2 bg-slate-400 hover:bg-slate-200 transition-all duration-200">{isLoading ? "Loading..." : "Login"}</button>
             </form>
         </div>
     )
