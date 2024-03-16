@@ -18,11 +18,10 @@ const StudentSlice = createSlice({
             state.isLoading = false;
             state.student = action.payload?.data;
         },
-        newStudentSuccess: (state, action) => {
-            state.isLoading = false;
-            console.log(action.payload);
-            state.students.push(action.payload?.data);
-        },
+        // newStudentSuccess: (state, action) => {
+        //     state.isLoading = false;
+        //     state.students = [...state.students, action.payload?.data];
+        // },
         allStudentSuccess: (state, action) => {
             state.isLoading = false;
             state.students = action.payload?.data;
@@ -38,7 +37,7 @@ const StudentSlice = createSlice({
 export const {
     studentStart,
     getStudentSuccess,
-    newStudentSuccess,
+    // newStudentSuccess,
     allStudentSuccess,
     studentFailure,
 } = StudentSlice.actions;

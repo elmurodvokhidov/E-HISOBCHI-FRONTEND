@@ -2,7 +2,12 @@ import { useEffect, useState } from "react"
 import { IoCloseOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Toast, ToastLeft } from "../../config/sweetToast";
-import { allCourseSuccess, courseFailure, courseStart, newCourseSuccess } from "../../redux/slices/courseSlice";
+import {
+    allCourseSuccess,
+    courseFailure,
+    courseStart,
+    // newCourseSuccess
+} from "../../redux/slices/courseSlice";
 import AuthService from "../../config/authService";
 import CourseImg from "../../img/sticker.webp";
 
@@ -65,7 +70,7 @@ function Courses() {
             try {
                 dispatch(courseStart());
                 const { data } = await AuthService.addNewCourse(newCourse);
-                dispatch(newCourseSuccess(data));
+                // dispatch(newCourseSuccess(data));
                 clearModal();
                 setModal(false);
                 await Toast.fire({

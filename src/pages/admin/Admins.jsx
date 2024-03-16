@@ -1,5 +1,10 @@
 import { useDispatch, useSelector } from "react-redux"
-import { adminFailure, adminStart, allAdminSuccess, newAdminSuccess } from "../../redux/slices/adminSlice";
+import {
+    adminFailure,
+    adminStart,
+    allAdminSuccess,
+    // newAdminSuccess
+} from "../../redux/slices/adminSlice";
 import AuthService from "../../config/authService";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -20,6 +25,20 @@ function Admins() {
         newPassword: "",
         confirmPassword: "",
     });
+
+    const getAllAdmins = async () => {
+        dispatch(adminStart());
+        try {
+            const { data } = await AuthService.getAllAdmin();
+            dispatch(allAdminSuccess(data));
+        } catch (error) {
+            dispatch(adminFailure(error.message));
+        }
+    };
+
+    useEffect(() => {
+        getAllAdmins();
+    }, []);
 
     const getNewAdminCred = (e) => {
         setNewAdmin({
@@ -54,7 +73,8 @@ function Admins() {
                 try {
                     dispatch(adminStart());
                     const { data } = await AuthService.addNewAdmin(newAdmin);
-                    dispatch(newAdminSuccess(data));
+                    getAllAdmins();
+                    // dispatch(newAdminSuccess(data));
                     clearModal();
                     setModal(false);
                     await Toast.fire({
@@ -83,20 +103,6 @@ function Admins() {
             });
         }
     };
-
-    const getAllAdmins = async () => {
-        dispatch(adminStart());
-        try {
-            const { data } = await AuthService.getAllAdmin();
-            dispatch(allAdminSuccess(data));
-        } catch (error) {
-            dispatch(adminFailure(error.message));
-        }
-    };
-
-    useEffect(() => {
-        getAllAdmins();
-    }, []);
 
     return (
         <div className="admins w-full h-screen overflow-auto pt-24 px-10">

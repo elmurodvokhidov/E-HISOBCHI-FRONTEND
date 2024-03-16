@@ -5,7 +5,7 @@ import { IoMdMore } from "react-icons/io";
 import {
     allTeacherSuccess,
     getTeacherSuccess,
-    newTeacherSuccess,
+    // newTeacherSuccess,
     teacherFailure,
     teacherStart
 } from "../../redux/slices/teacherSlice";
@@ -100,7 +100,8 @@ function Teachers() {
                 try {
                     dispatch(teacherStart());
                     const { data } = await AuthService.addNewTeacher(newTeacher);
-                    dispatch(newTeacherSuccess(data));
+                    getAllTeachers();
+                    // dispatch(newTeacherSuccess(data));
                     clearModal();
                     setModal(false);
                     await Toast.fire({
@@ -254,7 +255,13 @@ function Teachers() {
             </div>
 
             <div className="grid lg:grid-cols-2 2xsm:grid-cols-1 2xsm:gap-4 py-6">
-                {teachers ?
+                {isLoading ? <>
+                    <div className="w-[90%] flex flex-col justify-center gap-1 p-8 shadow-smooth animate-pulse bg-white">
+                        <div className="w-[85%] h-4 rounded bg-gray-300">&nbsp;</div>
+                        <div className="w-[50%] h-4 rounded bg-gray-300">&nbsp;</div>
+                        <div className="w-[65%] h-4 rounded bg-gray-300">&nbsp;</div>
+                    </div>
+                </> : teachers.length > 0 ?
                     teachers.map((teacher, index) => (
                         <div key={index} className="lg:w-3/4 md:w-[100%] flex justify-between capitalize text-[15px] border-2 rounded-lg p-4 shadow-smooth">
                             <NavLink to={`/admin/teacher-info/${teacher._id}`} className="hover:text-cyan-600">{teacher.first_name} {teacher.last_name}</NavLink>
@@ -274,13 +281,8 @@ function Teachers() {
                                 </div>
                             </div>
                         </div>
-                    )) : <>
-                        <div className="w-[90%] flex flex-col justify-center gap-1 p-8 shadow-smooth animate-pulse bg-white">
-                            <div className="w-[85%] h-4 rounded bg-gray-300">&nbsp;</div>
-                            <div className="w-[50%] h-4 rounded bg-gray-300">&nbsp;</div>
-                            <div className="w-[65%] h-4 rounded bg-gray-300">&nbsp;</div>
-                        </div>
-                    </>}
+                    )) : <h1>Ma'lumot topilmadi</h1>
+                }
             </div>
 
             {/* add new modal */}

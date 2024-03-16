@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Toast, ToastLeft } from "../../config/sweetToast";
-import { allStudentSuccess, getStudentSuccess, newStudentSuccess, studentFailure, studentStart } from "../../redux/slices/studentSlice";
+import {
+    allStudentSuccess,
+    getStudentSuccess,
+    // newStudentSuccess,
+    studentFailure,
+    studentStart
+} from "../../redux/slices/studentSlice";
 import AuthService from "../../config/authService";
 import { LiaEditSolid } from "react-icons/lia";
 import { RiDeleteBin7Line } from "react-icons/ri";
@@ -10,9 +16,15 @@ import { NavLink } from "react-router-dom";
 import { IoMdMore } from "react-icons/io";
 import StudentEditModal from "../../components/modals/StudentEditModal";
 import Swal from "sweetalert2";
+import {
+    allCourseSuccess,
+    courseFailure,
+    courseStart
+} from "../../redux/slices/courseSlice";
 
 function Students() {
     const { students, isLoading } = useSelector(state => state.student);
+    const { courses } = useSelector(state => state.course);
     const [student, setStudent] = useState(null);
     const dispatch = useDispatch();
     const [modal, setModal] = useState(false);
@@ -54,28 +66,6 @@ function Students() {
         confirmPassword: ""
     });
     const [menu, setMenu] = useState(false);
-    const [courses, setCourses] = useState([
-        {
-            id: "fcc2c720-8f9d-4cb0-aee2-dfd7992e3486",
-            name: "Frontend",
-        },
-        {
-            id: "8f72c9d0-b6a7-4c9d-af61-792eeab264b3",
-            name: "Backend",
-        },
-        {
-            id: "e6a58dab-62f1-491b-af5a-dca7847f506d",
-            name: "3D Animation",
-        },
-        {
-            id: "a02e95b8-2a46-4b49-91b1-4f56607e1a8b",
-            name: "SMM",
-        },
-        {
-            id: "4e9a2965-d8c5-4eb5-a58d-3d477bc41c9d",
-            name: "3D Modeling",
-        },
-    ]);
 
     const getAllStudents = async () => {
         try {
@@ -87,8 +77,19 @@ function Students() {
         }
     };
 
+    const getAllCourses = async () => {
+        try {
+            dispatch(courseStart());
+            const { data } = await AuthService.getAllCourses();
+            dispatch(allCourseSuccess(data));
+        } catch (error) {
+            dispatch(courseFailure(error.message));
+        }
+    };
+
     useEffect(() => {
         getAllStudents();
+        getAllCourses();
     }, []);
 
     const getStudentCred = (e) => {
@@ -137,7 +138,8 @@ function Students() {
                 try {
                     dispatch(studentStart());
                     const { data } = await AuthService.addNewStudent(newStudent);
-                    dispatch(newStudentSuccess(data));
+                    // dispatch(newStudentSuccess(data));
+                    getAllStudents();
                     clearModal();
                     setModal(false);
                     await Toast.fire({
@@ -272,7 +274,7 @@ function Students() {
                     getAllStudents();
                     Toast.fire({
                         icon: "success",
-                        title: "Student deleted successfully!"
+                        title: "O'quvchi ma'lumotlari o'chirildi!"
                     });
                 }).catch((error) => {
                     dispatch(studentFailure(error.response?.data.message));
@@ -292,7 +294,7 @@ function Students() {
         }}>
             <div className="flex justify-between relative">
                 <div className="flex items-end gap-4 text-[14px]">
-                    <h1 className="capitalize text-3xl">O'qituvchilar</h1>
+                    <h1 className="capitalize text-3xl">O'quvchilar</h1>
                     <p>Miqdor <span className="inline-block w-4 h-[1px] mx-1 align-middle bg-black"></span> <span>{students?.length}</span></p>
                 </div>
                 <button onClick={() => setModal(true)} className="border-2 border-cyan-600 rounded px-5 hover:bg-cyan-600 hover:text-white transition-all duration-300">Yangisini qo'shish</button>
@@ -313,9 +315,10 @@ function Students() {
 
                     <div className={`${menu ? 'transition ease-out duration-100 transform opacity-100 scale-100' : 'transition ease-in duration-75 transform opacity-0 scale-95'} absolute left-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`} role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
                         <div className="py-1" role="none">
+                            <h4 className="text-gray-700 block px-4 py-2 text-sm"><i>None</i></h4>
                             {
                                 courses.map(course => (
-                                    <h4 key={course.id} className="text-gray-700 block px-4 py-2 text-sm">{course.name}</h4>
+                                    <h4 key={course._id} className="text-gray-700 block px-4 py-2 text-sm">{course.title}</h4>
                                 ))
                             }
                         </div>
@@ -334,7 +337,13 @@ function Students() {
                     </tr>
                 </thead>
                 <tbody className="grid grid-cols-1 2xsm:gap-4 py-4">
-                    {students ?
+                    {isLoading ? <>
+                        <tr className="w-[90%] flex flex-col justify-center gap-1 p-8 shadow-smooth animate-pulse bg-white">
+                            <td className="w-[85%] h-4 rounded bg-gray-300">&nbsp;</td>
+                            <td className="w-[50%] h-4 rounded bg-gray-300">&nbsp;</td>
+                            <td className="w-[65%] h-4 rounded bg-gray-300">&nbsp;</td>
+                        </tr>
+                    </> : students.length > 0 ?
                         students.map((student, index) => (
                             <tr key={index} className="2xsm:w-full flex justify-between capitalize text-[15px] border-2 rounded-lg p-4 shadow-smooth">
                                 <td className="w-2/5 text-left hover:text-cyan-600">
@@ -342,7 +351,7 @@ function Students() {
                                 </td>
                                 <td className="w-2/5 text-left text-blue-400">{student.contactNumber}</td>
                                 <td className="w-2/5 text-left">{student.group}</td>
-                                <td className="w-2/5 text-left">{student.course}</td>
+                                <td className="w-2/5 text-left">{student.course.title}</td>
                                 <td className="w-fit flex gap-8">
                                     {/* more button */}
                                     <div onClick={(e) => {
@@ -358,13 +367,8 @@ function Students() {
                                     </div>
                                 </td>
                             </tr>
-                        )) : <>
-                            <tr className="w-[90%] flex flex-col justify-center gap-1 p-8 shadow-smooth animate-pulse bg-white">
-                                <td className="w-[85%] h-4 rounded bg-gray-300">&nbsp;</td>
-                                <td className="w-[50%] h-4 rounded bg-gray-300">&nbsp;</td>
-                                <td className="w-[65%] h-4 rounded bg-gray-300">&nbsp;</td>
-                            </tr>
-                        </>}
+                        )) : <tr><td>Ma'lumot topilmadi</td></tr>
+                    }
                 </tbody>
             </table>
 
@@ -402,7 +406,14 @@ function Students() {
                         <div className="flex justify-between">
                             <div className="w-[30%] flex flex-col">
                                 <label htmlFor="course" className="text-[14px]">Course</label>
-                                <input onChange={getStudentCred} value={newStudent.course} type="text" name="course" id="course" className="border-2 border-gray-500 rounded px-2 py-1" />
+                                <select onChange={getStudentCred} value={newStudent.course} name="course" id="course" className="border-2 border-gray-500 rounded px-2 py-1">
+                                    <option value="" className="italic">None</option>
+                                    {
+                                        courses.map(course => (
+                                            <option value={course._id} key={course._id}>{course.title}</option>
+                                        ))
+                                    }
+                                </select>
                             </div>
                             <div className="w-[30%] flex flex-col">
                                 <label htmlFor="group" className="text-[14px]">Group</label>

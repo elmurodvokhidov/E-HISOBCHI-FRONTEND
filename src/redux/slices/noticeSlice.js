@@ -18,10 +18,10 @@ const NoticeSlice = createSlice({
             state.isLoading = false;
             state.notice = action.payload?.data;
         },
-        newNoticeSuccess: (state, action) => {
-            state.isLoading = false;
-            state.notices.push(action.payload?.data);
-        },
+        // newNoticeSuccess: (state, action) => {
+        //     state.isLoading = false;
+        //     state.notices = [...state.notices, action.payload?.data];
+        // },
         allNoticeSuccess: (state, action) => {
             state.isLoading = false;
             state.notices = action.payload?.data;
@@ -37,7 +37,7 @@ const NoticeSlice = createSlice({
 export const {
     noticeStart,
     getNoticeSuccess,
-    newNoticeSuccess,
+    // newNoticeSuccess,
     allNoticeSuccess,
     noticeFailure,
 } = NoticeSlice.actions;

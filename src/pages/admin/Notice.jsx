@@ -4,7 +4,13 @@ import { LiaEditSolid } from "react-icons/lia";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import AuthService from "../../config/authService";
-import { allNoticeSuccess, getNoticeSuccess, newNoticeSuccess, noticeFailure, noticeStart } from "../../redux/slices/noticeSlice";
+import {
+    allNoticeSuccess,
+    getNoticeSuccess,
+    // newNoticeSuccess,
+    noticeFailure,
+    noticeStart
+} from "../../redux/slices/noticeSlice";
 import { IoCloseOutline } from "react-icons/io5";
 import { Toast, ToastLeft } from "../../config/sweetToast";
 import NoticeEditModal from "../../components/modals/NoticeEditModal";
@@ -58,7 +64,8 @@ function Notice() {
             try {
                 dispatch(noticeStart());
                 const { data } = await AuthService.addNewNotice({ ...newNotice, userId: auth?._id });
-                dispatch(newNoticeSuccess(data));
+                // dispatch(newNoticeSuccess(data));
+                getNotices();
                 clearModal();
                 setModal(false);
                 await Toast.fire({
@@ -174,37 +181,7 @@ function Notice() {
             <div className="container mx-auto py-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                     {
-                        notices ?
-                            notices.map((notice, index) => (
-                                <div key={index} className="bg-white rounded-lg shadow-md p-6">
-                                    <div className="flex justify-between">
-                                        <h2 className="text-xl font-semibold mb-2">{notice.topic}</h2>
-                                        {
-                                            notice.author._id === auth._id ? (
-                                                <>
-                                                    {/* more button */}
-                                                    <div onClick={(e) => {
-                                                        e.stopPropagation()
-                                                        setMore(notice._id)
-                                                    }} className="relative cursor-pointer text-cyan-600 text-xl">
-                                                        <IoMdMore />
-                                                        {/* more btn modal */}
-                                                        <div className={`${more === notice._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute 2xsm:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] bg-white`}>
-                                                            <button onClick={() => openModal(notice._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"><LiaEditSolid />Tahrirlash</button>
-                                                            <button onClick={() => deleteNotice(notice._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-red-500"><RiDeleteBin7Line />O'chirish</button>
-                                                        </div>
-                                                    </div>
-                                                </>
-                                            ) : null
-                                        }
-                                    </div>
-                                    <p className="text-gray-600 mb-4">{notice.content}</p>
-                                    <div className="flex justify-between items-center text-gray-500">
-                                        <p className="text-sm">{notice.from}</p>
-                                        <p className="text-sm">{notice.createdAt < notice.updatedAt ? notice.updatedAt.slice(0, 10).split("-").reverse().join(".") : notice.createdAt.slice(0, 10).split("-").reverse().join(".")}</p>
-                                    </div>
-                                </div>
-                            )) :
+                        isLoading ?
                             <>
                                 <div className="bg-white rounded-lg shadow-md p-6 animate-pulse">
                                     <h2 className="w-[30%] h-7 rounded bg-gray-300 mb-4">&nbsp;</h2>
@@ -265,7 +242,38 @@ function Notice() {
                                         <p className="w-[25%] h-4 rounded bg-gray-300"></p>
                                     </div>
                                 </div>
-                            </>
+                            </> :
+                            notices.length > 0 ?
+                                notices.map((notice, index) => (
+                                    <div key={index} className="bg-white rounded-lg shadow-md p-6">
+                                        <div className="flex justify-between">
+                                            <h2 className="text-xl font-semibold mb-2">{notice.topic}</h2>
+                                            {
+                                                notice.author._id === auth._id ? (
+                                                    <>
+                                                        {/* more button */}
+                                                        <div onClick={(e) => {
+                                                            e.stopPropagation()
+                                                            setMore(notice._id)
+                                                        }} className="relative cursor-pointer text-cyan-600 text-xl">
+                                                            <IoMdMore />
+                                                            {/* more btn modal */}
+                                                            <div className={`${more === notice._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute 2xsm:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] bg-white`}>
+                                                                <button onClick={() => openModal(notice._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"><LiaEditSolid />Tahrirlash</button>
+                                                                <button onClick={() => deleteNotice(notice._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-red-500"><RiDeleteBin7Line />O'chirish</button>
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                                ) : null
+                                            }
+                                        </div>
+                                        <p className="text-gray-600 mb-4">{notice.content}</p>
+                                        <div className="flex justify-between items-center text-gray-500">
+                                            <p className="text-sm">{notice.from}</p>
+                                            <p className="text-sm">{notice.createdAt < notice.updatedAt ? notice.updatedAt.slice(0, 10).split("-").reverse().join(".") : notice.createdAt.slice(0, 10).split("-").reverse().join(".")}</p>
+                                        </div>
+                                    </div>
+                                )) : <h1>Ma'lumot topilmadi</h1>
                     }
                 </div>
             </div>

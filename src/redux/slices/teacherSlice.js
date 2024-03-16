@@ -18,10 +18,10 @@ const TeacherSlice = createSlice({
             state.isLoading = false;
             state.teacher = action.payload?.data;
         },
-        newTeacherSuccess: (state, action) => {
-            state.isLoading = false;
-            state.teachers.push(action.payload?.data);
-        },
+        // newTeacherSuccess: (state, action) => {
+        //     state.isLoading = false;
+        //     state.teachers = [...state.teachers, action.payload?.data];
+        // },
         allTeacherSuccess: (state, action) => {
             state.isLoading = false;
             state.teachers = action.payload?.data;
@@ -37,7 +37,7 @@ const TeacherSlice = createSlice({
 export const {
     teacherStart,
     getTeacherSuccess,
-    newTeacherSuccess,
+    // newTeacherSuccess,
     allTeacherSuccess,
     teacherFailure,
 } = TeacherSlice.actions;
