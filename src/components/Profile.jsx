@@ -15,7 +15,7 @@ function Profile() {
     const navigate = useNavigate();
     const [modal, setModal] = useState(false);
     const [passModal, setPassModal] = useState(false);
-    const [updatedAdmin, setUpdatedAdmin] = useState({
+    const [updatedAuth, setUpdatedAuth] = useState({
         first_name: "",
         last_name: "",
         email: "",
@@ -50,9 +50,9 @@ function Profile() {
         });
     };
 
-    const getAdminCred = (e) => {
-        setUpdatedAdmin({
-            ...updatedAdmin,
+    const getAuthCred = (e) => {
+        setUpdatedAuth({
+            ...updatedAuth,
             [e.target.name]: e.target.value
         });
     };
@@ -66,7 +66,7 @@ function Profile() {
 
     const openModal = () => {
         setModal(true);
-        setUpdatedAdmin(auth);
+        setUpdatedAuth(auth);
     };
 
     const updateHandler = async (e) => {
@@ -109,16 +109,16 @@ function Profile() {
         }
         else {
             if (
-                updatedAdmin.first_name !== "" &&
-                updatedAdmin.last_name !== "" &&
-                updatedAdmin.email !== "" &&
-                updatedAdmin.dob !== "" &&
-                updatedAdmin.contactNumber !== ""
+                updatedAuth.first_name !== "" &&
+                updatedAuth.last_name !== "" &&
+                updatedAuth.email !== "" &&
+                updatedAuth.dob !== "" &&
+                updatedAuth.contactNumber !== ""
             ) {
                 try {
                     dispatch(authStart());
-                    const { _id, password, passwordUpdated, createdAt, updatedAt, ...newAdminCred } = updatedAdmin;
-                    const { data } = await AuthService.updateAdminProfile(updatedAdmin._id, newAdminCred);
+                    const { _id, __v, password, passwordUpdated, createdAt, updatedAt, ...newAuthCred } = updatedAuth;
+                    const { data } = await AuthService.updateAdminProfile(updatedAuth._id, newAuthCred);
                     dispatch(authSuccess(data));
                     setModal(false);
                     setPassModal(false);
@@ -244,24 +244,24 @@ function Profile() {
                     <div className="flex flex-col gap-2 px-5 py-7">
                         <div className="flex flex-col">
                             <label htmlFor="first_name" className="text-[14px]">First Name</label>
-                            <input disabled={passModal ? true : false} onChange={(e) => getAdminCred(e)} value={updatedAdmin.first_name} type="text" name="first_name" id="first_name" className="border-2 border-gray-500 rounded px-2 py-1" />
+                            <input disabled={passModal ? true : false} onChange={(e) => getAuthCred(e)} value={updatedAuth.first_name} type="text" name="first_name" id="first_name" className="border-2 border-gray-500 rounded px-2 py-1" />
                         </div>
                         <div className="flex flex-col">
                             <label htmlFor="last_name" className="text-[14px]">Last Name</label>
-                            <input disabled={passModal ? true : false} onChange={(e) => getAdminCred(e)} value={updatedAdmin.last_name} type="text" name="last_name" id="last_name" className="border-2 border-gray-500 rounded px-2 py-1" />
+                            <input disabled={passModal ? true : false} onChange={(e) => getAuthCred(e)} value={updatedAuth.last_name} type="text" name="last_name" id="last_name" className="border-2 border-gray-500 rounded px-2 py-1" />
                         </div>
                         <div className="flex flex-col">
                             <label htmlFor="email" className="text-[14px]">Email</label>
-                            <input disabled={passModal ? true : false} onChange={(e) => getAdminCred(e)} value={updatedAdmin.email} type="email" name="email" id="email" className="border-2 border-gray-500 rounded px-2 py-1" />
+                            <input disabled={passModal ? true : false} onChange={(e) => getAuthCred(e)} value={updatedAuth.email} type="email" name="email" id="email" className="border-2 border-gray-500 rounded px-2 py-1" />
                         </div>
                         <div className="flex justify-between">
                             <div className="w-[47%] flex flex-col">
                                 <label htmlFor="dob" className="text-[14px]">Date of birthday</label>
-                                <input disabled={passModal ? true : false} onChange={(e) => getAdminCred(e)} value={updatedAdmin.dob} type="text" name="dob" id="dob" className="border-2 border-gray-500 rounded px-2 py-1" placeholder="dd/mm/yyyy" />
+                                <input disabled={passModal ? true : false} onChange={(e) => getAuthCred(e)} value={updatedAuth.dob} type="text" name="dob" id="dob" className="border-2 border-gray-500 rounded px-2 py-1" placeholder="dd/mm/yyyy" />
                             </div>
                             <div className="w-[47%] flex flex-col">
                                 <label htmlFor="contactNumber" className="text-[14px]">Contact Number</label>
-                                <input disabled={passModal ? true : false} onChange={(e) => getAdminCred(e)} value={updatedAdmin.contactNumber} type="number" name="contactNumber" id="contactNumber" className="border-2 border-gray-500 rounded px-2 py-1" placeholder='without "+"' />
+                                <input disabled={passModal ? true : false} onChange={(e) => getAuthCred(e)} value={updatedAuth.contactNumber} type="number" name="contactNumber" id="contactNumber" className="border-2 border-gray-500 rounded px-2 py-1" placeholder='without "+"' />
                             </div>
                         </div>
                         <div className="flex flex-col">
