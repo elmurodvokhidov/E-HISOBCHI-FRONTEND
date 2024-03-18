@@ -65,7 +65,6 @@ function Students() {
         newPassword: "",
         confirmPassword: ""
     });
-    const [menu, setMenu] = useState(false);
 
     const getAllStudents = async () => {
         try {
@@ -164,7 +163,7 @@ function Students() {
         else {
             await ToastLeft.fire({
                 icon: "error",
-                title: "Please fill in the all blanks!"
+                title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
             });
         }
     };
@@ -209,7 +208,7 @@ function Students() {
             else {
                 await ToastLeft.fire({
                     icon: "error",
-                    title: "Please fill in the all blanks!"
+                    title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
                 });
             }
         }
@@ -251,7 +250,7 @@ function Students() {
             else {
                 await ToastLeft.fire({
                     icon: "error",
-                    title: "Please fill in the all blanks!"
+                    title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
                 });
             }
         }
@@ -288,10 +287,7 @@ function Students() {
     };
 
     return (
-        <div className="students w-full h-screen overflow-auto pt-24 px-10" onClick={() => {
-            setMore(null)
-            setMenu(false)
-        }}>
+        <div className="students w-full h-screen overflow-auto pt-24 px-10" onClick={() => setMore(null)}>
             <div className="flex justify-between relative">
                 <div className="flex items-end gap-4 text-[14px]">
                     <h1 className="capitalize text-3xl">O'quvchilar</h1>
@@ -303,28 +299,14 @@ function Students() {
             <div className="flex gap-4 py-5">
                 <input className="px-4 py-1 text-[12px] outline-cyan-600 border-2 rounded" type="text" name="search" id="search" placeholder="Search by name or phone" />
 
-                <div onClick={(e) => e.stopPropagation()} className="relative inline-block text-left">
-                    <div>
-                        <button onClick={() => setMenu(!menu)} type="button" className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
-                            Courses
-                            <svg className={`${menu ? '-rotate-180 transition duration-300' : 'rotate-0 transition duration-300'} -mr-1 h-5 w-5 text-gray-400`} viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-                            </svg>
-                        </button>
-                    </div>
-
-                    <div className={`${menu ? 'transition ease-out duration-100 transform opacity-100 scale-100' : 'transition ease-in duration-75 transform opacity-0 scale-95'} absolute left-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`} role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
-                        <div className="py-1" role="none">
-                            <h4 className="text-gray-700 block px-4 py-2 text-sm"><i>None</i></h4>
-                            {
-                                courses.map(course => (
-                                    <h4 key={course._id} className="text-gray-700 block px-4 py-2 text-sm">{course.title}</h4>
-                                ))
-                            }
-                        </div>
-                    </div>
-                </div>
-
+                <select name="" id="" className="text-[12px] outline-cyan-600 border-2 rounded">
+                    <option value="" className="text-gray-700 block px-4 py-2 text-sm italic">None</option>
+                    {
+                        courses.map(course => (
+                            <option key={course._id} value={course.title} className="text-gray-700 block px-4 py-2 text-sm">{course.title}</option>
+                        ))
+                    }
+                </select>
             </div>
 
             <table className="w-full mt-4">

@@ -10,6 +10,7 @@ import {
 } from "../../redux/slices/courseSlice";
 import AuthService from "../../config/authService";
 import CourseImg from "../../img/sticker.webp";
+import { useNavigate } from "react-router-dom";
 
 function Courses() {
     const { courses, isLoading } = useSelector(state => state.course);
@@ -24,6 +25,7 @@ function Courses() {
         description: "",
     });
     const colors = ["#FF7BA3", "#FF7092", "#3ADDAE", "#8BCDCD", "#9AD3BC", "#67DB73", "#94D652", "#F87561", "#C38CEE"];
+    const navigate = useNavigate();
 
     const getNewCourseCred = (e) => {
         setNewCourse({
@@ -69,7 +71,7 @@ function Courses() {
         ) {
             try {
                 dispatch(courseStart());
-                const { data } = await AuthService.addNewCourse(newCourse);
+                const { data } = await AuthService.addNewCourse({ ...newCourse, color: colors[Math.floor(Math.random() * colors.length)] });
                 // dispatch(newCourseSuccess(data));
                 clearModal();
                 setModal(false);
@@ -88,7 +90,7 @@ function Courses() {
         else {
             await ToastLeft.fire({
                 icon: "error",
-                title: "Please fill in the all blanks!"
+                title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
             });
         }
         getAllCourses();
@@ -106,8 +108,8 @@ function Courses() {
             <div className="grid lg:grid-cols-4 md:grid-cols-3 gap-8 py-8">
                 {
                     courses && courses.map((course, index) => (
-                        <div key={index} className="shadow-dim hover:shadow-2xl cursor-pointer bg-white">
-                            <div className="flex flex-col items-center justify-center gap-8 pt-14" style={{ background: colors[Math.floor(Math.random() * colors.length)] }}>
+                        <div key={index} onClick={() => navigate(`/admin/course-info/${course._id}`)} className="shadow-dim hover:shadow-2xl cursor-pointer bg-white">
+                            <div className="flex flex-col items-center justify-center gap-8 pt-14" style={{ background: course.color }}>
                                 <h1 className="text-[16px] font-bold text-white">{course.title}</h1>
                                 <figure className="w-48">
                                     <img className="w-full" src={CourseImg} alt="course logo" />

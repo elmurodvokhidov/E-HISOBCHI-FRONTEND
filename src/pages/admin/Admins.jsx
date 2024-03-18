@@ -99,7 +99,7 @@ function Admins() {
         else {
             await ToastLeft.fire({
                 icon: "error",
-                title: "Please fill in the all blanks!"
+                title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
             });
         }
     };

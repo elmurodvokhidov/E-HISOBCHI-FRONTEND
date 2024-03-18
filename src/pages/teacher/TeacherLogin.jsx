@@ -38,7 +38,7 @@ function TeacherLogin() {
                 dispatch(authFailure());
                 await Toast.fire({
                     icon: "error",
-                    title: "Please fill in the all blanks!"
+                    title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
                 });
             }
         } catch (error) {

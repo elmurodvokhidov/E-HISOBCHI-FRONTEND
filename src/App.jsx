@@ -26,6 +26,7 @@ import Courses from "./pages/courses/Courses";
 import Groups from "./pages/groups/Groups";
 import GeneralSettings from "./pages/admin/GeneralSettings";
 import Rooms from "./pages/admin/Rooms";
+import CourseInfo from "./pages/courses/CourseInfo";
 
 function App() {
   const dispatch = useDispatch();
@@ -76,6 +77,7 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="groups" element={<Groups />} />
           <Route path="courses" element={<Courses />} />
+          <Route path="course-info/:id" element={<CourseInfo />} />
           <Route path="rooms" element={<Rooms />} />
           <Route path="settings" element={<GeneralSettings />} />
         </Route>

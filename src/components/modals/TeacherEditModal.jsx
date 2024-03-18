@@ -29,7 +29,6 @@ function TeacherEditModal({
         });
     };
 
-
     return (
         <div onClick={() => {
             setModal(false)
