@@ -137,3 +137,13 @@
         background-position: 0% 50%, 50% 50%, 100% 100%
     }
 }
+
+.roomsTable th {
+    padding: 12px 5px;
+    font-size: 12px;
+}
+
+.roomsTable td {
+    padding: 12px 5px;
+    font-size: 14px;
+}

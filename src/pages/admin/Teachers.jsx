@@ -119,7 +119,7 @@ function Teachers() {
             else {
                 await ToastLeft.fire({
                     icon: "error",
-                    title: "Password must be longer than 8 characters!"
+                    title: "Parol 8 ta belgidan kam bo'lmasligi kerak!"
                 });
             }
         }
@@ -164,7 +164,7 @@ function Teachers() {
                 else {
                     await ToastLeft.fire({
                         icon: "error",
-                        title: "Password must be longer than 8 characters!"
+                        title: "Parol 8 ta belgidan kam bo'lmasligi kerak!"
                     });
                 }
             }

@@ -156,7 +156,7 @@ function Students() {
             else {
                 await ToastLeft.fire({
                     icon: "error",
-                    title: "Password must be longer than 8 characters!"
+                    title: "Parol 8 ta belgidan kam bo'lmasligi kerak!"
                 });
             }
         }
@@ -201,7 +201,7 @@ function Students() {
                 else {
                     await ToastLeft.fire({
                         icon: "error",
-                        title: "Password must be longer than 8 characters!"
+                        title: "Parol 8 ta belgidan kam bo'lmasligi kerak!"
                     });
                 }
             }
@@ -259,21 +259,22 @@ function Students() {
 
     const deleteStudent = async (id) => {
         Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            title: "Ishonchingiz komilmi?",
+            text: "Buni qaytara olmaysiz!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
+            cancelButtonText: "Yo'q",
+            confirmButtonText: "Ha, albatta!"
         }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(studentStart());
-                AuthService.deleteStudent(id).then(() => {
+                AuthService.deleteStudent(id).then((res) => {
                     getAllStudents();
                     Toast.fire({
                         icon: "success",
-                        title: "O'quvchi ma'lumotlari o'chirildi!"
+                        title: res?.data.message
                     });
                 }).catch((error) => {
                     dispatch(studentFailure(error.response?.data.message));
@@ -303,7 +304,7 @@ function Students() {
                     <option value="" className="text-gray-700 block px-4 py-2 text-sm italic">None</option>
                     {
                         courses.map(course => (
-                            <option key={course._id} value={course.title} className="text-gray-700 block px-4 py-2 text-sm">{course.title}</option>
+                            <option key={course._id} value={course?.title} className="text-gray-700 block px-4 py-2 text-sm">{course?.title}</option>
                         ))
                     }
                 </select>
@@ -333,7 +334,7 @@ function Students() {
                                 </td>
                                 <td className="w-2/5 text-left text-blue-400">{student.contactNumber}</td>
                                 <td className="w-2/5 text-left">{student.group}</td>
-                                <td className="w-2/5 text-left">{student.course.title}</td>
+                                <td className="w-2/5 text-left">{student.course?.title}</td>
                                 <td className="w-fit flex gap-8">
                                     {/* more button */}
                                     <div onClick={(e) => {

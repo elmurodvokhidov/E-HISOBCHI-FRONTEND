@@ -125,6 +125,30 @@ const AuthService = {
 
 
 
+    // Room
+    async getRoom(id) {
+        const response = api.get(`/admin/get-room/${id}`);
+        return response;
+    },
+    async getAllRooms() {
+        const response = api.get("/admin/get-all-rooms");
+        return response;
+    },
+    async addNewRoom(room) {
+        const response = api.post("/admin/add-room", room);
+        return response;
+    },
+    async updateRoom(id, updatedRoom) {
+        const response = api.put(`/admin/update-room/${id}`, updatedRoom);
+        return response;
+    },
+    async deleteRoom(id) {
+        const response = api.delete(`/admin/delete-room/${id}`);
+        return response;
+    },
+
+
+
     // teacher
     async teacherLogin(teacher) {
         const response = api.post("/teacher/login", teacher);
