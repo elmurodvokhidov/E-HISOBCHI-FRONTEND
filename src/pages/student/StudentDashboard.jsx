@@ -10,7 +10,7 @@ function StudentDashboard() {
     const exitHandler = () => {
         dispatch(authStart());
         dispatch(authLogout());
-        navigate("/student/login");
+        navigate("/");
     };
 
     useEffect(() => {

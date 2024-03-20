@@ -41,7 +41,7 @@ function Profile() {
             if (result.isConfirmed) {
                 dispatch(authStart());
                 dispatch(authLogout());
-                navigate("/admin/login");
+                navigate("/");
                 Toast.fire({
                     icon: "success",
                     title: "Successfully loged out!"

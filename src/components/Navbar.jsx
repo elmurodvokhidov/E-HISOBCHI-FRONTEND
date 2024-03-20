@@ -7,6 +7,7 @@ import LoaderDots from "./loaders/LoaderDots";
 import { allNoticeSuccess, noticeFailure, noticeStart } from "../redux/slices/noticeSlice";
 import AuthService from "../config/authService";
 import { useEffect } from "react";
+import SearchBar from "./SearchBar";
 
 function Navbar() {
     const { auth } = useSelector(state => state.auth);
@@ -71,6 +72,10 @@ function Navbar() {
             <div className="logo w-14">
                 <Link to="dashboard"><img src={logo} alt="logo" /></Link>
             </div>
+
+            {
+                huru === "admin" ? <SearchBar /> : null
+            }
 
             <div className="right flex items-center gap-4 text-gray-500">
                 <GlobalElement />

@@ -10,7 +10,7 @@ function TeacherDashboard() {
     const exitHandler = () => {
         dispatch(authStart());
         dispatch(authLogout());
-        navigate("/teacher/login");
+        navigate("/");
     };
 
     useEffect(() => {

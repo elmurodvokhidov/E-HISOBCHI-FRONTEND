@@ -105,24 +105,33 @@ function Courses() {
                 <button onClick={() => setModal(true)} className="border-2 border-cyan-600 rounded px-5 hover:bg-cyan-600 hover:text-white transition-all duration-300">Yangisini qo'shish</button>
             </div>
 
-            <div className="grid lg:grid-cols-4 md:grid-cols-3 gap-8 py-8">
-                {
-                    courses && courses.map((course, index) => (
-                        <div key={index} onClick={() => navigate(`/admin/course-info/${course._id}`)} className="shadow-dim hover:shadow-2xl cursor-pointer bg-white">
-                            <div className="flex flex-col items-center justify-center gap-8 pt-14" style={{ background: course.color }}>
-                                <h1 className="text-[16px] font-bold text-white">{course.title}</h1>
-                                <figure className="w-48">
-                                    <img className="w-full" src={CourseImg} alt="course logo" />
-                                </figure>
-                            </div>
-                            <div className="flex flex-col gap-4 p-8">
-                                <h1 className="text-[16px] text-black">{course.title}</h1>
-                                <h1 className="text-[14px] text-gray-500">{course.price} UZS</h1>
-                            </div>
-                        </div>
-                    ))
-                }
-            </div>
+            {
+                isLoading ? <>
+                    <div className="w-[90%] flex flex-col justify-center gap-1 p-8 mt-8 shadow-smooth animate-pulse bg-white">
+                        <h1 className="w-[85%] h-4 rounded bg-gray-300">&nbsp;</h1>
+                        <h1 className="w-[50%] h-4 rounded bg-gray-300">&nbsp;</h1>
+                        <h1 className="w-[65%] h-4 rounded bg-gray-300">&nbsp;</h1>
+                    </div>
+                </> :
+                    <div className="grid lg:grid-cols-4 md:grid-cols-3 gap-8 py-8">
+                        {
+                            courses.length > 0 ? courses.map((course, index) => (
+                                <div key={index} onClick={() => navigate(`/admin/course-info/${course._id}`)} className="shadow-dim hover:shadow-2xl cursor-pointer bg-white">
+                                    <div className="flex flex-col items-center justify-center gap-8 pt-14" style={{ background: course.color }}>
+                                        <h1 className="text-[16px] font-bold text-white">{course.title}</h1>
+                                        <figure className="w-48">
+                                            <img className="w-full" src={CourseImg} alt="course logo" />
+                                        </figure>
+                                    </div>
+                                    <div className="flex flex-col gap-4 p-8">
+                                        <h1 className="text-[16px] text-black">{course.title}</h1>
+                                        <h1 className="text-[14px] text-gray-500">{course.price} UZS</h1>
+                                    </div>
+                                </div>
+                            )) : <h1>Ma'lumot topilmadi!</h1>
+                        }
+                    </div>
+            }
 
 
             {/* add new modal */}
