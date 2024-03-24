@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { authFailure, authStart, authSuccess } from "../../redux/slices/authSlice";
 import AuthService from "../../config/authService";
 import { NavLink, useNavigate } from "react-router-dom";
-import { saveToLocalStorage } from "../../config/localStorageService";
+import { saveToLocalStorage } from "../../assets/localStorageService";
 import { MdAdminPanelSettings, MdKeyboardBackspace } from "react-icons/md";
-import { Toast } from "../../config/sweetToast";
+import { Toast } from "../../assets/sweetToast";
 
 function AdminLogin() {
     const [admin, setAdmin] = useState({

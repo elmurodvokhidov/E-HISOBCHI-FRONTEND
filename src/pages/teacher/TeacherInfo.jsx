@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom"
-import { Toast, ToastLeft } from "../../config/sweetToast";
+import { Toast, ToastLeft } from "../../assets/sweetToast";
 import {
     getTeacherSuccess,
     teacherFailure,
@@ -9,7 +9,7 @@ import {
 } from "../../redux/slices/teacherSlice";
 import logo from "../../img/uitc_logo.png";
 import AuthService from "../../config/authService";
-import TeacherEditModal from "../../components/modals/TeacherEditModal";
+import TeacherEditModal from "./TeacherEditModal";
 import ProfileCardSkeleton from "../../components/loaders/ProfileCardSkeleton";
 
 function TeacherInfo() {
@@ -105,7 +105,7 @@ function TeacherInfo() {
             ) {
                 try {
                     dispatch(teacherStart());
-                    const { _id, __v, password, passwordUpdated, createdAt, updatedAt, ...newTeacherCred } = updatedTeacher;
+                    const { _id, __v, groups, password, passwordUpdated, createdAt, updatedAt, ...newTeacherCred } = updatedTeacher;
                     const { data } = await AuthService.updateTeacher(updatedTeacher._id, newTeacherCred);
                     dispatch(getTeacherSuccess(data));
                     setModal(false);

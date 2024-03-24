@@ -4,9 +4,9 @@ import { LiaEditSolid } from "react-icons/lia"
 import { RiDeleteBin7Line } from "react-icons/ri"
 import { useDispatch, useSelector } from "react-redux";
 import AuthService from "../../config/authService";
-import { Toast, ToastLeft } from "../../config/sweetToast";
 import { allRoomSuccess, roomFailure, roomStart } from "../../redux/slices/roomSlice";
 import Swal from "sweetalert2";
+import { Toast, ToastLeft } from "../../assets/sweetToast";
 
 function Rooms() {
     const { rooms, isLoading } = useSelector(state => state.room);

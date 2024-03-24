@@ -149,6 +149,30 @@ const AuthService = {
 
 
 
+    // Group
+    async getGroup(id) {
+        const response = api.get(`/admin/get-group/${id}`);
+        return response;
+    },
+    async getAllGroups() {
+        const response = api.get("/admin/get-all-groups");
+        return response;
+    },
+    async addNewGroup(group) {
+        const response = api.post("/admin/add-group", group);
+        return response;
+    },
+    async updateGroup(id, updatedGroup) {
+        const response = api.put(`/admin/update-group/${id}`, updatedGroup);
+        return response;
+    },
+    async deleteGroup(id) {
+        const response = api.delete(`/admin/delete-group/${id}`);
+        return response;
+    },
+
+
+
     // teacher
     async teacherLogin(teacher) {
         const response = api.post("/teacher/login", teacher);

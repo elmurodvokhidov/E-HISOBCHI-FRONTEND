@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authFailure, authLogout, authStart, authSuccess } from "../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import logo from "../img/uitc_logo.png";
-import { Toast, ToastLeft } from "../config/sweetToast";
+import { Toast, ToastLeft } from "../assets/sweetToast";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";

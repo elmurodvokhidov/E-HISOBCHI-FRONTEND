@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { IoCloseOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { Toast, ToastLeft } from "../../config/sweetToast";
+import { Toast, ToastLeft } from "../../assets/sweetToast";
 import {
     allCourseSuccess,
     courseFailure,

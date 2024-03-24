@@ -9,7 +9,7 @@ import AuthService from "../../config/authService";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { IoCloseOutline } from "react-icons/io5";
-import { Toast, ToastLeft } from "../../config/sweetToast";
+import { Toast, ToastLeft } from "../../assets/sweetToast";
 
 function Admins() {
     const { admins, isLoading } = useSelector(state => state.admin);

@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { authFailure, authStart, authSuccess } from "../../redux/slices/authSlice";
 import AuthService from "../../config/authService";
 import { NavLink, useNavigate } from "react-router-dom";
-import { saveToLocalStorage } from "../../config/localStorageService";
+import { saveToLocalStorage } from "../../assets/localStorageService";
 import { MdKeyboardBackspace } from "react-icons/md";
 import { PiStudentFill } from "react-icons/pi";
-import { Toast } from "../../config/sweetToast";
+import { Toast } from "../../assets/sweetToast";
 
 function StudentLogin() {
     const [student, setStudent] = useState({

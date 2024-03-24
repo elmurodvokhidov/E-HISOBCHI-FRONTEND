@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import AuthService from "../../config/authService";
 import {
     courseFailure,
@@ -10,8 +10,8 @@ import {
 import CourseImg from "../../img/sticker.webp";
 import { LiaEditSolid } from "react-icons/lia";
 import { RiDeleteBin7Line } from "react-icons/ri";
-import CourseEditModal from "../../components/modals/CourseEditModal";
-import { Toast, ToastLeft } from "../../config/sweetToast";
+import CourseEditModal from "./CourseEditModal";
+import { Toast, ToastLeft } from "../../assets/sweetToast";
 import Swal from "sweetalert2";
 
 function CourseInfo() {
@@ -126,7 +126,7 @@ function CourseInfo() {
                     <span className="text-gray-500">{course.code}</span>
 
                     <div className="flex gap-8">
-                        <div className="w-1/3 shadow-dim bg-white">
+                        <div className="w-[30%] shadow-dim bg-white">
                             <div className="flex flex-col items-center justify-center gap-8 relative pt-14" style={{ background: course.color }}>
                                 <h1 className="text-[16px] font-bold text-white">{course.title}</h1>
                                 <figure className="w-48">
@@ -160,8 +160,28 @@ function CourseInfo() {
                         <div className="w-2/3">
                             <h1 className="text-gray-500 text-[14px] border-b-2 py-2">Guruhlar</h1>
 
-                            <div>
-                                {/* guruhlar */}
+                            <div className="grid grid-cols-2 gap-8 mt-8">
+                                {
+                                    course.groups.length > 0 ?
+                                        course.groups.map((group, index) => (
+                                            <NavLink to={`/admin/group-info/${group._id}`} key={index}>
+                                                <div className="courseCard w-50% p-4 cursor-pointer bg-white shadow-smooth">
+                                                    <h1 className="w-fit text-xs rounded px-2 py-1 bg-gray-200">{group.name}</h1>
+                                                    <div className="flex items-start justify-between gap-8">
+                                                        <h2 className="text-sm transition-all duration-300">{group.teacher.first_name} {group.teacher.last_name}</h2>
+                                                        <div className="text-xs text-gray-500">
+                                                            <h1 className="flex items-center gap-1">{group.start_date}<span className="inline-block align-middle w-4 border border-gray-300"></span></h1>
+                                                            <h1>{group.end_date}</h1>
+                                                        </div>
+                                                        <div className="text-xs text-gray-500">
+                                                            <h1>{group.day}</h1>
+                                                            <h1>{group.start_time}</h1>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </NavLink>
+                                        )) : <h1>Ma'lumot topilmadi!</h1>
+                                }
                             </div>
                         </div>
                     </div>

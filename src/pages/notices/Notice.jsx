@@ -12,8 +12,8 @@ import {
     noticeStart
 } from "../../redux/slices/noticeSlice";
 import { IoCloseOutline } from "react-icons/io5";
-import { Toast, ToastLeft } from "../../config/sweetToast";
-import NoticeEditModal from "../../components/modals/NoticeEditModal";
+import { Toast, ToastLeft } from "../../assets/sweetToast";
+import NoticeEditModal from "./NoticeEditModal";
 import Swal from "sweetalert2";
 
 function Notice() {

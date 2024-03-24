@@ -9,15 +9,15 @@ import TeacherLogin from "./pages/teacher/TeacherLogin";
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";
 import StudentLogin from "./pages/student/StudentLogin";
 import StudentDashboard from "./pages/student/StudentDashboard";
-import Notice from "./pages/admin/Notice";
+import Notice from "./pages/notices/Notice";
 import Admins from "./pages/admin/Admins";
-import Teachers from "./pages/admin/Teachers";
-import Students from "./pages/admin/Students";
+import Teachers from "./pages/teacher/Teachers";
+import Students from "./pages/student/Students";
 import AdminLayout from "./pages/admin/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
 import Profile from "./components/Profile";
-import TeacherInfo from "./pages/admin/TeacherInfo";
-import StudentInfo from "./pages/admin/StudentInfo";
+import TeacherInfo from "./pages/teacher/TeacherInfo";
+import StudentInfo from "./pages/student/StudentInfo";
 import NotFound from "./components/NotFound";
 import AdminInfo from "./pages/admin/AdminInfo";
 import TeacherLayout from "./pages/teacher/TeacherLayout";
@@ -25,8 +25,9 @@ import StudentLayout from "./pages/student/StudentLayout";
 import Courses from "./pages/courses/Courses";
 import Groups from "./pages/groups/Groups";
 import GeneralSettings from "./pages/admin/GeneralSettings";
-import Rooms from "./pages/admin/Rooms";
+import Rooms from "./pages/rooms/Rooms";
 import CourseInfo from "./pages/courses/CourseInfo";
+import GroupInfo from "./pages/groups/GroupInfo";
 
 function App() {
   const dispatch = useDispatch();
@@ -76,6 +77,7 @@ function App() {
           <Route path="student-info/:id" element={<StudentInfo />} />
           <Route path="profile" element={<Profile />} />
           <Route path="groups" element={<Groups />} />
+          <Route path="group-info/:id" element={<GroupInfo />} />
           <Route path="courses" element={<Courses />} />
           <Route path="course-info/:id" element={<CourseInfo />} />
           <Route path="rooms" element={<Rooms />} />

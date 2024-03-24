@@ -147,3 +147,7 @@
     padding: 12px 5px;
     font-size: 14px;
 }
+
+.courseCard:hover h2 {
+    color: rgb(8, 145, 178);
+}

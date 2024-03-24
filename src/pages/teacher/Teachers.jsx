@@ -13,8 +13,8 @@ import { NavLink } from "react-router-dom";
 import { IoCloseOutline } from "react-icons/io5";
 import { LiaEditSolid } from "react-icons/lia";
 import { RiDeleteBin7Line } from "react-icons/ri";
-import { Toast, ToastLeft } from "../../config/sweetToast";
-import TeacherEditModal from "../../components/modals/TeacherEditModal";
+import { Toast, ToastLeft } from "../../assets/sweetToast";
+import TeacherEditModal from "./TeacherEditModal";
 import Swal from "sweetalert2";
 
 function Teachers() {
@@ -187,7 +187,7 @@ function Teachers() {
             ) {
                 try {
                     dispatch(teacherStart());
-                    const { _id, __v, password, passwordUpdated, createdAt, updatedAt, ...newTeacherCred } = updatedTeacher;
+                    const { _id, __v, groups, password, passwordUpdated, createdAt, updatedAt, ...newTeacherCred } = updatedTeacher;
                     const { data } = await AuthService.updateTeacher(updatedTeacher._id, newTeacherCred);
                     dispatch(getTeacherSuccess(data));
                     setEditModal(false);
