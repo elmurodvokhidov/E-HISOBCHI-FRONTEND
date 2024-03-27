@@ -37,7 +37,6 @@ function Students() {
         newPassword: "",
         confirmPassword: ""
     });
-
     const [modals, setModals] = useState({
         modal: false,
         createModal: false,
@@ -189,7 +188,7 @@ function Students() {
     const openModal = (id) => {
         setNewStudent(students.filter(student => student._id === id)[0]);
         handleModal("modal", true);
-        handleModal("editModal", false);
+        handleModal("createModal", false);
     };
 
     const deleteStudent = async (id) => {
@@ -256,7 +255,6 @@ function Students() {
                         <th className="w-2/5">First and Last name</th>
                         <th className="w-2/5">Contact number</th>
                         <th className="w-2/5">Group</th>
-                        <th className="w-2/5">Course</th>
                     </tr>
                 </thead>
                 <tbody className="grid grid-cols-1 2xsm:gap-4 py-4">

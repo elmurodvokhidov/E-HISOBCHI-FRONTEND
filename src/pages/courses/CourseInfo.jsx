@@ -10,15 +10,14 @@ import {
 import CourseImg from "../../img/sticker.webp";
 import { LiaEditSolid } from "react-icons/lia";
 import { RiDeleteBin7Line } from "react-icons/ri";
-import CourseEditModal from "./CourseEditModal";
+import CourseModal from "./CourseModal";
 import { Toast, ToastLeft } from "../../assets/sweetToast";
 import Swal from "sweetalert2";
 
 function CourseInfo() {
-    const { course } = useSelector(state => state.course);
+    const { course, isLoading } = useSelector(state => state.course);
     const { id } = useParams();
     const dispatch = useDispatch();
-    const [modal, setModal] = useState(false);
     const [updatedCourse, setUpdatedCourse] = useState({
         title: "",
         code: "",
@@ -27,11 +26,16 @@ function CourseInfo() {
         price: "",
         description: "",
     });
+    const [modals, setModals] = useState({
+        modal: false,
+        createModal: false,
+    });
     const navigate = useNavigate();
 
     const openModal = () => {
-        setModal(true);
         setUpdatedCourse(course);
+        handleModal("modal", true);
+        handleModal("createModal", false);
     };
 
     useEffect(() => {
@@ -52,6 +56,25 @@ function CourseInfo() {
         getCourse();
     }, [id]);
 
+    const handleModal = (modalName, value) => {
+        setModals(prevState => ({ ...prevState, [modalName]: value }));
+    };
+
+    const clearModal = () => {
+        setUpdatedCourse({
+            title: "",
+            code: "",
+            lesson_duration: "",
+            course_duration: "",
+            price: "",
+            description: "",
+        });
+        setModals({
+            modal: false,
+            createModal: false,
+        });
+    };
+
     const updateHandler = async (e) => {
         e.preventDefault();
         if (
@@ -64,10 +87,10 @@ function CourseInfo() {
         ) {
             try {
                 dispatch(courseStart());
-                const { _id, __v, color, createdAt, updatedAt, ...newCourseCred } = updatedCourse;
+                const { _id, __v, color, groups, createdAt, updatedAt, ...newCourseCred } = updatedCourse;
                 const { data } = await AuthService.updateCourse(updatedCourse._id, newCourseCred);
                 dispatch(getCourseSuccess(data));
-                setModal(false);
+                clearModal();
                 await Toast.fire({
                     icon: "success",
                     title: data.message
@@ -147,8 +170,11 @@ function CourseInfo() {
                                     <h1 className="text-[14px] text-black">{course.price} UZS</h1>
                                 </div>
                                 <div>
-                                    <span className="text-[12px] text-gray-500">Kurs davomiyligi</span>
-                                    <h1 className="text-[14px] text-black">{course.course_duration} oy</h1>
+                                    {/* <span className="text-[12px] text-gray-500">Kurs davomiyligi</span>
+                                    <h1 className="text-[14px] text-black">{course.course_duration} oy</h1> */}
+
+                                    <span className="text-[12px] text-gray-500">Talabalar</span>
+                                    <h1 className="text-[14px] text-black">{course.groups.reduce((total, group) => total + group.students.length, 0)}</h1>
                                 </div>
                                 <div>
                                     <span className="text-[12px] text-gray-500">Dars davomiyligi</span>
@@ -194,12 +220,13 @@ function CourseInfo() {
             }
 
             {/* course edit modal */}
-            <CourseEditModal
-                modal={modal}
-                setModal={setModal}
-                updatedCourse={updatedCourse}
-                setUpdatedCourse={setUpdatedCourse}
-                updateHandler={updateHandler}
+            <CourseModal
+                isLoading={isLoading}
+                modals={modals}
+                newCourse={updatedCourse}
+                setNewCourse={setUpdatedCourse}
+                clearModal={clearModal}
+                createAndUpdateHandler={updateHandler}
             />
         </div>
     )

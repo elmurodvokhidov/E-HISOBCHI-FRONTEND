@@ -5,16 +5,13 @@ import logo from "../img/uitc_logo.png";
 import { Toast, ToastLeft } from "../assets/sweetToast";
 import Swal from "sweetalert2";
 import { useState } from "react";
-import { IoCloseOutline } from "react-icons/io5";
-import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import AuthService from "../config/authService";
+import ProfileModal from "./ProfileModal";
 
 function Profile() {
     const { auth, isLoading } = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [modal, setModal] = useState(false);
-    const [passModal, setPassModal] = useState(false);
     const [updatedAuth, setUpdatedAuth] = useState({
         first_name: "",
         last_name: "",
@@ -25,6 +22,12 @@ function Profile() {
     const [newPass, setNewPass] = useState({
         newPassword: "",
         confirmPassword: ""
+    });
+    const [modals, setModals] = useState({
+        modal: false,
+        createModal: false,
+        passModal: false,
+        imageModal: false,
     });
 
     const logoutHandler = () => {
@@ -50,60 +53,58 @@ function Profile() {
         });
     };
 
-    const getAuthCred = (e) => {
-        setUpdatedAuth({
-            ...updatedAuth,
-            [e.target.name]: e.target.value
-        });
+    const handleModal = (modalName, value) => {
+        setModals(prevState => ({ ...prevState, [modalName]: value }));
     };
 
-    const getNewPass = (e) => {
-        setNewPass({
-            ...newPass,
-            [e.target.name]: e.target.value
+    const clearModal = () => {
+        setUpdatedAuth({
+            first_name: "",
+            last_name: "",
+            email: "",
+            dob: "",
+            contactNumber: "",
         });
+        setNewPass({ newPassword: "", confirmPassword: "" });
+        setModals({
+            modal: false,
+            createModal: false,
+            passModal: false,
+            imageModal: false,
+        })
     };
 
     const openModal = () => {
-        setModal(true);
         setUpdatedAuth(auth);
+        handleModal("modal", true);
+        handleModal("createModal", false);
     };
 
     const updateHandler = async (e) => {
         e.preventDefault();
-        if (passModal) {
-            if (newPass.newPassword !== "" && newPass.confirmPassword !== "") {
-                if (newPass.newPassword.length >= 8) {
-                    try {
-                        dispatch(authStart());
-                        const { data } = await AuthService.updateAdminPass({ ...newPass, email: auth?.email });
-                        dispatch(authSuccess(data));
-                        setModal(false);
-                        setPassModal(false);
-                        setNewPass({ newPassword: "", confirmPassword: "" });
-                        await Toast.fire({
-                            icon: "success",
-                            title: data.message
-                        });
-                    } catch (error) {
-                        dispatch(authFailure(error.response.data.message));
-                        await Toast.fire({
-                            icon: "error",
-                            title: error.response.data.message || error.message
-                        });
-                    }
-                }
-                else {
-                    await ToastLeft.fire({
+        if (modals.passModal) {
+            if (newPass.newPassword.length >= 8) {
+                try {
+                    dispatch(authStart());
+                    const { data } = await AuthService.updateAdminPass({ ...newPass, email: auth?.email });
+                    dispatch(authSuccess(data));
+                    clearModal();
+                    await Toast.fire({
+                        icon: "success",
+                        title: data.message
+                    });
+                } catch (error) {
+                    dispatch(authFailure(error.response.data.message));
+                    await Toast.fire({
                         icon: "error",
-                        title: "Parol 8 ta belgidan kam bo'lmasligi kerak!"
+                        title: error.response.data.message || error.message
                     });
                 }
             }
             else {
                 await ToastLeft.fire({
                     icon: "error",
-                    title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
+                    title: "Parol 8 ta belgidan kam bo'lmasligi kerak!"
                 });
             }
         }
@@ -120,9 +121,7 @@ function Profile() {
                     const { _id, __v, password, passwordUpdated, createdAt, updatedAt, ...newAuthCred } = updatedAuth;
                     const { data } = await AuthService.updateAdminProfile(updatedAuth._id, newAuthCred);
                     dispatch(authSuccess(data));
-                    setModal(false);
-                    setPassModal(false);
-                    setNewPass({ newPassword: "", confirmPassword: "" });
+                    clearModal();
                     await Toast.fire({
                         icon: "success",
                         title: data.message
@@ -169,7 +168,7 @@ function Profile() {
                         <h4>Phone: <span className="underline">+{auth.contactNumber}</span></h4>
                     </div>
                     <div className="flex gap-6 text-[14px]">
-                        <h4>Specialist In: <span className="underline">{auth.specialist_in}</span></h4>
+                        {/* <h4>Specialist In: <span className="underline">{auth.specialist_in}</span></h4> */}
                         <h4>Gender: <span className="underline">{auth.gender}</span></h4>
                     </div>
                 </div>
@@ -232,61 +231,17 @@ function Profile() {
             </div>
 
             {/* profile edit modal */}
-            <div onClick={() => {
-                setModal(false)
-                setPassModal(false)
-            }} className="w-full h-screen fixed top-0 left-0 z-20" style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modal ? "1" : "0", zIndex: modal ? "20" : "-1" }}>
-                <form onClick={(e) => e.stopPropagation()} className="w-[30%] h-screen fixed top-0 right-0 transition-all duration-300 bg-white" style={{ right: modal ? "0" : "-200%" }}>
-                    <div className="flex justify-between text-xl p-5 border-b-2"><h1>Hisobni yangilash</h1> <button type="button" onClick={() => {
-                        setModal(false)
-                        setPassModal(false)
-                    }} className="hover:text-red-500 transition-all duration-300"><IoCloseOutline /></button></div>
-                    <div className="flex flex-col gap-2 px-5 py-7">
-                        <div className="flex flex-col">
-                            <label htmlFor="first_name" className="text-[14px]">First Name</label>
-                            <input disabled={passModal ? true : false} onChange={(e) => getAuthCred(e)} value={updatedAuth.first_name} type="text" name="first_name" id="first_name" className="border-2 border-gray-500 rounded px-2 py-1" />
-                        </div>
-                        <div className="flex flex-col">
-                            <label htmlFor="last_name" className="text-[14px]">Last Name</label>
-                            <input disabled={passModal ? true : false} onChange={(e) => getAuthCred(e)} value={updatedAuth.last_name} type="text" name="last_name" id="last_name" className="border-2 border-gray-500 rounded px-2 py-1" />
-                        </div>
-                        <div className="flex flex-col">
-                            <label htmlFor="email" className="text-[14px]">Email</label>
-                            <input disabled={passModal ? true : false} onChange={(e) => getAuthCred(e)} value={updatedAuth.email} type="email" name="email" id="email" className="border-2 border-gray-500 rounded px-2 py-1" />
-                        </div>
-                        <div className="flex justify-between">
-                            <div className="w-[47%] flex flex-col">
-                                <label htmlFor="dob" className="text-[14px]">Date of birthday</label>
-                                <input disabled={passModal ? true : false} onChange={(e) => getAuthCred(e)} value={updatedAuth.dob} type="text" name="dob" id="dob" className="border-2 border-gray-500 rounded px-2 py-1" placeholder="dd/mm/yyyy" />
-                            </div>
-                            <div className="w-[47%] flex flex-col">
-                                <label htmlFor="contactNumber" className="text-[14px]">Contact Number</label>
-                                <input disabled={passModal ? true : false} onChange={(e) => getAuthCred(e)} value={updatedAuth.contactNumber} type="number" name="contactNumber" id="contactNumber" className="border-2 border-gray-500 rounded px-2 py-1" placeholder='without "+"' />
-                            </div>
-                        </div>
-                        <div className="flex flex-col">
-                            <label htmlFor="avatar" className="text-[14px]">Photo</label>
-                            <input disabled={passModal ? true : false} type="file" name="avatar" id="avatar" className="border-2 border-gray-500 rounded px-2 py-1" />
-                        </div>
-                        <button onClick={() => setPassModal(!passModal)} type="button" className="flex items-center justify-end gap-1">{passModal ? <FaAngleUp className="text-[14px]" /> : <FaAngleDown className="text-[14px]" />}Yangi parol qo'shing</button>
-                        {
-                            passModal ?
-                                <>
-                                    <div className="flex flex-col">
-                                        <label htmlFor="newPassword" className="text-[14px]">Yangi parol</label>
-                                        <input onChange={(e) => getNewPass(e)} type="text" name="newPassword" id="newPassword" className="border-2 border-gray-500 rounded px-2 py-1" />
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <label htmlFor="confirmPassword" className="text-[14px]">Parolni tasdiqlang</label>
-                                        <input onChange={(e) => getNewPass(e)} type="text" name="confirmPassword" id="confirmPassword" className="border-2 border-gray-500 rounded px-2 py-1" />
-                                    </div>
-                                </>
-                                : null
-                        }
-                        <button disabled={isLoading ? true : false} onClick={(e) => updateHandler(e)} className="w-fit px-6 py-1 mt-8 border-2 border-cyan-600 rounded-lg hover:text-white hover:bg-cyan-600 transition-all duration-300">{isLoading ? "Loading..." : passModal ? "Parolni yangilash" : "Saqlash"}</button>
-                    </div>
-                </form>
-            </div>
+            <ProfileModal
+                clearModal={clearModal}
+                modals={modals}
+                updatedAuth={updatedAuth}
+                setUpdatedAuth={setUpdatedAuth}
+                newPass={newPass}
+                setNewPass={setNewPass}
+                isLoading={isLoading}
+                updateHandler={updateHandler}
+                handleModal={handleModal}
+            />
         </div>
     )
 }

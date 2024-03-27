@@ -76,7 +76,7 @@ function StudentInfo() {
     useEffect(() => {
         getStudent();
         getAllGroupsFunc();
-    }, []);
+    }, [id]);
 
     const handleModal = (modalName, value) => {
         setModals(prevState => ({ ...prevState, [modalName]: value }));
@@ -218,7 +218,10 @@ function StudentInfo() {
                     }
 
                     <div>
-                        <button disabled={student ? false : true} onClick={() => openModal()} className="border-2 rounded ml-16 px-6 py-1 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">{student ? "Tahrirlash" : "Loading..."}</button>
+                        <button
+                            disabled={student ? false : true}
+                            onClick={() => openModal()}
+                            className="border-2 rounded ml-16 px-6 py-1 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">{student ? "Tahrirlash" : "Loading..."}</button>
                     </div>
                 </div>
             </div>
