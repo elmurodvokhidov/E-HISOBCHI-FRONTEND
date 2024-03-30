@@ -7,6 +7,7 @@ import AuthService from "../../config/authService";
 import { allRoomSuccess, roomFailure, roomStart } from "../../redux/slices/roomSlice";
 import Swal from "sweetalert2";
 import { Toast, ToastLeft } from "../../assets/sweetToast";
+import Skeleton from "../../components/loaders/Skeleton";
 
 function Rooms() {
     const { rooms, isLoading } = useSelector(state => state.room);
@@ -140,13 +141,10 @@ function Rooms() {
             </div>
 
             {
-                isLoading ? <>
-                    <div className="w-full md:w-3/5 lg:w-2/5 flex flex-col justify-center gap-1 p-8 shadow-smooth animate-pulse bg-white">
-                        <div className="w-[85%] h-4 rounded bg-gray-300">&nbsp;</div>
-                        <div className="w-[50%] h-4 rounded bg-gray-300">&nbsp;</div>
-                        <div className="w-[65%] h-4 rounded bg-gray-300">&nbsp;</div>
-                    </div>
-                </> :
+                isLoading ?
+                    <div className="md:w-3/5 lg:w-2/5">
+                        <Skeleton parentWidth={100} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
+                    </div> :
                     <div className="w-full md:w-3/5 lg:w-2/5 shadow-dim pt-8 pb-12 px-8">
                         <table className="roomsTable w-full text-left">
                             <thead>

@@ -13,6 +13,7 @@ import { RiDeleteBin7Line } from "react-icons/ri";
 import CourseModal from "./CourseModal";
 import { Toast, ToastLeft } from "../../assets/sweetToast";
 import Swal from "sweetalert2";
+import Skeleton from "../../components/loaders/Skeleton";
 
 function CourseInfo() {
     const { course, isLoading } = useSelector(state => state.course);
@@ -212,11 +213,7 @@ function CourseInfo() {
                         </div>
                     </div>
                 </> :
-                    <div className="w-[90%] flex flex-col justify-center gap-1 p-8 shadow-smooth animate-pulse bg-white">
-                        <div className="w-[85%] h-4 rounded bg-gray-300">&nbsp;</div>
-                        <div className="w-[50%] h-4 rounded bg-gray-300">&nbsp;</div>
-                        <div className="w-[65%] h-4 rounded bg-gray-300">&nbsp;</div>
-                    </div>
+                    <Skeleton parentWidth={90} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
             }
 
             {/* course edit modal */}

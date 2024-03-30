@@ -1,35 +1,43 @@
 import { IoCloseOutline } from "react-icons/io5";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
 function GroupModal({
     handleCreateAndUpdate,
-    modal,
+    modals,
     newGroup,
+    setNewGroup,
     courses,
     teachers,
     rooms,
-    days,
-    closeModal,
-    getGroupCred,
+    clearModal,
     isLoading,
 }) {
+    const [days, setDays] = useState(['Toq kunlari', 'Juft kunlari', 'Dam olish kuni', 'Har kuni',]);
+
+    const getGroupCred = (e) => {
+        setNewGroup({
+            ...newGroup,
+            [e.target.name]: e.target.value
+        });
+    };
 
     return (
         <div
-            onClick={closeModal}
+            onClick={clearModal}
             className="w-full h-screen fixed top-0 left-0 z-20"
-            style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modal ? "1" : "0", zIndex: modal ? "20" : "-1" }}>
+            style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modals.modal ? "1" : "0", zIndex: modals.modal ? "20" : "-1" }}>
             <form
                 onClick={(e) => e.stopPropagation()}
                 className="w-[30%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white"
-                style={{ right: modal ? "0" : "-200%" }}>
+                style={{ right: modals.modal ? "0" : "-200%" }}>
                 <div
                     className="flex justify-between text-xl p-5 border-b-2">
                     <h1>{newGroup._id ? "Guruh ma'lumotlarini yangilash" : "Yangi guruh ma'lumotlari"}</h1>
                     <button
                         type="button"
-                        onClick={closeModal}
+                        onClick={clearModal}
                         className="hover:text-red-500 transition-all duration-300">
                         <IoCloseOutline />
                     </button>

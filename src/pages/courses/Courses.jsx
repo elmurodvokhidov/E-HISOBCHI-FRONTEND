@@ -10,6 +10,7 @@ import AuthService from "../../config/authService";
 import CourseImg from "../../img/sticker.webp";
 import { useNavigate } from "react-router-dom";
 import CourseModal from "./CourseModal";
+import Skeleton from "../../components/loaders/Skeleton";
 
 function Courses() {
     const { courses, isLoading } = useSelector(state => state.course);
@@ -115,11 +116,7 @@ function Courses() {
 
             {
                 isLoading ? <>
-                    <div className="w-[90%] flex flex-col justify-center gap-1 p-8 mt-8 shadow-smooth animate-pulse bg-white">
-                        <h1 className="w-[85%] h-4 rounded bg-gray-300">&nbsp;</h1>
-                        <h1 className="w-[50%] h-4 rounded bg-gray-300">&nbsp;</h1>
-                        <h1 className="w-[65%] h-4 rounded bg-gray-300">&nbsp;</h1>
-                    </div>
+                    <Skeleton parentWidth={90} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
                 </> :
                     <div className="grid lg:grid-cols-4 md:grid-cols-3 gap-8 py-8">
                         {

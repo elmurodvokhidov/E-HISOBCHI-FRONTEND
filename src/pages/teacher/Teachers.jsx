@@ -14,6 +14,7 @@ import { RiDeleteBin7Line } from "react-icons/ri";
 import { Toast, ToastLeft } from "../../assets/sweetToast";
 import TeacherModal from "./TeacherModal";
 import Swal from "sweetalert2";
+import Skeleton from "../../components/loaders/Skeleton";
 
 function Teachers() {
     const { teachers, isLoading } = useSelector(state => state.teacher);
@@ -212,11 +213,7 @@ function Teachers() {
 
             <div className="grid lg:grid-cols-2 2xsm:grid-cols-1 2xsm:gap-4 py-6">
                 {isLoading ? <>
-                    <div className="w-[90%] flex flex-col justify-center gap-1 p-8 shadow-smooth animate-pulse bg-white">
-                        <div className="w-[85%] h-4 rounded bg-gray-300">&nbsp;</div>
-                        <div className="w-[50%] h-4 rounded bg-gray-300">&nbsp;</div>
-                        <div className="w-[65%] h-4 rounded bg-gray-300">&nbsp;</div>
-                    </div>
+                    <Skeleton parentWidth={90} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
                 </> : teachers.length > 0 ?
                     teachers.map((teacher, index) => (
                         <div key={index} className="lg:w-3/4 md:w-[100%] flex justify-between capitalize text-[15px] border-2 rounded-lg p-4 shadow-smooth">

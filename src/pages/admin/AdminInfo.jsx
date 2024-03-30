@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom"
 import { adminFailure, adminStart, getAdminSuccess } from "../../redux/slices/adminSlice";
 import AuthService from "../../config/authService";
+import Skeleton from "../../components/loaders/Skeleton";
 
 function AdminInfo() {
     const { admin } = useSelector(state => state.admin);
@@ -64,11 +65,7 @@ function AdminInfo() {
                         </dl>
                     </div> :
                     <>
-                        <div className="w-[90%] mt-6 flex flex-col justify-center gap-1 p-8 shadow-smooth animate-pulse bg-white">
-                            <div className="w-[85%] h-4 rounded bg-gray-300">&nbsp;</div>
-                            <div className="w-[50%] h-4 rounded bg-gray-300">&nbsp;</div>
-                            <div className="w-[65%] h-4 rounded bg-gray-300">&nbsp;</div>
-                        </div>
+                        <Skeleton parentWidth={90} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
                     </>
                 }
             </div>
