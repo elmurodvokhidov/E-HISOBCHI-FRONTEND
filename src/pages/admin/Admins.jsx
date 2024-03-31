@@ -8,7 +8,7 @@ import AuthService from "../../config/authService";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Toast, ToastLeft } from "../../assets/sweetToast";
-import ProfileModal from "../../components/ProfileModal";
+import AdminModal from "./AdminModal";
 
 function Admins() {
     const { admins, isLoading } = useSelector(state => state.admin);
@@ -161,7 +161,7 @@ function Admins() {
             </ul>
 
             {/* add new modal */}
-            <ProfileModal
+            <AdminModal
                 clearModal={clearModal}
                 modals={modals}
                 updatedAuth={newAdmin}

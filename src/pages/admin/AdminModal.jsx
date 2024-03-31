@@ -1,7 +1,7 @@
 import { IoCloseOutline } from "react-icons/io5";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
-export default function ProfileModal({
+export default function AdminModal({
     clearModal,
     modals,
     updatedAuth,

@@ -90,6 +90,7 @@ function App() {
           <Route path="dashboard" element={<TeacherDashboard />} />
           <Route path="profile" element={<Profile />} />
           <Route path="notice" element={<Notice />} />
+          <Route path="group-info/:id" element={<GroupInfo />} />
         </Route>
 
         {/* student routes */}
@@ -98,6 +99,7 @@ function App() {
           <Route path="dashboard" element={<StudentDashboard />} />
           <Route path="profile" element={<Profile />} />
           <Route path="notice" element={<Notice />} />
+          <Route path="course-info/:id" element={<CourseInfo />} />
         </Route>
       </Routes>
     </div>
