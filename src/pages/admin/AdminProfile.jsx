@@ -5,8 +5,10 @@ import { useState } from "react";
 import AuthService from "../../config/authService";
 import AdminModal from "./AdminModal";
 import { useDispatch } from "react-redux";
+import { LiaEditSolid } from "react-icons/lia";
+import Skeleton from "../../components/loaders/Skeleton";
 
-function AdminProfile({ auth, isLoading, logoutHandler }) {
+function AdminProfile({ auth, isLoading }) {
     const dispatch = useDispatch();
     const [updatedAuth, setUpdatedAuth] = useState({
         first_name: "",
@@ -91,7 +93,7 @@ function AdminProfile({ auth, isLoading, logoutHandler }) {
             ) {
                 try {
                     dispatch(authStart());
-                    const { _id, __v, password, passwordUpdated, createdAt, updatedAt, ...newAuthCred } = updatedAuth;
+                    const { _id, __v, password, createdAt, updatedAt, ...newAuthCred } = updatedAuth;
                     const { data } = await AuthService.updateAdminProfile(updatedAuth._id, newAuthCred);
                     dispatch(authSuccess(data));
                     clearModal();
@@ -119,51 +121,53 @@ function AdminProfile({ auth, isLoading, logoutHandler }) {
     return (
         <div className="w-full h-screen overflow-auto pt-24 px-10">
             <div className="flex justify-between border-b-2 pb-16 relative">
-                <h1 className="capitalize text-3xl">Hisob qaydnomalari</h1>
-                {logoutHandler && <button
-                    onClick={logoutHandler}
-                    className="border-2 rounded border-cyan-600 px-5 hover:bg-red-500 hover:border-red-500 transition-all hover:text-white duration-300">
-                    Chiqish
-                </button>}
-                <p className="absolute bottom-[-1px] border-b-2 uppercase text-[14px] pb-2 border-cyan-600 text-cyan-600">
+                <h1 className="capitalize text-2xl">Hisob qaydnomalari</h1>
+                <p className="absolute bottom-[-1px] border-b-2 uppercase text-xs pb-2 border-cyan-600 text-cyan-600">
                     admin
                 </p>
             </div>
 
             <div className="w-fit border-2 py-8 px-6 my-20 rounded shadow-dim">
-                <div className="flex justify-start gap-10">
-                    <figure className={`w-[100px] h-[100px] rounded-[50%] overflow-hidden bg-slate-100 mt-2 ${!auth ? "bg-gray-300 animate-pulse" : null}`}>
-                        {auth ? <img className="w-full h-full object-cover" src={logo} alt="logo" /> : null}
-                    </figure>
-
+                <div className="flex relative justify-start">
                     {!auth ?
-                        <div className="flex flex-col gap-1 animate-pulse">
-                            <h1 className="w-40 h-10 rounded bg-gray-300">&nbsp;</h1>
-                            <h1 className="w-32 h-4 rounded bg-gray-300">&nbsp;</h1>
-                            <div className="flex gap-6 mt-4">
-                                <h4 className="w-32 h-8 rounded bg-gray-300">&nbsp;</h4>
-                                <h4 className="w-32 h-8 rounded bg-gray-300">&nbsp;</h4>
+                        <div className="w-[410px]">
+                            <Skeleton parentWidth={100} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
+                        </div> : <>
+                            <div className="flex flex-col gap-4 text-sm">
+                                <div className="flex items-center gap-4">
+                                    <figure className={`w-20 h-20 border-4 border-white rounded-[50%] overflow-hidden bg-slate-100 ${!auth ? "bg-gray-300 animate-pulse" : null}`}>
+                                        {auth ? <img className="w-full h-full object-cover" src={logo} alt="logo" /> : null}
+                                    </figure>
+                                    <h1 className="capitalize text-xl">{auth.first_name} {auth.last_name}</h1>
+                                </div>
+
+                                <div className="flex justify-between gap-20">
+                                    <span className="text-gray-500">Telefon:</span>
+                                    <span className="text-blue-300">+{auth.contactNumber}</span>
+                                </div>
+
+                                <div className="flex justify-between gap-20">
+                                    <span className="text-gray-500">Tug'ilgan kun:</span>
+                                    <span>{auth.dob}</span>
+                                </div>
+
+                                <div className="flex justify-between gap-20">
+                                    <span className="text-gray-500">Email manzil:</span>
+                                    <span>{auth.email}</span>
+                                </div>
                             </div>
-                        </div> :
-                        <div className="flex flex-col">
-                            <h1 className="capitalize text-4xl">{auth.first_name}</h1>
-                            <h2 className="capitalize text-2xl">{auth.last_name}</h2>
-                            <h3 className="text-[14px] mt-1">{auth.email}</h3>
-                            <div className="flex gap-6 text-[14px]">
-                                <h4>Date of Bithday: <span className="underline">{auth.dob}</span></h4>
-                                <h4>Phone: <span className="underline">+{auth.contactNumber}</span></h4>
+
+                            <div className="w-fit h-fit absolute top-0 right-0">
+                                <button
+                                    disabled={auth ? false : true}
+                                    onClick={() => openModal()}
+                                    className="w-8 h-8 flex items-center justify-center text-xl border rounded-full ml-16 text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
+                                    <LiaEditSolid />
+                                </button>
                             </div>
-                        </div>
+                        </>
                     }
 
-                    <div>
-                        <button
-                            disabled={auth ? false : true}
-                            onClick={() => openModal()}
-                            className="border-2 rounded ml-16 px-6 py-1 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
-                            {auth ? "Tahrirlash" : "Loading..."}
-                        </button>
-                    </div>
                 </div>
             </div>
 

@@ -13,36 +13,28 @@ import {
 } from "../../redux/slices/noticeSlice";
 import { IoCloseOutline } from "react-icons/io5";
 import { Toast, ToastLeft } from "../../assets/sweetToast";
-import NoticeEditModal from "./NoticeEditModal";
+import NoticeModal from "./NoticeModal";
 import Swal from "sweetalert2";
 
 function Notice() {
     const { notices, isLoading } = useSelector(state => state.notice);
     const { auth } = useSelector(state => state.auth);
     const dispatch = useDispatch();
-    const [more, setMore] = useState(false);
-    const [modal, setModal] = useState(false);
     const [newNotice, setNewNotice] = useState({
         topic: "",
         content: "",
         from: "",
         to: "",
     });
-    const [notice, setNotice] = useState(null);
-    const [editModal, setEditModal] = useState(false);
-    const [updatedNotice, setUpdatedNotice] = useState({
-        topic: "",
-        content: "",
-        from: "",
-        to: "",
+    const [modals, setModals] = useState({
+        modal: false,
+        createModal: false,
+        more: null,
     });
 
-    const getNewNoticeCred = (e) => {
-        setNewNotice({
-            ...newNotice,
-            [e.target.name]: e.target.value
-        });
-    }
+    const handleModal = (modalName, value) => {
+        setModals(prevState => ({ ...prevState, [modalName]: value }));
+    };
 
     const clearModal = () => {
         setNewNotice({
@@ -51,44 +43,14 @@ function Notice() {
             from: "",
             to: "",
         });
+        setModals({
+            modal: false,
+            createModal: false,
+            more: null,
+        })
     };
 
-    const addNewNotice = async (e) => {
-        e.preventDefault();
-        if (
-            newNotice.topic !== "" &&
-            newNotice.content !== "" &&
-            newNotice.from !== "" &&
-            newNotice.to !== ""
-        ) {
-            try {
-                dispatch(noticeStart());
-                const { data } = await AuthService.addNewNotice({ ...newNotice, userId: auth?._id });
-                // dispatch(newNoticeSuccess(data));
-                getNotices();
-                clearModal();
-                setModal(false);
-                await Toast.fire({
-                    icon: "success",
-                    title: data.message
-                });
-            } catch (error) {
-                dispatch(noticeFailure(error.response?.data.message));
-                await ToastLeft.fire({
-                    icon: "error",
-                    title: error.response?.data.message || error.message
-                });
-            }
-        }
-        else {
-            await ToastLeft.fire({
-                icon: "error",
-                title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
-            });
-        }
-    }
-
-    const getNotices = async () => {
+    const getAllNoticesFunc = async () => {
         try {
             dispatch(noticeStart());
             const { data } = await AuthService.getAllNotices();
@@ -99,33 +61,44 @@ function Notice() {
     };
 
     useEffect(() => {
-        getNotices();
+        getAllNoticesFunc();
     }, []);
 
     const openModal = (id) => {
-        setNotice(notices.filter(notice => notice._id === id)[0]);
-        setEditModal(true);
-        setUpdatedNotice(notices.filter(notice => notice._id === id)[0]);
+        setNewNotice(notices.filter(notice => notice._id === id)[0]);
+        handleModal("modal", true);
+        handleModal("createModal", false);
     };
 
-    const updateHandler = async (e) => {
+    const handleCreateAndUpdate = async (e) => {
         e.preventDefault();
         if (
-            updatedNotice.topic !== "" &&
-            updatedNotice.content !== "" &&
-            updatedNotice.from !== "" &&
-            updatedNotice.to !== ""
+            newNotice.topic !== "" &&
+            newNotice.content !== "" &&
+            newNotice.from !== "" &&
+            newNotice.to !== ""
         ) {
             try {
                 dispatch(noticeStart());
-                const { _id, __v, ...newNoticeCred } = updatedNotice;
-                const { data } = await AuthService.updateNotice(updatedNotice._id, newNoticeCred);
-                dispatch(getNoticeSuccess(data));
-                setEditModal(false);
-                await Toast.fire({
-                    icon: "success",
-                    title: data.message
-                });
+                if (!newNotice._id) {
+                    const { data } = await AuthService.addNewNotice({ ...newNotice, userId: auth?._id });
+                    getAllNoticesFunc();
+                    clearModal();
+                    await Toast.fire({
+                        icon: "success",
+                        title: data.message
+                    });
+                } else {
+                    const { _id, __v, ...others } = newNotice;
+                    const { data } = await AuthService.updateNotice(newNotice._id, others);
+                    dispatch(getNoticeSuccess(data));
+                    getAllNoticesFunc();
+                    clearModal();
+                    await Toast.fire({
+                        icon: "success",
+                        title: data.message
+                    });
+                }
             } catch (error) {
                 dispatch(noticeFailure(error.response?.data.error));
                 await ToastLeft.fire({
@@ -140,7 +113,6 @@ function Notice() {
                 title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
             });
         }
-        getNotices();
     };
 
     const deleteNotice = async (id) => {
@@ -156,7 +128,7 @@ function Notice() {
             if (result.isConfirmed) {
                 dispatch(noticeStart());
                 AuthService.deleteNotice(id).then(() => {
-                    getNotices();
+                    getAllNoticesFunc();
                     Toast.fire({
                         icon: "success",
                         title: "Xabar muvaffaqiyatli o'chirildi!"
@@ -173,10 +145,19 @@ function Notice() {
     };
 
     return (
-        <div className="notices w-full h-screen overflow-auto pt-24 px-10" onClick={() => setMore(false)}>
+        <div
+            className="notices w-full h-screen overflow-auto pt-24 px-10"
+            onClick={() => handleModal("more", false)}>
             <div className="flex justify-between relative">
                 <h1 className="text-2xl">Yaqinda yaratilgan eslatmalar</h1>
-                <button onClick={() => setModal(true)} className="border-2 border-cyan-600 rounded px-5 hover:bg-cyan-600 hover:text-white transition-all duration-300">Eslatma yaratish</button>
+                <button
+                    onClick={() => {
+                        handleModal("modal", true);
+                        handleModal("createModal", true);
+                    }}
+                    className="global_add_btn">
+                    Eslatma yaratish
+                </button>
             </div>
             <div className="container mx-auto py-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
@@ -249,16 +230,16 @@ function Notice() {
                                         <div className="flex justify-between">
                                             <h2 className="text-xl font-semibold mb-2">{notice.topic}</h2>
                                             {
-                                                notice.author._id === auth._id ? (
+                                                notice.author?._id === auth._id ? (
                                                     <>
                                                         {/* more button */}
                                                         <div onClick={(e) => {
                                                             e.stopPropagation()
-                                                            setMore(notice._id)
+                                                            handleModal("more", notice._id)
                                                         }} className="relative cursor-pointer text-cyan-600 text-xl">
                                                             <IoMdMore />
                                                             {/* more btn modal */}
-                                                            <div className={`${more === notice._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute 2xsm:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] bg-white`}>
+                                                            <div className={`${modals.more === notice._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute 2xsm:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] bg-white`}>
                                                                 <button onClick={() => openModal(notice._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"><LiaEditSolid />Tahrirlash</button>
                                                                 <button onClick={() => deleteNotice(notice._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-red-500"><RiDeleteBin7Line />O'chirish</button>
                                                             </div>
@@ -278,41 +259,14 @@ function Notice() {
                 </div>
             </div>
 
-            {/* create notice modal */}
-            <div onClick={() => setModal(false)} className="w-full h-screen fixed top-0 left-0 z-20" style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modal ? "1" : "0", zIndex: modal ? "20" : "-1" }}>
-                <form onClick={(e) => e.stopPropagation()} className="w-[30%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white" style={{ right: modal ? "0" : "-200%" }}>
-                    <div className="flex justify-between text-xl p-5 border-b-2"><h1>Yangi eslatma ma'lumotlari</h1> <button type="button" onClick={() => setModal(false)} className="hover:text-red-500 transition-all duration-300"><IoCloseOutline /></button></div>
-                    <div className="flex flex-col gap-2 px-5 py-7">
-                        <div className="flex flex-col">
-                            <label htmlFor="topic" className="text-[14px]">Topic</label>
-                            <input onChange={getNewNoticeCred} value={newNotice.topic} type="text" name="topic" id="topic" className="border-2 border-gray-500 rounded px-2 py-1" />
-                        </div>
-                        <div className="flex flex-col">
-                            <label htmlFor="content" className="text-[14px]">Content</label>
-                            <textarea onChange={getNewNoticeCred} value={newNotice.content} className="border-2 border-gray-500 rounded px-2 py-1" name="content" id="content" cols="30" rows="5"></textarea>
-                        </div>
-                        <div className="flex justify-between">
-                            <div className="w-[47%] flex flex-col">
-                                <label htmlFor="from" className="text-[14px]">From:</label>
-                                <input onChange={getNewNoticeCred} value={newNotice.from} type="text" name="from" id="from" className="border-2 border-gray-500 rounded px-2 py-1" />
-                            </div>
-                            <div className="w-[47%] flex flex-col">
-                                <label htmlFor="to" className="text-[14px]">To</label>
-                                <input onChange={getNewNoticeCred} value={newNotice.to} type="text" name="to" id="to" className="border-2 border-gray-500 rounded px-2 py-1" />
-                            </div>
-                        </div>
-                        <button disabled={isLoading ? true : false} onClick={addNewNotice} className="w-fit px-6 py-1 mt-8 border-2 border-cyan-600 rounded-lg hover:text-white hover:bg-cyan-600 transition-all duration-300">{isLoading ? "Loading..." : "Qo'shish"}</button>
-                    </div>
-                </form>
-            </div>
-
-            {/* notice edit modal */}
-            <NoticeEditModal
-                modal={editModal}
-                setModal={setEditModal}
-                updatedNotice={updatedNotice}
-                setUpdatedNotice={setUpdatedNotice}
-                updateHandler={updateHandler}
+            {/* create and update notice modal */}
+            <NoticeModal
+                isLoading={isLoading}
+                modals={modals}
+                clearModal={clearModal}
+                handleCreateAndUpdate={handleCreateAndUpdate}
+                newNotice={newNotice}
+                setNewNotice={setNewNotice}
             />
         </div>
     )

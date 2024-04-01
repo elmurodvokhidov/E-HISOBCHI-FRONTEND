@@ -33,6 +33,7 @@ import Skeleton from "../../components/loaders/Skeleton";
 
 function GroupInfo() {
     const { group, isLoading } = useSelector(state => state.group);
+    const { auth } = useSelector(state => state.auth);
     const { courses } = useSelector(state => state.course);
     const { teachers } = useSelector(state => state.teacher);
     const { rooms } = useSelector(state => state.room);
@@ -208,7 +209,7 @@ function GroupInfo() {
                     <span><GoDotFill fontSize={10} /></span>
                     <span>{group.course.title}</span>
                     <span><GoDotFill fontSize={10} /></span>
-                    <span>{group.teacher.first_name} {group.teacher.last_name}</span>
+                    <span>{group.teacher?.first_name} {group.teacher?.last_name}</span>
                 </>}
             </div>
 
@@ -223,7 +224,7 @@ function GroupInfo() {
                                     <div className="flex items-center gap-2 text-[18px]">
                                         <span>{group.course.title}</span>
                                         <span><GoDotFill fontSize={6} /></span>
-                                        <span>{group.teacher.first_name} {group.teacher.last_name}</span>
+                                        <span>{group.teacher?.first_name} {group.teacher?.last_name}</span>
                                     </div>
 
                                     <div className="text-xs">
@@ -256,16 +257,19 @@ function GroupInfo() {
                                 </div>
 
 
-                                <div className="flex flex-col justify-start gap-2">
-                                    <button
-                                        onClick={openModal}
-                                        className="w-8 h-8 flex items-center justify-center border border-cyan-600 rounded-full text-cyan-600 hover:text-white hover:bg-cyan-600"><LiaEditSolid /></button>
-                                    <button
-                                        onClick={() => deleteHandler(group._id)}
-                                        className="w-8 h-8 flex items-center justify-center border border-red-500 rounded-full text-red-500 hover:text-white hover:bg-red-500">
-                                        <RiDeleteBin7Line />
-                                    </button>
-                                </div>
+                                {
+                                    auth?.role === "admin" &&
+                                    <div className="flex flex-col justify-start gap-2">
+                                        <button
+                                            onClick={openModal}
+                                            className="w-8 h-8 flex items-center justify-center border border-cyan-600 rounded-full text-cyan-600 hover:text-white hover:bg-cyan-600"><LiaEditSolid /></button>
+                                        <button
+                                            onClick={() => deleteHandler(group._id)}
+                                            className="w-8 h-8 flex items-center justify-center border border-red-500 rounded-full text-red-500 hover:text-white hover:bg-red-500">
+                                            <RiDeleteBin7Line />
+                                        </button>
+                                    </div>
+                                }
                             </div>
 
                             <div className="flex flex-col gap-2 mt-6">

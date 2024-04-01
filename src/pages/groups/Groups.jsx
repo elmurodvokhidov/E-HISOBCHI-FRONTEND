@@ -218,7 +218,7 @@ function Groups() {
                 </div>
                 <button
                     onClick={() => handleModal("modal", true)}
-                    className="border-2 border-cyan-600 rounded px-5 hover:bg-cyan-600 hover:text-white transition-all duration-300">
+                    className="global_add_btn">
                     Yangisini qo'shish
                 </button>
             </div>
@@ -281,7 +281,7 @@ function Groups() {
                                 className="2xsm:w-full flex items-center justify-between capitalize text-[15px] border-2 rounded-lg p-4 shadow-sm cursor-pointer hover:shadow-smooth">
                                 <td className="w-[130px] text-left">{group.name}</td>
                                 <td className="w-[200px] text-left">{group.course?.title}</td>
-                                <td className="w-[270px] text-left">{group.teacher.first_name} {group.teacher.last_name}</td>
+                                <td className="w-[270px] text-left">{group.teacher?.first_name} {group.teacher?.last_name}</td>
                                 <td className="w-[130px] text-left text-sm">
                                     <div>
                                         <h1>{group.day}</h1>

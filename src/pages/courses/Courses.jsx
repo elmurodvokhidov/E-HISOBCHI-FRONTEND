@@ -109,15 +109,15 @@ function Courses() {
                         handleModal("modal", true);
                         handleModal("createModal", true);
                     }}
-                    className="border-2 border-cyan-600 rounded px-5 hover:bg-cyan-600 hover:text-white transition-all duration-300">
+                    className="global_add_btn">
                     Yangisini qo'shish
                 </button>
             </div>
 
             {
-                isLoading ? <>
+                isLoading ? <div className="py-8">
                     <Skeleton parentWidth={90} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
-                </> :
+                </div> :
                     <div className="grid lg:grid-cols-4 md:grid-cols-3 gap-8 py-8">
                         {
                             courses.length > 0 ? courses.map((course, index) => (

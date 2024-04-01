@@ -134,8 +134,7 @@ function Students() {
             if (
                 newStudent.first_name !== "" &&
                 newStudent.last_name !== "" &&
-                newStudent.email !== "" &&
-                newStudent.group !== ""
+                newStudent.email !== ""
             ) {
                 dispatch(studentStart());
                 try {
@@ -157,7 +156,7 @@ function Students() {
                         }
                     } else {
                         // o'quvchi ma'lumotlarini o'zgartirish
-                        const { _id, __v, password, passwordUpdated, createdAt, updatedAt, ...newStudentCred } = newStudent;
+                        const { _id, __v, password, createdAt, updatedAt, ...newStudentCred } = newStudent;
                         const { data } = await AuthService.updateStudent(newStudent._id, newStudentCred);
                         dispatch(getStudentSuccess(data));
                         getAllStudents();
@@ -233,7 +232,7 @@ function Students() {
                     handleModal("modal", true);
                     handleModal("passModal", true);
                     handleModal("createModal", true);
-                }} className="border-2 border-cyan-600 rounded px-5 hover:bg-cyan-600 hover:text-white transition-all duration-300">Yangisini qo'shish</button>
+                }} className="global_add_btn">Yangisini qo'shish</button>
             </div>
 
             <div className="flex gap-4 py-5">

@@ -127,7 +127,7 @@ function Admins() {
                         handleModal("passModal", true);
                         handleModal("createModal", true);
                     }}
-                    className="border-2 border-cyan-600 rounded px-5 hover:bg-cyan-600 hover:text-white transition-all duration-300">
+                    className="global_add_btn">
                     Yangisini qo'shish
                 </button>
             </div>

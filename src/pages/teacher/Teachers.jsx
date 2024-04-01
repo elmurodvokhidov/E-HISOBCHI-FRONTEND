@@ -134,7 +134,7 @@ function Teachers() {
                         }
                     } else {
                         // o'qituvchi ma'lumotlarini o'zgartirish
-                        const { _id, __v, groups, password, passwordUpdated, createdAt, updatedAt, ...newTeacherCred } = newTeacher;
+                        const { _id, __v, groups, password, createdAt, updatedAt, ...newTeacherCred } = newTeacher;
                         const { data } = await AuthService.updateTeacher(newTeacher._id, newTeacherCred);
                         dispatch(getTeacherSuccess(data));
                         getAllTeachersFunc();
@@ -201,14 +201,16 @@ function Teachers() {
         <div className="w-full h-screen overflow-auto pt-24 px-10" onClick={() => handleModal("more", null)}>
             <div className="flex justify-between relative">
                 <div className="flex items-end gap-4 text-[14px]">
-                    <h1 className="capitalize text-3xl">O'qituvchilar</h1>
+                    <h1 className="capitalize text-2xl">O'qituvchilar</h1>
                     <p>Miqdor <span className="inline-block w-4 h-[1px] mx-1 align-middle bg-black"></span> <span>{teachers?.length}</span></p>
                 </div>
                 <button onClick={() => {
                     handleModal("modal", true);
                     handleModal("passModal", true);
                     handleModal("createModal", true);
-                }} className="border-2 border-cyan-600 rounded px-5 hover:bg-cyan-600 hover:text-white transition-all duration-300">Yangisini qo'shish</button>
+                }} className="global_add_btn">
+                    Yangisini qo'shish
+                </button>
             </div>
 
             <div className="grid lg:grid-cols-2 2xsm:grid-cols-1 2xsm:gap-4 py-6">
@@ -216,10 +218,11 @@ function Teachers() {
                     <Skeleton parentWidth={90} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
                 </> : teachers.length > 0 ?
                     teachers.map((teacher, index) => (
-                        <div key={index} className="lg:w-3/4 md:w-[100%] flex justify-between capitalize text-[15px] border-2 rounded-lg p-4 shadow-smooth">
+                        <div key={index} className="lg:w-3/4 md:w-[100%] flex justify-between capitalize text-sm border-2 rounded-lg p-4 shadow-smooth">
                             <NavLink to={`/admin/teacher-info/${teacher._id}`} className="hover:text-cyan-600">{teacher.first_name} {teacher.last_name}</NavLink>
-                            <div className="flex gap-8">
+                            <div className="flex items-center gap-8 text-xs">
                                 <h3 className="text-blue-400">{teacher.contactNumber}</h3>
+                                <h3 className="text-xs lowercase">{teacher.groups.length} guruh</h3>
                                 {/* more button */}
                                 <div onClick={(e) => {
                                     e.stopPropagation()

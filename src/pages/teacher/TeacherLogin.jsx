@@ -9,13 +9,13 @@ import { MdKeyboardBackspace } from "react-icons/md";
 import { Toast } from "../../assets/sweetToast";
 
 function TeacherLogin() {
+    const { isLoading, isLoggedIn } = useSelector(state => state.auth);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [teacher, setTeacher] = useState({
         email: "",
         password: ""
     });
-    const { isLoading, isLoggedIn } = useSelector(state => state.auth);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     function getTeacherDetails(e) {
         setTeacher({

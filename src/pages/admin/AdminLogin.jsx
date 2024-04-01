@@ -8,13 +8,13 @@ import { MdAdminPanelSettings, MdKeyboardBackspace } from "react-icons/md";
 import { Toast } from "../../assets/sweetToast";
 
 function AdminLogin() {
+    const { isLoading, isLoggedIn } = useSelector(state => state.auth);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [admin, setAdmin] = useState({
         email: "",
         password: ""
     });
-    const { isLoading, isLoggedIn } = useSelector(state => state.auth);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     function getAdminDetails(e) {
         setAdmin({

@@ -27,6 +27,12 @@
     border: 2px solid silver;
 }
 
+.sidebar a {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+}
+
 .sidebar a.active::before {
     content: "";
     display: inline-block;
@@ -41,6 +47,27 @@
 
 .sidebar a.active {
     color: rgb(8, 145, 178);
+}
+
+.sidebar a:hover {
+    color: rgb(8 145 178);
+}
+
+.global_add_btn {
+    border: 1px solid rgb(8 145 178);
+    color: rgb(8 145 178);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    border-radius: 1rem;
+    padding: 4px 24px;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+}
+
+.global_add_btn:hover {
+    color: white;
+    background-color: rgb(8 145 178);
 }
 
 .more::before {

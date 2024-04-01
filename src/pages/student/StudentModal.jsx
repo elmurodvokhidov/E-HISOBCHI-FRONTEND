@@ -57,7 +57,7 @@ function StudentModal({
                     <div className="flex justify-between gap-4">
                         {/* First Name */}
                         <div className="w-[47%] flex flex-col">
-                            <label htmlFor="first_name" className="text-[14px]">Ism</label>
+                            <label htmlFor="first_name" className="text-sm">Ism</label>
                             <input
                                 disabled={newStudent._id ? modals.passModal : false}
                                 onChange={getStudentCred}
@@ -70,7 +70,7 @@ function StudentModal({
 
                         {/* Last Name */}
                         <div className="w-[47%] flex flex-col">
-                            <label htmlFor="last_name" className="text-[14px]">Familya</label>
+                            <label htmlFor="last_name" className="text-sm">Familya</label>
                             <input
                                 disabled={newStudent._id ? modals.passModal : false}
                                 onChange={getStudentCred}
@@ -84,7 +84,7 @@ function StudentModal({
 
                     {/* Email */}
                     <div className="flex flex-col">
-                        <label htmlFor="email" className="text-[14px]">Email</label>
+                        <label htmlFor="email" className="text-sm">Email</label>
                         <input
                             disabled={newStudent._id ? modals.passModal : false}
                             onChange={getStudentCred}
@@ -98,7 +98,7 @@ function StudentModal({
                     <div className="flex justify-between">
                         {/* Date of Birth */}
                         <div className="w-[47%] flex flex-col">
-                            <label htmlFor="dob" className="text-[14px]">Tug'ilgan sana</label>
+                            <label htmlFor="dob" className="text-sm">Tug'ilgan sana</label>
                             <input
                                 disabled={newStudent._id ? modals.passModal : false}
                                 onChange={getStudentCred}
@@ -111,7 +111,7 @@ function StudentModal({
 
                         {/* Contact Number */}
                         <div className="w-[47%] flex flex-col">
-                            <label htmlFor="contactNumber" className="text-[14px]">Telefon</label>
+                            <label htmlFor="contactNumber" className="text-sm">Telefon</label>
                             <input
                                 disabled={newStudent._id ? modals.passModal : false}
                                 onChange={getStudentCred}
@@ -126,7 +126,7 @@ function StudentModal({
 
                     {/* Gender */}
                     <div className="w-full">
-                        <p className="text-[14px]">Gender</p>
+                        <p className="text-sm">Gender</p>
                         <div className="flex gap-6">
                             <div className="flex items-center gap-1">
                                 <input
@@ -138,7 +138,7 @@ function StudentModal({
                                     name="gender"
                                     id="erkak"
                                     className="border-gray-300" />
-                                <label htmlFor="erkak" className="text-[14px]">Erkak</label>
+                                <label htmlFor="erkak" className="text-sm">Erkak</label>
                             </div>
 
                             <div className="flex items-center gap-1">
@@ -151,14 +151,14 @@ function StudentModal({
                                     name="gender"
                                     id="ayol"
                                     className="border-gray-300" />
-                                <label htmlFor="ayol" className="text-[14px]">Ayol</label>
+                                <label htmlFor="ayol" className="text-sm">Ayol</label>
                             </div>
                         </div>
                     </div>
 
                     {/* Groups */}
                     <div className="w-full flex flex-col">
-                        <label htmlFor="group" className="text-[14px]">Guruh</label>
+                        <label htmlFor="group" className="text-sm">Guruh</label>
                         <select
                             disabled={newStudent._id ? modals.passModal : false}
                             onChange={getStudentCred}
@@ -187,9 +187,9 @@ function StudentModal({
                                 {
                                     modals.passModal
                                         ?
-                                        <FaAngleUp className="text-[14px]" />
+                                        <FaAngleUp className="text-sm" />
                                         :
-                                        <FaAngleDown className="text-[14px]" />
+                                        <FaAngleDown className="text-sm" />
                                 }
                                 Yangi parol qo'shing
                             </button>
@@ -199,7 +199,7 @@ function StudentModal({
                         modals.passModal ? <>
                             <div className="flex justify-between">
                                 <div className="w-[47%] flex flex-col">
-                                    <label htmlFor="newPassword" className="text-[14px]">Yangi parol</label>
+                                    <label htmlFor="newPassword" className="text-sm">Yangi parol</label>
                                     <input
                                         onChange={getNewPass}
                                         value={newStudent.newPassword}
@@ -209,7 +209,7 @@ function StudentModal({
                                         className="border-2 border-gray-300 rounded px-2 py-1" />
                                 </div>
                                 <div className="w-[47%] flex flex-col">
-                                    <label htmlFor="confirmPassword" className="text-[14px]">Parolni tasdiqlang</label>
+                                    <label htmlFor="confirmPassword" className="text-sm">Parolni tasdiqlang</label>
                                     <input
                                         onChange={getNewPass}
                                         value={newStudent.confirmPassword}
@@ -230,9 +230,9 @@ function StudentModal({
                         {
                             modals.parentsModal
                                 ?
-                                <FaAngleUp className="text-[14px]" />
+                                <FaAngleUp className="text-sm" />
                                 :
-                                <FaAngleDown className="text-[14px]" />
+                                <FaAngleDown className="text-sm" />
                         }
                         Ota-ona ma'lumotlari
                     </button>
@@ -241,7 +241,7 @@ function StudentModal({
                             <div className="grid grid-cols-2 justify-between gap-4">
                                 {/* Father's Name */}
                                 <div className="w-[100%] flex flex-col">
-                                    <label htmlFor="father_name" className="text-[14px]">Otasining ismi</label>
+                                    <label htmlFor="father_name" className="text-sm">Otasining ismi</label>
                                     <input
                                         disabled={newStudent._id ? modals.passModal : false}
                                         onChange={getStudentCred}
@@ -253,7 +253,7 @@ function StudentModal({
                                 </div>
                                 {/* Father's Contact Number */}
                                 <div className="w-[100%] flex flex-col">
-                                    <label htmlFor="fatherContactNumber" className="text-[14px]">Telefon raqami</label>
+                                    <label htmlFor="fatherContactNumber" className="text-sm">Telefon raqami</label>
                                     <input
                                         disabled={newStudent._id ? modals.passModal : false}
                                         onChange={getStudentCred}
@@ -266,7 +266,7 @@ function StudentModal({
                                 </div>
                                 {/* Mother's Name */}
                                 <div className="w-[100%] flex flex-col">
-                                    <label htmlFor="mother_name" className="text-[14px]">Onasining ismi</label>
+                                    <label htmlFor="mother_name" className="text-sm">Onasining ismi</label>
                                     <input
                                         onChange={getStudentCred}
                                         value={newStudent.mother_name}
@@ -277,7 +277,7 @@ function StudentModal({
                                 </div>
                                 {/* Mother's Contact Number */}
                                 <div className="w-[100%] flex flex-col">
-                                    <label htmlFor="motherContactNumber" className="text-[14px]">Telefon raqami</label>
+                                    <label htmlFor="motherContactNumber" className="text-sm">Telefon raqami</label>
                                     <input
                                         onChange={getStudentCred}
                                         value={newStudent.motherContactNumber}
@@ -299,16 +299,16 @@ function StudentModal({
                         {
                             modals.imageModal
                                 ?
-                                <FaAngleUp className="text-[14px]" />
+                                <FaAngleUp className="text-sm" />
                                 :
-                                <FaAngleDown className="text-[14px]" />
+                                <FaAngleDown className="text-sm" />
                         }
                         O'quvchi rasmi
                     </button>
                     {
                         modals.imageModal ? <>
                             <div className="flex flex-col">
-                                <label htmlFor="avatar" className="text-[14px]">Rasm</label>
+                                <label htmlFor="avatar" className="text-sm">Rasm</label>
                                 <input
                                     disabled={newStudent._id ? modals.passModal : false}
                                     type="file"

@@ -18,43 +18,43 @@ function AdminSidebar() {
             <div onClick={() => setOpen(false)}>
                 <NavLink
                     to="/admin/dashboard"
-                    className="cell relative text-gray-500 border-b-2 py-4 px-6 flex flex-col items-center hover:text-cyan-600 transition-all duration-300">
-                    <LuLayoutDashboard className="text-[30px]" />
+                    className="cell relative text-gray-500 border-b-2 py-4 px-6 flex flex-col items-center">
+                    <LuLayoutDashboard className="text-3xl" />
                     <h1 className="text-[14px]">Dashboard</h1>
                 </NavLink>
 
                 <NavLink
                     to="notice"
-                    className="cell relative text-gray-500 border-b-2 py-4 px-6 flex flex-col items-center hover:text-cyan-600 transition-all duration-300">
-                    <CgNotes className="text-[30px]" />
+                    className="cell relative text-gray-500 border-b-2 py-4 px-6 flex flex-col items-center">
+                    <CgNotes className="text-3xl" />
                     <h1 className="text-[14px]">Eslatmalar</h1>
                 </NavLink>
 
                 <NavLink
                     to="admins"
-                    className="cell relative text-gray-500 border-b-2 py-4 px-6 flex flex-col items-center hover:text-cyan-600 transition-all duration-300">
-                    <MdOutlineAdminPanelSettings className="text-[30px]" />
+                    className="cell relative text-gray-500 border-b-2 py-4 px-6 flex flex-col items-center">
+                    <MdOutlineAdminPanelSettings className="text-3xl" />
                     <h1 className="text-[14px]">Adminlar</h1>
                 </NavLink>
 
                 <NavLink
                     to="groups"
-                    className="cell relative text-gray-500 border-b-2 py-4 px-6 flex flex-col items-center hover:text-cyan-600 transition-all duration-300">
-                    <MdLibraryBooks className="text-[30px]" />
+                    className="cell relative text-gray-500 border-b-2 py-4 px-6 flex flex-col items-center">
+                    <MdLibraryBooks className="text-3xl" />
                     <h1 className="text-[14px]">Guruhlar</h1>
                 </NavLink>
 
                 <NavLink
                     to="teachers"
-                    className="cell relative text-gray-500 border-b-2 py-4 px-6 flex flex-col items-center hover:text-cyan-600 transition-all duration-300">
-                    <FaChalkboardTeacher className="text-[30px]" />
+                    className="cell relative text-gray-500 border-b-2 py-4 px-6 flex flex-col items-center">
+                    <FaChalkboardTeacher className="text-3xl" />
                     <h1 className="text-[14px]">O'qituvchilar</h1>
                 </NavLink>
 
                 <NavLink
                     to="students"
-                    className="cell relative text-gray-500 border-b-2 py-4 px-6 flex flex-col items-center hover:text-cyan-600 transition-all duration-300">
-                    <PiStudent className="text-[30px]" />
+                    className="cell relative text-gray-500 border-b-2 py-4 px-6 flex flex-col items-center">
+                    <PiStudent className="text-3xl" />
                     <h1 className="text-[14px]">O'quvchilar</h1>
                 </NavLink>
 
@@ -63,8 +63,8 @@ function AdminSidebar() {
                         e.stopPropagation();
                         setOpen(!open);
                     }}
-                    className="cell relative text-gray-500 border-b-2 py-4 px-6 flex flex-col items-center hover:text-cyan-600 transition-all duration-300">
-                    <IoMdSettings className="text-[30px]" />
+                    className="cell relative text-gray-500 border-b-2 py-4 px-6 flex flex-col items-center">
+                    <IoMdSettings className="text-3xl" />
                     <h1 className="text-[14px]">Sozlamalar</h1>
                 </Link>
             </div>
@@ -77,21 +77,21 @@ function AdminSidebar() {
                 <div className='w-72 h-full pt-24 overflow-y-auto shadow-dim-right bg-white'>
                     <Link
                         to="courses"
-                        className="relative text-gray-500 py-4 px-6 flex justify-start gap-4 hover:text-cyan-600 transition-all duration-300">
+                        className="relative text-gray-500 py-4 px-6 flex justify-start gap-4">
                         <ImBooks className="text-xl" />
                         <h1 className="text-[14px]">Kurslar</h1>
                     </Link>
 
                     <Link
                         to="rooms"
-                        className="relative text-gray-500 py-4 px-6 flex justify-start gap-4 hover:text-cyan-600 transition-all duration-300">
+                        className="relative text-gray-500 py-4 px-6 flex justify-start gap-4">
                         <AiOutlineAppstore className="text-xl" />
                         <h1 className="text-[14px]">Xonalar</h1>
                     </Link>
 
                     <Link
                         to="settings"
-                        className="relative text-gray-500 py-4 px-6 flex justify-start gap-4 hover:text-cyan-600 transition-all duration-300">
+                        className="relative text-gray-500 py-4 px-6 flex justify-start gap-4">
                         <IoMdSettings className="text-xl" />
                         <h1 className="text-[14px]">Umumiy sozlamalar</h1>
                     </Link>

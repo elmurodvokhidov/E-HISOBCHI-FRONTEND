@@ -9,13 +9,13 @@ import { PiStudentFill } from "react-icons/pi";
 import { Toast } from "../../assets/sweetToast";
 
 function StudentLogin() {
+    const { isLoading, isLoggedIn } = useSelector(state => state.auth);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [student, setStudent] = useState({
         email: "",
         password: ""
     });
-    const { isLoading, isLoggedIn } = useSelector(state => state.auth);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     function getStudentDetails(e) {
         setStudent({
