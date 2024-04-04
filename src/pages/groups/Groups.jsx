@@ -48,10 +48,17 @@ function Groups() {
     });
     const [modals, setModals] = useState({
         modal: false,
-        // createModal: false,
         more: null,
     });
+    const [filters, setFilters] = useState({
+        teacher: "",
+        course: "",
+        day: "",
+        start_date: "",
+        end_date: ""
+    });
     const navigate = useNavigate();
+    const [days, setDays] = useState(['Toq kunlari', 'Juft kunlari', 'Dam olish kuni', 'Har kuni',]);
 
     const getAllGroupsFunc = async () => {
         try {
@@ -100,6 +107,50 @@ function Groups() {
         getAllRoomsFunc();
     }, []);
 
+    const handleFilterChange = (e) => {
+        setFilters({
+            ...filters,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    // Guruhlarni filterlash funksiyasi
+    const filteredGroups = groups.filter(group => {
+        return Object.entries(filters).every(([key, value]) => {
+            if (value === "") return true;
+
+            if (key === "teacher") {
+                return `${group[key].first_name} ${group[key].last_name}` === value;
+            }
+
+            if (key === "course") {
+                return group[key].title === value;
+            }
+
+            if (key === "day") {
+                return group[key] === value;
+            }
+
+            if (key === 'startDate' || key === 'endDate') {
+                return new Date(group['start_date']) >= new Date(filters['startDate']) &&
+                    new Date(group['end_date']) <= new Date(filters['endDate']);
+            }
+
+            return group[key] === value;
+        });
+    });
+
+
+    // Tasodifiy ranglarni generatsiya qiladigan funksiya
+    function getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    };
+
     const handleModal = (modalName, value) => {
         setModals(prevState => ({ ...prevState, [modalName]: value }));
     };
@@ -117,7 +168,6 @@ function Groups() {
         });
         setModals({
             modal: false,
-            // createModal: false,
             more: null,
         });
     };
@@ -127,6 +177,17 @@ function Groups() {
         handleModal("modal", true);
     };
 
+    // Guruh tugash sanasini kurs davomiyligiga ko'ra hisoblash
+    const selectedCourse = courses.find(course => course._id === newGroup.course);
+    const startDate = new Date(newGroup.start_date);
+    let endDate = null;
+    if (newGroup.start_date !== "" && selectedCourse) {
+        const endMonth = startDate.getMonth() + selectedCourse.course_duration;
+        const endYear = startDate.getFullYear() + Math.floor(endMonth / 12);
+        const endDay = new Date(endYear, endMonth % 12, startDate.getDate());
+        endDate = `${endYear}-${(endMonth % 12 + 1).toString().padStart(2, '0')}-${endDay.getDate().toString().padStart(2, '0')}`;
+    }
+
     const handleCreateAndUpdate = async (e) => {
         e.preventDefault();
         if (
@@ -135,13 +196,12 @@ function Groups() {
             newGroup.day !== "" &&
             newGroup.room !== "" &&
             newGroup.start_time !== "" &&
-            newGroup.start_date !== "" &&
-            newGroup.end_date !== ""
+            newGroup.start_date !== ""
         ) {
             try {
                 dispatch(groupStart());
                 if (!newGroup._id) {
-                    const { data } = await AuthService.addNewGroup(newGroup);
+                    const { data } = await AuthService.addNewGroup({ ...newGroup, end_date: endDate, color: getRandomColor() });
                     getAllGroupsFunc();
                     clearModal();
                     await Toast.fire({
@@ -149,7 +209,7 @@ function Groups() {
                         title: data.message
                     });
                 } else {
-                    const { _id, __v, students, createdAt, updatedAt, ...updatedGroupCred } = newGroup;
+                    const { _id, __v, color, students, createdAt, updatedAt, ...updatedGroupCred } = newGroup;
                     const { data } = await AuthService.updateGroup(newGroup._id, updatedGroupCred);
                     dispatch(getGroupSuccess(data));
                     getAllGroupsFunc();
@@ -206,7 +266,7 @@ function Groups() {
     };
 
     return (
-        <div className="students w-full h-screen overflow-auto pt-24 px-10" onClick={() => handleModal("more", null)}>
+        <div className="students w-full h-screen pt-24 px-10" onClick={() => handleModal("more", null)}>
             <div className="flex justify-between relative">
                 <div className="flex items-end gap-4 text-[14px]">
                     <h1 className="capitalize text-3xl">Guruhlar</h1>
@@ -223,101 +283,199 @@ function Groups() {
                 </button>
             </div>
 
-            <div className="flex gap-4 py-5">
-                <input
-                    className="px-4 py-1 text-[12px] outline-cyan-600 border-2 rounded"
-                    type="text"
-                    name="search"
-                    id="search"
-                    placeholder="Search by name or phone" />
+            <div className="flex items-center flex-wrap gap-4 py-8">
+                {/* Teachers */}
+                <div className="relative text-gray-500">
+                    <label
+                        htmlFor="teacher"
+                        className="absolute text-xs bg-white -top-1.5 left-3">
+                        <span>O'qituvchi</span>
+                    </label>
+                    <select
+                        value={filters.teacher}
+                        onChange={handleFilterChange}
+                        name="teacher"
+                        id="teacher"
+                        className="w-full p-2 text-sm rounded border-2 outline-cyan-600">
+                        <option
+                            value=""
+                            className="text-sm italic">
+                            None
+                        </option>
+                        {
+                            teachers.map(teacher => (
+                                <option
+                                    key={teacher._id}
+                                    value={`${teacher.first_name} ${teacher.last_name}`}
+                                    className="text-sm">
+                                    {teacher?.first_name} {teacher?.last_name}
+                                </option>
+                            ))
+                        }
+                    </select>
+                </div>
 
-                <select
-                    name=""
-                    id=""
-                    className="text-[12px] outline-cyan-600 border-2 rounded">
-                    <option
-                        value=""
-                        className="text-gray-700 block px-4 py-2 text-sm italic">
-                        None
-                    </option>
-                    {
-                        courses.map(course => (
-                            <option
-                                key={course._id}
-                                value={course?.title}
-                                className="text-gray-700 block px-4 py-2 text-sm">
-                                {course?.title}
-                            </option>
-                        ))
-                    }
-                </select>
+                {/* Courses */}
+                <div className="relative text-gray-500">
+                    <label
+                        htmlFor="course"
+                        className="absolute text-xs bg-white -top-1.5 left-3">
+                        <span>Kurslar</span>
+                    </label>
+                    <select
+                        value={filters.course}
+                        onChange={handleFilterChange}
+                        name="course"
+                        id="course"
+                        className="w-full p-2 text-sm rounded border-2 outline-cyan-600">
+                        <option
+                            value=""
+                            className="text-sm italic">
+                            None
+                        </option>
+                        {
+                            courses.map(course => (
+                                <option
+                                    key={course._id}
+                                    value={course?.title}
+                                    className="text-sm">
+                                    {course?.title}
+                                </option>
+                            ))
+                        }
+                    </select>
+                </div>
+
+
+                {/* Days */}
+                <div className="relative text-gray-500">
+                    <label
+                        htmlFor="day"
+                        className="absolute text-xs bg-white -top-1.5 left-3">
+                        <span>Kunlar</span>
+                    </label>
+                    <select
+                        value={filters.day}
+                        onChange={handleFilterChange}
+                        name="day"
+                        id="day"
+                        className="w-full p-2 text-sm rounded border-2 outline-cyan-600">
+                        <option
+                            value=""
+                            className="text-sm italic">
+                            None
+                        </option>
+                        {
+                            days.map((day, index) => (
+                                <option value={day} key={index}>{day}</option>
+                            ))
+                        }
+                    </select>
+                </div>
+
+                {/* Start Date */}
+                <div className="relative text-gray-500">
+                    <label
+                        htmlFor="start_date"
+                        className="absolute text-xs bg-white -top-1.5 left-3">
+                        <span>Boshlanish</span>
+                    </label>
+                    <input
+                        value={filters.start_date}
+                        onChange={handleFilterChange}
+                        type="date"
+                        name="start_date"
+                        id="start_date"
+                        className="w-full p-1.5 text-sm rounded border-2 outline-cyan-600" />
+                </div>
+
+                {/* End Date */}
+                <div className="relative text-gray-500">
+                    <label
+                        htmlFor="end_date"
+                        className="absolute text-xs bg-white -top-1.5 left-3">
+                        <span>Tugash</span>
+                    </label>
+                    <input
+                        value={filters.end_date}
+                        onChange={handleFilterChange}
+                        type="date"
+                        name="end_date"
+                        id="end_date"
+                        className="w-full p-1.5 text-sm rounded border-2 outline-cyan-600" />
+                </div>
+
+                {/* Clear Filter */}
+                <button onClick={() => setFilters({ teacher: "", course: "", day: "", start_date: "", end_date: "" })} className="border-2 rounded p-2 text-sm text-gray-700 bg-white hover:bg-gray-100 hover:text-gray-500 transition-all">Filterni tiklash</button>
             </div>
 
-            <table className="w-full mt-4">
-                <thead>
-                    <tr className="font-semibold text-[14px] flex justify-between text-left px-4">
-                        <th className="w-[130px] text-left">Guruh</th>
-                        <th className="w-[200px] text-left">Kurslar</th>
-                        <th className="w-[270px] text-left">O'qituvchi</th>
-                        <th className="w-[130px] text-left">Kunlar</th>
-                        <th className="w-[130px] text-left">Sanalar</th>
-                        <th className="w-[100px] text-left">Xonalar</th>
-                        <th className="w-[80px] text-left">Talabalar</th>
-                        <th className="w-[80px] text-left">Amallar</th>
-                    </tr>
-                </thead>
-                <tbody className="grid grid-cols-1 2xsm:gap-4 py-4">
-                    {isLoading ? <>
-                        <tr className="w-[90%] flex flex-col justify-center gap-1 p-8 shadow-smooth animate-pulse bg-white">
-                            <td className="w-[85%] h-4 rounded bg-gray-300">&nbsp;</td>
-                            <td className="w-[50%] h-4 rounded bg-gray-300">&nbsp;</td>
-                            <td className="w-[65%] h-4 rounded bg-gray-300">&nbsp;</td>
+            <div className="overflow-x-auto">
+                <table className="w-full mt-4">
+                    <thead>
+                        <tr className="font-semibold text-xs flex justify-between text-left px-4">
+                            <th className="w-[130px] text-left">Guruh</th>
+                            <th className="w-[200px] text-left">Kurslar</th>
+                            <th className="w-[270px] text-left">O'qituvchi</th>
+                            <th className="w-[130px] text-left">Kunlar</th>
+                            <th className="w-[130px] text-left">Sanalar</th>
+                            <th className="w-[100px] text-left">Xonalar</th>
+                            <th className="w-[80px] text-left">Talabalar</th>
+                            <th className="w-[80px] text-left">Amallar</th>
                         </tr>
-                    </> : groups.length > 0 ?
-                        groups.map((group, index) => (
-                            <tr
-                                onClick={() => navigate(`/admin/group-info/${group._id}`)}
-                                key={index}
-                                className="2xsm:w-full flex items-center justify-between capitalize text-[15px] border-2 rounded-lg p-4 shadow-sm cursor-pointer hover:shadow-smooth">
-                                <td className="w-[130px] text-left">{group.name}</td>
-                                <td className="w-[200px] text-left">{group.course?.title}</td>
-                                <td className="w-[270px] text-left">{group.teacher?.first_name} {group.teacher?.last_name}</td>
-                                <td className="w-[130px] text-left text-sm">
-                                    <div>
-                                        <h1>{group.day}</h1>
-                                        <h1>{group.start_time}</h1>
-                                    </div>
-                                </td>
-                                <td className="w-[130px] text-left text-sm">
-                                    <div>
-                                        <h1 className="flex items-center gap-1">
-                                            {group.start_date}
-                                            <span className="inline-block align-middle w-4 border border-gray-500"></span>
-                                        </h1>
-                                        <h1>{group.end_date}</h1>
-                                    </div>
-                                </td>
-                                <td className="w-[100px] text-left">{group.room.name}</td>
-                                <td className="w-[80px] text-center">{group.students.length}</td>
-                                <td className="w-[80px] flex justify-center gap-8">
-                                    {/* more button */}
-                                    <div onClick={(e) => {
-                                        e.stopPropagation()
-                                        handleModal("more", group._id)
-                                    }} className="relative cursor-pointer text-cyan-600 text-xl">
-                                        <IoMdMore />
-                                        {/* more btn modal */}
-                                        <div className={`${modals.more === group._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute 2xsm:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] bg-white`}>
-                                            <button onClick={() => openModal(group._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"><LiaEditSolid />Tahrirlash</button>
-                                            <button onClick={() => deleteHandler(group._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-red-500"><RiDeleteBin7Line />O'chirish</button>
-                                        </div>
-                                    </div>
-                                </td>
+                    </thead>
+                    <tbody className="grid grid-cols-1 2xsm:gap-4 py-4">
+                        {isLoading ? <>
+                            <tr className="w-[90%] flex flex-col justify-center gap-1 p-8 shadow-smooth animate-pulse bg-white">
+                                <td className="w-[85%] h-4 rounded bg-gray-300">&nbsp;</td>
+                                <td className="w-[50%] h-4 rounded bg-gray-300">&nbsp;</td>
+                                <td className="w-[65%] h-4 rounded bg-gray-300">&nbsp;</td>
                             </tr>
-                        )) : <tr><td>Ma'lumot topilmadi</td></tr>
-                    }
-                </tbody>
-            </table>
+                        </> : filteredGroups.length > 0 ?
+                            filteredGroups.map((group, index) => (
+                                <tr
+                                    onClick={() => navigate(`/admin/group-info/${group._id}`)}
+                                    key={index}
+                                    className="2xsm:w-full flex items-center justify-between capitalize text-sm border-2 rounded-lg px-4 py-3 shadow-sm cursor-pointer hover:shadow-smooth transition-all">
+                                    <td className="w-[130px] text-left">{group.name}</td>
+                                    <td className="w-[200px] text-left text-xs">{group.course?.title}</td>
+                                    <td className="w-[270px] text-left">{group.teacher?.first_name} {group.teacher?.last_name}</td>
+                                    <td className="w-[130px] text-left text-xs">
+                                        <div>
+                                            <h1>{group.day}</h1>
+                                            <h1>{group.start_time}</h1>
+                                        </div>
+                                    </td>
+                                    <td className="w-[130px] text-left text-xs">
+                                        <div>
+                                            <h1 className="flex items-center gap-1">
+                                                {group.start_date}
+                                                <span className="inline-block align-middle w-4 border border-gray-500"></span>
+                                            </h1>
+                                            <h1>{group.end_date}</h1>
+                                        </div>
+                                    </td>
+                                    <td className="w-[100px] text-left text-xs">{group.room.name}</td>
+                                    <td className="w-[80px] text-center">{group.students.length}</td>
+                                    <td className="w-[80px] flex justify-center gap-8">
+                                        {/* more button */}
+                                        <div onClick={(e) => {
+                                            e.stopPropagation()
+                                            handleModal("more", group._id)
+                                        }} className="relative cursor-pointer text-cyan-600 text-xl">
+                                            <IoMdMore />
+                                            {/* more btn modal */}
+                                            <div className={`${modals.more === group._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute 2xsm:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] bg-white`}>
+                                                <button onClick={() => openModal(group._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"><LiaEditSolid />Tahrirlash</button>
+                                                <button onClick={() => deleteHandler(group._id)} className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-red-500"><RiDeleteBin7Line />O'chirish</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            )) : <tr><td>Ma'lumot topilmadi</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
 
             {/* create and update group modal */}
             <GroupModal

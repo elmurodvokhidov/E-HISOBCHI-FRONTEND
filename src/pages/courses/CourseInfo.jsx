@@ -191,7 +191,7 @@ function CourseInfo() {
                                 {
                                     course.groups.length > 0 ?
                                         course.groups.map((group, index) => (
-                                            <NavLink to={`/admin/group-info/${group._id}`} key={index}>
+                                            <NavLink to={`/${localStorage.getItem("x-auth")}/group-info/${group._id}`} key={index}>
                                                 <div className="courseCard w-50% p-4 cursor-pointer bg-white shadow-smooth">
                                                     <h1 className="w-fit text-xs rounded px-2 py-1 bg-gray-200">{group.name}</h1>
                                                     <div className="flex items-start justify-between gap-8">

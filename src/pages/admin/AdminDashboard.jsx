@@ -10,7 +10,7 @@ import { allStudentSuccess } from "../../redux/slices/studentSlice";
 import SplineChart from "../../components/charts/SplineChart";
 import TimelineChart from "../../components/charts/TimelineChart";
 
-function Dashboard() {
+function AdminDashboard() {
     const { admins } = useSelector(state => state.admin);
     const { teachers } = useSelector(state => state.teacher);
     const { students } = useSelector(state => state.student);
@@ -75,4 +75,4 @@ function Dashboard() {
     )
 }
 
-export default Dashboard
+export default AdminDashboard

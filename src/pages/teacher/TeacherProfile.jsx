@@ -191,7 +191,7 @@ export default function TeacherProfile({ teacher, isLoading }) {
                         {
                             teacher?.groups.length > 0 ?
                                 teacher.groups.map((group, index) => (
-                                    <NavLink to={`/admin/group-info/${group._id}`} key={index}>
+                                    <NavLink to={`/${localStorage.getItem("x-auth")}/group-info/${group._id}`} key={index}>
                                         <div className="courseCard flex gap-28 w-50% p-5 cursor-pointer bg-white shadow-smooth">
                                             <div className="flex flex-col text-xs">
                                                 <h1 className="w-fit text-[10px] rounded px-2 py-1 bg-gray-200">{group.name}</h1>

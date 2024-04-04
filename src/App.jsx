@@ -1,20 +1,17 @@
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import AdminLogin from "./pages/admin/AdminLogin";
 import { useDispatch } from "react-redux";
 import { authSuccess } from "./redux/slices/authSlice";
 import AuthService from "./config/authService";
 import Login from "./components/Login";
-import TeacherLogin from "./pages/teacher/TeacherLogin";
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";
-import StudentLogin from "./pages/student/StudentLogin";
 import StudentDashboard from "./pages/student/StudentDashboard";
 import Notice from "./pages/notices/Notice";
 import Admins from "./pages/admin/Admins";
 import Teachers from "./pages/teacher/Teachers";
 import Students from "./pages/student/Students";
 import AdminLayout from "./pages/admin/AdminLayout";
-import Dashboard from "./pages/admin/Dashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 import Profile from "./components/Profile";
 import TeacherInfo from "./pages/teacher/TeacherInfo";
 import StudentInfo from "./pages/student/StudentInfo";
@@ -28,6 +25,7 @@ import GeneralSettings from "./pages/admin/GeneralSettings";
 import Rooms from "./pages/rooms/Rooms";
 import CourseInfo from "./pages/courses/CourseInfo";
 import GroupInfo from "./pages/groups/GroupInfo";
+import TeacherSalary from "./pages/teacher/TeacherSalary";
 
 function App() {
   const dispatch = useDispatch();
@@ -65,9 +63,8 @@ function App() {
         <Route path="*" element={<NotFound />} />
 
         {/* admin routes */}
-        <Route path="admin/login" element={<AdminLogin />} />
         <Route path="admin" element={<AdminLayout />}>
-          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="notice" element={<Notice />} />
           <Route path="admins" element={<Admins />} />
           <Route path="admin-info/:id" element={<AdminInfo />} />
@@ -85,21 +82,21 @@ function App() {
         </Route>
 
         {/* teacher routes */}
-        <Route path="teacher/login" element={<TeacherLogin />} />
         <Route path="teacher" element={<TeacherLayout />}>
           <Route path="dashboard" element={<TeacherDashboard />} />
           <Route path="profile" element={<Profile />} />
           <Route path="notice" element={<Notice />} />
           <Route path="group-info/:id" element={<GroupInfo />} />
+          <Route path="salary" element={<TeacherSalary />} />
         </Route>
 
         {/* student routes */}
-        <Route path="student/login" element={<StudentLogin />} />
         <Route path="student" element={<StudentLayout />}>
           <Route path="dashboard" element={<StudentDashboard />} />
           <Route path="profile" element={<Profile />} />
           <Route path="notice" element={<Notice />} />
           <Route path="course-info/:id" element={<CourseInfo />} />
+          <Route path="group-info/:id" element={<GroupInfo />} />
         </Route>
       </Routes>
     </div>

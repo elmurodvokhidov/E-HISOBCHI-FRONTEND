@@ -74,27 +74,6 @@ function Navbar() {
         dispatch(authStart());
         dispatch(authLogout());
         navigate("/");
-
-        // Swal.fire({
-        //     title: "Ishonchingiz komilmi?",
-        //     text: "Ushbu harakat hisobning o'chirilishiga olib kelmaydi!",
-        //     icon: "warning",
-        //     showCancelButton: true,
-        //     confirmButtonColor: "#3085d6",
-        //     cancelButtonColor: "#d33",
-        //     cancelButtonText: "Yo'q",
-        //     confirmButtonText: "Ha, albatta!"
-        // }).then((result) => {
-        //     if (result.isConfirmed) {
-        //         dispatch(authStart());
-        //         dispatch(authLogout());
-        //         navigate("/");
-        //         Toast.fire({
-        //             icon: "success",
-        //             title: "Successfully loged out!"
-        //         });
-        //     }
-        // });
     };
 
     return (

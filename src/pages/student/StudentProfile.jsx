@@ -249,7 +249,7 @@ function StudentProfile({ student, isLoading, }) {
                     <div className="grid grid-cols-2 gap-8 mt-6">
                         {
                             student?.group ?
-                                <NavLink to={`/admin/group-info/${student.group._id}`}>
+                                <NavLink to={`/${localStorage.getItem("x-auth")}/group-info/${student.group._id}`}>
                                     <div className="courseCard w-50% p-4 cursor-pointer bg-white shadow-smooth">
                                         <h1 className="w-fit text-xs rounded px-2 py-1 bg-gray-200">{student.group.name}</h1>
                                         <div className="flex items-start justify-between gap-8">

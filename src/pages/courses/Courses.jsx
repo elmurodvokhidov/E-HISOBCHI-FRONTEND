@@ -27,8 +27,17 @@ function Courses() {
         modal: false,
         createModal: false,
     });
-    const colors = ["#FF7BA3", "#FF7092", "#3ADDAE", "#8BCDCD", "#9AD3BC", "#67DB73", "#94D652", "#F87561", "#C38CEE"];
     const navigate = useNavigate();
+
+    // Tasodifiy ranglarni generatsiya qiladigan funksiya
+    function getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    };
 
     const getAllCourses = async () => {
         try {
@@ -75,7 +84,7 @@ function Courses() {
         ) {
             try {
                 dispatch(courseStart());
-                const { data } = await AuthService.addNewCourse({ ...newCourse, color: colors[Math.floor(Math.random() * colors.length)] });
+                const { data } = await AuthService.addNewCourse({ ...newCourse, color: getRandomColor() });
                 getAllCourses();
                 clearModal();
                 await Toast.fire({

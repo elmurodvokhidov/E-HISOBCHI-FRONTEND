@@ -30,7 +30,7 @@ function GroupModal({
             style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modals.modal ? "1" : "0", zIndex: modals.modal ? "20" : "-1" }}>
             <form
                 onClick={(e) => e.stopPropagation()}
-                className="w-[30%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white"
+                className="w-[27%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white"
                 style={{ right: modals.modal ? "0" : "-200%" }}>
                 <div
                     className="flex justify-between text-xl p-5 border-b-2">
@@ -155,18 +155,17 @@ function GroupModal({
 
                     {/* End lesson date */}
                     {
-                        newGroup.start_date !== "" ?
-                            <div className="flex flex-col">
-                                <label htmlFor="end_date" className="text-[14px]">Guruh tugash sanasi</label>
-                                <input
-                                    onChange={getGroupCred}
-                                    value={newGroup.end_date}
-                                    type="date"
-                                    name="end_date"
-                                    id="end_date"
-                                    className="border-2 border-gray-300 rounded px-2 py-1" />
-                            </div>
-                            : null
+                        newGroup._id &&
+                        <div className="flex flex-col">
+                            <label htmlFor="end_date" className="text-[14px]">Guruh tugash sanasi</label>
+                            <input
+                                onChange={getGroupCred}
+                                value={newGroup.end_date}
+                                type="date"
+                                name="end_date"
+                                id="end_date"
+                                className="border-2 border-gray-300 rounded px-2 py-1" />
+                        </div>
                     }
 
                     {/* Button */}

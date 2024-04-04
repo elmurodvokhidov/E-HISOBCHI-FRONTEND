@@ -23,7 +23,7 @@ function TeacherSidebar() {
                 ))
             }
             <NavLink
-                to="/"
+                to="/teacher/salary"
                 className="w-32 relative flex flex-col items-center gap-2 py-4">
                 <PiHandCoinsLight className="text-3xl" />
                 <h1 className="text-xs">Ish haqi</h1>
