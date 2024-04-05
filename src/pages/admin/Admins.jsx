@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Toast, ToastLeft } from "../../assets/sweetToast";
 import AdminModal from "./AdminModal";
+import Skeleton from "../../components/loaders/Skeleton";
 
 function Admins() {
     const { admins, isLoading } = useSelector(state => state.admin);
@@ -111,10 +112,10 @@ function Admins() {
     };
 
     return (
-        <div className="admins w-full h-screen overflow-auto pt-24 px-10">
+        <div className="admins container">
             <div className="flex justify-between relative">
                 <div className="flex items-end gap-4 text-[14px]">
-                    <h1 className="capitalize text-3xl">Adminlar</h1>
+                    <h1 className="capitalize text-2xl">Adminlar</h1>
                     <p>
                         Miqdor
                         <span className="inline-block w-4 h-[1px] mx-1 align-middle bg-black"></span>
@@ -151,11 +152,7 @@ function Admins() {
                             </li>
                         )) :
                         <>
-                            <div className="w-[90%] flex flex-col justify-center gap-1 p-8 shadow-smooth animate-pulse bg-white">
-                                <div className="w-[85%] h-4 rounded bg-gray-300">&nbsp;</div>
-                                <div className="w-[50%] h-4 rounded bg-gray-300">&nbsp;</div>
-                                <div className="w-[65%] h-4 rounded bg-gray-300">&nbsp;</div>
-                            </div>
+                            <Skeleton parentWidth={90} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
                         </>
                 }
             </ul>

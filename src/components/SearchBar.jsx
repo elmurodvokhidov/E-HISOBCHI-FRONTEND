@@ -3,12 +3,13 @@ import { FaSearch } from "react-icons/fa";
 import AuthService from "../config/authService";
 import { useDispatch, useSelector } from "react-redux";
 import { allStudentSuccess, studentStart } from "../redux/slices/studentSlice";
+import { Link } from "react-router-dom";
 
 export default function SearchBar() {
     const { students } = useSelector(state => state.student);
     const dispatch = useDispatch();
     const [results, setResults] = useState([]);
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true);
 
     const getAllStudents = async () => {
         try {
@@ -41,7 +42,9 @@ export default function SearchBar() {
             <div className={`w-full max-h-64 absolute top-6 flex flex-col mt-4 rounded-b-md overflow-y-auto bg-white shadow-md`}>
                 {
                     results.length > 0 ? results.map((result, index) => (
-                        <div className="flex items-center gap-4 px-5 py-3 hover:bg-gray-100" key={index}><FaSearch className="text-gray-500" />{result.first_name} {result.last_name}</div>
+                        <Link
+                         to={`/admin/student-info/${result._id}`} 
+                         className="flex items-center gap-4 px-5 py-3 hover:bg-gray-100" key={index}><FaSearch className="text-gray-500" />{result.first_name} {result.last_name}</Link>
                     )) : null
                 }
             </div>

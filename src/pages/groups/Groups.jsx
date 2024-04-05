@@ -29,6 +29,7 @@ import {
     roomStart
 } from "../../redux/slices/roomSlice";
 import GroupModal from "./GroupModal";
+import { GoHorizontalRule } from "react-icons/go";
 
 function Groups() {
     const { groups, isLoading } = useSelector(state => state.group);
@@ -131,15 +132,30 @@ function Groups() {
                 return group[key] === value;
             }
 
-            if (key === 'startDate' || key === 'endDate') {
-                return new Date(group['start_date']) >= new Date(filters['startDate']) &&
-                    new Date(group['end_date']) <= new Date(filters['endDate']);
+            if (key === 'start_date' || key === 'end_date') {
+                const groupStartDate = new Date(group['start_date']);
+                const groupEndDate = new Date(group['end_date']);
+                const filterStartDate = new Date(filters['start_date']);
+                const filterEndDate = new Date(filters['end_date']);
+
+                if (filters['start_date'] && filters['end_date']) {
+                    return groupStartDate >= filterStartDate && groupEndDate <= filterEndDate;
+                }
+                else if (filters['start_date']) {
+                    return groupStartDate >= filterStartDate;
+                }
+                else if (filters['end_date']) {
+                    return groupEndDate <= filterEndDate;
+                }
+                else {
+                    return true;
+                }
             }
+
 
             return group[key] === value;
         });
     });
-
 
     // Tasodifiy ranglarni generatsiya qiladigan funksiya
     function getRandomColor() {
@@ -266,10 +282,10 @@ function Groups() {
     };
 
     return (
-        <div className="students w-full h-screen pt-24 px-10" onClick={() => handleModal("more", null)}>
+        <div className="students container" onClick={() => handleModal("more", null)}>
             <div className="flex justify-between relative">
                 <div className="flex items-end gap-4 text-[14px]">
-                    <h1 className="capitalize text-3xl">Guruhlar</h1>
+                    <h1 className="capitalize text-2xl">Guruhlar</h1>
                     <p>
                         <span>Miqdor</span>
                         <span className="inline-block w-4 h-[1px] mx-1 align-middle bg-black"></span>
@@ -296,7 +312,7 @@ function Groups() {
                         onChange={handleFilterChange}
                         name="teacher"
                         id="teacher"
-                        className="w-full p-2 text-sm rounded border-2 outline-cyan-600">
+                        className="w-full p-2 text-sm rounded border outline-cyan-600">
                         <option
                             value=""
                             className="text-sm italic">
@@ -327,7 +343,7 @@ function Groups() {
                         onChange={handleFilterChange}
                         name="course"
                         id="course"
-                        className="w-full p-2 text-sm rounded border-2 outline-cyan-600">
+                        className="w-full p-2 text-sm rounded border outline-cyan-600">
                         <option
                             value=""
                             className="text-sm italic">
@@ -346,7 +362,6 @@ function Groups() {
                     </select>
                 </div>
 
-
                 {/* Days */}
                 <div className="relative text-gray-500">
                     <label
@@ -359,7 +374,7 @@ function Groups() {
                         onChange={handleFilterChange}
                         name="day"
                         id="day"
-                        className="w-full p-2 text-sm rounded border-2 outline-cyan-600">
+                        className="w-full p-2 text-sm rounded border outline-cyan-600">
                         <option
                             value=""
                             className="text-sm italic">
@@ -386,7 +401,7 @@ function Groups() {
                         type="date"
                         name="start_date"
                         id="start_date"
-                        className="w-full p-1.5 text-sm rounded border-2 outline-cyan-600" />
+                        className="w-full p-1.5 text-sm rounded border outline-cyan-600" />
                 </div>
 
                 {/* End Date */}
@@ -402,11 +417,11 @@ function Groups() {
                         type="date"
                         name="end_date"
                         id="end_date"
-                        className="w-full p-1.5 text-sm rounded border-2 outline-cyan-600" />
+                        className="w-full p-1.5 text-sm rounded border outline-cyan-600" />
                 </div>
 
                 {/* Clear Filter */}
-                <button onClick={() => setFilters({ teacher: "", course: "", day: "", start_date: "", end_date: "" })} className="border-2 rounded p-2 text-sm text-gray-700 bg-white hover:bg-gray-100 hover:text-gray-500 transition-all">Filterni tiklash</button>
+                <button onClick={() => setFilters({ teacher: "", course: "", day: "", start_date: "", end_date: "" })} className="border rounded p-2 text-sm text-gray-700 bg-white hover:bg-gray-100 hover:text-gray-500 transition-all">Filterni tiklash</button>
             </div>
 
             <div className="overflow-x-auto">
@@ -420,22 +435,22 @@ function Groups() {
                             <th className="w-[130px] text-left">Sanalar</th>
                             <th className="w-[100px] text-left">Xonalar</th>
                             <th className="w-[80px] text-left">Talabalar</th>
-                            <th className="w-[80px] text-left">Amallar</th>
+                            <th className="w-[80px] text-center">Amallar</th>
                         </tr>
                     </thead>
                     <tbody className="grid grid-cols-1 2xsm:gap-4 py-4">
                         {isLoading ? <>
                             <tr className="w-[90%] flex flex-col justify-center gap-1 p-8 shadow-smooth animate-pulse bg-white">
-                                <td className="w-[85%] h-4 rounded bg-gray-300">&nbsp;</td>
-                                <td className="w-[50%] h-4 rounded bg-gray-300">&nbsp;</td>
-                                <td className="w-[65%] h-4 rounded bg-gray-300">&nbsp;</td>
+                                <td className="w-[85%] h-4 rounded bg-gray-300"></td>
+                                <td className="w-[50%] h-4 rounded bg-gray-300"></td>
+                                <td className="w-[65%] h-4 rounded bg-gray-300"></td>
                             </tr>
                         </> : filteredGroups.length > 0 ?
                             filteredGroups.map((group, index) => (
                                 <tr
                                     onClick={() => navigate(`/admin/group-info/${group._id}`)}
                                     key={index}
-                                    className="2xsm:w-full flex items-center justify-between capitalize text-sm border-2 rounded-lg px-4 py-3 shadow-sm cursor-pointer hover:shadow-smooth transition-all">
+                                    className="2xsm:w-full flex items-center justify-between capitalize text-sm border rounded-lg px-4 py-3 cursor-pointer hover:shadow-md transition-all">
                                     <td className="w-[130px] text-left">{group.name}</td>
                                     <td className="w-[200px] text-left text-xs">{group.course?.title}</td>
                                     <td className="w-[270px] text-left">{group.teacher?.first_name} {group.teacher?.last_name}</td>
@@ -449,7 +464,7 @@ function Groups() {
                                         <div>
                                             <h1 className="flex items-center gap-1">
                                                 {group.start_date}
-                                                <span className="inline-block align-middle w-4 border border-gray-500"></span>
+                                                <GoHorizontalRule />
                                             </h1>
                                             <h1>{group.end_date}</h1>
                                         </div>

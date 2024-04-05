@@ -9,8 +9,9 @@ import AuthService from "../config/authService";
 import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import { authLogout, authStart } from "../redux/slices/authSlice";
+import { IoMenuOutline } from "react-icons/io5";
 
-function Navbar() {
+function Navbar({ sideModal, setSideModal, setOpen }) {
     const { auth } = useSelector(state => state.auth);
     const { notices } = useSelector(state => state.notice);
     const dispatch = useDispatch();
@@ -79,19 +80,23 @@ function Navbar() {
     return (
         <div className="w-full fixed z-20 top-0 flex items-center justify-between py-2 px-10 shadow-dim font-montserrat bg-white">
             <div className="logo w-14">
-                <Link to="dashboard"><img src={logo} alt="logo" /></Link>
+                <Link to="dashboard" className="md:inline-block hidden"><img src={logo} alt="logo" /></Link>
+                <IoMenuOutline
+                    onClick={() => {
+                        setSideModal(!sideModal);
+                        setOpen(false);
+                    }}
+                    className="md:hidden text-3xl text-gray-500" />
             </div>
 
-            {
-                huru === "admin" ? <SearchBar /> : null
-            }
+            {huru === "admin" && <SearchBar />}
 
             <div className="right flex relative items-center gap-4 text-gray-500">
                 <GlobalElement />
                 <button
                     onClick={() => setModal(!modal)}
                     className="flex items-center gap-2">
-                    <span className="text-sm text-black">{auth ? auth?.first_name : <LoaderDots />}</span>
+                    <span className="md:inline-block hidden text-sm text-black">{auth ? auth?.first_name : <LoaderDots />}</span>
                     <IoPersonCircleOutline className="text-3xl" />
                 </button>
                 {

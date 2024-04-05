@@ -19,7 +19,7 @@ function NoticeEditModal({
             className="w-full h-screen fixed top-0 left-0 z-20"
             style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modals.modal ? "1" : "0", zIndex: modals.modal ? "20" : "-1" }}>
             <form onClick={(e) => e.stopPropagation()}
-                className="w-[30%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white"
+                className="w-[27%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white"
                 style={{ right: modals.modal ? "0" : "-200%" }}>
 
                 {/* Title and Close button */}
@@ -94,6 +94,7 @@ function NoticeEditModal({
                                 className="border-2 border-gray-300 rounded px-2 py-1" />
                         </div>
                     </div>
+                    
                     <button
                         disabled={isLoading ? true : false}
                         onClick={handleCreateAndUpdate}

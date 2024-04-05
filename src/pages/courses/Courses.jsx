@@ -108,7 +108,7 @@ function Courses() {
     };
 
     return (
-        <div className="w-full h-screen overflow-auto pt-24 pb-10 px-10">
+        <div className="container">
             <div className="flex justify-between border-b-2 pb-4 relative">
                 <div className="flex items-end gap-4 text-[14px]">
                     <h1 className="capitalize text-3xl">Kurslar</h1>
@@ -127,7 +127,7 @@ function Courses() {
                 isLoading ? <div className="py-8">
                     <Skeleton parentWidth={90} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
                 </div> :
-                    <div className="grid lg:grid-cols-4 md:grid-cols-3 gap-8 py-8">
+                    <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 2xsm:grid-cols-1 gap-8 py-8">
                         {
                             courses.length > 0 ? courses.map((course, index) => (
                                 <div key={index} onClick={() => navigate(`/admin/course-info/${course._id}`)} className="shadow-dim hover:shadow-2xl cursor-pointer bg-white">

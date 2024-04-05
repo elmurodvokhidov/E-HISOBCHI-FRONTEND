@@ -146,7 +146,7 @@ function Notice() {
 
     return (
         <div
-            className="notices w-full h-screen overflow-auto pt-24 px-10"
+            className="notices container"
             onClick={() => handleModal("more", false)}>
             <div className="flex justify-between relative">
                 <h1 className="text-2xl">Yaqinda yaratilgan eslatmalar</h1>
@@ -159,13 +159,13 @@ function Notice() {
                     Eslatma yaratish
                 </button>
             </div>
-            <div className="container mx-auto py-6">
+            <div className="mx-auto py-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                     {
                         isLoading ?
                             <>
                                 <div className="bg-white rounded-lg shadow-md p-6 animate-pulse">
-                                    <h2 className="w-[30%] h-7 rounded bg-gray-300 mb-4">&nbsp;</h2>
+                                    <h2 className="w-[30%] h-7 rounded bg-gray-300 mb-4"></h2>
                                     <p className="h-4 rounded bg-gray-300 mb-2"></p>
                                     <p className="w-[60%] h-4 rounded bg-gray-300 mb-6"></p>
                                     <div className="flex justify-between items-center">
@@ -175,7 +175,7 @@ function Notice() {
                                 </div>
 
                                 <div className="bg-white rounded-lg shadow-md p-6 animate-pulse">
-                                    <h2 className="w-[30%] h-7 rounded bg-gray-300 mb-4">&nbsp;</h2>
+                                    <h2 className="w-[30%] h-7 rounded bg-gray-300 mb-4"></h2>
                                     <p className="h-4 rounded bg-gray-300 mb-2"></p>
                                     <p className="w-[60%] h-4 rounded bg-gray-300 mb-6"></p>
                                     <div className="flex justify-between items-center">
@@ -185,7 +185,7 @@ function Notice() {
                                 </div>
 
                                 <div className="bg-white rounded-lg shadow-md p-6 animate-pulse">
-                                    <h2 className="w-[30%] h-7 rounded bg-gray-300 mb-4">&nbsp;</h2>
+                                    <h2 className="w-[30%] h-7 rounded bg-gray-300 mb-4"></h2>
                                     <p className="h-4 rounded bg-gray-300 mb-2"></p>
                                     <p className="w-[60%] h-4 rounded bg-gray-300 mb-6"></p>
                                     <div className="flex justify-between items-center">
@@ -195,7 +195,7 @@ function Notice() {
                                 </div>
 
                                 <div className="bg-white rounded-lg shadow-md p-6 animate-pulse">
-                                    <h2 className="w-[30%] h-7 rounded bg-gray-300 mb-4">&nbsp;</h2>
+                                    <h2 className="w-[30%] h-7 rounded bg-gray-300 mb-4"></h2>
                                     <p className="h-4 rounded bg-gray-300 mb-2"></p>
                                     <p className="w-[60%] h-4 rounded bg-gray-300 mb-6"></p>
                                     <div className="flex justify-between items-center">
@@ -205,7 +205,7 @@ function Notice() {
                                 </div>
 
                                 <div className="bg-white rounded-lg shadow-md p-6 animate-pulse">
-                                    <h2 className="w-[30%] h-7 rounded bg-gray-300 mb-4">&nbsp;</h2>
+                                    <h2 className="w-[30%] h-7 rounded bg-gray-300 mb-4"></h2>
                                     <p className="h-4 rounded bg-gray-300 mb-2"></p>
                                     <p className="w-[60%] h-4 rounded bg-gray-300 mb-6"></p>
                                     <div className="flex justify-between items-center">
@@ -215,7 +215,7 @@ function Notice() {
                                 </div>
 
                                 <div className="bg-white rounded-lg shadow-md p-6 animate-pulse">
-                                    <h2 className="w-[30%] h-7 rounded bg-gray-300 mb-4">&nbsp;</h2>
+                                    <h2 className="w-[30%] h-7 rounded bg-gray-300 mb-4"></h2>
                                     <p className="h-4 rounded bg-gray-300 mb-2"></p>
                                     <p className="w-[60%] h-4 rounded bg-gray-300 mb-6"></p>
                                     <div className="flex justify-between items-center">
@@ -230,7 +230,7 @@ function Notice() {
                                         <div className="flex justify-between">
                                             <h2 className="text-xl font-semibold mb-2">{notice.topic}</h2>
                                             {
-                                                notice.author?._id === auth._id ? (
+                                                notice.author?._id === auth?._id ? (
                                                     <>
                                                         {/* more button */}
                                                         <div onClick={(e) => {

@@ -195,9 +195,8 @@ export default function TeacherProfile({ teacher, isLoading }) {
                                         <div className="courseCard flex gap-28 w-50% p-5 cursor-pointer bg-white shadow-smooth">
                                             <div className="flex flex-col text-xs">
                                                 <h1 className="w-fit text-[10px] rounded px-2 py-1 bg-gray-200">{group.name}</h1>
-                                                {/* Here is the open issue... */}
-                                                {/* <h1>{group.course.title}</h1> */}
-                                                <h1>Frontend</h1>
+                                                {/* Problem fixed... */}
+                                                <h1>{group.course.title}</h1>
                                             </div>
                                             <div className="flex items-center gap-10">
                                                 <div className="flex flex-col">

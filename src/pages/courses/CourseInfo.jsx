@@ -14,6 +14,7 @@ import CourseModal from "./CourseModal";
 import { Toast, ToastLeft } from "../../assets/sweetToast";
 import Swal from "sweetalert2";
 import Skeleton from "../../components/loaders/Skeleton";
+import { GoHorizontalRule } from "react-icons/go";
 
 function CourseInfo() {
     const { course, isLoading } = useSelector(state => state.course);
@@ -143,7 +144,7 @@ function CourseInfo() {
     };
 
     return (
-        <div className="w-full h-screen overflow-auto pt-24 pb-10 px-10">
+        <div className="container">
             {
                 course ? <>
                     <h1 className="text-3xl pb-4">{course.title}</h1>
@@ -197,7 +198,10 @@ function CourseInfo() {
                                                     <div className="flex items-start justify-between gap-8">
                                                         <h2 className="text-sm transition-all duration-300">{group.teacher.first_name} {group.teacher.last_name}</h2>
                                                         <div className="text-xs text-gray-500">
-                                                            <h1 className="flex items-center gap-1">{group.start_date}<span className="inline-block align-middle w-4 border border-gray-300"></span></h1>
+                                                            <h1 className="flex items-center gap-1">
+                                                                {group.start_date}
+                                                                <GoHorizontalRule />
+                                                            </h1>
                                                             <h1>{group.end_date}</h1>
                                                         </div>
                                                         <div className="text-xs text-gray-500">

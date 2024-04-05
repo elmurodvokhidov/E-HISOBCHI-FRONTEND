@@ -8,7 +8,7 @@ import {
 } from "../../redux/slices/groupSlice";
 import { Toast, ToastLeft } from "../../assets/sweetToast";
 import { useDispatch, useSelector } from "react-redux";
-import { GoDotFill } from "react-icons/go";
+import { GoDotFill, GoHorizontalRule } from "react-icons/go";
 import { IoMdMore } from "react-icons/io";
 import { LiaEditSolid } from "react-icons/lia";
 import { RiDeleteBin7Line } from "react-icons/ri";
@@ -146,7 +146,7 @@ function GroupInfo() {
         ) {
             try {
                 dispatch(groupStart());
-                const { _id, __v, students, createdAt, updatedAt, ...updatedGroupCred } = newGroup;
+                const { _id, __v, students, color, createdAt, updatedAt, ...updatedGroupCred } = newGroup;
                 const { data } = await AuthService.updateGroup(newGroup._id, updatedGroupCred);
                 dispatch(getGroupSuccess(data));
                 getGroupFunc();
@@ -202,7 +202,7 @@ function GroupInfo() {
     };
 
     return (
-        <div className="w-full h-screen overflow-auto pt-24 px-10">
+        <div className="container">
             <div className="flex items-center gap-3 text-2xl">
                 {group && <>
                     <span>{group.name}</span>
@@ -249,7 +249,7 @@ function GroupInfo() {
                                             <b>Mashg'ulot sanalari:</b>
                                             <div className="flex items-center gap-1">
                                                 <h1 className="flex items-center gap-1">{group.start_date}</h1>
-                                                <span className="inline-block align-middle w-4 border border-gray-500"></span>
+                                                <GoHorizontalRule />
                                                 <h1>{group.end_date}</h1>
                                             </div>
                                         </div>

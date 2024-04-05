@@ -14,6 +14,7 @@
 
 ::-webkit-scrollbar {
     width: 5px;
+    height: 5px;
     background-color: #F5F5F5;
 }
 
@@ -25,6 +26,13 @@
 ::-webkit-scrollbar-thumb {
     background-color: silver;
     border: 2px solid silver;
+}
+
+.container {
+    max-width: 100%;
+    height: 100vh;
+    padding: 96px 40px 40px;
+    overflow-y: auto;
 }
 
 .sidebar a {
@@ -54,8 +62,8 @@
 }
 
 .global_add_btn {
-    border: 1px solid rgb(8 145 178);
-    color: rgb(8 145 178);
+    color: white;
+    background-color: rgb(8 145 178);
     font-size: 0.875rem;
     line-height: 1.25rem;
     border-radius: 1rem;
@@ -67,7 +75,7 @@
 
 .global_add_btn:hover {
     color: white;
-    background-color: rgb(8 145 178);
+    background-color: rgb(8, 114, 141);
 }
 
 .more::before {

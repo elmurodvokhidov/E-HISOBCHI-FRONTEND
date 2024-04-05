@@ -156,7 +156,7 @@ function StudentProfile({ student, isLoading, }) {
     };
 
     return (
-        <div className="w-full h-screen overflow-auto pt-24 px-10">
+        <div className="container">
             <div className="flex gap-8">
                 <div className="w-fit border-2 py-8 px-6 rounded shadow-dim">
                     <div className="flex relative justify-start gap-10">

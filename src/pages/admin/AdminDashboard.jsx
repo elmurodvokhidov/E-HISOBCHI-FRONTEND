@@ -37,30 +37,30 @@ function AdminDashboard() {
 
 
     return (
-        <div className="w-full h-screen overflow-auto pt-24 pb-10 px-10">
-            <section className="w-full flex items-center gap-5">
-                <div className="w-40 h-40 flex flex-col items-center justify-center border shadow-smooth">
-                    <FaRegUser className="text-5xl text-cyan-600" />
-                    <h1 className="text-[14px] text-gray-500 mt-1">Faol Lidlar</h1>
-                    <h1 className="text-3xl text-cyan-600 mt-3">0</h1>
+        <div className="container">
+            <section className="w-full flex items-center gap-6">
+                <div className="w-36 h-36 flex flex-col items-center justify-center border shadow-smooth">
+                    <FaRegUser className="text-4xl text-cyan-600" />
+                    <h1 className="text-sm text-gray-500 mt-1">Faol Lidlar</h1>
+                    <h1 className="text-2xl text-cyan-600 mt-3">0</h1>
                 </div>
 
-                <div className="w-40 h-40 flex flex-col items-center justify-center border shadow-smooth">
-                    <RiAdminLine className="text-5xl text-cyan-600" />
-                    <h1 className="text-[14px] text-gray-500 mt-1">Adminlar</h1>
-                    <h1 className="text-3xl text-cyan-600 mt-3">{admins ? admins.length : 0}</h1>
+                <div className="w-36 h-36 flex flex-col items-center justify-center border shadow-smooth">
+                    <RiAdminLine className="text-4xl text-cyan-600" />
+                    <h1 className="text-sm text-gray-500 mt-1">Adminlar</h1>
+                    <h1 className="text-2xl text-cyan-600 mt-3">{admins ? admins.length : 0}</h1>
                 </div>
 
-                <div className="w-40 h-40 flex flex-col items-center justify-center border shadow-smooth">
-                    <FaChalkboardTeacher className="text-5xl text-cyan-600" />
-                    <h1 className="text-[14px] text-gray-500 mt-1">O'qituvchilar</h1>
-                    <h1 className="text-3xl text-cyan-600 mt-3">{teachers ? teachers.length : 0}</h1>
+                <div className="w-36 h-36 flex flex-col items-center justify-center border shadow-smooth">
+                    <FaChalkboardTeacher className="text-4xl text-cyan-600" />
+                    <h1 className="text-sm text-gray-500 mt-1">O'qituvchilar</h1>
+                    <h1 className="text-2xl text-cyan-600 mt-3">{teachers ? teachers.length : 0}</h1>
                 </div>
 
-                <div className="w-40 h-40 flex flex-col items-center justify-center border shadow-smooth">
-                    <PiStudent className="text-5xl text-cyan-600" />
-                    <h1 className="text-[14px] text-gray-500 mt-1">O'quvchilar</h1>
-                    <h1 className="text-3xl text-cyan-600 mt-3">{students ? students.length : 0}</h1>
+                <div className="w-36 h-36 flex flex-col items-center justify-center border shadow-smooth">
+                    <PiStudent className="text-4xl text-cyan-600" />
+                    <h1 className="text-sm text-gray-500 mt-1">O'quvchilar</h1>
+                    <h1 className="text-2xl text-cyan-600 mt-3">{students ? students.length : 0}</h1>
                 </div>
             </section>
 

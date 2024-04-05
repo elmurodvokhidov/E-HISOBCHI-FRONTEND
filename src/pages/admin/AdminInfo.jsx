@@ -29,7 +29,7 @@ function AdminInfo() {
     }, [id]);
 
     return (
-        <div className="admins w-full h-screen overflow-auto pt-24 px-10">
+        <div className="admins container">
             <div>
                 <div className="px-4 sm:px-0">
                     <h3 className="text-base font-semibold leading-7 text-gray-900">Administrator ma'lumotlari</h3>

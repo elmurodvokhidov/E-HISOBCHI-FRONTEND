@@ -15,6 +15,8 @@ import { Toast, ToastLeft } from "../../assets/sweetToast";
 import TeacherModal from "./TeacherModal";
 import Swal from "sweetalert2";
 import Skeleton from "../../components/loaders/Skeleton";
+import tick from "../../img/tick.svg";
+import copy from "../../img/copy.svg";
 
 function Teachers() {
     const { teachers, isLoading } = useSelector(state => state.teacher);
@@ -38,6 +40,7 @@ function Teachers() {
         imageModal: false,
         more: null,
     });
+    const [copied, setCopied] = useState("");
 
     const getAllTeachersFunc = async () => {
         try {
@@ -52,6 +55,14 @@ function Teachers() {
     useEffect(() => {
         getAllTeachersFunc();
     }, []);
+
+    const handleCopy = (text) => {
+        setCopied(text);
+        navigator.clipboard.writeText(text);
+        setTimeout(() => {
+            setCopied("");
+        }, 3000);
+    };
 
     const handleModal = (modalName, value) => {
         setModals(prevState => ({ ...prevState, [modalName]: value }));
@@ -218,10 +229,18 @@ function Teachers() {
                     <Skeleton parentWidth={90} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
                 </> : teachers.length > 0 ?
                     teachers.map((teacher, index) => (
-                        <div key={index} className="lg:w-3/4 md:w-[100%] flex justify-between capitalize text-sm border-2 rounded-lg p-4 shadow-smooth">
+                        <div key={index} className="lg:w-4/5 md:w-full flex justify-between capitalize text-sm border rounded-lg p-4 hover:shadow-md transition-all">
                             <NavLink to={`/admin/teacher-info/${teacher._id}`} className="hover:text-cyan-600">{teacher.first_name} {teacher.last_name}</NavLink>
                             <div className="flex items-center gap-8 text-xs">
-                                <h3 className="text-blue-400">{teacher.contactNumber}</h3>
+                                <h3
+                                    onClick={() => handleCopy(teacher.contactNumber)}
+                                    className="flex items-center gap-1 text-blue-400">
+                                    {teacher.contactNumber}
+                                    <img
+                                        src={copied === teacher.contactNumber ? tick : copy}
+                                        alt="copy svg"
+                                        className="cursor-pointer" />
+                                </h3>
                                 <h3 className="text-xs lowercase">{teacher.groups.length} guruh</h3>
                                 {/* more button */}
                                 <div onClick={(e) => {
