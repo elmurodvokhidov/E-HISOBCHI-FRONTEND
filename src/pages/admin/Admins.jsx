@@ -113,8 +113,8 @@ function Admins() {
 
     return (
         <div className="admins container">
-            <div className="flex justify-between relative">
-                <div className="flex items-end gap-4 text-[14px]">
+            <div className="sm:flex justify-between relative">
+                <div className="flex items-end gap-4 text-sm">
                     <h1 className="capitalize text-2xl">Adminlar</h1>
                     <p>
                         Miqdor
@@ -127,8 +127,7 @@ function Admins() {
                         handleModal("modal", true);
                         handleModal("passModal", true);
                         handleModal("createModal", true);
-                    }}
-                    className="global_add_btn">
+                    }} className="global_add_btn 2xsm:w-full 2xsm:mt-4 2xsm:py-2 sm:w-fit sm:mt-0 sm:py-0">
                     Yangisini qo'shish
                 </button>
             </div>

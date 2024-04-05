@@ -28,6 +28,7 @@ import {
 } from "../../redux/slices/courseSlice";
 import tick from "../../img/tick.svg";
 import copy from "../../img/copy.svg";
+import * as XLSX from 'xlsx';
 
 function Students() {
     const { students, isLoading } = useSelector(state => state.student);
@@ -69,6 +70,7 @@ function Students() {
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
 
+    // Barcha o'quvchilarni olish
     const getAllStudentsFunction = async () => {
         try {
             dispatch(studentStart());
@@ -79,6 +81,7 @@ function Students() {
         }
     };
 
+    // Barcha guruhlarni olish
     const getAllGroupsFunc = async () => {
         try {
             dispatch(groupStart());
@@ -89,6 +92,7 @@ function Students() {
         }
     };
 
+    // Barcha kurslarni olish
     const getAllCoursesFunc = async () => {
         try {
             dispatch(courseStart());
@@ -98,13 +102,13 @@ function Students() {
             dispatch(courseFailure(error.message));
         }
     };
-
     useEffect(() => {
         getAllStudentsFunction();
         getAllGroupsFunc();
         getAllCoursesFunc();
     }, []);
 
+    // Matnni nusxalash funksiyasi
     const handleCopy = (text) => {
         setCopied(text);
         navigator.clipboard.writeText(text);
@@ -113,6 +117,7 @@ function Students() {
         }, 3000);
     };
 
+    // Filterlash uchun qiymat olish
     const handleFilterChange = (e) => {
         setFilters({
             ...filters,
@@ -163,10 +168,41 @@ function Students() {
     const indexOfFirstStudent = indexOfLastStudent - limit;
     const pageStudents = filteredStudents.slice(indexOfFirstStudent, indexOfLastStudent);
 
+    // Barcha o'quvchilar ma'lumotlarini exel fayli sifatida yuklab olish funksiyasi
+    const exportToExcel = () => {
+        const fileName = 'students.xlsx';
+        const header = ['First Name', 'Last Name', 'Father Name', 'Mother Name', 'Email', 'Date of Birth', 'Contact Number', 'Father Contact Number', 'Mother Contact Number', 'Gender', 'Group'];
+
+        const wb = XLSX.utils.book_new();
+        const data = filteredStudents.map(student => [
+            student.first_name || '',
+            student.last_name || '',
+            student.father_name || '',
+            student.mother_name || '',
+            student.email || '',
+            student.dob || '',
+            (student.contactNumber || '').toString(),
+            (student.fatherContactNumber || '').toString(),
+            (student.motherContactNumber || '').toString(),
+            student.gender || '',
+            student.group.name || ''
+        ]);
+        data.unshift(header);
+        const ws = XLSX.utils.aoa_to_sheet(data);
+        const columnWidths = data[0].map((_, colIndex) => ({
+            wch: data.reduce((acc, row) => Math.max(acc, String(row[colIndex]).length), 0)
+        }));
+        ws['!cols'] = columnWidths;
+        XLSX.utils.book_append_sheet(wb, ws, 'Students');
+        XLSX.writeFile(wb, fileName);
+    };
+
+    // Modal state-ni optimal tarzda o'zgartirish
     const handleModal = (modalName, value) => {
         setModals(prevState => ({ ...prevState, [modalName]: value }));
     };
 
+    // Input, modal, newStudent qiymatlarini tozalash
     const clearModal = () => {
         setNewStudent({
             first_name: "",
@@ -192,6 +228,14 @@ function Students() {
         })
     };
 
+    // O'quvchini tahrirlash uchun, modal oynani ochish funksiyasi
+    const openModal = (id) => {
+        setNewStudent(students.filter(student => student._id === id)[0]);
+        handleModal("modal", true);
+        handleModal("createModal", false);
+    };
+
+    // Yangi o'quvchi qo'shish hamda o'quvchini tahrirlash funksiyasi
     const handleCreateAndUpdate = async (e) => {
         e.preventDefault();
         // o'quvchi parolini o'zgartirish
@@ -275,12 +319,7 @@ function Students() {
         }
     };
 
-    const openModal = (id) => {
-        setNewStudent(students.filter(student => student._id === id)[0]);
-        handleModal("modal", true);
-        handleModal("createModal", false);
-    };
-
+    // O'quvchini o'chirish funksiyasi
     const deleteStudent = async (id) => {
         Swal.fire({
             title: "Ishonchingiz komilmi?",
@@ -311,11 +350,10 @@ function Students() {
         });
     };
 
-
     return (
         <div className="students container" onClick={() => handleModal("more", null)}>
-            <div className="flex justify-between relative">
-                <div className="flex items-end gap-4 text-[14px]">
+            <div className="sm:flex justify-between relative">
+                <div className="flex items-end gap-4 text-sm">
                     <h1 className="capitalize text-2xl">O'quvchilar</h1>
                     <p>Miqdor <span className="inline-block w-4 h-[1px] mx-1 align-middle bg-black"></span> <span>{students?.length}</span></p>
                 </div>
@@ -323,7 +361,9 @@ function Students() {
                     handleModal("modal", true);
                     handleModal("passModal", true);
                     handleModal("createModal", true);
-                }} className="global_add_btn">Yangisini qo'shish</button>
+                }} className="global_add_btn 2xsm:w-full 2xsm:mt-4 2xsm:py-2 sm:w-fit sm:mt-0 sm:py-0">
+                    Yangisini qo'shish
+                </button>
             </div>
 
             <div className="flex items-center flex-wrap gap-4 py-5">
@@ -486,6 +526,7 @@ function Students() {
                 page={page}
                 setPage={setPage}
                 limit={limit}
+                exportToExcel={exportToExcel}
             />
 
             {/* create new student and update student modal */}

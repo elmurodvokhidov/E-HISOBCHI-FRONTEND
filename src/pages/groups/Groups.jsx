@@ -30,6 +30,8 @@ import {
 } from "../../redux/slices/roomSlice";
 import GroupModal from "./GroupModal";
 import { GoHorizontalRule } from "react-icons/go";
+import * as XLSX from 'xlsx';
+import { MdFileDownload } from "react-icons/md";
 
 function Groups() {
     const { groups, isLoading } = useSelector(state => state.group);
@@ -202,8 +204,36 @@ function Groups() {
         const endYear = startDate.getFullYear() + Math.floor(endMonth / 12);
         const endDay = new Date(endYear, endMonth % 12, startDate.getDate());
         endDate = `${endYear}-${(endMonth % 12 + 1).toString().padStart(2, '0')}-${endDay.getDate().toString().padStart(2, '0')}`;
-    }
+    };
 
+    // Barcha guruh ma'lumotlarini exel fayli sifatida yuklab olish funksiyasi
+    const exportToExcel = () => {
+        const fileName = 'groups.xlsx';
+        const header = ['Group Name', 'Course Title', 'Teacher', 'Days', 'Start Date', 'End Date', 'Room', 'Number of Students'];
+
+        const data = filteredGroups.map(group => [
+            group.name || '',
+            group.course?.title || '',
+            `${group.teacher?.first_name} ${group.teacher?.last_name}` || '',
+            group.day || '',
+            group.start_date || '',
+            group.end_date || '',
+            group.room?.name || '',
+            group.students.length.toString() || '',
+        ]);
+
+        data.unshift(header);
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.aoa_to_sheet(data);
+        const columnWidths = data[0].map((_, colIndex) => ({
+            wch: data.reduce((acc, row) => Math.max(acc, String(row[colIndex]).length), 0)
+        }));
+        ws['!cols'] = columnWidths;
+        XLSX.utils.book_append_sheet(wb, ws, 'Groups');
+        XLSX.writeFile(wb, fileName);
+    };
+
+    // Yangi guruh qo'shish hamda guruhni tahrirlash funksiyasi
     const handleCreateAndUpdate = async (e) => {
         e.preventDefault();
         if (
@@ -251,6 +281,7 @@ function Groups() {
         }
     };
 
+    // Guruhni o'chirish funksiyasi
     const deleteHandler = async (id) => {
         Swal.fire({
             title: "Ishonchingiz komilmi?",
@@ -282,9 +313,9 @@ function Groups() {
     };
 
     return (
-        <div className="students container" onClick={() => handleModal("more", null)}>
-            <div className="flex justify-between relative">
-                <div className="flex items-end gap-4 text-[14px]">
+        <div className="students container pb-8" onClick={() => handleModal("more", null)}>
+            <div className="sm:flex justify-between relative">
+                <div className="flex items-end gap-4 text-sm">
                     <h1 className="capitalize text-2xl">Guruhlar</h1>
                     <p>
                         <span>Miqdor</span>
@@ -294,7 +325,7 @@ function Groups() {
                 </div>
                 <button
                     onClick={() => handleModal("modal", true)}
-                    className="global_add_btn">
+                    className="global_add_btn 2xsm:w-full 2xsm:mt-4 2xsm:py-2 sm:w-fit sm:mt-0 sm:py-0">
                     Yangisini qo'shish
                 </button>
             </div>
@@ -491,6 +522,13 @@ function Groups() {
                     </tbody>
                 </table>
             </div>
+
+            <button
+                onClick={exportToExcel}
+                id="downloadExelBtn"
+                className="size-8 relative float-end flex items-center justify-center 2xsm:mt-2 sm:mt-0 text-gray-400 border border-gray-300 outline-cyan-600 text-xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all">
+                <MdFileDownload />
+            </button>
 
             {/* create and update group modal */}
             <GroupModal

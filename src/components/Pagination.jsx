@@ -1,6 +1,7 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
+import { MdFileDownload } from 'react-icons/md';
 
-export default function Pagination({ students, page, setPage, limit }) {
+export default function Pagination({ students, page, setPage, limit, exportToExcel }) {
     const pageNumbers = [];
 
     for (let i = 1; i <= Math.ceil(students.length / limit); i++) {
@@ -18,14 +19,20 @@ export default function Pagination({ students, page, setPage, limit }) {
 
     return (
         <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+
             <div className="flex flex-1 justify-between sm:hidden">
-                <button onClick={() => setPage("prev")} className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                <button
+                    onClick={() => handleClick("prev")}
+                    className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
                     Previous
                 </button>
-                <button onClick={() => setPage("next")} className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                <button
+                    onClick={() => handleClick("next")}
+                    className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
                     Next
                 </button>
             </div>
+
             <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
                 <div>
                     <p className="text-sm text-gray-700">
@@ -64,6 +71,13 @@ export default function Pagination({ students, page, setPage, limit }) {
                     </nav>
                 </div>
             </div>
+
+            <button
+                onClick={exportToExcel}
+                id="downloadExelBtn"
+                className="size-8 relative float-end flex items-center justify-center ml-8 text-gray-400 border border-gray-300 outline-cyan-600 text-xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all">
+                <MdFileDownload />
+            </button>
         </div>
     )
 };

@@ -186,3 +186,28 @@
 .courseCard:hover h2 {
     color: rgb(8, 145, 178);
 }
+
+#downloadExelBtn:hover::before {
+    content: "Export to exel";
+    position: absolute;
+    top: -120%;
+    font-size: 12px;
+    width: 100px;
+    border-radius: 5px;
+    border: 1px solid silver;
+    color: black;
+    background: white;
+}
+
+#downloadExelBtn:hover::after {
+    content: "";
+    position: absolute;
+    top: -40%;
+    z-index: 15;
+    width: 8px;
+    height: 8px;
+    border-right: 1px solid silver;
+    border-bottom: 1px solid silver;
+    transform: rotate(45deg);
+    background: white;
+}

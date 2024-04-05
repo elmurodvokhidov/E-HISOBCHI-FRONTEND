@@ -5,19 +5,18 @@ import { PiStudent } from "react-icons/pi";
 import { BsPerson } from "react-icons/bs";
 import { Link, NavLink } from "react-router-dom";
 import { IoMdSettings } from "react-icons/io";
-import { useState } from "react";
 import { ImBooks } from "react-icons/im";
 import { AiOutlineAppstore } from "react-icons/ai";
 
 
 function AdminSidebar({ sideModal, setSideModal, open, setOpen }) {
-
     return (
         <>
             <div className={`sidebar md:static absolute z-10 ${sideModal ? "left-0" : "-left-full"} h-screen pt-20 overflow-y-auto shadow-smooth transition-all bg-white`}>
                 <div onClick={() => setOpen(false)}>
                     <NavLink
                         to="/admin/dashboard"
+                        onClick={() => setSideModal(false)}
                         className="cell relative text-gray-500 border-b-2 py-4 md:px-6 2xsm:px-4 flex flex-col items-center">
                         <LuLayoutDashboard className="md:text-3xl 2xsm:text-2xl" />
                         <h1 className="md:text-sm 2xsm:text-xs">Dashboard</h1>
@@ -25,6 +24,7 @@ function AdminSidebar({ sideModal, setSideModal, open, setOpen }) {
 
                     <NavLink
                         to="lids"
+                        onClick={() => setSideModal(false)}
                         className="cell relative text-gray-500 border-b-2 py-4 md:px-6 2xsm:px-4 flex flex-col items-center">
                         <BsPerson className="md:text-3xl 2xsm:text-2xl" />
                         <h1 className="md:text-sm 2xsm:text-xs">Lidlar</h1>
@@ -32,6 +32,7 @@ function AdminSidebar({ sideModal, setSideModal, open, setOpen }) {
 
                     <NavLink
                         to="admins"
+                        onClick={() => setSideModal(false)}
                         className="cell relative text-gray-500 border-b-2 py-4 md:px-6 2xsm:px-4 flex flex-col items-center">
                         <MdOutlineAdminPanelSettings className="md:text-3xl 2xsm:text-2xl" />
                         <h1 className="md:text-sm 2xsm:text-xs">Adminlar</h1>
@@ -39,6 +40,7 @@ function AdminSidebar({ sideModal, setSideModal, open, setOpen }) {
 
                     <NavLink
                         to="groups"
+                        onClick={() => setSideModal(false)}
                         className="cell relative text-gray-500 border-b-2 py-4 md:px-6 2xsm:px-4 flex flex-col items-center">
                         <MdLibraryBooks className="md:text-3xl 2xsm:text-2xl" />
                         <h1 className="md:text-sm 2xsm:text-xs">Guruhlar</h1>
@@ -46,6 +48,7 @@ function AdminSidebar({ sideModal, setSideModal, open, setOpen }) {
 
                     <NavLink
                         to="teachers"
+                        onClick={() => setSideModal(false)}
                         className="cell relative text-gray-500 border-b-2 py-4 md:px-6 2xsm:px-4 flex flex-col items-center">
                         <FaChalkboardTeacher className="md:text-3xl 2xsm:text-2xl" />
                         <h1 className="md:text-sm 2xsm:text-xs">O'qituvchilar</h1>
@@ -53,6 +56,7 @@ function AdminSidebar({ sideModal, setSideModal, open, setOpen }) {
 
                     <NavLink
                         to="students"
+                        onClick={() => setSideModal(false)}
                         className="cell relative text-gray-500 border-b-2 py-4 md:px-6 2xsm:px-4 flex flex-col items-center">
                         <PiStudent className="md:text-3xl 2xsm:text-2xl" />
                         <h1 className="md:text-sm 2xsm:text-xs">O'quvchilar</h1>
