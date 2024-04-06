@@ -8,6 +8,8 @@ import { allRoomSuccess, roomFailure, roomStart } from "../../redux/slices/roomS
 import Swal from "sweetalert2";
 import { Toast, ToastLeft } from "../../assets/sweetToast";
 import Skeleton from "../../components/loaders/Skeleton";
+import tick from "../../img/tick.svg";
+import copy from "../../img/copy.svg";
 
 function Rooms() {
     const { rooms, isLoading } = useSelector(state => state.room);
@@ -19,6 +21,7 @@ function Rooms() {
         modal: false,
         createModal: false,
     });
+    const [copied, setCopied] = useState("");
 
     const getAllRoomsFunc = async () => {
         try {
@@ -33,6 +36,15 @@ function Rooms() {
     useEffect(() => {
         getAllRoomsFunc();
     }, []);
+
+    // Matnni nusxalash funksiyasi
+    const handleCopy = (text) => {
+        setCopied(text);
+        navigator.clipboard.writeText(text);
+        setTimeout(() => {
+            setCopied("");
+        }, 3000);
+    };
 
     const handleModal = (modalName, value) => {
         setModals(prevState => ({ ...prevState, [modalName]: value }));
@@ -125,9 +137,9 @@ function Rooms() {
     };
 
     return (
-        <div className="w-full h-screen overflow-auto pt-24 pb-10 px-10">
-            <div className="flex justify-between pb-4 relative">
-                <div className="flex items-end gap-4 text-[14px]">
+        <div className="w-full h-screen overflow-auto pt-24 pb-10 sm:px-10 2xsm:px-4">
+            <div className="flex sm:flex-row 2xsm:flex-col sm:gap-0 2xsm:gap-4 justify-between pb-4 relative">
+                <div className="flex items-end gap-4 text-sm">
                     <h1 className="capitalize text-3xl">Xonalar</h1>
                 </div>
                 <button
@@ -135,17 +147,17 @@ function Rooms() {
                         handleModal("modal", true);
                         handleModal("createModal", true);
                     }}
-                    className="global_add_btn">
+                    className="global_add_btn 2xsm:py-2 sm:py-0">
                     Yangisini qo'shish
                 </button>
             </div>
 
             {
                 isLoading ?
-                    <div className="md:w-3/5 lg:w-2/5">
+                    <div className="md:w-5/6 lg:w-2/5">
                         <Skeleton parentWidth={100} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
                     </div> :
-                    <div className="w-full md:w-3/5 lg:w-2/5 shadow-dim pt-8 pb-12 px-8">
+                    <div className="w-full md:w-5/6 lg:w-3/6 2xsm:overflow-x-auto shadow-dim pt-8 pb-12 px-8">
                         <table className="roomsTable w-full text-left">
                             <thead>
                                 <tr className="border-y">
@@ -160,11 +172,27 @@ function Rooms() {
                                     rooms.length > 0 ?
                                         rooms.map((room, index) => (
                                             <tr key={index} className="border-y">
-                                                <td>{room._id}</td>
+                                                <td
+                                                    onClick={() => handleCopy(room._id)}
+                                                    className="flex items-center gap-1">
+                                                    {room._id}
+                                                    <img
+                                                        src={copied === room._id ? tick : copy}
+                                                        alt="copy svg"
+                                                        className="cursor-pointer" />
+                                                </td>
                                                 <td>{room.name}</td>
                                                 <td className="flex gap-2">
-                                                    <button onClick={() => updateBtnFunc(room._id)} className="text-[16px]"><LiaEditSolid /></button>
-                                                    <button onClick={() => handleDeleteFunc(room._id)} className="text-[16px] text-red-500"><RiDeleteBin7Line /></button>
+                                                    <button
+                                                        onClick={() => updateBtnFunc(room._id)}
+                                                        className="text-base">
+                                                        <LiaEditSolid />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDeleteFunc(room._id)}
+                                                        className="text-base text-red-500">
+                                                        <RiDeleteBin7Line />
+                                                    </button>
                                                 </td>
                                             </tr>
                                         )) : <tr><td colSpan={10}>Ma'lumot topilmadi!</td></tr>

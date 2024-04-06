@@ -79,18 +79,19 @@ function Login() {
     }, [isLoggedIn, navigate]);
 
     return (
-        <div className="w-full h-screen flex flex-col items-center justify-start gap-4 pt-6 bg-gray-200">
-            <div className="w-[45%] flex flex-col gap-4">
+        <div className="w-full h-screen overflow-y-auto flex flex-col items-center justify-start gap-4 p-6 bg-gray-200">
+            <div className="md:w-[45%] sm:w-[80%] 2xsm:w-full flex flex-col gap-4">
+                {/* Cover Image */}
                 <figure className="w-full h-44 rounded-lg overflow-hidden bg-red-100">
                     <img className='size-full object-cover' src={bgImg} alt="background image" />
                 </figure>
-                <form className="w-full flex items-center gap-10 px-6 py-10 rounded shadow-smooth bg-white">
-                    {/* Cover Image */}
+                <form className="w-full flex lg:flex-row 2xsm:flex-col items-center gap-10 px-6 py-10 rounded shadow-smooth bg-white">
+                    {/* Logo */}
                     <figure>
                         <img
                             src={logo}
                             alt="logo"
-                            className="w-52" />
+                            className="lg:w-52 2xsm:w-40" />
                     </figure>
 
                     <div className="w-full flex flex-col gap-6">
