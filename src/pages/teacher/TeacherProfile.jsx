@@ -196,7 +196,7 @@ export default function TeacherProfile({ teacher, isLoading }) {
                                             <div className="flex flex-col text-xs">
                                                 <h1 className="w-fit text-[10px] rounded px-2 py-1 bg-gray-200">{group.name}</h1>
                                                 {/* Problem fixed... */}
-                                                <h1>{group.course.title}</h1>
+                                                <h1>{group.course?.title}</h1>
                                             </div>
                                             <div className="flex items-center gap-10">
                                                 <div className="flex flex-col">
@@ -213,7 +213,7 @@ export default function TeacherProfile({ teacher, isLoading }) {
                                                         <h1>{group.start_time}</h1>
                                                     </div>
                                                 </div>
-                                                <h1 className="w-4 text-center text-xs text-white rounded bg-cyan-600">{group.students.length}</h1>
+                                                <h1 className="w-4 text-center text-xs text-white rounded bg-cyan-600">{group.students?.length}</h1>
                                             </div>
                                         </div>
                                     </NavLink>

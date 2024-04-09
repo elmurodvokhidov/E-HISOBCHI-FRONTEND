@@ -253,7 +253,7 @@ function StudentProfile({ student, isLoading, }) {
                                     <div className="courseCard w-50% p-4 cursor-pointer bg-white shadow-smooth">
                                         <h1 className="w-fit text-xs rounded px-2 py-1 bg-gray-200">{student.group.name}</h1>
                                         <div className="flex items-start justify-between gap-8">
-                                            <h2 className="text-sm transition-all duration-300">{student.group.teacher.first_name} {student.group.teacher.last_name}</h2>
+                                            <h2 className="text-sm transition-all duration-300">{student.group.teacher?.first_name} {student.group.teacher?.last_name}</h2>
                                             <div className="text-xs text-gray-500">
                                                 <h1 className="flex items-center gap-1">{student.group.start_date}<span className="inline-block align-middle w-4 border border-gray-300"></span></h1>
                                                 <h1>{student.group.end_date}</h1>

@@ -78,7 +78,7 @@ function Navbar({ sideModal, setSideModal, setOpen }) {
     };
 
     return (
-        <div className="w-full fixed z-20 top-0 flex items-center justify-between py-2 px-10 shadow-dim font-montserrat bg-white">
+        <div className="w-full fixed z-20 top-0 flex items-center justify-between py-2 px-10 shadow-dim bg-white">
             <div className="logo w-14">
                 <Link to="dashboard" className="md:inline-block hidden"><img src={logo} alt="logo" /></Link>
                 <IoMenuOutline
