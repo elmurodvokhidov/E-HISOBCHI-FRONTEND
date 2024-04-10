@@ -1,9 +1,5 @@
 import { IoCloseOutline } from "react-icons/io5";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { allGroupSuccess, groupFailure, groupStart } from "../../redux/slices/groupSlice";
-import AuthService from "../../config/authService";
 
 function StudentModal({
     modals,

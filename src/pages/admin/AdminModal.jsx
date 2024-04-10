@@ -1,20 +1,21 @@
 import { IoCloseOutline } from "react-icons/io5";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+import api from "../../config/api";
 
 export default function AdminModal({
     clearModal,
     modals,
-    updatedAuth,
-    setUpdatedAuth,
+    newAdmin,
+    setNewAdmin,
     newPass,
     setNewPass,
     isLoading,
-    updateHandler,
+    handleCreateAndUpdate,
     handleModal,
 }) {
     const getAuthCred = (e) => {
-        setUpdatedAuth({
-            ...updatedAuth,
+        setNewAdmin({
+            ...newAdmin,
             [e.target.name]: e.target.value
         });
     };
@@ -26,6 +27,13 @@ export default function AdminModal({
         });
     };
 
+    // const getImage = async (e) => {
+    //     const formData = new FormData();
+    //     formData.append('image', e.target.files[0]);
+    //     const { data } = await api.post("/uploads", formData);
+    //     setNewAdmin({ ...newAdmin, avatar: data.img_url });
+    // };
+
     return (
         <div
             onClick={() => clearModal()}
@@ -36,7 +44,7 @@ export default function AdminModal({
                 className="w-[27%] h-screen fixed top-0 right-0 transition-all duration-300 bg-white"
                 style={{ right: modals.modal ? "0" : "-200%" }}>
                 <div className="flex justify-between text-xl p-5 border-b-2">
-                    <h1>{updatedAuth._id ? "Hisobni yangilash" : "Admin ma'lumotlari"}</h1>
+                    <h1>{newAdmin._id ? "Hisobni yangilash" : "Admin ma'lumotlari"}</h1>
                     <button
                         type="button"
                         onClick={() => clearModal()}
@@ -49,9 +57,9 @@ export default function AdminModal({
                     <div className="flex flex-col">
                         <label htmlFor="first_name" className="text-[14px]">Ism</label>
                         <input
-                            disabled={updatedAuth._id ? modals.passModal : false}
+                            disabled={newAdmin._id ? modals.passModal : false}
                             onChange={getAuthCred}
-                            value={updatedAuth.first_name}
+                            value={newAdmin.first_name}
                             type="text"
                             name="first_name"
                             id="first_name"
@@ -62,9 +70,9 @@ export default function AdminModal({
                     <div className="flex flex-col">
                         <label htmlFor="last_name" className="text-[14px]">Familya</label>
                         <input
-                            disabled={updatedAuth._id ? modals.passModal : false}
+                            disabled={newAdmin._id ? modals.passModal : false}
                             onChange={getAuthCred}
-                            value={updatedAuth.last_name}
+                            value={newAdmin.last_name}
                             type="text"
                             name="last_name"
                             id="last_name"
@@ -75,9 +83,9 @@ export default function AdminModal({
                     <div className="flex flex-col">
                         <label htmlFor="email" className="text-[14px]">Email</label>
                         <input
-                            disabled={updatedAuth._id ? modals.passModal : false}
+                            disabled={newAdmin._id ? modals.passModal : false}
                             onChange={getAuthCred}
-                            value={updatedAuth.email}
+                            value={newAdmin.email}
                             type="email"
                             name="email"
                             id="email"
@@ -89,9 +97,9 @@ export default function AdminModal({
                         <div className="w-[47%] flex flex-col">
                             <label htmlFor="dob" className="text-[14px]">Tug'ilgan sana</label>
                             <input
-                                disabled={updatedAuth._id ? modals.passModal : false}
+                                disabled={newAdmin._id ? modals.passModal : false}
                                 onChange={getAuthCred}
-                                value={updatedAuth.dob}
+                                value={newAdmin.dob}
                                 type="date"
                                 name="dob"
                                 id="dob"
@@ -102,9 +110,9 @@ export default function AdminModal({
                         <div className="w-[47%] flex flex-col">
                             <label htmlFor="contactNumber" className="text-[14px]">Telefon</label>
                             <input
-                                disabled={updatedAuth._id ? modals.passModal : false}
+                                disabled={newAdmin._id ? modals.passModal : false}
                                 onChange={getAuthCred}
-                                value={updatedAuth.contactNumber}
+                                value={newAdmin.contactNumber}
                                 type="number"
                                 name="contactNumber"
                                 id="contactNumber"
@@ -169,7 +177,8 @@ export default function AdminModal({
                             <div className="flex flex-col">
                                 <label htmlFor="avatar" className="text-[14px]">Rasm</label>
                                 <input
-                                    disabled={updatedAuth._id ? modals.passModal : false}
+                                    disabled={newAdmin._id ? modals.passModal : false}
+                                    // onChange={getImage}
                                     type="file"
                                     name="avatar"
                                     id="avatar"
@@ -180,10 +189,10 @@ export default function AdminModal({
 
                     {/* Button */}
                     <button
-                        disabled={isLoading ? true : false}
-                        onClick={(e) => updateHandler(e)}
+                        disabled={isLoading ? true : modals.imageModal ? newAdmin.avatar === "" ? true : false : false}
+                        onClick={(e) => handleCreateAndUpdate(e)}
                         className="w-fit px-6 py-1 mt-8 bg-cyan-600 rounded-2xl text-white">
-                        {isLoading ? "Loading..." : updatedAuth._id ? "Saqlash" : "Qo'shish"}
+                        {isLoading ? "Loading..." : newAdmin._id ? "Saqlash" : "Qo'shish"}
                     </button>
                 </div>
             </form>

@@ -96,8 +96,15 @@ function Navbar({ sideModal, setSideModal, setOpen }) {
                 <button
                     onClick={() => setModal(!modal)}
                     className="flex items-center gap-2">
-                    <span className="md:inline-block hidden text-sm text-black">{auth ? auth?.first_name : <LoaderDots />}</span>
-                    <IoPersonCircleOutline className="text-3xl" />
+                    <span className="md:inline-block hidden text-sm text-black">{auth ? auth.first_name : <LoaderDots />}</span>
+                    <figure className="h-8 w-8 rounded-full overflow-hidden flex items-center justify-center">
+                        {
+                            auth &&
+                                auth.avatar !== "" ?
+                                <img className="w-full h-full object-cover" src={auth.avatar} alt="auth avatar" /> :
+                                <IoPersonCircleOutline className="w-full h-full text-gray-500" />
+                        }
+                    </figure>
                 </button>
                 {
                     modal &&

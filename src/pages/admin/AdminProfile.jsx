@@ -1,5 +1,4 @@
 import { authFailure, authStart, authSuccess } from "../../redux/slices/authSlice";
-import logo from "../../img/uitc_logo.png";
 import { Toast, ToastLeft } from "../../assets/sweetToast";
 import { useState } from "react";
 import AuthService from "../../config/authService";
@@ -7,6 +6,7 @@ import AdminModal from "./AdminModal";
 import { useDispatch } from "react-redux";
 import { LiaEditSolid } from "react-icons/lia";
 import Skeleton from "../../components/loaders/Skeleton";
+import { IoPersonCircleOutline } from "react-icons/io5";
 
 function AdminProfile({ auth, isLoading }) {
     const dispatch = useDispatch();
@@ -15,6 +15,7 @@ function AdminProfile({ auth, isLoading }) {
         last_name: "",
         email: "",
         dob: "",
+        avatar: "",
         contactNumber: "",
     });
     const [newPass, setNewPass] = useState({
@@ -38,6 +39,7 @@ function AdminProfile({ auth, isLoading }) {
             last_name: "",
             email: "",
             dob: "",
+            avatar: "",
             contactNumber: "",
         });
         setNewPass({ newPassword: "", confirmPassword: "" });
@@ -136,7 +138,11 @@ function AdminProfile({ auth, isLoading }) {
                             <div className="flex flex-col gap-4 text-sm">
                                 <div className="flex items-center gap-4">
                                     <figure className={`w-20 h-20 border-4 border-white rounded-[50%] overflow-hidden bg-slate-100 ${!auth ? "bg-gray-300 animate-pulse" : null}`}>
-                                        {auth ? <img className="w-full h-full object-cover" src={logo} alt="logo" /> : null}
+                                        {
+                                            auth && auth.avatar !== "" ?
+                                                <img className="w-full h-full object-cover" src={auth.avatar} alt="auth avatar" /> :
+                                                <IoPersonCircleOutline className="w-full h-full text-gray-400" />
+                                        }
                                     </figure>
                                     <h1 className="capitalize text-xl">{auth.first_name} {auth.last_name}</h1>
                                 </div>
@@ -175,12 +181,12 @@ function AdminProfile({ auth, isLoading }) {
             <AdminModal
                 clearModal={clearModal}
                 modals={modals}
-                updatedAuth={updatedAuth}
-                setUpdatedAuth={setUpdatedAuth}
+                newAdmin={updatedAuth}
+                setNewAdmin={setUpdatedAuth}
                 newPass={newPass}
                 setNewPass={setNewPass}
                 isLoading={isLoading}
-                updateHandler={updateHandler}
+                handleCreateAndUpdate={updateHandler}
                 handleModal={handleModal}
             />
         </div>

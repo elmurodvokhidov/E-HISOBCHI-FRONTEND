@@ -10,6 +10,7 @@ import { NavLink } from "react-router-dom";
 import { Toast, ToastLeft } from "../../assets/sweetToast";
 import AdminModal from "./AdminModal";
 import Skeleton from "../../components/loaders/Skeleton";
+import { IoPersonCircleOutline } from "react-icons/io5";
 
 function Admins() {
     const { admins, isLoading } = useSelector(state => state.admin);
@@ -20,7 +21,7 @@ function Admins() {
         email: "",
         dob: "",
         contactNumber: "",
-        avatar: "test.png",
+        avatar: "",
     });
     const [newPass, setNewPass] = useState({
         newPassword: "",
@@ -58,7 +59,7 @@ function Admins() {
             email: "",
             dob: "",
             contactNumber: "",
-            avatar: "test.png",
+            avatar: "",
         });
         setNewPass({ newPassword: "", confirmPassword: "" });
         setModals({
@@ -138,7 +139,13 @@ function Admins() {
                         admins.map((admin, index) => (
                             <li className="flex justify-between gap-x-6 py-5" key={index}>
                                 <div className="flex min-w-0 gap-x-4">
-                                    <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src="https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg" alt="" />
+                                    <figure className="h-10 w-10 rounded-full overflow-hidden flex items-center justify-center">
+                                        {
+                                            admin.avatar !== "" ?
+                                                <img className="w-full h-full object-cover" src={admin.avatar} alt="admin avatar" /> :
+                                                <IoPersonCircleOutline className="w-full h-full text-gray-500" />
+                                        }
+                                    </figure>
                                     <div className="min-w-0 flex-auto">
                                         <p className="text-sm font-semibold capitalize leading-6 text-gray-900 hover:text-cyan-600 transition-all"><NavLink to={`/admin/admin-info/${admin._id}`}>{admin.first_name} {admin.last_name}</NavLink></p>
                                         <p className="mt-1 truncate text-xs leading-5 text-gray-500">{admin.email}</p>
@@ -160,12 +167,12 @@ function Admins() {
             <AdminModal
                 clearModal={clearModal}
                 modals={modals}
-                updatedAuth={newAdmin}
-                setUpdatedAuth={setNewAdmin}
+                newAdmin={newAdmin}
+                setNewAdmin={setNewAdmin}
                 newPass={newPass}
                 setNewPass={setNewPass}
                 isLoading={isLoading}
-                updateHandler={createHandler}
+                handleCreateAndUpdate={createHandler}
                 handleModal={handleModal}
             />
 
