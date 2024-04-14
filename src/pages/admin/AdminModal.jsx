@@ -55,7 +55,7 @@ export default function AdminModal({
                 <div className="flex flex-col gap-2 px-5 py-7">
                     {/* First Name */}
                     <div className="flex flex-col">
-                        <label htmlFor="first_name" className="text-[14px]">Ism</label>
+                        <label htmlFor="first_name" className="text-sm">Ism</label>
                         <input
                             disabled={newAdmin._id ? modals.passModal : false}
                             onChange={getAuthCred}
@@ -63,12 +63,12 @@ export default function AdminModal({
                             type="text"
                             name="first_name"
                             id="first_name"
-                            className="border-2 border-gray-300 rounded px-2 py-1" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                     </div>
 
                     {/* Last Name */}
                     <div className="flex flex-col">
-                        <label htmlFor="last_name" className="text-[14px]">Familya</label>
+                        <label htmlFor="last_name" className="text-sm">Familya</label>
                         <input
                             disabled={newAdmin._id ? modals.passModal : false}
                             onChange={getAuthCred}
@@ -76,12 +76,12 @@ export default function AdminModal({
                             type="text"
                             name="last_name"
                             id="last_name"
-                            className="border-2 border-gray-300 rounded px-2 py-1" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                     </div>
 
                     {/* Email */}
                     <div className="flex flex-col">
-                        <label htmlFor="email" className="text-[14px]">Email</label>
+                        <label htmlFor="email" className="text-sm">Email</label>
                         <input
                             disabled={newAdmin._id ? modals.passModal : false}
                             onChange={getAuthCred}
@@ -89,13 +89,13 @@ export default function AdminModal({
                             type="email"
                             name="email"
                             id="email"
-                            className="border-2 border-gray-300 rounded px-2 py-1" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                     </div>
 
                     <div className="flex justify-between">
                         {/* Date of Birth */}
                         <div className="w-[47%] flex flex-col">
-                            <label htmlFor="dob" className="text-[14px]">Tug'ilgan sana</label>
+                            <label htmlFor="dob" className="text-sm">Tug'ilgan sana</label>
                             <input
                                 disabled={newAdmin._id ? modals.passModal : false}
                                 onChange={getAuthCred}
@@ -103,12 +103,12 @@ export default function AdminModal({
                                 type="date"
                                 name="dob"
                                 id="dob"
-                                className="border-2 border-gray-300 rounded px-2 py-1" />
+                                className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                         </div>
 
                         {/* Contact Number */}
                         <div className="w-[47%] flex flex-col">
-                            <label htmlFor="contactNumber" className="text-[14px]">Telefon</label>
+                            <label htmlFor="contactNumber" className="text-sm">Telefon</label>
                             <input
                                 disabled={newAdmin._id ? modals.passModal : false}
                                 onChange={getAuthCred}
@@ -116,7 +116,7 @@ export default function AdminModal({
                                 type="number"
                                 name="contactNumber"
                                 id="contactNumber"
-                                className="border-2 border-gray-300 rounded px-2 py-1"
+                                className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600"
                                 placeholder="998991234567" />
                         </div>
                     </div>
@@ -128,7 +128,7 @@ export default function AdminModal({
                                 onClick={() => handleModal("passModal", !modals.passModal)}
                                 type="button"
                                 className="flex items-center justify-end gap-1">
-                                {modals.passModal ? <FaAngleUp className="text-[14px]" /> : <FaAngleDown className="text-[14px]" />}
+                                {modals.passModal ? <FaAngleUp className="text-sm" /> : <FaAngleDown className="text-sm" />}
                                 Yangi parol qo'shish
                             </button>
                         </> : null
@@ -137,22 +137,22 @@ export default function AdminModal({
                         modals.passModal ?
                             <>
                                 <div className="flex flex-col">
-                                    <label htmlFor="newPassword" className="text-[14px]">Yangi parol</label>
+                                    <label htmlFor="newPassword" className="text-sm">Yangi parol</label>
                                     <input
                                         onChange={(e) => getNewPass(e)}
                                         type="text"
                                         name="newPassword"
                                         id="newPassword"
-                                        className="border-2 border-gray-300 rounded px-2 py-1" />
+                                        className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <label htmlFor="confirmPassword" className="text-[14px]">Parolni tasdiqlang</label>
+                                    <label htmlFor="confirmPassword" className="text-sm">Parolni tasdiqlang</label>
                                     <input
                                         onChange={(e) => getNewPass(e)}
                                         type="text"
                                         name="confirmPassword"
                                         id="confirmPassword"
-                                        className="border-2 border-gray-300 rounded px-2 py-1" />
+                                        className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                                 </div>
                             </>
                             : null
@@ -166,23 +166,23 @@ export default function AdminModal({
                         {
                             modals.imageModal
                                 ?
-                                <FaAngleUp className="text-[14px]" />
+                                <FaAngleUp className="text-sm" />
                                 :
-                                <FaAngleDown className="text-[14px]" />
+                                <FaAngleDown className="text-sm" />
                         }
                         Rasm qo'shish
                     </button>
                     {
                         modals.imageModal ? <>
                             <div className="flex flex-col">
-                                <label htmlFor="avatar" className="text-[14px]">Rasm</label>
+                                <label htmlFor="avatar" className="text-sm">Rasm</label>
                                 <input
                                     disabled={newAdmin._id ? modals.passModal : false}
                                     // onChange={getImage}
                                     type="file"
                                     name="avatar"
                                     id="avatar"
-                                    className="border-2 border-gray-300 rounded px-2 py-1" />
+                                    className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                             </div>
                         </> : null
                     }
@@ -190,7 +190,7 @@ export default function AdminModal({
                     {/* Button */}
                     <button
                         disabled={isLoading ? true : modals.imageModal ? newAdmin.avatar === "" ? true : false : false}
-                        onClick={(e) => handleCreateAndUpdate(e)}
+                        onClick={handleCreateAndUpdate}
                         className="w-fit px-6 py-1 mt-8 bg-cyan-600 rounded-2xl text-white">
                         {isLoading ? "Loading..." : newAdmin._id ? "Saqlash" : "Qo'shish"}
                     </button>

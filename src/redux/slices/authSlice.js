@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { saveToLocalStorage } from "../../assets/localStorageService";
+import { saveToLocalStorage } from "../../config/localStorageService";
 
 const initialState = {
     isLoading: false,

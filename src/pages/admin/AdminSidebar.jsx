@@ -23,7 +23,7 @@ function AdminSidebar({ sideModal, setSideModal, open, setOpen }) {
                     </NavLink>
 
                     <NavLink
-                        to="lids"
+                        to="leads"
                         onClick={() => setSideModal(false)}
                         className="cell relative text-gray-500 border-b-2 py-4 md:px-6 2xsm:px-4 flex flex-col items-center">
                         <BsPerson className="md:text-3xl 2xsm:text-2xl" />
@@ -77,7 +77,7 @@ function AdminSidebar({ sideModal, setSideModal, open, setOpen }) {
             {/* settings modal */}
             <div
                 onClick={() => setOpen(false)}
-                className={`${open ? `lg:left-[126px] md:left-[120px] 2xsm:left-[110px] right-0` : `-left-[100%]`} h-screen absolute top-0 z-10 transition-all`}>
+                className={`${open ? `lg:left-[120px] md:left-[110px] 2xsm:left-[101px] right-0` : `-left-[100%]`} h-screen absolute top-0 z-10 transition-all`}>
                 <div className='md:w-72 2xsm:w-60 h-full pt-24 overflow-y-auto shadow-dim-right bg-white'>
                     <Link
                         onClick={() => setSideModal(false)}

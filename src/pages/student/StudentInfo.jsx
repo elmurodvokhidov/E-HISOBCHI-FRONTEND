@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom"
-import { Toast } from "../../assets/sweetToast";
+import { Toast } from "../../config/sweetToast";
 import {
     getStudentSuccess,
     studentFailure,

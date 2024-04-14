@@ -33,6 +33,7 @@
     height: 100vh;
     padding: 96px 40px 40px;
     overflow-y: auto;
+    background: #f8f8f8;
 }
 
 .sidebar a {
@@ -92,7 +93,8 @@
 }
 
 .students .more::before,
-.notices .more::before {
+.notices .more::before,
+.column .more::before {
     transform: skew(-45deg);
     left: 90%;
 }

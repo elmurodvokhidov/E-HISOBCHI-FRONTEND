@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
-import { Toast, ToastLeft } from "../../assets/sweetToast";
+import { Toast, ToastLeft } from "../../config/sweetToast";
 import {
     allCourseSuccess,
     courseFailure,
     courseStart,
 } from "../../redux/slices/courseSlice";
 import AuthService from "../../config/authService";
-import CourseImg from "../../img/sticker.webp";
+import CourseImg from "../../assets/images/sticker.webp";
 import { useNavigate } from "react-router-dom";
 import CourseModal from "./CourseModal";
 import Skeleton from "../../components/loaders/Skeleton";
@@ -110,7 +110,7 @@ function Courses() {
     return (
         <div className="container">
             <div className="flex justify-between border-b-2 pb-4 relative">
-                <div className="flex items-end gap-4 text-[14px]">
+                <div className="flex items-end gap-4 text-sm">
                     <h1 className="capitalize text-3xl">Kurslar</h1>
                 </div>
                 <button
@@ -132,14 +132,14 @@ function Courses() {
                             courses.length > 0 ? courses.map((course, index) => (
                                 <div key={index} onClick={() => navigate(`/admin/course-info/${course._id}`)} className="shadow-dim hover:shadow-2xl cursor-pointer bg-white">
                                     <div className="flex flex-col items-center justify-center gap-8 pt-14" style={{ background: course.color }}>
-                                        <h1 className="text-[16px] font-bold text-white">{course.title}</h1>
+                                        <h1 className="text-base font-bold text-white">{course.title}</h1>
                                         <figure className="w-48">
                                             <img className="w-full" src={CourseImg} alt="course logo" />
                                         </figure>
                                     </div>
                                     <div className="flex flex-col gap-4 p-8">
-                                        <h1 className="text-[16px] text-black">{course.title}</h1>
-                                        <h1 className="text-[14px] text-gray-500">{course.price} UZS</h1>
+                                        <h1 className="text-base text-black">{course.title}</h1>
+                                        <h1 className="text-sm text-gray-500">{course.price} UZS</h1>
                                     </div>
                                 </div>
                             )) : <h1>Ma'lumot topilmadi!</h1>

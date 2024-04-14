@@ -3,10 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import AuthService from "../../config/authService";
 import { allGroupSuccess, groupFailure, groupStart } from "../../redux/slices/groupSlice";
 import { getStudentSuccess, studentFailure, studentStart } from "../../redux/slices/studentSlice";
-import { Toast, ToastLeft } from "../../assets/sweetToast";
-import logo from "../../img/uitc_logo.png";
+import { Toast, ToastLeft } from "../../config/sweetToast";
+import logo from "../../assets/images/uitc_logo.png";
 import StudentModal from "./StudentModal";
-import { LiaEditSolid } from "react-icons/lia";
 import Skeleton from "../../components/loaders/Skeleton";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
@@ -234,8 +233,10 @@ function StudentProfile({ student, isLoading, }) {
                                     <button
                                         disabled={student ? false : true}
                                         onClick={() => openModal()}
-                                        className="w-8 h-8 flex items-center justify-center text-xl border rounded-full text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
-                                        <LiaEditSolid />
+                                        className="w-8 h-8 flex items-center justify-center text-lg border rounded-full text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
+                                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
+                                        </svg>
                                     </button>
                                 </div>
                             </>
@@ -253,9 +254,14 @@ function StudentProfile({ student, isLoading, }) {
                                     <div className="courseCard w-50% p-4 cursor-pointer bg-white shadow-smooth">
                                         <h1 className="w-fit text-xs rounded px-2 py-1 bg-gray-200">{student.group.name}</h1>
                                         <div className="flex items-start justify-between gap-8">
-                                            <h2 className="text-sm transition-all duration-300">{student.group.teacher?.first_name} {student.group.teacher?.last_name}</h2>
+                                            <h2 className="text-sm transition-all duration-300">
+                                                {student.group.teacher?.first_name} {student.group.teacher?.last_name}
+                                            </h2>
                                             <div className="text-xs text-gray-500">
-                                                <h1 className="flex items-center gap-1">{student.group.start_date}<span className="inline-block align-middle w-4 border border-gray-300"></span></h1>
+                                                <h1 className="flex items-center gap-1">
+                                                    {student.group.start_date}
+                                                    <span className="inline-block align-middle w-4 border border-gray-300"></span>
+                                                </h1>
                                                 <h1>{student.group.end_date}</h1>
                                             </div>
                                             <div className="text-xs text-gray-500">

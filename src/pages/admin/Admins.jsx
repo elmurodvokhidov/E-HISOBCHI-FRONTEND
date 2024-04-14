@@ -7,7 +7,7 @@ import {
 import AuthService from "../../config/authService";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Toast, ToastLeft } from "../../assets/sweetToast";
+import { Toast, ToastLeft } from "../../config/sweetToast";
 import AdminModal from "./AdminModal";
 import Skeleton from "../../components/loaders/Skeleton";
 import { IoPersonCircleOutline } from "react-icons/io5";
@@ -175,7 +175,6 @@ function Admins() {
                 handleCreateAndUpdate={createHandler}
                 handleModal={handleModal}
             />
-
         </div>
     )
 }

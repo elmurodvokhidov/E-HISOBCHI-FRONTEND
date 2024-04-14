@@ -41,37 +41,37 @@ function CourseModal({
                 <div className="flex flex-col gap-2 px-5 py-7">
                     {/* Course name */}
                     <div className="flex flex-col">
-                        <label htmlFor="title" className="text-[14px]">Kurs nomi</label>
+                        <label htmlFor="title" className="text-sm">Kurs nomi</label>
                         <input
                             onChange={getCourseCred}
                             value={newCourse.title}
                             type="text"
                             name="title"
                             id="title"
-                            className="border-2 border-gray-300 rounded px-2 py-1" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                     </div>
 
                     {/* Course code */}
                     <div className="flex flex-col">
-                        <label htmlFor="code" className="text-[14px]">Kurs kodi</label>
+                        <label htmlFor="code" className="text-sm">Kurs kodi</label>
                         <input
                             onChange={getCourseCred}
                             value={newCourse.code}
                             type="text"
                             name="code"
                             id="code"
-                            className="border-2 border-gray-300 rounded px-2 py-1" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                     </div>
 
                     {/* Lesson duration */}
                     <div className="flex flex-col">
-                        <label htmlFor="lesson_duration" className="text-[14px]">Dars davomiyligi</label>
+                        <label htmlFor="lesson_duration" className="text-sm">Dars davomiyligi</label>
                         <select
                             onChange={getCourseCred}
                             value={newCourse.lesson_duration}
                             name="lesson_duration"
                             id="lesson_duration"
-                            className="border-2 border-gray-300 rounded px-2 py-1">
+                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600">
                             {
                                 times.map((time, index) => (
                                     <option value={time} key={index}>{time} daqiqa</option>
@@ -82,31 +82,31 @@ function CourseModal({
 
                     {/* Course duration */}
                     <div className="flex flex-col">
-                        <label htmlFor="course_duration" className="text-[14px]">Kurs davomiyligi (oylarda)</label>
+                        <label htmlFor="course_duration" className="text-sm">Kurs davomiyligi (oylarda)</label>
                         <input
                             onChange={getCourseCred}
                             value={newCourse.course_duration}
                             type="number"
                             name="course_duration"
                             id="course_duration"
-                            className="border-2 border-gray-300 rounded px-2 py-1" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                     </div>
 
                     {/* Price */}
                     <div className="flex flex-col">
-                        <label htmlFor="price" className="text-[14px]">Narx</label>
+                        <label htmlFor="price" className="text-sm">Narx</label>
                         <input
                             onChange={getCourseCred}
                             value={newCourse.price}
                             type="number"
                             name="price"
                             id="price"
-                            className="border-2 border-gray-300 rounded px-2 py-1" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                     </div>
 
                     {/* Commentary */}
                     <div className="flex flex-col">
-                        <label htmlFor="description" className="text-[14px]">Izoh</label>
+                        <label htmlFor="description" className="text-sm">Izoh</label>
                         <textarea
                             onChange={getCourseCred}
                             value={newCourse.description}
@@ -114,7 +114,7 @@ function CourseModal({
                             id="description"
                             cols="30"
                             rows="3"
-                            className="border-2 border-gray-300 rounded px-2 py-1"></textarea>
+                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600"></textarea>
                     </div>
 
                     {/* Button */}

@@ -26,7 +26,7 @@ import Rooms from "./pages/rooms/Rooms";
 import CourseInfo from "./pages/courses/CourseInfo";
 import GroupInfo from "./pages/groups/GroupInfo";
 import TeacherSalary from "./pages/teacher/TeacherSalary";
-import Lids from "./pages/lids/Lids";
+import Leads from "./pages/leads/Leads";
 
 function App() {
   const dispatch = useDispatch();
@@ -80,7 +80,7 @@ function App() {
           <Route path="course-info/:id" element={<CourseInfo />} />
           <Route path="rooms" element={<Rooms />} />
           <Route path="settings" element={<GeneralSettings />} />
-          <Route path="lids" element={<Lids />} />
+          <Route path="leads" element={<Leads />} />
         </Route>
 
         {/* teacher routes */}

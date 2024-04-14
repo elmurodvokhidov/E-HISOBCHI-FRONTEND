@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { FaBell } from "react-icons/fa";
-import logo from "../img/uitc_logo.png"
+import logo from "../assets/images/uitc_logo.png"
 import LoaderDots from "./loaders/LoaderDots";
 import { allNoticeSuccess, noticeFailure, noticeStart } from "../redux/slices/noticeSlice";
 import AuthService from "../config/authService";

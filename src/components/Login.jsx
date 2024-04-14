@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import logo from "../img/uitc_logo.png";
+import logo from "../assets/images/uitc_logo.png";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import bgImg from "../img/bg.jpg";
+import bgImg from "../assets/images/bg.jpg";
 import { authFailure, authStart, authSuccess } from '../redux/slices/authSlice';
-import { Toast } from '../assets/sweetToast';
+import { Toast } from '../config/sweetToast';
 import AuthService from '../config/authService';
-import { saveToLocalStorage } from '../assets/localStorageService';
+import { saveToLocalStorage } from '../config/localStorageService';
 
 function Login() {
     const { isLoading, isLoggedIn } = useSelector(state => state.auth);
@@ -142,7 +142,7 @@ function Login() {
                         <button
                             disabled={isLoading ? true : false}
                             onClick={loginHandler}
-                            className="w-fit text-white rounded-2xl text-[16px] px-10 py-2 uppercase bg-cyan-600 hover:bg-cyan-700">
+                            className="w-fit text-white rounded-3xl text-sm px-10 py-2 uppercase bg-cyan-600 hover:bg-cyan-700">
                             {isLoading ? "Loading..." : "Login"}
                         </button>
                     </div>

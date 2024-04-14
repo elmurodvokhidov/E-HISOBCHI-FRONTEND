@@ -47,25 +47,25 @@ function GroupModal({
                 <div className="flex flex-col gap-2 px-5 py-7">
                     {/* Group name */}
                     <div className="flex flex-col">
-                        <label htmlFor="name" className="text-[14px]">Nomi</label>
+                        <label htmlFor="name" className="text-sm">Nomi</label>
                         <input
                             onChange={getGroupCred}
                             value={newGroup.name}
                             type="text"
                             name="name"
                             id="name"
-                            className="border-2 border-gray-300 rounded px-2 py-1" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                     </div>
 
                     {/* Course */}
                     <div className="flex flex-col">
-                        <label htmlFor="course" className="text-[14px]">Kurs tanlash</label>
+                        <label htmlFor="course" className="text-sm">Kurs tanlash</label>
                         <select
                             onChange={getGroupCred}
                             value={newGroup.course}
                             name="course"
                             id="course"
-                            className="border-2 border-gray-300 rounded px-2 py-1">
+                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600">
                             <option value="" className="italic">None</option>
                             {
                                 courses.map(course => (
@@ -77,13 +77,13 @@ function GroupModal({
 
                     {/* Teacher */}
                     <div className="flex flex-col">
-                        <label htmlFor="teacher" className="text-[14px]">O'qituvchini tanlang</label>
+                        <label htmlFor="teacher" className="text-sm">O'qituvchini tanlang</label>
                         <select
                             onChange={getGroupCred}
                             value={newGroup.teacher}
                             name="teacher"
                             id="teacher"
-                            className="border-2 border-gray-300 rounded px-2 py-1">
+                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600">
                             <option value="" className="italic">None</option>
                             {
                                 teachers.map(teacher => (
@@ -95,13 +95,13 @@ function GroupModal({
 
                     {/* Day */}
                     <div className="flex flex-col">
-                        <label htmlFor="day" className="text-[14px]">Kunlar</label>
+                        <label htmlFor="day" className="text-sm">Kunlar</label>
                         <select
                             onChange={getGroupCred}
                             value={newGroup.day}
                             name="day"
                             id="day"
-                            className="border-2 border-gray-300 rounded px-2 py-1">
+                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600">
                             <option value="" className="italic">None</option>
                             {
                                 days.map((day, index) => (
@@ -113,13 +113,13 @@ function GroupModal({
 
                     {/* Room */}
                     <div className="flex flex-col">
-                        <label htmlFor="room" className="text-[14px]">Xonani tanlang</label>
+                        <label htmlFor="room" className="text-sm">Xonani tanlang</label>
                         <select
                             onChange={getGroupCred}
                             value={newGroup.room}
                             name="room"
                             id="room"
-                            className="border-2 border-gray-300 rounded px-2 py-1">
+                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600">
                             <option value="" className="italic">None</option>
                             {
                                 rooms.map(room => (
@@ -131,40 +131,40 @@ function GroupModal({
 
                     {/* Start lesson time */}
                     <div className="flex flex-col">
-                        <label htmlFor="start_time" className="text-[14px]">Darsning boshlanish vaqti</label>
+                        <label htmlFor="start_time" className="text-sm">Darsning boshlanish vaqti</label>
                         <input
                             onChange={getGroupCred}
                             value={newGroup.start_time}
                             type="time"
                             name="start_time"
                             id="start_time"
-                            className="border-2 border-gray-300 rounded px-2 py-1" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                     </div>
 
                     {/* Start lesson date */}
                     <div className="flex flex-col">
-                        <label htmlFor="start_date" className="text-[14px]">Guruh boshlanish sanasi</label>
+                        <label htmlFor="start_date" className="text-sm">Guruh boshlanish sanasi</label>
                         <input
                             onChange={getGroupCred}
                             value={newGroup.start_date}
                             type="date"
                             name="start_date"
                             id="start_date"
-                            className="border-2 border-gray-300 rounded px-2 py-1" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                     </div>
 
                     {/* End lesson date */}
                     {
                         newGroup._id &&
                         <div className="flex flex-col">
-                            <label htmlFor="end_date" className="text-[14px]">Guruh tugash sanasi</label>
+                            <label htmlFor="end_date" className="text-sm">Guruh tugash sanasi</label>
                             <input
                                 onChange={getGroupCred}
                                 value={newGroup.end_date}
                                 type="date"
                                 name="end_date"
                                 id="end_date"
-                                className="border-2 border-gray-300 rounded px-2 py-1" />
+                                className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                         </div>
                     }
 
