@@ -124,7 +124,7 @@ export default function LeadsModal({
                         disabled={isLoading}
                         onClick={handleCreateAndUpdate}
                         className="w-fit px-6 py-1 mt-8 bg-cyan-600 rounded-2xl text-white">
-                        {isLoading ? "Loading..." : newLead.id ? "Saqlash" : "Qo'shish"}
+                        {isLoading ? "Loading..." : newLead._id ? "Saqlash" : "Qo'shish"}
                     </button>
                 </div>
             </form>

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import DropIndicator from "./DropIndicator";
 
 const Card = ({
-    card,
+    lead,
     handleDragStart,
     openUpdateModal,
     handleDelete,
@@ -10,24 +10,24 @@ const Card = ({
     return (
         <>
             <DropIndicator
-                beforeId={card.id}
-                column={card.column}
+                beforeId={lead._id}
+                column={lead.column}
             />
             <motion.div
                 layout
-                layoutId={card.id}
+                layoutId={lead._id}
                 draggable="true"
-                onDragStart={(e) => handleDragStart(e, card)}
+                onDragStart={(e) => handleDragStart(e, lead)}
                 className="flex items-center justify-between cursor-grab rounded-lg border border-gray-100 p-3 shadow-md active:cursor-grabbing"
             >
                 <div className="flex flex-col items-start gap-1 text-sm">
-                    <h1>{card.first_name} {card.last_name}</h1>
-                    <p className="text-xs text-blue-500">{card.phone}</p>
+                    <h1>{lead.first_name} {lead.last_name}</h1>
+                    <p className="text-xs text-blue-500">{lead.phone}</p>
                 </div>
 
                 <div className="flex items-center justify-between gap-2 text-sm">
                     <button
-                        onClick={() => openUpdateModal(card)}
+                        onClick={() => openUpdateModal(lead)}
                         className="hover:text-green-500"
                     >
                         <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -35,7 +35,7 @@ const Card = ({
                         </svg>
                     </button>
                     <button
-                        onClick={() => handleDelete(card.id)}
+                        onClick={() => handleDelete(lead._id)}
                         className="hover:text-red-500"
                     >
                         <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">

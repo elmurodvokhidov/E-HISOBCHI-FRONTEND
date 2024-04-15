@@ -7,6 +7,7 @@ import noticeSlice from "../slices/noticeSlice";
 import courseSlice from "../slices/courseSlice";
 import roomSlice from "../slices/roomSlice";
 import groupSlice from "../slices/groupSlice";
+import leadSlice from "../slices/leadSlice";
 
 export const store = configureStore({
     reducer: {
@@ -18,5 +19,6 @@ export const store = configureStore({
         course: courseSlice,
         room: roomSlice,
         group: groupSlice,
+        lead: leadSlice,
     }
 });

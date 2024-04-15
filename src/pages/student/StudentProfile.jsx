@@ -105,10 +105,10 @@ function StudentProfile({ student, isLoading, }) {
                         title: data.message
                     });
                 } catch (error) {
-                    dispatch(studentFailure(error.response.data.message));
+                    dispatch(studentFailure(error.response?.data.message));
                     await ToastLeft.fire({
                         icon: "error",
-                        title: error.response.data.message || error.message
+                        title: error.response?.data.message || error.message
                     });
                 }
             }

@@ -1,60 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Column from "./Column";
 import LeadsModal from "./LeadsModal";
 import { Toast, ToastLeft } from "../../config/sweetToast";
 import Swal from "sweetalert2";
+import AuthService from "../../config/authService";
+import { useDispatch, useSelector } from "react-redux";
+import { allLeadSuccess, leadFailure, leadStart } from "../../redux/slices/leadSlice";
 
 export default function LeadsKanban() {
-    // Data
-    const [cards, setCards] = useState([
-        // LEADS
-        {
-            id: "1",
-            first_name: "Sherali",
-            last_name: "Usmonov",
-            column: "leads",
-            phone: "330040804"
-        },
-        {
-            id: "2",
-            first_name: "Isroil",
-            last_name: "Ergashev",
-            column: "leads",
-            phone: "330040804"
-        },
-        {
-            id: "3",
-            first_name: "Ma'mur",
-            last_name: "Yo'ldoshov",
-            column: "leads",
-            phone: "330040804"
-        },
-
-        // EXPECTATION
-        {
-            id: "4",
-            first_name: "Rustam",
-            last_name: "Mahkamov",
-            column: "expectation",
-            phone: "330040804"
-        },
-        {
-            id: "5",
-            first_name: "Anvar",
-            last_name: "Olimov",
-            column: "expectation",
-            phone: "330040804"
-        },
-
-        // SET
-        {
-            id: "6",
-            first_name: "Nozim",
-            last_name: "Xatamov",
-            column: "set",
-            phone: "330040804"
-        },
-    ]);
+    const { leads, isLoading } = useSelector(state => state.lead);
+    const dispatch = useDispatch();
     const [newLead, setNewLead] = useState({
         first_name: "",
         last_name: "",
@@ -64,7 +19,21 @@ export default function LeadsKanban() {
         dob: "",
     });
     const [modals, setModals] = useState({ modal: false });
-    const [isLoading, setIsLoading] = useState(false);
+
+    const getAllLeadFunction = async () => {
+        try {
+            dispatch(leadStart());
+            const { data } = await AuthService.getAllLead();
+            dispatch(allLeadSuccess(data));
+        } catch (error) {
+            dispatch(leadFailure(error.message));
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getAllLeadFunction();
+    }, []);
 
     // Modalni o'zgaritirsh funksiyasi
     const handleModal = (modalName, value) => {
@@ -97,30 +66,33 @@ export default function LeadsKanban() {
             newLead.first_name !== "" &&
             newLead.last_name !== "" &&
             newLead.email !== "" &&
-            // newLead.dob !== "" &&
-            newLead.phone !== "" &&
             newLead.column !== ""
         ) {
             try {
-                if (!newLead.id) {
-                    setCards([...cards, { ...newLead, id: cards.length + 1 + "" }]);
+                if (!newLead._id) {
+                    const { data } = await AuthService.addNewLead(newLead);
+                    getAllLeadFunction();
                     clearModal();
                     await Toast.fire({
                         icon: "success",
-                        title: "Yangi lid qo'shildi"
+                        title: data?.message
                     });
                 }
                 else {
+                    const { _id, __v, createdAt, updatedAt, ...newLeadCred } = newLead;
+                    const { data } = await AuthService.updateLead(newLead._id, newLeadCred);
+                    getAllLeadFunction();
                     clearModal();
                     await Toast.fire({
                         icon: "success",
-                        title: "Lid ma'lumotlari yangilandi"
+                        title: data?.message
                     });
                 }
             } catch (error) {
+                dispatch(leadFailure(error.response?.data.message));
                 await ToastLeft.fire({
                     icon: "error",
-                    title: "Noma'lum xatolik"
+                    title: error.response?.data.message || error.message
                 });
             }
         }
@@ -145,25 +117,20 @@ export default function LeadsKanban() {
             confirmButtonText: "Ha, albatta!"
         }).then((result) => {
             if (result.isConfirmed) {
-                console.log(id);
-                Toast.fire({
-                    icon: "success",
-                    title: "Lid o'chirildi"
+                dispatch(leadStart());
+                AuthService.deleteLead(id).then((res) => {
+                    getAllLeadFunction();
+                    Toast.fire({
+                        icon: "success",
+                        title: res?.data.message
+                    });
+                }).catch((error) => {
+                    dispatch(leadFailure(error.response?.data.message));
+                    ToastLeft.fire({
+                        icon: "error",
+                        title: error.response?.data.message || error.message
+                    });
                 });
-                // dispatch(studentStart());
-                // AuthService.deleteStudent(id).then((res) => {
-                //     getAllStudentsFunction();
-                //     Toast.fire({
-                //         icon: "success",
-                //         title: res?.data.message
-                //     });
-                // }).catch((error) => {
-                //     dispatch(studentFailure(error.response?.data.message));
-                //     ToastLeft.fire({
-                //         icon: "error",
-                //         title: error.response?.data.message || error.message
-                //     });
-                // });
             }
         });
     };
@@ -175,8 +142,7 @@ export default function LeadsKanban() {
                     title="LEADS"
                     column="leads"
                     headingColor="text-yellow-200"
-                    cards={cards}
-                    setCards={setCards}
+                    leads={leads}
                     openUpdateModal={openUpdateModal}
                     handleDelete={handleDelete}
                 />
@@ -184,8 +150,7 @@ export default function LeadsKanban() {
                     title="EXPECTATION"
                     column="expectation"
                     headingColor="text-blue-200"
-                    cards={cards}
-                    setCards={setCards}
+                    leads={leads}
                     openUpdateModal={openUpdateModal}
                     handleDelete={handleDelete}
                 />
@@ -193,8 +158,7 @@ export default function LeadsKanban() {
                     title="SET"
                     column="set"
                     headingColor="text-emerald-200"
-                    cards={cards}
-                    setCards={setCards}
+                    leads={leads}
                     openUpdateModal={openUpdateModal}
                     handleDelete={handleDelete}
                 />

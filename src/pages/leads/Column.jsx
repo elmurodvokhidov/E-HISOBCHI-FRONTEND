@@ -2,20 +2,23 @@ import { useState } from "react";
 import Card from "./Card";
 import DropIndicator from "./DropIndicator";
 import dotMenu from "../../assets/icons/dot-menu.svg";
+import { allLeadSuccess } from "../../redux/slices/leadSlice";
+import { useDispatch } from "react-redux";
+import AuthService from "../../config/authService";
 
 export default function Column({
     title,
     column,
-    cards,
-    setCards,
+    leads,
     openUpdateModal,
     handleDelete,
 }) {
+    const dispatch = useDispatch();
     const [active, setActive] = useState(false);
-    const filteredCards = cards.filter((card) => card.column === column);
+    const filteredLeads = leads.filter((lead) => lead.column === column);
 
-    const handleDragStart = (e, card) => {
-        e.dataTransfer.setData("cardId", card.id);
+    const handleDragStart = (e, lead) => {
+        e.dataTransfer.setData("cardId", lead._id);
     };
 
     const handleDragOver = (e) => {
@@ -30,7 +33,7 @@ export default function Column({
     };
 
     // Handle Drag End Function
-    const handleDragEnd = (e) => {
+    const handleDragEnd = async (e) => {
         const cardId = e.dataTransfer.getData("cardId");
 
         setActive(false);
@@ -42,26 +45,32 @@ export default function Column({
         const before = element.dataset.before || "-1";
 
         if (before !== cardId) {
-            let copy = [...cards];
+            let copy = [...leads];
 
-            let cardToTransfer = copy.find((c) => c.id === cardId);
+            let cardToTransfer = copy.find((l) => l._id === cardId);
             if (!cardToTransfer) return;
             cardToTransfer = { ...cardToTransfer, column };
 
-            copy = copy.filter((c) => c.id !== cardId);
+            copy = copy.filter((l) => l._id !== cardId);
 
             const moveToBack = before === "-1";
 
             if (moveToBack) {
                 copy.push(cardToTransfer);
             } else {
-                const insertAtIndex = copy.findIndex((el) => el.id === before);
+                const insertAtIndex = copy.findIndex((el) => el._id === before);
                 if (insertAtIndex === undefined) return;
 
                 copy.splice(insertAtIndex, 0, cardToTransfer);
             }
 
-            setCards(copy);
+            dispatch(allLeadSuccess({ data: copy }));
+            try {
+                await AuthService.updateLeadColumn(cardId, { newColumn: column });
+            } catch (error) {
+                dispatch(leadFailure(error.message));
+                console.log(error);
+            }
         }
     };
 
@@ -110,7 +119,7 @@ export default function Column({
     return (
         <div className="w-[360px] shrink-0 overflow-y-scroll overflow-x-hidden pr-2">
             <div className="mb-3 flex items-center justify-between sticky top-0 bg-[#f8f8f8]">
-                <h3 className="flex items-center font-bold">{title} (<span className="rounded text-lg">{filteredCards.length}</span>)</h3>
+                <h3 className="flex items-center font-bold">{title} (<span className="rounded text-lg">{filteredLeads.length}</span>)</h3>
                 <button><img src={dotMenu} alt="dot menu" /></button>
             </div>
             <div
@@ -120,10 +129,10 @@ export default function Column({
                 className="h-full w-full"
             >
                 {
-                    filteredCards.map((card) => (
+                    filteredLeads.map((lead) => (
                         <Card
-                            key={card.id}
-                            card={card}
+                            key={lead._id}
+                            lead={lead}
                             handleDragStart={handleDragStart}
                             openUpdateModal={openUpdateModal}
                             handleDelete={handleDelete}

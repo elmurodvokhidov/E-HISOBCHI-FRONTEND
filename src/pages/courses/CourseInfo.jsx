@@ -185,9 +185,10 @@ function CourseInfo() {
                                     <h1 className="text-sm text-black">{course.price} UZS</h1>
                                 </div>
                                 <div>
-                                    {/* <span className="text-[12px] text-gray-500">Kurs davomiyligi</span>
-                                    <h1 className="text-sm text-black">{course.course_duration} oy</h1> */}
-
+                                    <span className="text-[12px] text-gray-500">Kurs davomiyligi</span>
+                                    <h1 className="text-sm text-black">{course.course_duration} oy</h1>
+                                </div>
+                                <div>
                                     <span className="text-[12px] text-gray-500">Talabalar</span>
                                     <h1 className="text-sm text-black">{course.groups.reduce((total, group) => total + group.students?.length, 0)}</h1>
                                 </div>

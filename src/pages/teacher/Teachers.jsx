@@ -100,10 +100,10 @@ function Teachers() {
                         title: data.message
                     });
                 } catch (error) {
-                    dispatch(teacherFailure(error.response.data.message));
+                    dispatch(teacherFailure(error.response?.data.message));
                     await ToastLeft.fire({
                         icon: "error",
-                        title: error.response.data.message || error.message
+                        title: error.response?.data.message || error.message
                     });
                 }
             }

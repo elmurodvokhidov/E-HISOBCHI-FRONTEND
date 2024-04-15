@@ -11,188 +11,208 @@ api.interceptors.request.use((req) => {
 const AuthService = {
     // admin
     async adminLogin(admin) {
-        const response = api.post("/admin/login", admin);
-        return response;
+        const res = api.post("/admin/login", admin);
+        return res;
     },
     async getAdmin(id) {
-        const response = api.get(`/admin/info/${id}`);
-        return response;
+        const res = api.get(`/admin/info/${id}`);
+        return res;
     },
     async addNewAdmin(admin) {
-        const response = api.post("/admin/add-new-admin", admin);
-        return response;
+        const res = api.post("/admin/add-new-admin", admin);
+        return res;
     },
     async getAllAdmin() {
-        const response = api.get("/admin/get-all-admin");
-        return response;
+        const res = api.get("/admin/get-all-admin");
+        return res;
     },
     async deleteAdmin(id) {
-        const response = api.delete(`/admin/delete-admin/${id}`);
-        return response;
+        const res = api.delete(`/admin/delete-admin/${id}`);
+        return res;
     },
     async updateAdminProfile(id, updatedAdmin) {
-        const response = api.put(`/admin/update-profile/${id}`, updatedAdmin);
-        return response;
+        const res = api.put(`/admin/update-profile/${id}`, updatedAdmin);
+        return res;
     },
     async updateAdminPass(newPass) {
-        const response = api.put("/admin/update-password", newPass);
-        return response;
+        const res = api.put("/admin/update-password", newPass);
+        return res;
     },
     async updateTeacher(id, updatedTeacher) {
-        const response = api.put(`/admin/update-teacher/${id}`, updatedTeacher);
-        return response;
+        const res = api.put(`/admin/update-teacher/${id}`, updatedTeacher);
+        return res;
     },
     async updateTeacherPass(newPass) {
-        const response = api.put("/admin/update-teacher-password", newPass);
-        return response;
+        const res = api.put("/admin/update-teacher-password", newPass);
+        return res;
     },
     async getAllTeachers() {
-        const response = api.get("/admin/get-all-teacher");
-        return response;
+        const res = api.get("/admin/get-all-teacher");
+        return res;
     },
     async addNewTeacher(teacher) {
-        const response = api.post("/admin/add-teacher", teacher);
-        return response;
+        const res = api.post("/admin/add-teacher", teacher);
+        return res;
     },
     async deleteTeacher(id) {
-        const response = api.delete(`/admin/delete-teacher/${id}`);
-        return response;
+        const res = api.delete(`/admin/delete-teacher/${id}`);
+        return res;
     },
     async addNewStudent(student) {
-        const response = api.post("/admin/add-student", student);
-        return response;
+        const res = api.post("/admin/add-student", student);
+        return res;
     },
     async getAllStudents() {
-        const response = api.get("/admin/get-all-student");
-        return response;
+        const res = api.get("/admin/get-all-student");
+        return res;
     },
     async updateStudent(id, updatedTeacher) {
-        const response = api.put(`/admin/update-student/${id}`, updatedTeacher);
-        return response;
+        const res = api.put(`/admin/update-student/${id}`, updatedTeacher);
+        return res;
     },
     async updateStudentPass(newPass) {
-        const response = api.put("/admin/update-student-password", newPass);
-        return response;
+        const res = api.put("/admin/update-student-password", newPass);
+        return res;
     },
     async deleteStudent(id) {
-        const response = api.delete(`/admin/delete-student/${id}`);
-        return response;
+        const res = api.delete(`/admin/delete-student/${id}`);
+        return res;
+    },
+    async addNewLead(lead) {
+        const res = api.post("/admin/add-lead", lead);
+        return res;
+    },
+    async updateLead(id, updatedLead) {
+        const res = api.put(`/admin/update-lead/${id}`, updatedLead);
+        return res;
+    },
+    async updateLeadColumn(id, newColumn) {
+        const res = api.put(`/admin/update-lead-columt/${id}`, newColumn);
+        return res;
+    },
+    async getAllLead() {
+        const res = api.get("/admin/get-all-lead");
+        return res;
+    },
+    async deleteLead(id) {
+        const res = api.delete(`/admin/delete-lead/${id}`);
+        return res;
     },
 
 
 
     // Notice
     async getAllNotices() {
-        const response = api.get("/admin/get-notice");
-        return response;
+        const res = api.get("/admin/get-notice");
+        return res;
     },
     async addNewNotice(notice) {
-        const response = api.post("/admin/create-notice", notice);
-        return response;
+        const res = api.post("/admin/create-notice", notice);
+        return res;
     },
     async updateNotice(id, updatedNotice) {
-        const response = api.put(`/admin/update-notice/${id}`, updatedNotice);
-        return response;
+        const res = api.put(`/admin/update-notice/${id}`, updatedNotice);
+        return res;
     },
     async deleteNotice(id) {
-        const response = api.delete(`/admin/delete-notice/${id}`);
-        return response;
+        const res = api.delete(`/admin/delete-notice/${id}`);
+        return res;
     },
 
 
 
     // Course
     async getCourse(id) {
-        const response = api.get(`/admin/get-course/${id}`);
-        return response;
+        const res = api.get(`/admin/get-course/${id}`);
+        return res;
     },
     async getAllCourses() {
-        const response = api.get("/admin/get-all-course");
-        return response;
+        const res = api.get("/admin/get-all-course");
+        return res;
     },
     async addNewCourse(course) {
-        const response = api.post("/admin/add-course", course);
-        return response;
+        const res = api.post("/admin/add-course", course);
+        return res;
     },
     async updateCourse(id, updatedCourse) {
-        const response = api.put(`/admin/update-course/${id}`, updatedCourse);
-        return response;
+        const res = api.put(`/admin/update-course/${id}`, updatedCourse);
+        return res;
     },
     async deleteCourse(id) {
-        const response = api.delete(`/admin/delete-course/${id}`);
-        return response;
+        const res = api.delete(`/admin/delete-course/${id}`);
+        return res;
     },
 
 
 
     // Room
     async getRoom(id) {
-        const response = api.get(`/admin/get-room/${id}`);
-        return response;
+        const res = api.get(`/admin/get-room/${id}`);
+        return res;
     },
     async getAllRooms() {
-        const response = api.get("/admin/get-all-rooms");
-        return response;
+        const res = api.get("/admin/get-all-rooms");
+        return res;
     },
     async addNewRoom(room) {
-        const response = api.post("/admin/add-room", room);
-        return response;
+        const res = api.post("/admin/add-room", room);
+        return res;
     },
     async updateRoom(id, updatedRoom) {
-        const response = api.put(`/admin/update-room/${id}`, updatedRoom);
-        return response;
+        const res = api.put(`/admin/update-room/${id}`, updatedRoom);
+        return res;
     },
     async deleteRoom(id) {
-        const response = api.delete(`/admin/delete-room/${id}`);
-        return response;
+        const res = api.delete(`/admin/delete-room/${id}`);
+        return res;
     },
 
 
 
     // Group
     async getGroup(id) {
-        const response = api.get(`/admin/get-group/${id}`);
-        return response;
+        const res = api.get(`/admin/get-group/${id}`);
+        return res;
     },
     async getAllGroups() {
-        const response = api.get("/admin/get-all-groups");
-        return response;
+        const res = api.get("/admin/get-all-groups");
+        return res;
     },
     async addNewGroup(group) {
-        const response = api.post("/admin/add-group", group);
-        return response;
+        const res = api.post("/admin/add-group", group);
+        return res;
     },
     async updateGroup(id, updatedGroup) {
-        const response = api.put(`/admin/update-group/${id}`, updatedGroup);
-        return response;
+        const res = api.put(`/admin/update-group/${id}`, updatedGroup);
+        return res;
     },
     async deleteGroup(id) {
-        const response = api.delete(`/admin/delete-group/${id}`);
-        return response;
+        const res = api.delete(`/admin/delete-group/${id}`);
+        return res;
     },
 
 
 
     // teacher
     async teacherLogin(teacher) {
-        const response = api.post("/teacher/login", teacher);
-        return response;
+        const res = api.post("/teacher/login", teacher);
+        return res;
     },
     async getTeacher(id) {
-        const response = api.get(`/teacher/info/${id}`);
-        return response;
+        const res = api.get(`/teacher/info/${id}`);
+        return res;
     },
 
 
 
     // student
     async studentLogin(student) {
-        const response = api.post("/student/login", student);
-        return response;
+        const res = api.post("/student/login", student);
+        return res;
     },
     async getStudent(id) {
-        const response = api.get(`/student/info/${id}`);
-        return response;
+        const res = api.get(`/student/info/${id}`);
+        return res;
     },
 };
 
