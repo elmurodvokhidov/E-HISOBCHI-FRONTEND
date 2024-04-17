@@ -15,6 +15,8 @@ import Swal from "sweetalert2";
 import Skeleton from "../../components/loaders/Skeleton";
 import tick from "../../assets/icons/tick.svg";
 import copy from "../../assets/icons/copy.svg";
+import * as XLSX from 'xlsx';
+import { MdFileDownload } from "react-icons/md";
 
 function Teachers() {
     const { teachers, isLoading } = useSelector(state => state.teacher);
@@ -206,6 +208,30 @@ function Teachers() {
         });
     };
 
+    // Barcha o'qituvchilar ma'lumotlarini exel fayli sifatida yuklab olish funksiyasi
+    const exportToExcel = () => {
+        const fileName = 'teachers.xlsx';
+        const header = ['First Name', 'Last Name', 'Email', 'Date of Birth', 'Contact Number', 'Gender'];
+
+        const wb = XLSX.utils.book_new();
+        const data = teachers.map(teacher => [
+            teacher.first_name || '',
+            teacher.last_name || '',
+            teacher.email || '',
+            teacher.dob || '',
+            (teacher.contactNumber || '').toString(),
+            teacher.gender || '',
+        ]);
+        data.unshift(header);
+        const ws = XLSX.utils.aoa_to_sheet(data);
+        const columnWidths = data[0].map((_, colIndex) => ({
+            wch: data.reduce((acc, row) => Math.max(acc, String(row[colIndex]).length), 0)
+        }));
+        ws['!cols'] = columnWidths;
+        XLSX.utils.book_append_sheet(wb, ws, 'Teachers');
+        XLSX.writeFile(wb, fileName);
+    };
+
     return (
         <div
             onClick={() => handleModal("more", null)}
@@ -235,7 +261,7 @@ function Teachers() {
                             <div className="flex items-center gap-8 text-xs">
                                 <h3
                                     onClick={() => handleCopy(teacher.contactNumber)}
-                                    className="flex items-center gap-1 text-blue-400">
+                                    className="flex items-center gap-1 text-blue-400 cursor-pointer">
                                     {teacher.contactNumber}
                                     <img
                                         src={copied === teacher.contactNumber ? tick : copy}
@@ -250,7 +276,7 @@ function Teachers() {
                                 }} className="relative cursor-pointer text-cyan-600 text-xl">
                                     <IoMdMore />
                                     {/* more btn modal */}
-                                    <div className={`${modals.more === teacher._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute lg:left-8 2xsm:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] bg-white`}>
+                                    <div className={`${modals.more === teacher._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute z-10 lg:left-8 2xsm:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] bg-white`}>
                                         <button
                                             onClick={() => openModal(teacher)}
                                             className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"
@@ -276,6 +302,13 @@ function Teachers() {
                     )) : <h1>Ma'lumot topilmadi</h1>
                 }
             </div>
+
+            <button
+                onClick={exportToExcel}
+                id="downloadExelBtn"
+                className="size-8 relative float-end flex items-center justify-center ml-8 text-gray-400 border border-gray-300 outline-cyan-600 text-xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all">
+                <MdFileDownload />
+            </button>
 
             {/* create new teacher and update teacher modal */}
             <TeacherModal

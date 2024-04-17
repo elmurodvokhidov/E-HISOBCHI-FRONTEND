@@ -41,7 +41,7 @@ export default function AdminModal({
             style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modals.modal ? "1" : "0", zIndex: modals.modal ? "20" : "-1" }}>
             <form
                 onClick={(e) => e.stopPropagation()}
-                className="w-[27%] h-screen fixed top-0 right-0 transition-all duration-300 bg-white"
+                className="w-[27%] h-screen fixed top-0 right-0 overflow-y-auto transition-all duration-300 bg-white"
                 style={{ right: modals.modal ? "0" : "-200%" }}>
                 <div className="flex justify-between text-xl p-5 border-b-2">
                     <h1>{newAdmin._id ? "Hisobni yangilash" : "Admin ma'lumotlari"}</h1>
@@ -92,23 +92,24 @@ export default function AdminModal({
                             className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                     </div>
 
-                    <div className="flex justify-between">
-                        {/* Date of Birth */}
-                        <div className="w-[47%] flex flex-col">
-                            <label htmlFor="dob" className="text-sm">Tug'ilgan sana</label>
-                            <input
-                                disabled={newAdmin._id ? modals.passModal : false}
-                                onChange={getAuthCred}
-                                value={newAdmin.dob}
-                                type="date"
-                                name="dob"
-                                id="dob"
-                                className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
-                        </div>
+                    {/* Date of Birth */}
+                    <div className="flex flex-col">
+                        <label htmlFor="dob" className="text-sm">Tug'ilgan sana</label>
+                        <input
+                            disabled={newAdmin._id ? modals.passModal : false}
+                            onChange={getAuthCred}
+                            value={newAdmin.dob}
+                            type="date"
+                            name="dob"
+                            id="dob"
+                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                    </div>
 
-                        {/* Contact Number */}
-                        <div className="w-[47%] flex flex-col">
-                            <label htmlFor="contactNumber" className="text-sm">Telefon</label>
+                    {/* Contact Number */}
+                    <div className="flex flex-col">
+                        <label htmlFor="contactNumber" className="text-sm">Telefon</label>
+                        <div className="flex">
+                            <label htmlFor="contactNumber" className="text-base border-2 border-r-0 rounded-l border-gray-300 px-2 py-1">+998</label>
                             <input
                                 disabled={newAdmin._id ? modals.passModal : false}
                                 onChange={getAuthCred}
@@ -116,8 +117,8 @@ export default function AdminModal({
                                 type="number"
                                 name="contactNumber"
                                 id="contactNumber"
-                                className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600"
-                                placeholder="998991234567" />
+                                className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 outline-cyan-600"
+                            />
                         </div>
                     </div>
 

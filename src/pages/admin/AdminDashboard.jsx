@@ -12,12 +12,14 @@ import TimelineChart from "../../components/charts/TimelineChart";
 import { BsExclamationTriangle } from "react-icons/bs";
 import { SlLayers } from "react-icons/sl";
 import { allGroupSuccess } from "../../redux/slices/groupSlice";
+import { allLeadSuccess } from "../../redux/slices/leadSlice";
 
 function AdminDashboard() {
     const { admins } = useSelector(state => state.admin);
     const { teachers } = useSelector(state => state.teacher);
     const { students } = useSelector(state => state.student);
     const { groups } = useSelector(state => state.group);
+    const { leads } = useSelector(state => state.lead);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -37,11 +39,16 @@ function AdminDashboard() {
             const { data } = await AuthService.getAllGroups();
             dispatch(allGroupSuccess(data));
         };
+        const getAllLeadFunction = async () => {
+            const { data } = await AuthService.getAllLead();
+            dispatch(allLeadSuccess(data));
+        };
 
         getAllAdminsFunction();
         getAllTeachersFunction();
         getAllStudentsFunction();
         getAllGroupsFunction();
+        getAllLeadFunction();
     }, [])
 
 
@@ -51,7 +58,7 @@ function AdminDashboard() {
                 <div className="sm:size-36 2xsm:size-28 flex flex-col items-center justify-center border shadow-smooth">
                     <FaRegUser className="sm:text-4xl 2xsm:text-2xl text-cyan-600" />
                     <h1 className="sm:text-sm 2xsm:text-xs text-gray-500 mt-1">Faol Lidlar</h1>
-                    <h1 className="text-2xl text-cyan-600 mt-3">0</h1>
+                    <h1 className="text-2xl text-cyan-600 mt-3">{admins ? leads.length : 0}</h1>
                 </div>
 
                 <div className="sm:size-36 2xsm:size-28 flex flex-col items-center justify-center border shadow-smooth">

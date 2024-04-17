@@ -91,23 +91,24 @@ function StudentModal({
                             className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                     </div>
 
-                    <div className="flex justify-between">
-                        {/* Date of Birth */}
-                        <div className="w-[47%] flex flex-col">
-                            <label htmlFor="dob" className="text-sm">Tug'ilgan sana</label>
-                            <input
-                                disabled={newStudent._id ? modals.passModal : false}
-                                onChange={getStudentCred}
-                                value={newStudent.dob}
-                                type="date"
-                                name="dob"
-                                id="dob"
-                                className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
-                        </div>
+                    {/* Date of Birth */}
+                    <div className="flex flex-col">
+                        <label htmlFor="dob" className="text-sm">Tug'ilgan sana</label>
+                        <input
+                            disabled={newStudent._id ? modals.passModal : false}
+                            onChange={getStudentCred}
+                            value={newStudent.dob}
+                            type="date"
+                            name="dob"
+                            id="dob"
+                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                    </div>
 
-                        {/* Contact Number */}
-                        <div className="w-[47%] flex flex-col">
-                            <label htmlFor="contactNumber" className="text-sm">Telefon</label>
+                    {/* Contact Number */}
+                    <div className="flex flex-col">
+                        <label htmlFor="contactNumber" className="text-sm">Telefon</label>
+                        <div className="flex">
+                            <label htmlFor="contactNumber" className="text-base border-2 border-r-0 rounded-l border-gray-300 px-2 py-1">+998</label>
                             <input
                                 disabled={newStudent._id ? modals.passModal : false}
                                 onChange={getStudentCred}
@@ -115,8 +116,8 @@ function StudentModal({
                                 type="number"
                                 name="contactNumber"
                                 id="contactNumber"
-                                className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600"
-                                placeholder="998991234567" />
+                                className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 outline-cyan-600"
+                            />
                         </div>
                     </div>
 
