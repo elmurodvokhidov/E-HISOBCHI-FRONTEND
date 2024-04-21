@@ -11,15 +11,13 @@ function TeacherSidebar() {
             {
                 auth &&
                 auth.groups.map(group => (
-                    <>
-                        <NavLink
-                            to={`/teacher/group-info/${group._id}`}
-                            className="w-32 relative flex flex-col items-center gap-2 py-4 border-b"
-                            key={group._id}>
-                            <SlLayers className="text-3xl" />
-                            <h1 className="text-xs">{group.name}</h1>
-                        </NavLink>
-                    </>
+                    <NavLink
+                        to={`/teacher/group-info/${group._id}`}
+                        className="w-32 relative flex flex-col items-center gap-2 py-4 border-b"
+                        key={group._id}>
+                        <SlLayers className="text-3xl" />
+                        <h1 className="text-xs">{group.name}</h1>
+                    </NavLink>
                 ))
             }
             <NavLink

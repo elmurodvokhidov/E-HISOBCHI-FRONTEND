@@ -336,7 +336,7 @@ function Groups() {
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="teacher"
-                        className="absolute text-xs bg-white -top-1.5 left-3">
+                        className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
                         <span>O'qituvchi</span>
                     </label>
                     <select
@@ -344,7 +344,7 @@ function Groups() {
                         onChange={handleFilterChange}
                         name="teacher"
                         id="teacher"
-                        className="w-full p-2 text-sm rounded border outline-cyan-600">
+                        className="w-full p-2 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]">
                         <option
                             value=""
                             className="text-sm italic">
@@ -367,7 +367,7 @@ function Groups() {
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="course"
-                        className="absolute text-xs bg-white -top-1.5 left-3">
+                        className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
                         <span>Kurslar</span>
                     </label>
                     <select
@@ -375,7 +375,7 @@ function Groups() {
                         onChange={handleFilterChange}
                         name="course"
                         id="course"
-                        className="w-full p-2 text-sm rounded border outline-cyan-600">
+                        className="w-full p-2 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]">
                         <option
                             value=""
                             className="text-sm italic">
@@ -398,7 +398,7 @@ function Groups() {
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="day"
-                        className="absolute text-xs bg-white -top-1.5 left-3">
+                        className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
                         <span>Kunlar</span>
                     </label>
                     <select
@@ -406,7 +406,7 @@ function Groups() {
                         onChange={handleFilterChange}
                         name="day"
                         id="day"
-                        className="w-full p-2 text-sm rounded border outline-cyan-600">
+                        className="w-full p-2 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]">
                         <option
                             value=""
                             className="text-sm italic">
@@ -424,7 +424,7 @@ function Groups() {
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="start_date"
-                        className="absolute text-xs bg-white -top-1.5 left-3">
+                        className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
                         <span>Boshlanish</span>
                     </label>
                     <input
@@ -433,14 +433,14 @@ function Groups() {
                         type="date"
                         name="start_date"
                         id="start_date"
-                        className="w-full p-1.5 text-sm rounded border outline-cyan-600" />
+                        className="w-full p-1.5 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]" />
                 </div>
 
                 {/* End Date */}
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="end_date"
-                        className="absolute text-xs bg-white -top-1.5 left-3">
+                        className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
                         <span>Tugash</span>
                     </label>
                     <input
@@ -449,11 +449,16 @@ function Groups() {
                         type="date"
                         name="end_date"
                         id="end_date"
-                        className="w-full p-1.5 text-sm rounded border outline-cyan-600" />
+                        className="w-full p-1.5 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]" />
                 </div>
 
                 {/* Clear Filter */}
-                <button onClick={() => setFilters({ teacher: "", course: "", day: "", start_date: "", end_date: "" })} className="border rounded p-2 text-sm text-gray-700 bg-white hover:bg-gray-100 hover:text-gray-500 transition-all">Filterni tiklash</button>
+                <button
+                    onClick={() => setFilters({ teacher: "", course: "", day: "", start_date: "", end_date: "" })}
+                    className="border rounded p-2 text-sm text-gray-700 bg-[#f8f8f8] hover:bg-gray-100 hover:text-gray-500 transition-all"
+                >
+                    Filterni tiklash
+                </button>
             </div>
 
             <div className="overflow-x-auto">

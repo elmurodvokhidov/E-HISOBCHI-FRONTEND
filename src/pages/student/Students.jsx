@@ -369,7 +369,7 @@ function Students() {
                 <input
                     value={filters.searchBy}
                     onChange={handleFilterChange}
-                    className="w-56 px-4 py-2 text-xs outline-cyan-600 border rounded"
+                    className="w-56 px-4 py-2 text-xs outline-cyan-600 border rounded bg-[#f8f8f8]"
                     type="text"
                     name="searchBy"
                     id="searchBy"
@@ -379,7 +379,7 @@ function Students() {
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="course"
-                        className="absolute text-xs bg-white -top-1.5 left-3">
+                        className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
                         <span>Kurslar</span>
                     </label>
                     <select
@@ -387,7 +387,7 @@ function Students() {
                         onChange={handleFilterChange}
                         name="course"
                         id="course"
-                        className="w-full p-2 text-sm rounded border outline-cyan-600">
+                        className="w-full p-2 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]">
                         <option
                             value=""
                             className="text-sm italic">
@@ -410,7 +410,7 @@ function Students() {
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="start_date"
-                        className="absolute text-xs bg-white -top-1.5 left-3">
+                        className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
                         <span>Boshlanish</span>
                     </label>
                     <input
@@ -419,14 +419,14 @@ function Students() {
                         type="date"
                         name="start_date"
                         id="start_date"
-                        className="w-full p-1.5 text-sm rounded border outline-cyan-600" />
+                        className="w-full p-1.5 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]" />
                 </div>
 
                 {/* End Date */}
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="end_date"
-                        className="absolute text-xs bg-white -top-1.5 left-3">
+                        className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
                         <span>Tugash</span>
                     </label>
                     <input
@@ -435,10 +435,15 @@ function Students() {
                         type="date"
                         name="end_date"
                         id="end_date"
-                        className="w-full p-1.5 text-sm rounded border outline-cyan-600" />
+                        className="w-full p-1.5 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]" />
                 </div>
 
-                <button onClick={() => setFilters({ searchBy: "", course: "", start_date: "", end_date: "" })} className="border rounded p-2 text-sm text-gray-700 bg-white hover:bg-gray-100 hover:text-gray-500 transition-all">Filterni tiklash</button>
+                <button
+                    onClick={() => setFilters({ searchBy: "", course: "", start_date: "", end_date: "" })}
+                    className="border rounded p-2 text-sm text-gray-700 bg-[#f8f8f8] hover:bg-gray-100 hover:text-gray-500 transition-all"
+                >
+                    Filterni tiklash
+                </button>
             </div>
 
             <div className="max-h-[600px] overflow-auto pb-2 pr-2">

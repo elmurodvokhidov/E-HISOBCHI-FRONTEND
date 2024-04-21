@@ -100,7 +100,7 @@ function Navbar({ sideModal, setSideModal, setOpen }) {
                     <figure className="h-8 w-8 rounded-full overflow-hidden flex items-center justify-center">
                         {
                             auth &&
-                                auth.avatar !== "" ?
+                                auth.avatar && auth.avatar !== "" ?
                                 <img className="w-full h-full object-cover" src={auth.avatar} alt="auth avatar" /> :
                                 <IoPersonCircleOutline className="w-full h-full text-gray-500" />
                         }

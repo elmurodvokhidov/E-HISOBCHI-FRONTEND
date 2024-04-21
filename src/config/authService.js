@@ -98,6 +98,18 @@ const AuthService = {
         const res = api.delete(`/admin/delete-lead/${id}`);
         return res;
     },
+    async checkAttendance(attendance, groupId) {
+        const res = api.post(`/admin/check-attendance/${groupId}`, attendance);
+        return res;
+    },
+    async getAllAttendance() {
+        const res = api.get("/admin/attendance");
+        return res;
+    },
+    async deleteAttendance(studentId, date) {
+        const res = api.delete(`/admin/attendance-delete/${studentId}/${date}`);
+        return res;
+    },
 
 
 

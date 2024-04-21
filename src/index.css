@@ -221,3 +221,14 @@ input[type=number]::-webkit-outer-spin-button {
     transform: rotate(45deg);
     background: white;
 }
+
+.atd_modal::before {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: calc(50% - 5px);
+    width: 10px;
+    height: 10px;
+    transform: rotate(45deg);
+    background: rgb(229 231 235);
+}
