@@ -12,8 +12,8 @@ module.exports = {
         "dim-right": "7px 0px 29px 0px rgba(100, 100, 111, 0.2)",
       },
       screens: {
-        'sm': '425px',
-        'xsm': '375px',
+        sm: '425px',
+        xsm: '375px',
         '2xsm': '320px'
       }
     },

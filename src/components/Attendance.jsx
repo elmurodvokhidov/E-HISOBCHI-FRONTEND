@@ -18,7 +18,7 @@ export default function Attendance({ start, end, day, students, groupId }) {
         const days = [];
 
         let currentDate = new Date(startDate);
-        if (day === "Toq kunlari") {
+        if (day === "odd") {
             while (currentDate <= endDate) {
                 if (
                     (currentDate.getDay() === 1 || currentDate.getDay() === 3 || currentDate.getDay() === 5) &&
@@ -29,7 +29,7 @@ export default function Attendance({ start, end, day, students, groupId }) {
                 currentDate.setDate(currentDate.getDate() + 1);
             }
         }
-        else if (day === "Juft kunlari") {
+        else if (day === "even") {
             while (currentDate <= endDate) {
                 if (
                     (currentDate.getDay() === 2 || currentDate.getDay() === 4 || currentDate.getDay() === 6) &&
@@ -40,7 +40,7 @@ export default function Attendance({ start, end, day, students, groupId }) {
                 currentDate.setDate(currentDate.getDate() + 1);
             }
         }
-        else if (day === "Dam olish kuni") {
+        else if (day === "weekend") {
             while (currentDate <= endDate) {
                 if (
                     (currentDate.getDay() === 0) &&
@@ -51,7 +51,7 @@ export default function Attendance({ start, end, day, students, groupId }) {
                 currentDate.setDate(currentDate.getDate() + 1);
             }
         }
-        else if (day === "Har kuni") {
+        else if (day === "everyday") {
             while (currentDate <= endDate) {
                 if (!holidays.includes(currentDate.toISOString().slice(0, 10))) {
                     days.push(currentDate.toISOString().slice(0, 10));
@@ -79,6 +79,13 @@ export default function Attendance({ start, end, day, students, groupId }) {
 
     useEffect(() => {
         getAllAttendanceFunction();
+
+        // Check if today's date is within group days
+        const todayIndex = days.findIndex(date => date >= today);
+        if (todayIndex !== -1) {
+            setCurrentPage(Math.ceil((todayIndex + 1) / itemsPerPage));
+        };
+
     }, []);
 
     // Handle check function
@@ -161,7 +168,7 @@ export default function Attendance({ start, end, day, students, groupId }) {
                                     >
                                         {renderCellContent(student._id, date)}
 
-                                        <div className="atd_modal bg-gray-200 text-sm gap-2 p-2 rounded-md absolute -top-7 hidden group-hover:flex transition-all duration-500">
+                                        <div className="atd_modal bg-gray-200 text-sm gap-2 p-2 rounded-md absolute -top-7 hidden group-hover:flex">
                                             <button onClick={() => handleCheckboxChange(student._id, date, "was")}><MdCheck className="text-green-500" /></button>
                                             <button onClick={() => handleCheckboxChange(student._id, date, "not")}><MdClose className="text-red-500" /></button>
                                         </div>

@@ -9,6 +9,8 @@ import StudentModal from "./StudentModal";
 import Skeleton from "../../components/loaders/Skeleton";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import { days } from "../../config/days";
+import { IoPersonCircleOutline, IoRemoveOutline } from "react-icons/io5";
 
 function StudentProfile({ student, isLoading, }) {
     const { groups } = useSelector(state => state.group);
@@ -157,16 +159,24 @@ function StudentProfile({ student, isLoading, }) {
     return (
         <div className="container">
             <div className="flex gap-8">
-                <div className="w-fit border-2 py-8 px-6 rounded shadow-dim">
+                <div className="w-1/3 border-2 py-8 px-6 rounded shadow-dim">
                     <div className="flex relative justify-start gap-10">
                         {!student ?
                             <div className="w-[410px]">
                                 <Skeleton parentWidth={100} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
                             </div> : <>
-                                <div className="flex flex-col gap-4 text-sm">
+                                <div className="w-full flex flex-col gap-4 text-sm">
                                     <div className="flex items-center gap-4">
                                         <figure className={`w-20 h-20 border-4 border-white rounded-[50%] overflow-hidden bg-slate-100 ${!student ? "bg-gray-300 animate-pulse" : null}`}>
-                                            {student ? <img className="w-full h-full object-cover" src={logo} alt="logo" /> : null}
+                                            {
+                                                student.avatar && student.avatar !== "" ? <img
+                                                    className="w-full h-full object-cover"
+                                                    src={student?.avatar}
+                                                    alt="logo"
+                                                /> : <>
+                                                    <IoPersonCircleOutline className="w-full h-full text-gray-400" />
+                                                </>
+                                            }
                                         </figure>
                                         <h1 className="capitalize text-xl">{student.first_name} {student.last_name}</h1>
                                     </div>
@@ -207,22 +217,46 @@ function StudentProfile({ student, isLoading, }) {
                                             <div className="flex flex-col gap-2 text-sm">
                                                 <div className="flex justify-between">
                                                     <span className="text-gray-500">Otasining ismi:</span>
-                                                    <span>{student.father_name}</span>
+                                                    <span>
+                                                        {
+                                                            student.father_name !== "" ?
+                                                                student.father_name :
+                                                                <IoRemoveOutline className="text-gray-500" />
+                                                        }
+                                                    </span>
                                                 </div>
 
                                                 <div className="flex justify-between">
                                                     <span className="text-gray-500">Telefon:</span>
-                                                    <span className="text-blue-300">{student.fatherContactNumber}</span>
+                                                    <span style={{ color: student.fatherContactNumber ? "#93C5FD" : "#6B7280" }}>
+                                                        {
+                                                            student.fatherContactNumber ?
+                                                                `+${student.fatherContactNumber}` :
+                                                                <IoRemoveOutline />
+                                                        }
+                                                    </span>
                                                 </div>
 
                                                 <div className="flex justify-between">
                                                     <span className="text-gray-500">Onasining ismi:</span>
-                                                    <span>{student.mother_name}</span>
+                                                    <span>
+                                                        {
+                                                            student.mother_name !== "" ?
+                                                                student.mother_name :
+                                                                <IoRemoveOutline className="text-gray-500" />
+                                                        }
+                                                    </span>
                                                 </div>
 
                                                 <div className="flex justify-between">
                                                     <span className="text-gray-500">Telefon:</span>
-                                                    <span className="text-blue-300">{student.motherContactNumber}</span>
+                                                    <span style={{ color: student.motherContactNumber ? "#93C5FD" : "#6B7280" }}>
+                                                        {
+                                                            student.motherContactNumber ?
+                                                                `+${student.motherContactNumber}` :
+                                                                <IoRemoveOutline />
+                                                        }
+                                                    </span>
                                                 </div>
                                             </div>
                                         </> : null
@@ -265,7 +299,7 @@ function StudentProfile({ student, isLoading, }) {
                                                 <h1>{student.group.end_date}</h1>
                                             </div>
                                             <div className="text-xs text-gray-500">
-                                                <h1>{student.group.day}</h1>
+                                                <h1>{days.find(day => day.value === student.group.day)?.title}</h1>
                                                 <h1>{student.group.start_time}</h1>
                                             </div>
                                         </div>

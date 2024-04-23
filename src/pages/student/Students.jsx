@@ -349,8 +349,12 @@ function Students() {
     };
 
     return (
-        <div className="students container" onClick={() => handleModal("more", null)}>
-            <div className="sm:flex justify-between relative">
+        <div
+            className="students container"
+            onClick={() => handleModal("more", null)}
+            style={{ paddingLeft: 0, paddingRight: 0 }}
+        >
+            <div className="sm:flex justify-between relative px-[40px]">
                 <div className="flex items-end gap-4 text-sm">
                     <h1 className="capitalize text-2xl">O'quvchilar</h1>
                     <p>Miqdor <span className="inline-block w-4 h-[1px] mx-1 align-middle bg-black"></span> <span>{students?.length}</span></p>
@@ -364,7 +368,7 @@ function Students() {
                 </button>
             </div>
 
-            <div className="flex items-center flex-wrap gap-4 py-5">
+            <div className="flex items-center flex-wrap gap-4 py-5 px-[40px]">
                 {/* Search by */}
                 <input
                     value={filters.searchBy}
@@ -446,7 +450,7 @@ function Students() {
                 </button>
             </div>
 
-            <div className="max-h-[600px] overflow-auto pb-2 pr-2">
+            <div className="max-h-[600px] overflow-auto pb-2 px-[40px]">
                 <table className="w-full mt-4">
                     <thead className="sticky top-0 bg-[#f8f8f8] z-[1]">
                         <tr className="font-semibold text-xs flex text-left px-4 py-2">

@@ -13,6 +13,7 @@ import { Toast, ToastLeft } from "../../config/sweetToast";
 import Swal from "sweetalert2";
 import Skeleton from "../../components/loaders/Skeleton";
 import { GoHorizontalRule } from "react-icons/go";
+import { days } from "../../config/days";
 
 function CourseInfo() {
     const { course, isLoading } = useSelector(state => state.course);
@@ -177,23 +178,23 @@ function CourseInfo() {
                             </div>
                             <div className="flex flex-col gap-4 p-8">
                                 <div>
-                                    <span className="text-[12px] text-gray-500">Tavsif</span>
+                                    <span className="text-xs text-gray-500">Tavsif</span>
                                     <h1 className="text-base text-black">{course.description}</h1>
                                 </div>
                                 <div>
-                                    <span className="text-[12px] text-gray-500">Narx</span>
+                                    <span className="text-xs text-gray-500">Narx</span>
                                     <h1 className="text-sm text-black">{course.price} UZS</h1>
                                 </div>
                                 <div>
-                                    <span className="text-[12px] text-gray-500">Kurs davomiyligi</span>
+                                    <span className="text-xs text-gray-500">Kurs davomiyligi</span>
                                     <h1 className="text-sm text-black">{course.course_duration} oy</h1>
                                 </div>
                                 <div>
-                                    <span className="text-[12px] text-gray-500">Talabalar</span>
+                                    <span className="text-xs text-gray-500">Talabalar</span>
                                     <h1 className="text-sm text-black">{course.groups.reduce((total, group) => total + group.students?.length, 0)}</h1>
                                 </div>
                                 <div>
-                                    <span className="text-[12px] text-gray-500">Dars davomiyligi</span>
+                                    <span className="text-xs text-gray-500">Dars davomiyligi</span>
                                     <h1 className="text-sm text-black">{course.lesson_duration} daqiqa</h1>
                                 </div>
                             </div>
@@ -219,7 +220,7 @@ function CourseInfo() {
                                                             <h1>{group.end_date}</h1>
                                                         </div>
                                                         <div className="text-xs text-gray-500">
-                                                            <h1>{group.day}</h1>
+                                                            <h1>{days.find(day => day.value === group.day)?.title}</h1>
                                                             <h1>{group.start_time}</h1>
                                                         </div>
                                                     </div>

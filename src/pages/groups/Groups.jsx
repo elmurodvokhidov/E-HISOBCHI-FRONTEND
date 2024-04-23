@@ -30,6 +30,7 @@ import GroupModal from "./GroupModal";
 import { GoHorizontalRule } from "react-icons/go";
 import * as XLSX from 'xlsx';
 import { MdFileDownload } from "react-icons/md";
+import { days } from "../../config/days";
 
 function Groups() {
     const { groups, isLoading } = useSelector(state => state.group);
@@ -59,7 +60,6 @@ function Groups() {
         end_date: ""
     });
     const navigate = useNavigate();
-    const [days, setDays] = useState(['Toq kunlari', 'Juft kunlari', 'Dam olish kuni', 'Har kuni',]);
 
     const getAllGroupsFunc = async () => {
         try {
@@ -313,9 +313,10 @@ function Groups() {
     return (
         <div
             onClick={() => handleModal("more", null)}
-            className="students container pb-8"
+            className="students container"
+            style={{ paddingLeft: 0, paddingRight: 0 }}
         >
-            <div className="sm:flex justify-between relative">
+            <div className="sm:flex justify-between relative px-[40px]">
                 <div className="flex items-end gap-4 text-sm">
                     <h1 className="capitalize text-2xl">Guruhlar</h1>
                     <p>
@@ -331,7 +332,7 @@ function Groups() {
                 </button>
             </div>
 
-            <div className="flex items-center flex-wrap gap-4 py-8">
+            <div className="flex items-center flex-wrap gap-4 py-8 px-[40px]">
                 {/* Teachers */}
                 <div className="relative text-gray-500">
                     <label
@@ -414,7 +415,7 @@ function Groups() {
                         </option>
                         {
                             days.map((day, index) => (
-                                <option value={day} key={index}>{day}</option>
+                                <option value={day.value} key={index}>{day.title}</option>
                             ))
                         }
                     </select>
@@ -461,7 +462,7 @@ function Groups() {
                 </button>
             </div>
 
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto px-[40px]">
                 <table className="w-full mt-4">
                     <thead>
                         <tr className="font-semibold text-xs flex justify-between text-left px-4">
@@ -493,7 +494,7 @@ function Groups() {
                                     <td className="w-[270px] text-left">{group.teacher?.first_name} {group.teacher?.last_name}</td>
                                     <td className="w-[130px] text-left text-xs">
                                         <div>
-                                            <h1>{group.day}</h1>
+                                            <h1>{days.find(day => day.value === group.day)?.title}</h1>
                                             <h1>{group.start_time}</h1>
                                         </div>
                                     </td>

@@ -29,6 +29,7 @@ import {
 } from "../../redux/slices/roomSlice";
 import Skeleton from "../../components/loaders/Skeleton";
 import Attendance from "../../components/Attendance";
+import { days } from "../../config/days";
 
 function GroupInfo() {
     const { group, isLoading } = useSelector(state => state.group);
@@ -234,7 +235,7 @@ function GroupInfo() {
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <b>Vaqt:</b>
-                                                <span>{group.day}</span>
+                                                <span>{days.find(day => day.value === group.day)?.title}</span>
                                                 <span><GoDotFill fontSize={6} /></span>
                                                 <span>{group.start_time}</span>
                                             </div>

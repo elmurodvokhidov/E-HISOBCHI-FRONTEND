@@ -30,28 +30,28 @@ function Navbar({ sideModal, setSideModal, setOpen }) {
                 return <>
                     <Link to="/admin/notice" className="relative">
                         <FaBell />
-                        <span className="flex w-[18px] h-[18px] rounded-full items-center justify-center absolute -top-3 -right-2 text-[12px] text-white bg-cyan-600">{notification?.length}</span>
+                        <span className="flex w-[18px] h-[18px] rounded-full items-center justify-center absolute -top-3 -right-2 text-xs text-white bg-cyan-600">{notification?.length}</span>
                     </Link>
                 </>
             case "teacher":
                 return <>
                     <Link to="/teacher/notice" className="relative">
                         <FaBell />
-                        <span className="flex w-[18px] h-[18px] rounded-full items-center justify-center absolute -top-3 -right-2 text-[12px] text-white bg-cyan-600">{teacher?.length}</span>
+                        <span className="flex w-[18px] h-[18px] rounded-full items-center justify-center absolute -top-3 -right-2 text-xs text-white bg-cyan-600">{teacher?.length}</span>
                     </Link>
                 </>
             case "student":
                 return <>
                     <Link to="/student/notice" className="relative">
                         <FaBell />
-                        <span className="flex w-[18px] h-[18px] rounded-full items-center justify-center absolute -top-3 -right-2 text-[12px] text-white bg-cyan-600">{student?.length}</span>
+                        <span className="flex w-[18px] h-[18px] rounded-full items-center justify-center absolute -top-3 -right-2 text-xs text-white bg-cyan-600">{student?.length}</span>
                     </Link>
                 </>
             default:
                 return <>
                     <Link to="/" className="relative">
                         <FaBell />
-                        <span className="flex w-[18px] h-[18px] rounded-full items-center justify-center absolute -top-3 -right-2 text-[12px] text-white bg-cyan-600">0</span>
+                        <span className="flex w-[18px] h-[18px] rounded-full items-center justify-center absolute -top-3 -right-2 text-xs text-white bg-cyan-600">0</span>
                     </Link>
                 </>
         }

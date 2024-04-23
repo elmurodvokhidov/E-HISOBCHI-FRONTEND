@@ -7,11 +7,12 @@ import {
 import AuthService from "../../config/authService";
 import { Toast, ToastLeft } from "../../config/sweetToast";
 import TeacherModal from "./TeacherModal";
-import logo from "../../assets/images/uitc_logo.png";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import Skeleton from "../../components/loaders/Skeleton";
 import { GoDotFill } from "react-icons/go";
+import { days } from "../../config/days";
+import { IoPersonCircleOutline } from "react-icons/io5";
 
 export default function TeacherProfile({ teacher, isLoading }) {
     const dispatch = useDispatch();
@@ -147,7 +148,15 @@ export default function TeacherProfile({ teacher, isLoading }) {
                                 <div className="w-full flex flex-col gap-4 text-sm">
                                     <div className="flex items-center gap-4">
                                         <figure className={`w-20 h-20 border-4 border-white rounded-[50%] overflow-hidden bg-slate-100 ${!teacher ? "bg-gray-300 animate-pulse" : null}`}>
-                                            {teacher ? <img className="w-full h-full object-cover" src={logo} alt="logo" /> : null}
+                                            {
+                                                teacher.avatar && teacher.avatar !== "" ? <img
+                                                    className="w-full h-full object-cover"
+                                                    src={teacher?.avatar}
+                                                    alt="logo"
+                                                /> : <>
+                                                    <IoPersonCircleOutline className="w-full h-full text-gray-400" />
+                                                </>
+                                            }
                                         </figure>
                                         <h1 className="capitalize text-xl">{teacher.first_name} {teacher.last_name}</h1>
                                     </div>
@@ -209,7 +218,7 @@ export default function TeacherProfile({ teacher, isLoading }) {
                                                         <h1>{group.end_date}</h1>
                                                     </div>
                                                     <div className="flex items-center gap-1 text-xs text-gray-500">
-                                                        <h1>{group.day}</h1>
+                                                        <h1>{days.find(day => day.value === group.day)?.title}</h1>
                                                         <span><GoDotFill fontSize={8} /></span>
                                                         <h1>{group.start_time}</h1>
                                                     </div>

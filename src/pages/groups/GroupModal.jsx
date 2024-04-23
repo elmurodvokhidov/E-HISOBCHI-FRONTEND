@@ -1,7 +1,5 @@
 import { IoCloseOutline } from "react-icons/io5";
-import { FaAngleDown, FaAngleUp } from "react-icons/fa";
-import { useSelector } from "react-redux";
-import { useState } from "react";
+import { days } from "../../config/days";
 
 function GroupModal({
     handleCreateAndUpdate,
@@ -14,8 +12,6 @@ function GroupModal({
     clearModal,
     isLoading,
 }) {
-    const [days, setDays] = useState(['Toq kunlari', 'Juft kunlari', 'Dam olish kuni', 'Har kuni',]);
-
     const getGroupCred = (e) => {
         setNewGroup({
             ...newGroup,
@@ -105,7 +101,7 @@ function GroupModal({
                             <option value="" className="italic">None</option>
                             {
                                 days.map((day, index) => (
-                                    <option value={day} key={index}>{day}</option>
+                                    <option value={day.value} key={index}>{day.title}</option>
                                 ))
                             }
                         </select>
