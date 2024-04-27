@@ -7,14 +7,16 @@ import {
 import AuthService from "../../config/authService";
 import { Toast, ToastLeft } from "../../config/sweetToast";
 import TeacherModal from "./TeacherModal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import Skeleton from "../../components/loaders/Skeleton";
 import { GoDotFill } from "react-icons/go";
 import { days } from "../../config/days";
 import { IoPersonCircleOutline } from "react-icons/io5";
+import { getCookie } from "../../config/cookiesService";
 
 export default function TeacherProfile({ teacher, isLoading }) {
+    const { auth } = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const [newTeacher, setNewTeacher] = useState({
         first_name: "",
@@ -133,23 +135,23 @@ export default function TeacherProfile({ teacher, isLoading }) {
 
     return (
         <div className="w-full h-screen overflow-auto pt-24 px-10">
-            <div className="flex justify-between border-b-2 pb-16 relative">
+            {/* <div className="flex justify-between border-b-2 pb-16 relative">
                 <h1 className="capitalize text-2xl">Hisob qaydnomalari</h1>
                 <p className="absolute bottom-[-1px] border-b-2 uppercase text-xs pb-2 border-cyan-600 text-cyan-600">o'qituvchi</p>
-            </div>
+            </div> */}
 
-            <div className="flex gap-8 my-16">
-                <div className="w-[440px] border-2 py-8 px-6 rounded shadow-dim">
-                    <div className="flex relative justify-start gap-10">
-                        {!teacher ?
-                            <div className="w-[410px]">
-                                <Skeleton parentWidth={100} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
-                            </div> : <>
+            <div className="xl:flex gap-8 mb-16">
+                {isLoading ?
+                    <div className="w-[410px]">
+                        <Skeleton parentWidth={100} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
+                    </div> : <>
+                        <div className="md:w-[440px] border-2 py-8 px-6 rounded shadow-dim">
+                            <div className="flex relative justify-start gap-10">
                                 <div className="w-full flex flex-col gap-4 text-sm">
                                     <div className="flex items-center gap-4">
-                                        <figure className={`w-20 h-20 border-4 border-white rounded-[50%] overflow-hidden bg-slate-100 ${!teacher ? "bg-gray-300 animate-pulse" : null}`}>
+                                        <figure className={`size-20 rounded-full overflow-hidden ${isLoading ? "bg-gray-300 animate-pulse" : null}`}>
                                             {
-                                                teacher.avatar && teacher.avatar !== "" ? <img
+                                                teacher?.avatar && teacher?.avatar !== "" ? <img
                                                     className="w-full h-full object-cover"
                                                     src={teacher?.avatar}
                                                     alt="logo"
@@ -158,76 +160,86 @@ export default function TeacherProfile({ teacher, isLoading }) {
                                                 </>
                                             }
                                         </figure>
-                                        <h1 className="capitalize text-xl">{teacher.first_name} {teacher.last_name}</h1>
+                                        <h1 className="capitalize text-xl">{teacher?.first_name} {teacher?.last_name}</h1>
                                     </div>
 
                                     <div className="flex justify-between gap-20">
                                         <span className="text-gray-500">Telefon:</span>
-                                        <span className="text-blue-300">+{teacher.contactNumber}</span>
+                                        <span className="text-blue-300">+{teacher?.contactNumber}</span>
                                     </div>
 
                                     <div className="flex justify-between gap-20">
                                         <span className="text-gray-500">Tug'ilgan kun:</span>
-                                        <span>{teacher.dob}</span>
+                                        <span>{teacher?.dob}</span>
                                     </div>
 
                                     <div className="flex justify-between gap-20">
                                         <span className="text-gray-500">Email manzil:</span>
-                                        <span>{teacher.email}</span>
+                                        <span>{teacher?.email}</span>
                                     </div>
 
-                                    <p className="w-fit px-2 rounded bg-gray-200">{teacher.gender}</p>
+                                    <p className="w-fit px-2 rounded bg-gray-200">{teacher?.gender}</p>
                                 </div>
 
-                                <div className="w-fit h-fit absolute top-0 right-0">
-                                    <button
-                                        disabled={teacher ? false : true}
-                                        onClick={() => openModal()}
-                                        className="w-8 h-8 flex items-center justify-center text-lg border rounded-full text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
-                                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </>
-                        }
-                    </div>
-                </div>
+                                {
+                                    auth?.role === "admin" ?
+                                        <div className="w-fit h-fit absolute top-0 right-0">
+                                            <button
+                                                disabled={isLoading}
+                                                onClick={openModal}
+                                                className="w-8 h-8 flex items-center justify-center text-lg border rounded-full text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
+                                                <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        : null
+                                }
+                            </div>
+                        </div>
+                    </>
+                }
 
                 {/* Guruh haqida ma'lumot */}
-                <div>
+                <div className="xl:mt-0 2xsm:mt-8">
                     <h1 className="text-xl">Guruhlar</h1>
                     <div className="flex flex-col gap-4 mt-2">
                         {
-                            teacher?.groups.length > 0 ?
-                                teacher.groups.map((group, index) => (
-                                    <NavLink to={`/${localStorage.getItem("x-auth")}/group-info/${group._id}`} key={index}>
-                                        <div className="courseCard flex gap-28 w-50% p-5 cursor-pointer bg-white shadow-smooth">
-                                            <div className="flex flex-col text-xs">
-                                                <h1 className="w-fit text-[10px] rounded px-2 py-1 bg-gray-200">{group.name}</h1>
-                                                {/* Problem fixed... */}
-                                                <h1>{group.course?.title}</h1>
-                                            </div>
-                                            <div className="flex items-center gap-10">
-                                                <div className="flex flex-col">
-                                                    <div className="text-xs text-gray-500">
-                                                        <h1 className="flex items-center gap-1">
-                                                            {group.start_date}
-                                                            <span className="inline-block align-middle w-4 border border-gray-300"></span>
-                                                        </h1>
-                                                        <h1>{group.end_date}</h1>
+                            isLoading ? <>
+                                <h1>Loading...</h1>
+                            </> : <>
+                                {
+                                    teacher?.groups.length > 0 ?
+                                        teacher?.groups.map((group, index) => (
+                                            <NavLink to={`/${getCookie("x-auth")}/group-info/${group._id}`} key={index}>
+                                                <div className="courseCard flex gap-28 w-50% p-5 cursor-pointer bg-white shadow-smooth">
+                                                    <div className="flex flex-col text-xs">
+                                                        <h1 className="w-fit text-[10px] rounded px-2 py-1 bg-gray-200">{group.name}</h1>
+                                                        {/* Problem fixed... */}
+                                                        <h1>{group.course?.title}</h1>
                                                     </div>
-                                                    <div className="flex items-center gap-1 text-xs text-gray-500">
-                                                        <h1>{days.find(day => day.value === group.day)?.title}</h1>
-                                                        <span><GoDotFill fontSize={8} /></span>
-                                                        <h1>{group.start_time}</h1>
+                                                    <div className="flex items-center gap-10">
+                                                        <div className="flex flex-col">
+                                                            <div className="text-xs text-gray-500">
+                                                                <h1 className="flex items-center gap-1">
+                                                                    {group.start_date}
+                                                                    <span className="inline-block align-middle w-4 border border-gray-300"></span>
+                                                                </h1>
+                                                                <h1>{group.end_date}</h1>
+                                                            </div>
+                                                            <div className="flex items-center gap-1 text-xs text-gray-500">
+                                                                <h1>{days.find(day => day.value === group.day)?.title}</h1>
+                                                                <span><GoDotFill fontSize={8} /></span>
+                                                                <h1>{group.start_time}</h1>
+                                                            </div>
+                                                        </div>
+                                                        <h1 className="w-4 text-center text-xs text-white rounded bg-cyan-600">{group.students?.length}</h1>
                                                     </div>
                                                 </div>
-                                                <h1 className="w-4 text-center text-xs text-white rounded bg-cyan-600">{group.students?.length}</h1>
-                                            </div>
-                                        </div>
-                                    </NavLink>
-                                )) : <h1>Ma'lumot topilmadi!</h1>
+                                            </NavLink>
+                                        )) : <h1>Ma'lumot topilmadi!</h1>
+                                }
+                            </>
                         }
                     </div>
                 </div>

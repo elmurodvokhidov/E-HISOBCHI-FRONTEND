@@ -1,9 +1,10 @@
 import api from "./api";
+import { getCookie } from "./cookiesService";
 
 // interceptor
 api.interceptors.request.use((req) => {
-    if (localStorage.getItem("x-token")) {
-        req.headers.Authorization = localStorage.getItem("x-token")
+    if (getCookie("x-token")) {
+        req.headers.Authorization = getCookie("x-token")
     };
     return req;
 });
@@ -106,8 +107,12 @@ const AuthService = {
         const res = api.get("/admin/attendance");
         return res;
     },
-    async deleteAttendance(studentId, date) {
-        const res = api.delete(`/admin/attendance-delete/${studentId}/${date}`);
+    async deleteAttendance(student, date) {
+        const res = api.delete(`/admin/attendance-delete/${student}/${date}`);
+        return res;
+    },
+    async caclStudentBalance(req) {
+        const res = api.put("/admin/calc-student-balance", req);
         return res;
     },
 

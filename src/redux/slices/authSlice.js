@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { saveToLocalStorage } from "../../config/localStorageService";
+import { deleteAllCookies, setCookie } from "../../config/cookiesService";
 
 const initialState = {
     isLoading: false,
     isLoggedIn: false,
     auth: null,
+    today: null,
     isError: null
 }
 
@@ -19,7 +20,8 @@ const AuthSlice = createSlice({
             state.isLoading = false;
             state.isLoggedIn = true;
             state.auth = action.payload?.data;
-            saveToLocalStorage("x-id", action.payload?.data._id);
+            state.today = new Date(action.payload?.date).toISOString().slice(0, 10);
+            setCookie("x-id", action.payload?.data._id, 30);
         },
         authFailure: (state, action) => {
             state.isLoading = false;
@@ -29,7 +31,7 @@ const AuthSlice = createSlice({
             state.isLoading = false;
             state.isLoggedIn = false;
             state.auth = null;
-            localStorage.clear();
+            deleteAllCookies();
         }
     }
 });

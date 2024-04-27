@@ -472,7 +472,7 @@ function Students() {
                             </tr>
                         </> : pageStudents.length > 0 ?
                             pageStudents.map((student, index) => (
-                                <tr key={index} className="2xsm:w-full flex items-center capitalize text-sm border rounded-lg px-4 py-3 hover:shadow-md transition-all">
+                                <tr key={index} className="2xsm:w-full flex items-center capitalize text-sm border rounded-lg px-4 py-3 shadow-sm hover:shadow-md transition-all">
                                     <td className="w-[300px] text-left text-base hover:text-cyan-600">
                                         <NavLink to={`/admin/student-info/${student._id}`}>{student.first_name} {student.last_name}</NavLink>
                                     </td>
@@ -506,7 +506,9 @@ function Students() {
                                             <h1>{student.group?.end_date}</h1>
                                         </div>
                                     </td>
-                                    <td className="w-[120px] text-left text-xs">0 UZS</td>
+                                    <td className="w-[120px] text-left text-xs">
+                                        {Math.floor(student.balance).toLocaleString()} UZS
+                                    </td>
                                     <td className="w-[80px] flex justify-center">
                                         {/* more button */}
                                         <div onClick={(e) => {

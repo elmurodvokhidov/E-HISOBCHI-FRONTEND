@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authLogout, authStart } from "../../redux/slices/authSlice";
-import { useEffect } from "react";
 
 function TeacherDashboard() {
     const dispatch = useDispatch();
@@ -13,14 +12,8 @@ function TeacherDashboard() {
         navigate("/");
     };
 
-    useEffect(() => {
-        if (!localStorage.getItem("x-token")) {
-            navigate("/teacher/login");
-        }
-    }, [navigate]);
-
     return (
-        <div>
+        <div className="p-40">
             <button onClick={exitHandler} className="border-2">Exit</button>
         </div>
     )

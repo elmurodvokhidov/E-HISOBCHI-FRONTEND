@@ -31,7 +31,7 @@ function StudentInfo() {
 
     useEffect(() => {
         getStudent();
-    }, [student]);
+    }, []);
 
     return <StudentProfile student={student} isLoading={isLoading} />
 }

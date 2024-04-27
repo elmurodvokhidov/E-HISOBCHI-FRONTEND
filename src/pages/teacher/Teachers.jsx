@@ -251,12 +251,12 @@ function Teachers() {
                 </button>
             </div>
 
-            <div className="grid lg:grid-cols-2 2xsm:grid-cols-1 2xsm:gap-4 py-6">
+            <div className="grid xl:grid-cols-2 2xsm:grid-cols-1 2xsm:gap-4 py-6">
                 {isLoading ? <>
                     <Skeleton parentWidth={90} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
                 </> : teachers.length > 0 ?
                     teachers.map((teacher, index) => (
-                        <div key={index} className="lg:w-4/5 md:w-full flex justify-between capitalize text-sm border rounded-lg p-4 hover:shadow-md transition-all">
+                        <div key={index} className="xl:w-4/5 flex justify-between capitalize text-sm border rounded-lg p-4 shadow-sm hover:shadow-md transition-all">
                             <NavLink to={`/admin/teacher-info/${teacher._id}`} className="hover:text-cyan-600">{teacher.first_name} {teacher.last_name}</NavLink>
                             <div className="flex items-center gap-8 text-xs">
                                 <h3

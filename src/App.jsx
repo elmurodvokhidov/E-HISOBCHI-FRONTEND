@@ -27,6 +27,7 @@ import CourseInfo from "./pages/courses/CourseInfo";
 import GroupInfo from "./pages/groups/GroupInfo";
 import TeacherSalary from "./pages/teacher/TeacherSalary";
 import Leads from "./pages/leads/Leads";
+import { getCookie } from "./config/cookiesService";
 
 function App() {
   const dispatch = useDispatch();
@@ -34,16 +35,16 @@ function App() {
   useEffect(() => {
     async function getUser() {
       try {
-        const id = localStorage.getItem("x-id");
-        if (localStorage.getItem("x-auth") === "admin") {
+        const id = getCookie("x-id");
+        if (getCookie("x-auth") === "admin") {
           const { data } = await AuthService.getAdmin(id);
           dispatch(authSuccess(data));
         }
-        else if (localStorage.getItem("x-auth") === "teacher") {
+        else if (getCookie("x-auth") === "teacher") {
           const { data } = await AuthService.getTeacher(id);
           dispatch(authSuccess(data));
         }
-        else if (localStorage.getItem("x-auth") === "student") {
+        else if (getCookie("x-auth") === "student") {
           const { data } = await AuthService.getStudent(id);
           dispatch(authSuccess(data));
         }
@@ -52,7 +53,7 @@ function App() {
       }
     };
 
-    if (localStorage.getItem("x-token")) {
+    if (getCookie("x-token")) {
       getUser();
     }
   }, [dispatch]);
@@ -90,6 +91,7 @@ function App() {
           <Route path="notice" element={<Notice />} />
           <Route path="group-info/:id" element={<GroupInfo />} />
           <Route path="salary" element={<TeacherSalary />} />
+          <Route path="student-info/:id" element={<StudentInfo />} />
         </Route>
 
         {/* student routes */}

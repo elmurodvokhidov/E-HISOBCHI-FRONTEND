@@ -2,6 +2,7 @@ import { Outlet, useNavigate } from "react-router-dom"
 import Navbar from "../../components/Navbar"
 import AdminSidebar from "./AdminSidebar"
 import { useEffect, useState } from "react";
+import { getCookie } from "../../config/cookiesService";
 
 function AdminLayout() {
     const [sideModal, setSideModal] = useState(false);
@@ -9,8 +10,8 @@ function AdminLayout() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (localStorage.getItem("x-token") === null) {
-            navigate("/admin/login");
+        if (!getCookie("x-token") || getCookie("x-auth") !== "admin") {
+            navigate("/");
         }
     }, [navigate]);
 

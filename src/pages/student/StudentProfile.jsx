@@ -1,18 +1,28 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AuthService from "../../config/authService";
-import { allGroupSuccess, groupFailure, groupStart } from "../../redux/slices/groupSlice";
-import { getStudentSuccess, studentFailure, studentStart } from "../../redux/slices/studentSlice";
+import {
+    allGroupSuccess,
+    groupFailure,
+    groupStart
+} from "../../redux/slices/groupSlice";
+import {
+    getStudentSuccess,
+    studentFailure,
+    studentStart
+} from "../../redux/slices/studentSlice";
 import { Toast, ToastLeft } from "../../config/sweetToast";
-import logo from "../../assets/images/uitc_logo.png";
 import StudentModal from "./StudentModal";
 import Skeleton from "../../components/loaders/Skeleton";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { days } from "../../config/days";
 import { IoPersonCircleOutline, IoRemoveOutline } from "react-icons/io5";
+import PaymentModal from "./PaymentModal";
+import { getCookie } from "../../config/cookiesService";
 
-function StudentProfile({ student, isLoading, }) {
+function StudentProfile({ student, isLoading }) {
+    const { auth } = useSelector(state => state.auth);
     const { groups } = useSelector(state => state.group);
     const dispatch = useDispatch();
     const [newStudent, setNewStudent] = useState({
@@ -41,6 +51,7 @@ function StudentProfile({ student, isLoading, }) {
         imageModal: false,
         more: null,
         extra: false,
+        payModal: false,
     });
 
     const getAllGroupsFunc = async () => {
@@ -89,6 +100,7 @@ function StudentProfile({ student, isLoading, }) {
             parentsModal: false,
             imageModal: false,
             more: null,
+            payModal: false,
         })
     };
 
@@ -158,18 +170,23 @@ function StudentProfile({ student, isLoading, }) {
 
     return (
         <div className="container">
-            <div className="flex gap-8">
-                <div className="w-1/3 border-2 py-8 px-6 rounded shadow-dim">
-                    <div className="flex relative justify-start gap-10">
-                        {!student ?
-                            <div className="w-[410px]">
-                                <Skeleton parentWidth={100} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
-                            </div> : <>
+            <div className="lg:flex gap-8">
+                {isLoading ?
+                    <div className="w-[410px]">
+                        <Skeleton
+                            parentWidth={100}
+                            firstChildWidth={85}
+                            secondChildWidth={50}
+                            thirdChildWidth={65}
+                        />
+                    </div> : <>
+                        <div className="sm:w-[410px] border py-8 px-6 rounded shadow-dim">
+                            <div className="flex relative justify-start gap-10">
                                 <div className="w-full flex flex-col gap-4 text-sm">
                                     <div className="flex items-center gap-4">
-                                        <figure className={`w-20 h-20 border-4 border-white rounded-[50%] overflow-hidden bg-slate-100 ${!student ? "bg-gray-300 animate-pulse" : null}`}>
+                                        <figure className={`size-20 rounded-[50%] overflow-hidden ${isLoading ? "bg-gray-300 animate-pulse" : null}`}>
                                             {
-                                                student.avatar && student.avatar !== "" ? <img
+                                                student?.avatar && student?.avatar !== "" ? <img
                                                     className="w-full h-full object-cover"
                                                     src={student?.avatar}
                                                     alt="logo"
@@ -178,31 +195,53 @@ function StudentProfile({ student, isLoading, }) {
                                                 </>
                                             }
                                         </figure>
-                                        <h1 className="capitalize text-xl">{student.first_name} {student.last_name}</h1>
+                                        <div>
+                                            <h1 className="capitalize text-xl">{student?.first_name} {student?.last_name}</h1>
+                                            {
+                                                auth?.role === "admin" || auth?.role === "student" ?
+                                                    <h1 className={`${student?.balance > 0 ? 'bg-green-700' : student?.balance < 0 ? 'bg-red-700' : 'bg-gray-500'} w-fit text-xs text-white px-3 py-px rounded-xl`}>
+                                                        {Math.floor(student?.balance).toLocaleString()} UZS
+                                                    </h1>
+                                                    : null
+                                            }
+                                        </div>
                                     </div>
 
                                     <div className="flex justify-between gap-20">
                                         <span className="text-gray-500">Telefon:</span>
-                                        <span className="text-blue-300">+{student.contactNumber}</span>
+                                        <span className="text-blue-300">+{student?.contactNumber}</span>
                                     </div>
 
                                     <div className="flex justify-between gap-20">
                                         <span className="text-gray-500">Tug'ilgan kun:</span>
-                                        <span>{student.dob}</span>
+                                        <span>{student?.dob}</span>
                                     </div>
 
                                     <div className="flex justify-between gap-20">
                                         <span className="text-gray-500">Email manzil:</span>
-                                        <span>{student.email}</span>
+                                        <span>{student?.email}</span>
                                     </div>
 
-                                    <p className="w-fit px-2 rounded bg-gray-200">{student.gender}</p>
+                                    <div className="flex items-center justify-between gap-20">
+                                        <p className="w-fit px-2 rounded bg-gray-200">{student?.gender}</p>
+                                        {
+                                            auth?.role === "admin" ?
+                                                <button
+                                                    onClick={() => handleModal("payModal", true)}
+                                                    className="global_add_btn"
+                                                    style={{ fontSize: "12px", paddingTop: "2px", paddingBottom: "2px" }}
+                                                >
+                                                    To'lov
+                                                </button>
+                                                : null
+                                        }
+                                    </div>
 
                                     {/* Batafsil */}
                                     <button
                                         onClick={() => handleModal("extra", !modals.extra)}
                                         type="button"
-                                        className="flex items-center justify-end gap-1 text-sm outline-none">
+                                        className="flex items-center justify-end gap-1 text-sm outline-none mt-2">
                                         {
                                             modals.extra
                                                 ?
@@ -219,8 +258,8 @@ function StudentProfile({ student, isLoading, }) {
                                                     <span className="text-gray-500">Otasining ismi:</span>
                                                     <span>
                                                         {
-                                                            student.father_name !== "" ?
-                                                                student.father_name :
+                                                            student?.father_name !== "" ?
+                                                                student?.father_name :
                                                                 <IoRemoveOutline className="text-gray-500" />
                                                         }
                                                     </span>
@@ -228,10 +267,10 @@ function StudentProfile({ student, isLoading, }) {
 
                                                 <div className="flex justify-between">
                                                     <span className="text-gray-500">Telefon:</span>
-                                                    <span style={{ color: student.fatherContactNumber ? "#93C5FD" : "#6B7280" }}>
+                                                    <span style={{ color: student?.fatherContactNumber ? "#93C5FD" : "#6B7280" }}>
                                                         {
-                                                            student.fatherContactNumber ?
-                                                                `+${student.fatherContactNumber}` :
+                                                            student?.fatherContactNumber ?
+                                                                `+${student?.fatherContactNumber}` :
                                                                 <IoRemoveOutline />
                                                         }
                                                     </span>
@@ -241,8 +280,8 @@ function StudentProfile({ student, isLoading, }) {
                                                     <span className="text-gray-500">Onasining ismi:</span>
                                                     <span>
                                                         {
-                                                            student.mother_name !== "" ?
-                                                                student.mother_name :
+                                                            student?.mother_name !== "" ?
+                                                                student?.mother_name :
                                                                 <IoRemoveOutline className="text-gray-500" />
                                                         }
                                                     </span>
@@ -250,10 +289,10 @@ function StudentProfile({ student, isLoading, }) {
 
                                                 <div className="flex justify-between">
                                                     <span className="text-gray-500">Telefon:</span>
-                                                    <span style={{ color: student.motherContactNumber ? "#93C5FD" : "#6B7280" }}>
+                                                    <span style={{ color: student?.motherContactNumber ? "#93C5FD" : "#6B7280" }}>
                                                         {
-                                                            student.motherContactNumber ?
-                                                                `+${student.motherContactNumber}` :
+                                                            student?.motherContactNumber ?
+                                                                `+${student?.motherContactNumber}` :
                                                                 <IoRemoveOutline />
                                                         }
                                                     </span>
@@ -263,49 +302,59 @@ function StudentProfile({ student, isLoading, }) {
                                     }
                                 </div>
 
-                                <div className="w-fit h-fit absolute top-0 right-0">
-                                    <button
-                                        disabled={student ? false : true}
-                                        onClick={() => openModal()}
-                                        className="w-8 h-8 flex items-center justify-center text-lg border rounded-full text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
-                                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </>
-                        }
-                    </div>
-                </div>
+                                {
+                                    auth?.role === "admin" ?
+                                        <div className="w-fit h-fit absolute top-0 right-0">
+                                            <button
+                                                disabled={isLoading}
+                                                onClick={openModal}
+                                                className="w-8 h-8 flex items-center justify-center text-lg border rounded-full text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
+                                                <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        : null
+                                }
+                            </div>
+                        </div>
+                    </>
+                }
 
-                <div className="w-2/3">
+                <div className="lg:w-2/3 lg:mt-0 2xsm:w-full 2xsm:mt-8">
                     <h1 className="text-gray-500 text-sm border-b-2 pb-2">Guruhlar</h1>
 
-                    <div className="grid grid-cols-2 gap-8 mt-6">
+                    <div className="grid xl:grid-cols-2 2xsm:grid-cols-1 gap-8 mt-6">
                         {
-                            student?.group ?
-                                <NavLink to={`/${localStorage.getItem("x-auth")}/group-info/${student.group._id}`}>
-                                    <div className="courseCard w-50% p-4 cursor-pointer bg-white shadow-smooth">
-                                        <h1 className="w-fit text-xs rounded px-2 py-1 bg-gray-200">{student.group.name}</h1>
-                                        <div className="flex items-start justify-between gap-8">
-                                            <h2 className="text-sm transition-all duration-300">
-                                                {student.group.teacher?.first_name} {student.group.teacher?.last_name}
-                                            </h2>
-                                            <div className="text-xs text-gray-500">
-                                                <h1 className="flex items-center gap-1">
-                                                    {student.group.start_date}
-                                                    <span className="inline-block align-middle w-4 border border-gray-300"></span>
-                                                </h1>
-                                                <h1>{student.group.end_date}</h1>
+                            isLoading ? <>
+                                <h1>Loading...</h1>
+                            </> : <>
+                                {
+                                    student?.group ?
+                                        <NavLink to={`/${getCookie("x-auth")}/group-info/${student?.group._id}`}>
+                                            <div className="courseCard xl:w-50% p-4 cursor-pointer bg-white shadow-smooth rounded">
+                                                <h1 className="w-fit text-xs rounded px-2 py-1 bg-gray-200">{student?.group.name}</h1>
+                                                <div className="flex items-start justify-between gap-8">
+                                                    <h2 className="text-sm transition-all duration-300">
+                                                        {student?.group.teacher?.first_name} {student?.group.teacher?.last_name}
+                                                    </h2>
+                                                    <div className="text-xs text-gray-500">
+                                                        <h1 className="flex items-center gap-1">
+                                                            {student?.group.start_date}
+                                                            <span className="inline-block align-middle w-4 border border-gray-300"></span>
+                                                        </h1>
+                                                        <h1>{student?.group.end_date}</h1>
+                                                    </div>
+                                                    <div className="text-xs text-gray-500">
+                                                        <h1>{days.find(day => day.value === student?.group.day)?.title}</h1>
+                                                        <h1>{student?.group.start_time}</h1>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div className="text-xs text-gray-500">
-                                                <h1>{days.find(day => day.value === student.group.day)?.title}</h1>
-                                                <h1>{student.group.start_time}</h1>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </NavLink>
-                                : <h1>Ma'lumot topilmadi!</h1>
+                                        </NavLink>
+                                        : <h1>Ma'lumot topilmadi!</h1>
+                                }
+                            </>
                         }
                     </div>
                 </div>
@@ -324,7 +373,15 @@ function StudentProfile({ student, isLoading, }) {
                 clearModal={clearModal}
                 groups={groups}
             />
-        </div>
+
+            {/* payment modal */}
+            <PaymentModal
+                handleModal={handleModal}
+                modals={modals}
+                isLoading={isLoading}
+                student={student}
+            />
+        </div >
     )
 }
 

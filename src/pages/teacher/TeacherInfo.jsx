@@ -31,7 +31,7 @@ export default function TeacherInfo() {
         };
 
         getTeacherFunc();
-    }, [teacher]);
+    }, []);
 
     return <TeacherProfile teacher={teacher} isLoading={isLoading} />
 };

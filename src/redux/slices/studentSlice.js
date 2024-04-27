@@ -21,7 +21,6 @@ const StudentSlice = createSlice({
         allStudentSuccess: (state, action) => {
             state.isLoading = false;
             state.students = action.payload?.data;
-            state.student = null;
         },
         studentFailure: (state, action) => {
             state.isLoading = false;

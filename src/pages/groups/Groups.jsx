@@ -488,7 +488,7 @@ function Groups() {
                                 <tr
                                     onClick={() => navigate(`/admin/group-info/${group._id}`)}
                                     key={index}
-                                    className="2xsm:w-full flex items-center justify-between capitalize text-sm border rounded-lg px-4 py-3 cursor-pointer hover:shadow-md transition-all">
+                                    className="2xsm:w-full flex items-center justify-between capitalize text-sm border rounded-lg px-4 py-3 cursor-pointer shadow-sm hover:shadow-md transition-all">
                                     <td className="w-[130px] text-left">{group.name}</td>
                                     <td className="w-[200px] text-left text-xs">{group.course?.title}</td>
                                     <td className="w-[270px] text-left">{group.teacher?.first_name} {group.teacher?.last_name}</td>
@@ -551,7 +551,7 @@ function Groups() {
             <button
                 onClick={exportToExcel}
                 id="downloadExelBtn"
-                className="size-8 relative float-end flex items-center justify-center 2xsm:mt-2 sm:mt-0 text-gray-400 border border-gray-300 outline-cyan-600 text-xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all">
+                className="size-8 relative float-end flex items-center justify-center 2xsm:mt-2 sm:mt-0 text-gray-400 border border-gray-300 outline-cyan-600 text-xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all mx-[40px]">
                 <MdFileDownload />
             </button>
 

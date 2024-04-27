@@ -88,7 +88,9 @@ function AdminDashboard() {
                 <div className="sm:size-36 2xsm:size-28 flex flex-col items-center justify-center border shadow-smooth">
                     <BsExclamationTriangle className="sm:text-4xl 2xsm:text-2xl text-cyan-600" />
                     <h1 className="sm:text-sm 2xsm:text-xs text-gray-500 mt-1">Qarzdorlar</h1>
-                    <h1 className="text-2xl text-cyan-600 mt-3">0</h1>
+                    <h1 className="text-2xl text-cyan-600 mt-3">
+                        {students ? students.filter(student => student.balance < 0).length : 0}
+                    </h1>
                 </div>
             </section>
 

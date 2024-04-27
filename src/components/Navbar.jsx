@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import { authLogout, authStart } from "../redux/slices/authSlice";
 import { IoMenuOutline } from "react-icons/io5";
+import { getCookie } from "../config/cookiesService";
 
 function Navbar({ sideModal, setSideModal, setOpen }) {
     const { auth } = useSelector(state => state.auth);
@@ -22,7 +23,7 @@ function Navbar({ sideModal, setSideModal, setOpen }) {
     const teacher = notices?.filter(notice => notice.to === "teacher");
     const student = notices?.filter(notice => notice.to === "student");
 
-    const huru = localStorage.getItem("x-auth");
+    const huru = getCookie("x-auth");
 
     function GlobalElement() {
         switch (huru) {

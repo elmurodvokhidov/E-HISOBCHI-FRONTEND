@@ -6,7 +6,7 @@ import bgImg from "../assets/images/bg.jpg";
 import { authFailure, authStart, authSuccess } from '../redux/slices/authSlice';
 import { Toast } from '../config/sweetToast';
 import AuthService from '../config/authService';
-import { saveToLocalStorage } from '../config/localStorageService';
+import { getCookie, setCookie } from '../config/cookiesService';
 
 function Login() {
     const { isLoading, isLoggedIn } = useSelector(state => state.auth);
@@ -33,20 +33,20 @@ function Login() {
                 const { huru, ...others } = auth;
                 if (auth.huru === "admin") {
                     const { data } = await AuthService.adminLogin(others);
-                    saveToLocalStorage("x-auth", "admin");
-                    saveToLocalStorage("x-token", data.token);
+                    setCookie("x-auth", "admin", 30);
+                    setCookie("x-token", data.token, 30);
                     dispatch(authSuccess(data));
                 }
                 else if (auth.huru === "teacher") {
                     const { data } = await AuthService.teacherLogin(others);
-                    saveToLocalStorage("x-auth", "teacher");
-                    saveToLocalStorage("x-token", data.token);
+                    setCookie("x-auth", "teacher", 30);
+                    setCookie("x-token", data.token, 30);
                     dispatch(authSuccess(data));
                 }
                 else if (auth.huru === "student") {
                     const { data } = await AuthService.studentLogin(others);
-                    saveToLocalStorage("x-auth", "student");
-                    saveToLocalStorage("x-token", data.token);
+                    setCookie("x-auth", "student", 30);
+                    setCookie("x-token", data.token, 30);
                     dispatch(authSuccess(data));
                 }
             }
@@ -67,13 +67,13 @@ function Login() {
     };
 
     useEffect(() => {
-        if (isLoggedIn && localStorage.getItem("x-auth") === "admin") {
+        if (isLoggedIn && getCookie("x-auth") === "admin") {
             navigate("/admin/dashboard");
         }
-        if (isLoggedIn && localStorage.getItem("x-auth") === "teacher") {
+        if (isLoggedIn && getCookie("x-auth") === "teacher") {
             navigate("/teacher/dashboard");
         }
-        if (isLoggedIn && localStorage.getItem("x-auth") === "student") {
+        if (isLoggedIn && getCookie("x-auth") === "student") {
             navigate("/student/dashboard");
         }
     }, [isLoggedIn, navigate]);

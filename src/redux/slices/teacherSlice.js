@@ -25,7 +25,6 @@ const TeacherSlice = createSlice({
         allTeacherSuccess: (state, action) => {
             state.isLoading = false;
             state.teachers = action.payload?.data;
-            state.teacher = null;
         },
         teacherFailure: (state, action) => {
             state.isLoading = false;

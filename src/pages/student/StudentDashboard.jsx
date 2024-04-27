@@ -1,9 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authLogout, authStart } from "../../redux/slices/authSlice";
-import { useEffect } from "react";
-
-function StudentDashboard() {
+export default function StudentDashboard() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -13,17 +11,9 @@ function StudentDashboard() {
         navigate("/");
     };
 
-    useEffect(() => {
-        if (!localStorage.getItem("x-token")) {
-            navigate("/student/login");
-        }
-    }, [navigate]);
-
     return (
         <div>
             <button onClick={exitHandler} className="border-2">Exit</button>
         </div>
     )
-}
-
-export default StudentDashboard
+};
