@@ -25,12 +25,12 @@ function PaymentModal({
     };
 
     const clearModal = () => {
-        // setStudentPayment({
-        //     method: "",
-        //     amount: "",
-        //     // date: "",
-        //     description: "",
-        // });
+        setStudentPayment({
+            ...studentPayment,
+            method: "",
+            amount: "",
+            description: "",
+        });
         handleModal("payModal", false);
     };
 
@@ -124,6 +124,7 @@ function PaymentModal({
                         <label htmlFor="amount" className="text-sm">Midor</label>
                         <input
                             onChange={getPaymentCred}
+                            value={studentPayment.amount}
                             type="number"
                             name="amount"
                             id="amount"
