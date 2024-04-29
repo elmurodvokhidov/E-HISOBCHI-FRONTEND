@@ -1,18 +1,19 @@
 import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function SearchBar() {
     const { students } = useSelector(state => state.student);
     const [results, setResults] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    // const [isLoading, setIsLoading] = useState(true);
 
     const handleSearchFunc = (value) => {
         setResults(students.filter(student => (
             value && student && student.first_name &&
             student.first_name.toLowerCase().includes(value)
         )));
-        setIsLoading(false);
+        // setIsLoading(false);
     };
 
     return (
@@ -25,8 +26,8 @@ export default function SearchBar() {
                 {
                     results.length > 0 ? results.map((result, index) => (
                         <Link
-                         to={`/admin/student-info/${result._id}`} 
-                         className="flex items-center gap-4 px-5 py-3 hover:bg-gray-100" key={index}><FaSearch className="text-gray-500" />{result.first_name} {result.last_name}</Link>
+                            to={`/admin/student-info/${result._id}`}
+                            className="flex items-center gap-4 px-5 py-3 hover:bg-gray-100" key={index}><FaSearch className="text-gray-500" />{result.first_name} {result.last_name}</Link>
                     )) : null
                 }
             </div>
