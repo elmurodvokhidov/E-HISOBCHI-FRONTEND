@@ -275,6 +275,9 @@ function Students() {
                     if (!newStudent._id) {
                         if (newPass.newPassword.length >= 8) {
                             const { data } = await AuthService.addNewStudent({ ...newStudent, ...newPass });
+                            const res = await AuthService.getCurrentDate();
+                            const today = res.data.today;
+                            await AuthService.caclStudentBalance({ today });
                             getAllStudentsFunction();
                             clearModal();
                             await Toast.fire({
@@ -291,6 +294,9 @@ function Students() {
                         // o'quvchi ma'lumotlarini o'zgartirish
                         const { _id, __v, password, createdAt, updatedAt, ...newStudentCred } = newStudent;
                         const { data } = await AuthService.updateStudent(newStudent._id, newStudentCred);
+                        const res = await AuthService.getCurrentDate();
+                        const today = res.data.today;
+                        await AuthService.caclStudentBalance({ today });
                         dispatch(getStudentSuccess(data));
                         getAllStudentsFunction();
                         clearModal();
@@ -486,16 +492,28 @@ function Students() {
                                             className="cursor-pointer" />
                                     </td>
                                     <td className="w-[200px] text-left text-xs hover:text-cyan-600">
-                                        <NavLink
-                                            to={`/admin/group-info/${student.group?._id}`}
-                                            className="flex items-center gap-1">
-                                            <span className="bg-gray-200 p-1 rounded">{student.group?.name}</span>
-                                            <span>{student.group?.course.title}</span>
-                                            <span>({student.group?.start_time})</span>
-                                        </NavLink>
+                                        {
+                                            student?.group ? <>
+                                                <NavLink
+                                                    to={`/admin/group-info/${student.group?._id}`}
+                                                    className="flex items-center gap-1">
+                                                    <span className="bg-gray-200 p-1 rounded">{student.group?.name}</span>
+                                                    <span>{student.group?.course.title}</span>
+                                                    <span>({student.group?.start_time})</span>
+                                                </NavLink>
+                                            </> : <>
+                                                <GoHorizontalRule />
+                                            </>
+                                        }
                                     </td>
                                     <td className="w-[180px] text-left text-sm">
-                                        {student.group?.teacher.first_name} {student.group?.teacher.last_name}
+                                        {
+                                            student?.group ? <>
+                                                {student.group?.teacher.first_name} {student.group?.teacher.last_name}
+                                            </> : <>
+                                                <GoHorizontalRule className="text-xs" />
+                                            </>
+                                        }
                                     </td>
                                     <td className="w-[200px] text-left text-xs">
                                         <div>

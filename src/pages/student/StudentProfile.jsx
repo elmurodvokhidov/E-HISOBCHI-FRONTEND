@@ -171,7 +171,7 @@ function StudentProfile({ student, isLoading }) {
     return (
         <div className="container">
             <div className="lg:flex gap-8">
-                {isLoading ?
+                {isLoading || !student ?
                     <div className="w-[410px]">
                         <Skeleton
                             parentWidth={100}
@@ -326,7 +326,7 @@ function StudentProfile({ student, isLoading }) {
 
                     <div className="grid xl:grid-cols-2 2xsm:grid-cols-1 gap-8 mt-6">
                         {
-                            isLoading ? <>
+                            isLoading || !student ? <>
                                 <h1>Loading...</h1>
                             </> : <>
                                 {

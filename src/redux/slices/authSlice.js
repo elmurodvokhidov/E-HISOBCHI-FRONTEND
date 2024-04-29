@@ -5,7 +5,6 @@ const initialState = {
     isLoading: false,
     isLoggedIn: false,
     auth: null,
-    today: null,
     isError: null
 }
 
@@ -20,7 +19,6 @@ const AuthSlice = createSlice({
             state.isLoading = false;
             state.isLoggedIn = true;
             state.auth = action.payload?.data;
-            state.today = new Date(action.payload?.date).toISOString().slice(0, 10);
             setCookie("x-id", action.payload?.data._id, 30);
         },
         authFailure: (state, action) => {

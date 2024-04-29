@@ -1,29 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import AuthService from "../config/authService";
-import { useDispatch, useSelector } from "react-redux";
-import { allStudentSuccess, studentStart } from "../redux/slices/studentSlice";
 import { Link } from "react-router-dom";
 
 export default function SearchBar() {
     const { students } = useSelector(state => state.student);
-    const dispatch = useDispatch();
     const [results, setResults] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-
-    const getAllStudents = async () => {
-        try {
-            dispatch(studentStart());
-            const { data } = await AuthService.getAllStudents();
-            dispatch(allStudentSuccess(data));
-        } catch (error) {
-            dispatch(studentFailure(error.message));
-        }
-    };
-
-    useEffect(() => {
-        getAllStudents();
-    }, []);
 
     const handleSearchFunc = (value) => {
         setResults(students.filter(student => (

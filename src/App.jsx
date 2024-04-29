@@ -55,8 +55,8 @@ function App() {
 
     if (getCookie("x-token")) {
       getUser();
-    }
-  }, [dispatch]);
+    };
+  }, []);
 
   return (
     <div className="app">

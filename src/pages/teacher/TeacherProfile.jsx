@@ -141,7 +141,7 @@ export default function TeacherProfile({ teacher, isLoading }) {
             </div> */}
 
             <div className="xl:flex gap-8 mb-16">
-                {isLoading ?
+                {isLoading || !teacher ?
                     <div className="w-[410px]">
                         <Skeleton parentWidth={100} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
                     </div> : <>
@@ -205,7 +205,7 @@ export default function TeacherProfile({ teacher, isLoading }) {
                     <h1 className="text-xl">Guruhlar</h1>
                     <div className="flex flex-col gap-4 mt-2">
                         {
-                            isLoading ? <>
+                            isLoading || !teacher ? <>
                                 <h1>Loading...</h1>
                             </> : <>
                                 {

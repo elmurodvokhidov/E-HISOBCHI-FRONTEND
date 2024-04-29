@@ -4,24 +4,14 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { MdCheck, MdClose, MdSkipNext, MdSkipPrevious } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import Skeleton from "./loaders/Skeleton";
-import { useSelector } from "react-redux";
 import { getCookie } from "../config/cookiesService";
 
 export default function Attendance({ group, isLoading }) {
-    const { today } = useSelector(state => state.auth);
+    const [today, setToday] = useState(null);
     const [attendance, setAttendance] = useState([]);
     const [loadingCell, setLoadingCell] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 13;
-
-    // O'quvchi balansini hisoblash funksiyasi
-    async function caclStudentBalanceFunction() {
-        try {
-            await AuthService.caclStudentBalance({ today });
-        } catch (error) {
-            console.error("Error calculate student's balance:", error);
-        }
-    };
 
     // Umumiy sahifalar sonini hisoblash
     const totalPages = Math.ceil(group.course_days.length / itemsPerPage);
@@ -37,18 +27,23 @@ export default function Attendance({ group, isLoading }) {
     };
 
     useEffect(() => {
-        // Bugungi sana guruh kunlari ichida ekanligini tekshirish
-        const todayIndex = group.course_days.findIndex(date => date >= today);
-        // Agar guruh sanasi topilsa shu sana joylashgan pagination'ga o'tkazish
-        if (todayIndex !== -1) {
-            setCurrentPage(Math.ceil((todayIndex + 1) / itemsPerPage));
+        // Bugungi sanani olish
+        const getCurrentDateFunction = async () => {
+            try {
+                const { data } = await AuthService.getCurrentDate();
+                setToday(data.today);
+                // Bugungi sana guruh kunlari ichida ekanligini tekshirish
+                const todayIndex = group.course_days.findIndex(date => date >= data.today);
+                // Agar guruh sanasi topilsa shu sana joylashgan pagination'ga o'tkazish
+                if (todayIndex !== -1) {
+                    setCurrentPage(Math.ceil((todayIndex + 1) / itemsPerPage));
+                };
+            } catch (error) {
+                console.log(error);
+            }
         };
 
-        const isLessonDay = group.course_days.find(date => date === today);
-        if (isLessonDay) {
-            caclStudentBalanceFunction();
-        }
-
+        getCurrentDateFunction();
         getAllAttendanceFunction();
     }, []);
 

@@ -231,6 +231,12 @@ const AuthService = {
         const res = api.get(`/student/info/${id}`);
         return res;
     },
+
+    // date
+    async getCurrentDate() {
+        const res = api.get("get-current-date");
+        return res;
+    },
 };
 
 export default AuthService;

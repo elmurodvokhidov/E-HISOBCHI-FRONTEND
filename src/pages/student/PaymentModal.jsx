@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
-import { useSelector } from "react-redux";
+import AuthService from "../../config/authService";
 
 function PaymentModal({
     handleModal,
@@ -8,7 +8,6 @@ function PaymentModal({
     isLoading,
     student,
 }) {
-    const { today } = useSelector(state => state.auth);
     const [studentPayment, setStudentPayment] = useState({
         student: "",
         method: "",
@@ -35,12 +34,21 @@ function PaymentModal({
     };
 
     useEffect(() => {
-        setStudentPayment({
-            ...studentPayment,
-            student: student ? (student.first_name + " " + student.last_name) : "",
-            date: today ? today : ""
-        });
-    }, [student, today]);
+        const getCurrentDateFunction = async () => {
+            try {
+                const { data } = await AuthService.getCurrentDate();
+                setStudentPayment({
+                    ...studentPayment,
+                    student: student ? (student.first_name + " " + student.last_name) : "",
+                    date: data.today
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        getCurrentDateFunction();
+    }, [student]);
 
     const studentPaymentFunction = async (e) => {
         e.preventDefault();
