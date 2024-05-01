@@ -20,8 +20,11 @@ import { days } from "../../config/days";
 import { IoPersonCircleOutline, IoRemoveOutline } from "react-icons/io5";
 import PaymentModal from "./PaymentModal";
 import { getCookie } from "../../config/cookiesService";
+import { MdOutlinePrint } from "react-icons/md";
+import { IoMdMore } from "react-icons/io";
+import Swal from "sweetalert2";
 
-function StudentProfile({ student, isLoading }) {
+function StudentProfile({ student, isLoading, getStudent }) {
     const { auth } = useSelector(state => state.auth);
     const { groups } = useSelector(state => state.group);
     const dispatch = useDispatch();
@@ -101,7 +104,7 @@ function StudentProfile({ student, isLoading }) {
             imageModal: false,
             more: null,
             payModal: false,
-        })
+        });
     };
 
     const updateHandler = async (e) => {
@@ -168,8 +171,41 @@ function StudentProfile({ student, isLoading }) {
         }
     };
 
+    // O'quvchi to'lov tarixini o'chirish
+    const deleteStudentPayHistory = async (id) => {
+        Swal.fire({
+            title: "Ishonchingiz komilmi?",
+            text: "Buni qaytara olmaysiz!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Yo'q",
+            confirmButtonText: "Ha, albatta!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                AuthService.deleteStudentPay(id).then((res) => {
+                    getStudent();
+                    clearModal();
+                    Toast.fire({
+                        icon: "success",
+                        title: res?.data.message
+                    });
+                }).catch((error) => {
+                    ToastLeft.fire({
+                        icon: "error",
+                        title: error.response?.data.message || error.message
+                    });
+                });
+            }
+        });
+    };
+
     return (
-        <div className="container">
+        <div
+            className="container"
+            onClick={() => handleModal("more", null)}
+        >
             <div className="lg:flex gap-8">
                 {isLoading || !student ?
                     <div className="w-[410px]">
@@ -180,7 +216,7 @@ function StudentProfile({ student, isLoading }) {
                             thirdChildWidth={65}
                         />
                     </div> : <>
-                        <div className="sm:w-[410px] border py-8 px-6 rounded shadow-dim">
+                        <div className="sm:w-[410px] h-fit border py-8 px-6 rounded shadow-dim">
                             <div className="flex relative justify-start gap-10">
                                 <div className="w-full flex flex-col gap-4 text-sm">
                                     <div className="flex items-center gap-4">
@@ -321,42 +357,110 @@ function StudentProfile({ student, isLoading }) {
                     </>
                 }
 
-                <div className="lg:w-2/3 lg:mt-0 2xsm:w-full 2xsm:mt-8">
-                    <h1 className="text-gray-500 text-sm border-b-2 pb-2">Guruhlar</h1>
+                <div className="lg:w-2/3 2xsm:w-full">
+                    <div className="lg:mt-0 2xsm:mt-8">
+                        <h1 className="text-gray-500 text-base border-b-2 pb-2">Guruhlar</h1>
 
-                    <div className="grid xl:grid-cols-2 2xsm:grid-cols-1 gap-8 mt-6">
-                        {
-                            isLoading || !student ? <>
-                                <h1>Loading...</h1>
-                            </> : <>
-                                {
-                                    student?.group ?
-                                        <NavLink to={`/${getCookie("x-auth")}/group-info/${student?.group._id}`}>
-                                            <div className="courseCard xl:w-50% p-4 cursor-pointer bg-white shadow-smooth rounded">
-                                                <h1 className="w-fit text-xs rounded px-2 py-1 bg-gray-200">{student?.group.name}</h1>
-                                                <div className="flex items-start justify-between gap-8">
-                                                    <h2 className="text-sm transition-all duration-300">
-                                                        {student?.group.teacher?.first_name} {student?.group.teacher?.last_name}
-                                                    </h2>
-                                                    <div className="text-xs text-gray-500">
-                                                        <h1 className="flex items-center gap-1">
-                                                            {student?.group.start_date}
-                                                            <span className="inline-block align-middle w-4 border border-gray-300"></span>
-                                                        </h1>
-                                                        <h1>{student?.group.end_date}</h1>
-                                                    </div>
-                                                    <div className="text-xs text-gray-500">
-                                                        <h1>{days.find(day => day.value === student?.group.day)?.title}</h1>
-                                                        <h1>{student?.group.start_time}</h1>
+                        <div className="grid xl:grid-cols-2 2xsm:grid-cols-1 gap-8 mt-6">
+                            {
+                                isLoading || !student ? <>
+                                    <h1>Loading...</h1>
+                                </> : <>
+                                    {
+                                        student?.group ?
+                                            <NavLink to={`/${getCookie("x-auth")}/group-info/${student?.group._id}`}>
+                                                <div className="courseCard xl:w-50% p-4 cursor-pointer bg-white shadow-smooth rounded">
+                                                    <h1 className="w-fit text-xs rounded px-2 py-1 bg-gray-200">{student?.group.name}</h1>
+                                                    <div className="flex items-start justify-between gap-8">
+                                                        <h2 className="text-sm transition-all duration-300">
+                                                            {student?.group.teacher?.first_name} {student?.group.teacher?.last_name}
+                                                        </h2>
+                                                        <div className="text-xs text-gray-500">
+                                                            <h1 className="flex items-center gap-1">
+                                                                {student?.group.start_date}
+                                                                <span className="inline-block align-middle w-4 border border-gray-300"></span>
+                                                            </h1>
+                                                            <h1>{student?.group.end_date}</h1>
+                                                        </div>
+                                                        <div className="text-xs text-gray-500">
+                                                            <h1>{days.find(day => day.value === student?.group.day)?.title}</h1>
+                                                            <h1>{student?.group.start_time}</h1>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </NavLink>
-                                        : <h1>Ma'lumot topilmadi!</h1>
-                                }
-                            </>
-                        }
+                                            </NavLink>
+                                            : <h1>Ma'lumot topilmadi!</h1>
+                                    }
+                                </>
+                            }
+                        </div>
                     </div>
+
+                    {
+                        !isLoading &&
+                            student?.payment_history.length > 0 ? <>
+                            <div className="mt-10">
+                                <h1 className="text-gray-500 text-base border-b-2 pb-2">To'lovlar</h1>
+                                <div className="shadow-smooth rounded px-6 py-4 mt-6 bg-white">
+                                    <div className="flex gap-6 p-2 text-sm">
+                                        <h1 className="w-[150px]">Sana</h1>
+                                        <h1 className="w-[200px]">Miqdor</h1>
+                                        <h1 className="w-[400px]">Izoh</h1>
+                                    </div>
+                                    <div className="max-h-60 overflow-y-auto">
+                                        {
+                                            student?.payment_history.map(pay => (
+                                                <div
+                                                    key={pay._id}
+                                                    className="studentPayHistory flex gap-6 p-2 rounded odd:bg-gray-100"
+                                                >
+                                                    <h1 className="w-[150px] text-sm">
+                                                        {pay.date}
+                                                    </h1>
+                                                    <h1 className="w-[200px] text-base text-green-500">
+                                                        <span>+</span>
+                                                        {pay.amount?.toLocaleString()}
+                                                        <span className="text-black text-xs"> UZS</span>
+                                                    </h1>
+                                                    <h1 className="w-[400px] flex items-center text-sm">
+                                                        {
+                                                            pay.description !== "" ?
+                                                                pay.description : <IoRemoveOutline className="text-gray-500" />
+                                                        }
+                                                    </h1>
+                                                    {/* more button */}
+                                                    <div onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        handleModal("more", pay._id)
+                                                    }} className="relative cursor-pointer text-cyan-600 text-xl">
+                                                        <IoMdMore />
+                                                        {/* more btn modal */}
+                                                        <div className={`${modals.more === pay._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute 2xsm:right-8 top-2 p-1 shadow-smooth rounded-lg text-xs bg-white`}>
+                                                            <button
+                                                                className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"
+                                                            >
+                                                                <MdOutlinePrint className="text-base" />
+                                                                Print
+                                                            </button>
+                                                            <button
+                                                                onClick={() => deleteStudentPayHistory(pay._id)}
+                                                                className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-red-500"
+                                                            >
+                                                                <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"></path>
+                                                                </svg>
+                                                                O'chirish
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </> : null
+                    }
                 </div>
             </div>
 

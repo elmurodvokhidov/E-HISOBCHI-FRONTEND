@@ -1,20 +1,39 @@
 import { useEffect, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import AuthService from "../../config/authService";
+import { Toast, ToastLeft } from "../../config/sweetToast";
+import { getStudentSuccess, studentFailure, studentStart } from "../../redux/slices/studentSlice";
+import { useDispatch } from "react-redux";
 
 function PaymentModal({
     handleModal,
     modals,
-    isLoading,
     student,
 }) {
+    const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(false);
     const [studentPayment, setStudentPayment] = useState({
-        student: "",
+        studentId: "",
+        student_balance: "",
         method: "",
         amount: "",
         date: "",
         description: "",
     });
+
+    const getStudent = async () => {
+        try {
+            dispatch(studentStart());
+            const { data } = await AuthService.getStudent(student?._id);
+            dispatch(getStudentSuccess(data));
+        } catch (error) {
+            dispatch(studentFailure(error.response?.data.message));
+            await Toast.fire({
+                icon: "error",
+                title: error.response?.data.message || error.message,
+            });
+        }
+    };
 
     const getPaymentCred = (e) => {
         setStudentPayment({
@@ -39,7 +58,8 @@ function PaymentModal({
                 const { data } = await AuthService.getCurrentDate();
                 setStudentPayment({
                     ...studentPayment,
-                    student: student ? (student.first_name + " " + student.last_name) : "",
+                    studentId: student?._id,
+                    student_balance: student?.balance,
                     date: data.today
                 });
             } catch (error) {
@@ -52,8 +72,27 @@ function PaymentModal({
 
     const studentPaymentFunction = async (e) => {
         e.preventDefault();
-        console.log(studentPayment);
-        clearModal();
+        try {
+            if (studentPayment.method !== "" && studentPayment.amount !== "" && studentPayment.date !== "") {
+                setIsLoading(true);
+                const { data } = await AuthService.payForStudent(studentPayment);
+                getStudent();
+                clearModal();
+                await Toast.fire({
+                    icon: "success",
+                    title: data.message
+                });
+                setIsLoading(false);
+            }
+            else {
+                await ToastLeft.fire({
+                    icon: "error",
+                    title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
+                });
+            }
+        } catch (error) {
+            console.log("Student payment error: " + error);
+        }
     };
 
     return (
@@ -84,7 +123,7 @@ function PaymentModal({
                         <label htmlFor="student" className="text-sm">Talaba</label>
                         <input
                             disabled={true}
-                            value={studentPayment.student}
+                            value={student?.first_name + " " + student?.last_name}
                             type="text"
                             name="student"
                             id="student"
@@ -105,6 +144,7 @@ function PaymentModal({
                         <div className="flex gap-6">
                             <div className="flex items-center gap-1">
                                 <input
+                                    disabled={isLoading}
                                     onChange={getPaymentCred}
                                     value="cash"
                                     type="radio"
@@ -116,6 +156,7 @@ function PaymentModal({
 
                             <div className="flex items-center gap-1">
                                 <input
+                                    disabled={isLoading}
                                     onChange={getPaymentCred}
                                     value="card"
                                     type="radio"
@@ -131,6 +172,7 @@ function PaymentModal({
                     <div className="w-full flex flex-col">
                         <label htmlFor="amount" className="text-sm">Midor</label>
                         <input
+                            disabled={isLoading}
                             onChange={getPaymentCred}
                             value={studentPayment.amount}
                             type="number"
@@ -143,6 +185,7 @@ function PaymentModal({
                     <div className="flex flex-col">
                         <label htmlFor="date" className="text-sm">Sana</label>
                         <input
+                            disabled={isLoading}
                             onChange={getPaymentCred}
                             value={studentPayment.date}
                             type="date"
@@ -154,6 +197,7 @@ function PaymentModal({
                     <div className="flex flex-col">
                         <label htmlFor="description" className="text-sm">Izoh</label>
                         <textarea
+                            disabled={isLoading}
                             onChange={getPaymentCred}
                             value={studentPayment.description}
                             name="description"
@@ -168,7 +212,7 @@ function PaymentModal({
                     <button
                         disabled={isLoading}
                         onClick={studentPaymentFunction}
-                        className="w-fit px-6 py-1 mt-8 bg-cyan-600 rounded-2xl text-white">
+                        className="w-fit px-6 py-1 mt-8 bg-cyan-600 outline-none rounded-2xl text-white">
                         {isLoading ? "Loading..." : "Saqlash"}
                     </button>
                 </div>

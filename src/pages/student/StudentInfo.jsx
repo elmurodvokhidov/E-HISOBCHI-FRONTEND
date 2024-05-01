@@ -33,7 +33,11 @@ function StudentInfo() {
         getStudent();
     }, []);
 
-    return <StudentProfile student={student} isLoading={isLoading} />
+    return <StudentProfile
+        student={student}
+        isLoading={isLoading}
+        getStudent={getStudent}
+    />
 }
 
 export default StudentInfo

@@ -115,6 +115,14 @@ const AuthService = {
         const res = api.put("/admin/calc-student-balance", req);
         return res;
     },
+    async payForStudent(req) {
+        const res = api.post("/admin/student-pay", req);
+        return res;
+    },
+    async deleteStudentPay(id) {
+        const res = api.delete(`/admin/delete-student-pay/${id}`);
+        return res;
+    },
 
 
 
