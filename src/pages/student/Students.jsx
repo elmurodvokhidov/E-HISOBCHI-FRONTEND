@@ -100,6 +100,7 @@ function Students() {
             dispatch(courseFailure(error.message));
         }
     };
+    
     useEffect(() => {
         getAllStudentsFunction();
         getAllGroupsFunc();
@@ -564,13 +565,16 @@ function Students() {
                 </table>
             </div>
 
-            <Pagination
-                students={filteredStudents}
-                page={page}
-                setPage={setPage}
-                limit={limit}
-                exportToExcel={exportToExcel}
-            />
+            {
+                !isLoading &&
+                <Pagination
+                    students={filteredStudents}
+                    page={page}
+                    setPage={setPage}
+                    limit={limit}
+                    exportToExcel={exportToExcel}
+                />
+            }
 
             {/* create new student and update student modal */}
             <StudentModal

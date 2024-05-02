@@ -548,12 +548,15 @@ function Groups() {
                 </table>
             </div>
 
-            <button
-                onClick={exportToExcel}
-                id="downloadExelBtn"
-                className="size-8 relative float-end flex items-center justify-center 2xsm:mt-2 sm:mt-0 text-gray-400 border border-gray-300 outline-cyan-600 text-xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all mx-[40px]">
-                <MdFileDownload />
-            </button>
+            {
+                !isLoading &&
+                <button
+                    onClick={exportToExcel}
+                    id="downloadExelBtn"
+                    className="size-8 relative float-end flex items-center justify-center 2xsm:mt-2 sm:mt-0 text-gray-400 border border-gray-300 outline-cyan-600 text-xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all mx-[40px]">
+                    <MdFileDownload />
+                </button>
+            }
 
             {/* create and update group modal */}
             <GroupModal

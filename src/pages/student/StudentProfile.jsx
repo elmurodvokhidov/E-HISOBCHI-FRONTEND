@@ -401,28 +401,28 @@ function StudentProfile({ student, isLoading, getStudent }) {
                             student?.payment_history.length > 0 ? <>
                             <div className="mt-10">
                                 <h1 className="text-gray-500 text-base border-b-2 pb-2">To'lovlar</h1>
-                                <div className="shadow-smooth rounded px-6 py-4 mt-6 bg-white">
-                                    <div className="flex gap-6 p-2 text-sm">
-                                        <h1 className="w-[150px]">Sana</h1>
-                                        <h1 className="w-[200px]">Miqdor</h1>
-                                        <h1 className="w-[400px]">Izoh</h1>
+                                <div className="shadow-smooth rounded px-6 py-4 mt-6 overflow-y-auto bg-white">
+                                    <div className="w-fit flex lg:gap-4 p-2 text-sm">
+                                        <h1 className="min-w-[150px]">Sana</h1>
+                                        <h1 className="min-w-[200px]">Miqdor</h1>
+                                        <h1 className="min-w-[400px]">Izoh</h1>
                                     </div>
-                                    <div className="max-h-60 overflow-y-auto">
+                                    <div className="w-fit max-h-60">
                                         {
                                             student?.payment_history.map(pay => (
                                                 <div
                                                     key={pay._id}
-                                                    className="studentPayHistory flex gap-6 p-2 rounded odd:bg-gray-100"
+                                                    className="studentPayHistory flex lg:gap-4 p-2 rounded odd:bg-gray-100"
                                                 >
-                                                    <h1 className="w-[150px] text-sm">
+                                                    <h1 className="min-w-[150px] text-sm">
                                                         {pay.date}
                                                     </h1>
-                                                    <h1 className="w-[200px] text-base text-green-500">
+                                                    <h1 className="min-w-[200px] text-base text-green-500">
                                                         <span>+</span>
                                                         {pay.amount?.toLocaleString()}
                                                         <span className="text-black text-xs"> UZS</span>
                                                     </h1>
-                                                    <h1 className="w-[400px] flex items-center text-sm">
+                                                    <h1 className="min-w-[400px] flex items-center text-sm">
                                                         {
                                                             pay.description !== "" ?
                                                                 pay.description : <IoRemoveOutline className="text-gray-500" />

@@ -119,6 +119,10 @@ const AuthService = {
         const res = api.post("/admin/student-pay", req);
         return res;
     },
+    async getStudentPayHistory() {
+        const res = api.get("/admin/get-student-pay-history");
+        return res;
+    },
     async deleteStudentPay(id) {
         const res = api.delete(`/admin/delete-student-pay/${id}`);
         return res;

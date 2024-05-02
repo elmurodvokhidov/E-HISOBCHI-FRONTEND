@@ -12,7 +12,7 @@ import { authLogout, authStart } from "../redux/slices/authSlice";
 import { IoMenuOutline } from "react-icons/io5";
 import { getCookie } from "../config/cookiesService";
 
-function Navbar({ sideModal, setSideModal, setOpen }) {
+function Navbar({ modals, handleModal }) {
     const { auth } = useSelector(state => state.auth);
     const { notices } = useSelector(state => state.notice);
     const dispatch = useDispatch();
@@ -83,14 +83,16 @@ function Navbar({ sideModal, setSideModal, setOpen }) {
             <div className="logo w-14">
                 <Link to="dashboard" className="md:inline-block hidden"><img src={logo} alt="logo" /></Link>
                 <IoMenuOutline
-                    onClick={() => {
-                        setSideModal(!sideModal);
-                        setOpen(false);
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        handleModal("sideModal", !modals.sideModal);
+                        handleModal("settingsModal", false);
+                        handleModal("financeModal", false);
                     }}
                     className="md:hidden text-3xl text-gray-500" />
             </div>
 
-            {huru === "admin" && <SearchBar />}
+            {huru === "admin" && <SearchBar modals={modals} handleModal={handleModal} />}
 
             <div className="right flex relative items-center gap-4 text-gray-500">
                 <GlobalElement />

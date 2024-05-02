@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authSuccess } from "./redux/slices/authSlice";
@@ -28,9 +28,33 @@ import GroupInfo from "./pages/groups/GroupInfo";
 import TeacherSalary from "./pages/teacher/TeacherSalary";
 import Leads from "./pages/leads/Leads";
 import { getCookie } from "./config/cookiesService";
+import Payments from "./pages/Payments";
+import Cost from "./pages/Cost";
+import Salary from "./pages/Salary";
+import Debtors from "./pages/Debtors";
 
 function App() {
   const dispatch = useDispatch();
+  const [modals, setModals] = useState({
+    sideModal: false,
+    settingsModal: false,
+    financeModal: false,
+    searchBarModal: false,
+  });
+
+  // Modal state-ni optimal tarzda o'zgartirish
+  const handleModal = (modalName, value) => {
+    setModals(prevState => ({ ...prevState, [modalName]: value }));
+  };
+
+  const closeAllModals = () => {
+    setModals({
+      sideModal: false,
+      settingsModal: false,
+      financeModal: false,
+      searchBarModal: false,
+    });
+  };
 
   useEffect(() => {
     async function getUser() {
@@ -59,13 +83,13 @@ function App() {
   }, []);
 
   return (
-    <div className="app">
+    <div className="app" onClick={closeAllModals}>
       <Routes>
         <Route index element={<Login />} />
         <Route path="*" element={<NotFound />} />
 
         {/* admin routes */}
-        <Route path="admin" element={<AdminLayout />}>
+        <Route path="admin" element={<AdminLayout modals={modals} handleModal={handleModal} closeAllModals={closeAllModals} />}>
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="notice" element={<Notice />} />
           <Route path="admins" element={<Admins />} />
@@ -82,6 +106,10 @@ function App() {
           <Route path="rooms" element={<Rooms />} />
           <Route path="settings" element={<GeneralSettings />} />
           <Route path="leads" element={<Leads />} />
+          <Route path="payments" element={<Payments />} />
+          <Route path="cost" element={<Cost />} />
+          <Route path="salary" element={<Salary />} />
+          <Route path="debtors" element={<Debtors />} />
         </Route>
 
         {/* teacher routes */}
