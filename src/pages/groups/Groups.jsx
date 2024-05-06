@@ -207,7 +207,7 @@ function Groups() {
     // Barcha guruh ma'lumotlarini exel fayli sifatida yuklab olish funksiyasi
     const exportToExcel = () => {
         const fileName = 'groups.xlsx';
-        const header = ['Group Name', 'Course Title', 'Teacher', 'Days', 'Start Date', 'End Date', 'Room', 'Number of Students'];
+        const header = ['Guruh nomi', 'Kurs nomi', 'O\'qituvchi ismi', 'Dars kunlari', 'Boshlanish sanasi', 'Tugash sanasi', 'Xona', 'O\'quvchilar soni'];
 
         const data = filteredGroups.map(group => [
             group.name || '',
@@ -542,7 +542,7 @@ function Groups() {
                                         </div>
                                     </td>
                                 </tr>
-                            )) : <tr><td>Ma'lumot topilmadi</td></tr>
+                            )) : <tr className="mx-auto my-6"><td>Ma'lumot topilmadi</td></tr>
                         }
                     </tbody>
                 </table>

@@ -24,9 +24,8 @@ function Teachers() {
     const [newTeacher, setNewTeacher] = useState({
         first_name: "",
         last_name: "",
-        email: "",
         dob: "",
-        contactNumber: "",
+        phoneNumber: "",
         gender: "",
     });
     const [newPass, setNewPass] = useState({
@@ -72,9 +71,8 @@ function Teachers() {
         setNewTeacher({
             first_name: "",
             last_name: "",
-            email: "",
             dob: "",
-            contactNumber: "",
+            phoneNumber: "",
             gender: "",
         });
         setNewPass({ newPassword: "", confirmPassword: "" });
@@ -94,7 +92,7 @@ function Teachers() {
             if (newPass.newPassword.length >= 8) {
                 try {
                     dispatch(teacherStart());
-                    const { data } = await AuthService.updateTeacherPass({ ...newPass, email: newTeacher._id });
+                    const { data } = await AuthService.updateTeacherPass({ ...newPass, phoneNumber: newTeacher.phoneNumber });
                     dispatch(getTeacherSuccess(data));
                     clearModal();
                     await Toast.fire({
@@ -120,8 +118,7 @@ function Teachers() {
             if (
                 newTeacher.first_name !== "" &&
                 newTeacher.last_name !== "" &&
-                newTeacher.email !== "" &&
-                newTeacher.contactNumber !== "" &&
+                newTeacher.phoneNumber !== "" &&
                 newTeacher.dob !== "" &&
                 newTeacher.gender !== ""
             ) {
@@ -191,11 +188,11 @@ function Teachers() {
         }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(teacherStart());
-                AuthService.deleteTeacher(id).then(() => {
+                AuthService.deleteTeacher(id).then((res) => {
                     getAllTeachersFunc();
                     Toast.fire({
                         icon: "success",
-                        title: "Teacher deleted successfully!"
+                        title: res?.data.message
                     });
                 }).catch((error) => {
                     dispatch(teacherFailure(error.response?.data.message));
@@ -211,15 +208,14 @@ function Teachers() {
     // Barcha o'qituvchilar ma'lumotlarini exel fayli sifatida yuklab olish funksiyasi
     const exportToExcel = () => {
         const fileName = 'teachers.xlsx';
-        const header = ['First Name', 'Last Name', 'Email', 'Date of Birth', 'Contact Number', 'Gender'];
+        const header = ['Ism', 'Familya', 'Tug\'ilgan sana', 'Telefon', 'Jins'];
 
         const wb = XLSX.utils.book_new();
         const data = teachers.map(teacher => [
             teacher.first_name || '',
             teacher.last_name || '',
-            teacher.email || '',
             teacher.dob || '',
-            (teacher.contactNumber || '').toString(),
+            (teacher.phoneNumber || '').toString(),
             teacher.gender || '',
         ]);
         data.unshift(header);
@@ -260,11 +256,11 @@ function Teachers() {
                             <NavLink to={`/admin/teacher-info/${teacher._id}`} className="hover:text-cyan-600">{teacher.first_name} {teacher.last_name}</NavLink>
                             <div className="flex items-center gap-8 text-xs">
                                 <h3
-                                    onClick={() => handleCopy(teacher.contactNumber)}
+                                    onClick={() => handleCopy(teacher.phoneNumber)}
                                     className="flex items-center gap-1 text-blue-400 cursor-pointer">
-                                    {teacher.contactNumber}
+                                    {teacher.phoneNumber}
                                     <img
-                                        src={copied === teacher.contactNumber ? tick : copy}
+                                        src={copied === teacher.phoneNumber ? tick : copy}
                                         alt="copy svg"
                                         className="cursor-pointer" />
                                 </h3>

@@ -62,18 +62,6 @@ export default function LeadsModal({
                         </div>
                     </div>
 
-                    {/* Email */}
-                    <div className="flex flex-col">
-                        <label htmlFor="email" className="text-sm">Email</label>
-                        <input
-                            onChange={getLeadsCred}
-                            value={newLead.email}
-                            type="email"
-                            name="email"
-                            id="email"
-                            className="outline-cyan-600 border-2 border-gray-300 rounded px-2 py-1" />
-                    </div>
-
                     {/* Column */}
                     <div className="flex flex-col">
                         <label htmlFor="column" className="text-sm">Bo'limni tanglang</label>

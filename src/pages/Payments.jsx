@@ -21,6 +21,9 @@ import {
 } from "../redux/slices/courseSlice";
 import { allTeacherSuccess, teacherFailure, teacherStart } from "../redux/slices/teacherSlice";
 import { NavLink } from "react-router-dom";
+import Skeleton from "../components/loaders/Skeleton";
+import * as XLSX from 'xlsx';
+import { MdFileDownload } from "react-icons/md";
 
 export default function Payments() {
     const { studentPayHistory, isLoading } = useSelector(state => state.studentPayHistory);
@@ -104,7 +107,7 @@ export default function Payments() {
             if (value === "") return true;
 
             if (key === "searchBy") {
-                return pay.studentId?.first_name.toLowerCase().includes(value.toLowerCase().trim()) || pay.studentId?.last_name.toLowerCase().includes(value.toLowerCase().trim()) || pay.studentId?.contactNumber.toString().includes(value.toString().trim());
+                return pay.studentId?.first_name.toLowerCase().includes(value.toLowerCase().trim()) || pay.studentId?.last_name.toLowerCase().includes(value.toLowerCase().trim()) || pay.studentId?.phoneNumber.toString().includes(value.toString().trim());
             }
 
             if (key === "amount") {
@@ -147,9 +150,34 @@ export default function Payments() {
             }
 
 
-            return student[key] === value;
+            return pay[key] === value;
         });
     });
+
+    // Barcha o'quvchilar to'lov tarixi ma'lumotlarini exel fayli sifatida yuklab olish funksiyasi
+    const exportToExcel = () => {
+        const fileName = 'students-pay-history.xlsx';
+        const header = ['Sana', 'O\'quvchi ismi', 'Sum', 'To\'lov turi', 'O\'qituvchi', 'Guruh', 'Izoh'];
+
+        const wb = XLSX.utils.book_new();
+        const data = filteredStudentPayHistory.map(pay => [
+            pay.date || '',
+            pay.studentId?.first_name + " " + pay.studentId?.last_name || '',
+            (Math.floor(pay.amount) || '').toLocaleString(),
+            pay.method || '',
+            pay.studentId?.group?.teacher?.first_name + " " + pay.studentId?.group?.teacher?.last_name || '',
+            pay.studentId?.group?.name || '',
+            pay.description || '',
+        ]);
+        data.unshift(header);
+        const ws = XLSX.utils.aoa_to_sheet(data);
+        const columnWidths = data[0].map((_, colIndex) => ({
+            wch: data.reduce((acc, row) => Math.max(acc, String(row[colIndex]).length), 0)
+        }));
+        ws['!cols'] = columnWidths;
+        XLSX.utils.book_append_sheet(wb, ws, 'Students-pay-history');
+        XLSX.writeFile(wb, fileName);
+    };
 
     return (
         <div className="container flex flex-col gap-6">
@@ -162,7 +190,7 @@ export default function Payments() {
                                 <h1 className="flex gap-2">
                                     <span>To'lovlar miqdori:</span>
                                     <span>
-                                        {studentPayHistory.reduce((total, pay) => total + pay.amount, 0).toLocaleString()}
+                                        {Math.floor(studentPayHistory.reduce((total, pay) => total + pay.amount, 0)).toLocaleString()}
                                     </span>
                                     <span>UZS</span>
                                 </h1>
@@ -180,7 +208,7 @@ export default function Payments() {
                                 <h1 className="flex gap-2">
                                     <span>Sof foyda miqdori:</span>
                                     <span>
-                                        {studentPayHistory.reduce((total, pay) => total + pay.amount, 0).toLocaleString()}
+                                        {Math.floor(studentPayHistory.reduce((total, pay) => total + pay.amount, 0)).toLocaleString()}
                                     </span>
                                     <span>UZS</span>
                                 </h1>
@@ -195,19 +223,19 @@ export default function Payments() {
                     <ul className="list-disc rounded shadow-md py-6 px-12 text-sm bg-white">
                         <li>Naqd pul: <span>
                             {
-                                studentPayHistory.filter(item => item.method === "cash")
-                                    .reduce((total, pay) => total + pay.amount, 0)
+                                Math.floor(studentPayHistory.filter(item => item.method === "cash")
+                                    .reduce((total, pay) => total + pay.amount, 0))
                                     .toLocaleString()
                             }
                         </span> UZS</li>
                         <li>Plastik kartasi: <span>
                             {
-                                studentPayHistory.filter(item => item.method === "card")
-                                    .reduce((total, pay) => total + pay.amount, 0)
+                                Math.floor(studentPayHistory.filter(item => item.method === "card")
+                                    .reduce((total, pay) => total + pay.amount, 0))
                                     .toLocaleString()
                             }
                         </span> UZS</li>
-                        <li>Jami tushumlar: <span>{studentPayHistory.reduce((total, pay) => total + pay.amount, 0).toLocaleString()}</span> UZS</li>
+                        <li>Jami tushumlar: <span>{Math.floor(studentPayHistory.reduce((total, pay) => total + pay.amount, 0)).toLocaleString()}</span> UZS</li>
                     </ul>
                 </div>
 
@@ -428,40 +456,63 @@ export default function Payments() {
 
                     <div>
                         {
-                            filteredStudentPayHistory.map(pay => (
-                                <div
-                                    key={pay._id}
-                                    className="flex justify-between py-2 border-b border-b-gray-200 last:border-b-0"
-                                >
-                                    <h4 className="min-w-[100px] text-sm">{pay.date}</h4>
-                                    <h4 className="min-w-[200px] text-base">
-                                        <NavLink
-                                            to={`/admin/student-info/${pay.studentId?._id}`}
-                                            className="hover:text-cyan-500"
-                                        >
-                                            {pay.studentId?.first_name + " "}
-                                            {pay.studentId?.last_name}
-                                        </NavLink>
-                                    </h4>
-                                    <h4 className="min-w-[150px] text-base">
-                                        {pay.amount.toLocaleString()}
-                                        <span className="text-xs"> UZS</span>
-                                    </h4>
-                                    <h4 className="min-w-[100px] text-sm capitalize">{pay.method}</h4>
-                                    <h4 className="min-w-[200px] text-base">
-                                        {pay.studentId?.group?.teacher?.first_name + " "}
-                                        {pay.studentId?.group?.teacher?.last_name}
-                                    </h4>
-                                    <h4 className="min-w-[100px] text-sm">
-                                        <span className="bg-gray-200 p-1 rounded">{pay.studentId?.group?.name}</span>
-                                    </h4>
-                                    <h4 className="min-w-[400px] text-sm">{pay.description}</h4>
-                                </div>
-                            ))
+                            isLoading ?
+                                <div className="mt-6">
+                                    <Skeleton
+                                        parentWidth={100}
+                                        firstChildWidth={85}
+                                        secondChildWidth={50}
+                                        thirdChildWidth={65}
+                                    />
+                                </div> :
+                                filteredStudentPayHistory.length > 0 ? <>
+                                    {
+                                        filteredStudentPayHistory.map(pay => (
+                                            <div
+                                                key={pay._id}
+                                                className="flex justify-between py-2 border-b border-b-gray-200 last:border-b-0"
+                                            >
+                                                <h4 className="min-w-[100px] text-sm">{pay.date}</h4>
+                                                <h4 className="min-w-[200px] text-base">
+                                                    <NavLink
+                                                        to={`/admin/student-info/${pay.studentId?._id}`}
+                                                        className="hover:text-cyan-500"
+                                                    >
+                                                        {pay.studentId?.first_name + " "}
+                                                        {pay.studentId?.last_name}
+                                                    </NavLink>
+                                                </h4>
+                                                <h4 className="min-w-[150px] text-base">
+                                                    {Math.floor(pay.amount).toLocaleString()}
+                                                    <span className="text-xs"> UZS</span>
+                                                </h4>
+                                                <h4 className="min-w-[100px] text-sm capitalize">{pay.method}</h4>
+                                                <h4 className="min-w-[200px] text-base">
+                                                    {pay.studentId?.group?.teacher?.first_name + " "}
+                                                    {pay.studentId?.group?.teacher?.last_name}
+                                                </h4>
+                                                <h4 className="min-w-[100px] text-sm">
+                                                    <span className="bg-gray-200 p-1 rounded">{pay.studentId?.group?.name}</span>
+                                                </h4>
+                                                <h4 className="min-w-[400px] text-sm">{pay.description}</h4>
+                                            </div>
+                                        ))
+                                    }
+                                </> : <h1 className="text-base mt-6 text-center">Ma'lumot topilmadi!</h1>
                         }
                     </div>
                 </div>
+
+                {/* Export to Excel button */}
+                <button
+                    disabled={isLoading}
+                    onClick={exportToExcel}
+                    id="downloadExelBtn"
+                    className="size-8 relative float-end flex items-center justify-center mt-8 text-gray-400 border border-gray-300 outline-cyan-600 text-xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all"
+                >
+                    <MdFileDownload />
+                </button>
             </div>
-        </div>
+        </div >
     )
 };

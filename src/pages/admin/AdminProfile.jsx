@@ -12,10 +12,9 @@ function AdminProfile({ auth, isLoading }) {
     const [updatedAuth, setUpdatedAuth] = useState({
         first_name: "",
         last_name: "",
-        email: "",
         dob: "",
         avatar: "",
-        contactNumber: "",
+        phoneNumber: "",
     });
     const [newPass, setNewPass] = useState({
         newPassword: "",
@@ -36,10 +35,9 @@ function AdminProfile({ auth, isLoading }) {
         setUpdatedAuth({
             first_name: "",
             last_name: "",
-            email: "",
             dob: "",
             avatar: "",
-            contactNumber: "",
+            phoneNumber: "",
         });
         setNewPass({ newPassword: "", confirmPassword: "" });
         setModals({
@@ -62,7 +60,7 @@ function AdminProfile({ auth, isLoading }) {
             if (newPass.newPassword.length >= 8) {
                 try {
                     dispatch(authStart());
-                    const { data } = await AuthService.updateAdminPass({ ...newPass, email: auth?.email });
+                    const { data } = await AuthService.updateAdminPass({ ...newPass, phoneNumber: auth?.phoneNumber });
                     dispatch(authSuccess(data));
                     clearModal();
                     await Toast.fire({
@@ -88,9 +86,8 @@ function AdminProfile({ auth, isLoading }) {
             if (
                 updatedAuth.first_name !== "" &&
                 updatedAuth.last_name !== "" &&
-                updatedAuth.email !== "" &&
                 updatedAuth.dob !== "" &&
-                updatedAuth.contactNumber !== ""
+                updatedAuth.phoneNumber !== ""
             ) {
                 try {
                     dispatch(authStart());
@@ -148,17 +145,12 @@ function AdminProfile({ auth, isLoading }) {
 
                                 <div className="flex justify-between gap-20">
                                     <span className="text-gray-500">Telefon:</span>
-                                    <span className="text-blue-300">+{auth.contactNumber}</span>
+                                    <span className="text-blue-300">+{auth.phoneNumber}</span>
                                 </div>
 
                                 <div className="flex justify-between gap-20">
                                     <span className="text-gray-500">Tug'ilgan kun:</span>
                                     <span>{auth.dob}</span>
-                                </div>
-
-                                <div className="flex justify-between gap-20">
-                                    <span className="text-gray-500">Email manzil:</span>
-                                    <span>{auth.email}</span>
                                 </div>
                             </div>
 

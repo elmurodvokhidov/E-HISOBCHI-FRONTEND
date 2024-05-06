@@ -7,16 +7,18 @@ import { authFailure, authStart, authSuccess } from '../redux/slices/authSlice';
 import { Toast } from '../config/sweetToast';
 import AuthService from '../config/authService';
 import { getCookie, setCookie } from '../config/cookiesService';
+import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 
 function Login() {
     const { isLoading, isLoggedIn } = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [auth, setAuth] = useState({
-        email: "",
+        phoneNumber: "",
         password: "",
         huru: "",
     });
+    const [showPass, setShowPass] = useState(false);
 
     function getAuthDetails(e) {
         setAuth({
@@ -29,7 +31,7 @@ function Login() {
         e.preventDefault();
         dispatch(authStart());
         try {
-            if (auth.huru !== "" && auth.email !== "" && auth.password !== "") {
+            if (auth.huru !== "" && auth.phoneNumber !== "" && auth.password !== "") {
                 const { huru, ...others } = auth;
                 if (auth.huru === "admin") {
                     const { data } = await AuthService.adminLogin(others);
@@ -104,21 +106,26 @@ function Login() {
                                 <option value="student">O'quvchi</option>
                             </select>
                         </div>
-                        {/* Email Adress */}
-                        <div className="relative">
+
+                        {/* Contact Number */}
+                        <div className="flex flex-col relative">
                             <label
-                                htmlFor="email"
-                                className="absolute text-xs bg-white -top-1.5 left-3">
-                                <span>Email</span>
+                                htmlFor="phoneNumber"
+                                className="absolute text-xs bg-white -top-2 left-3">
+                                <span>Telefon</span>
                                 <span className="text-sm text-cyan-600 ml-1">*</span>
                             </label>
-                            <input
-                                disabled={isLoading ? true : false}
-                                onChange={getAuthDetails}
-                                type="email"
-                                name="email"
-                                id="email"
-                                className="w-full p-2 rounded border-2 outline-cyan-600" />
+                            <div className="flex">
+                                <label htmlFor="phoneNumber" className="text-base border-2 border-r-0 rounded-l px-3 py-2">+998</label>
+                                <input
+                                    disabled={isLoading ? true : false}
+                                    onChange={getAuthDetails}
+                                    type="number"
+                                    name="phoneNumber"
+                                    id="phoneNumber"
+                                    className="w-full border-2 rounded rounded-l-none px-2 py-2 outline-cyan-600"
+                                />
+                            </div>
                         </div>
 
                         {/* Password */}
@@ -132,10 +139,17 @@ function Login() {
                             <input
                                 disabled={isLoading ? true : false}
                                 onChange={getAuthDetails}
-                                type="password"
+                                type={showPass ? "text" : "password"}
                                 name="password"
                                 id="password"
                                 className="w-full p-2 rounded border-2 outline-cyan-600" />
+                            <button
+                                type='button'
+                                onClick={() => setShowPass(!showPass)}
+                                className='absolute top-2.5 right-2.5 text-xl text-gray-500'
+                            >
+                                {showPass ? <IoEyeOffOutline /> : <IoEyeOutline />}
+                            </button>
                         </div>
 
                         {/* Login Button */}

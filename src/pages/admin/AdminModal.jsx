@@ -79,19 +79,6 @@ export default function AdminModal({
                             className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                     </div>
 
-                    {/* Email */}
-                    <div className="flex flex-col">
-                        <label htmlFor="email" className="text-sm">Email</label>
-                        <input
-                            disabled={newAdmin._id ? modals.passModal : false}
-                            onChange={getAuthCred}
-                            value={newAdmin.email}
-                            type="email"
-                            name="email"
-                            id="email"
-                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
-                    </div>
-
                     {/* Date of Birth */}
                     <div className="flex flex-col">
                         <label htmlFor="dob" className="text-sm">Tug'ilgan sana</label>
@@ -107,16 +94,16 @@ export default function AdminModal({
 
                     {/* Contact Number */}
                     <div className="flex flex-col">
-                        <label htmlFor="contactNumber" className="text-sm">Telefon</label>
+                        <label htmlFor="phoneNumber" className="text-sm">Telefon</label>
                         <div className="flex">
-                            <label htmlFor="contactNumber" className="text-base border-2 border-r-0 rounded-l border-gray-300 px-2 py-1">+998</label>
+                            <label htmlFor="phoneNumber" className="text-base border-2 border-r-0 rounded-l border-gray-300 px-2 py-1">+998</label>
                             <input
                                 disabled={newAdmin._id ? modals.passModal : false}
                                 onChange={getAuthCred}
-                                value={newAdmin.contactNumber}
+                                value={newAdmin.phoneNumber}
                                 type="number"
-                                name="contactNumber"
-                                id="contactNumber"
+                                name="phoneNumber"
+                                id="phoneNumber"
                                 className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 outline-cyan-600"
                             />
                         </div>

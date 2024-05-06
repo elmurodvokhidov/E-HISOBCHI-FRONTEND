@@ -21,9 +21,8 @@ export default function TeacherProfile({ teacher, isLoading }) {
     const [newTeacher, setNewTeacher] = useState({
         first_name: "",
         last_name: "",
-        email: "",
         dob: "",
-        contactNumber: "",
+        phoneNumber: "",
         gender: "",
     });
     const [newPass, setNewPass] = useState({
@@ -46,9 +45,8 @@ export default function TeacherProfile({ teacher, isLoading }) {
         setNewTeacher({
             first_name: "",
             last_name: "",
-            email: "",
             dob: "",
-            contactNumber: "",
+            phoneNumber: "",
             gender: "",
         });
         setNewPass({ newPassword: "", confirmPassword: "" });
@@ -100,8 +98,7 @@ export default function TeacherProfile({ teacher, isLoading }) {
             if (
                 newTeacher.first_name !== "" &&
                 newTeacher.last_name !== "" &&
-                newTeacher.email !== "" &&
-                newTeacher.contactNumber !== "" &&
+                newTeacher.phoneNumber !== "" &&
                 newTeacher.dob !== "" &&
                 newTeacher.gender !== ""
             ) {
@@ -165,17 +162,12 @@ export default function TeacherProfile({ teacher, isLoading }) {
 
                                     <div className="flex justify-between gap-20">
                                         <span className="text-gray-500">Telefon:</span>
-                                        <span className="text-blue-300">+{teacher?.contactNumber}</span>
+                                        <span className="text-blue-300">+{teacher?.phoneNumber}</span>
                                     </div>
 
                                     <div className="flex justify-between gap-20">
                                         <span className="text-gray-500">Tug'ilgan kun:</span>
                                         <span>{teacher?.dob}</span>
-                                    </div>
-
-                                    <div className="flex justify-between gap-20">
-                                        <span className="text-gray-500">Email manzil:</span>
-                                        <span>{teacher?.email}</span>
                                     </div>
 
                                     <p className="w-fit px-2 rounded bg-gray-200">{teacher?.gender}</p>

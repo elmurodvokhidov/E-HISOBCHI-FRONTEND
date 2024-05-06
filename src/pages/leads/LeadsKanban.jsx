@@ -15,7 +15,6 @@ export default function LeadsKanban() {
         last_name: "",
         column: "",
         phone: "",
-        email: "",
         dob: "",
     });
     const [modals, setModals] = useState({ modal: false });
@@ -45,7 +44,6 @@ export default function LeadsKanban() {
         setNewLead({
             first_name: "",
             last_name: "",
-            email: "",
             dob: "",
             phone: "",
             column: "",
@@ -65,7 +63,7 @@ export default function LeadsKanban() {
         if (
             newLead.first_name !== "" &&
             newLead.last_name !== "" &&
-            newLead.email !== "" &&
+            newLead.phone !== "" &&
             newLead.column !== ""
         ) {
             try {

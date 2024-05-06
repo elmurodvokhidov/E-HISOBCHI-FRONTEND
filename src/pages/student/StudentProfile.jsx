@@ -33,11 +33,10 @@ function StudentProfile({ student, isLoading, getStudent }) {
         last_name: "",
         father_name: "",
         mother_name: "",
-        email: "",
         dob: "",
-        contactNumber: "",
-        fatherContactNumber: "",
-        motherContactNumber: "",
+        phoneNumber: "",
+        fatherPhoneNumber: "",
+        motherPhoneNumber: "",
         gender: "",
         group: "",
     });
@@ -87,11 +86,10 @@ function StudentProfile({ student, isLoading, getStudent }) {
             last_name: "",
             father_name: "",
             mother_name: "",
-            email: "",
             dob: "",
-            contactNumber: "",
-            fatherContactNumber: "",
-            motherContactNumber: "",
+            phoneNumber: "",
+            fatherPhoneNumber: "",
+            motherPhoneNumber: "",
             gender: "",
             group: "",
         });
@@ -140,7 +138,7 @@ function StudentProfile({ student, isLoading, getStudent }) {
             if (
                 newStudent.first_name !== "" &&
                 newStudent.last_name !== "" &&
-                newStudent.email !== "" &&
+                newStudent.phoneNumber !== "" &&
                 newStudent.group !== ""
             ) {
                 dispatch(studentStart());
@@ -245,17 +243,12 @@ function StudentProfile({ student, isLoading, getStudent }) {
 
                                     <div className="flex justify-between gap-20">
                                         <span className="text-gray-500">Telefon:</span>
-                                        <span className="text-blue-300">+{student?.contactNumber}</span>
+                                        <span className="text-blue-300">+{student?.phoneNumber}</span>
                                     </div>
 
                                     <div className="flex justify-between gap-20">
                                         <span className="text-gray-500">Tug'ilgan kun:</span>
                                         <span>{student?.dob}</span>
-                                    </div>
-
-                                    <div className="flex justify-between gap-20">
-                                        <span className="text-gray-500">Email manzil:</span>
-                                        <span>{student?.email}</span>
                                     </div>
 
                                     <div className="flex items-center justify-between gap-20">
@@ -303,10 +296,10 @@ function StudentProfile({ student, isLoading, getStudent }) {
 
                                                 <div className="flex justify-between">
                                                     <span className="text-gray-500">Telefon:</span>
-                                                    <span style={{ color: student?.fatherContactNumber ? "#93C5FD" : "#6B7280" }}>
+                                                    <span style={{ color: student?.fatherPhoneNumber ? "#93C5FD" : "#6B7280" }}>
                                                         {
-                                                            student?.fatherContactNumber ?
-                                                                `+${student?.fatherContactNumber}` :
+                                                            student?.fatherPhoneNumber ?
+                                                                `+${student?.fatherPhoneNumber}` :
                                                                 <IoRemoveOutline />
                                                         }
                                                     </span>
@@ -325,10 +318,10 @@ function StudentProfile({ student, isLoading, getStudent }) {
 
                                                 <div className="flex justify-between">
                                                     <span className="text-gray-500">Telefon:</span>
-                                                    <span style={{ color: student?.motherContactNumber ? "#93C5FD" : "#6B7280" }}>
+                                                    <span style={{ color: student?.motherPhoneNumber ? "#93C5FD" : "#6B7280" }}>
                                                         {
-                                                            student?.motherContactNumber ?
-                                                                `+${student?.motherContactNumber}` :
+                                                            student?.motherPhoneNumber ?
+                                                                `+${student?.motherPhoneNumber}` :
                                                                 <IoRemoveOutline />
                                                         }
                                                     </span>

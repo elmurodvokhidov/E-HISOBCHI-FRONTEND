@@ -38,11 +38,10 @@ function Students() {
         last_name: "",
         father_name: "",
         mother_name: "",
-        email: "",
         dob: "",
-        contactNumber: "",
-        fatherContactNumber: "",
-        motherContactNumber: "",
+        phoneNumber: "",
+        fatherPhoneNumber: "",
+        motherPhoneNumber: "",
         gender: "",
         group: "",
     });
@@ -100,7 +99,7 @@ function Students() {
             dispatch(courseFailure(error.message));
         }
     };
-    
+
     useEffect(() => {
         getAllStudentsFunction();
         getAllGroupsFunc();
@@ -130,7 +129,7 @@ function Students() {
             if (value === "") return true;
 
             if (key === "searchBy") {
-                return student.first_name.toLowerCase().includes(value.toLowerCase().trim()) || student.last_name.toLowerCase().includes(value.toLowerCase().trim()) || student.contactNumber.toString().includes(value.toString().trim());
+                return student.first_name.toLowerCase().includes(value.toLowerCase().trim()) || student.last_name.toLowerCase().includes(value.toLowerCase().trim()) || student.phoneNumber.toString().includes(value.toString().trim());
             }
 
             if (key === "course") {
@@ -170,7 +169,7 @@ function Students() {
     // Barcha o'quvchilar ma'lumotlarini exel fayli sifatida yuklab olish funksiyasi
     const exportToExcel = () => {
         const fileName = 'students.xlsx';
-        const header = ['First Name', 'Last Name', 'Father Name', 'Mother Name', 'Email', 'Date of Birth', 'Contact Number', 'Father Contact Number', 'Mother Contact Number', 'Gender', 'Group'];
+        const header = ['Ism', 'Familya', 'Otasining ismi', 'Onasining ismi', 'Tug\'ilgan sana', 'Telefon', 'Otasining raqami', 'Onasining raqami', 'Jins', 'Guruh'];
 
         const wb = XLSX.utils.book_new();
         const data = filteredStudents.map(student => [
@@ -178,11 +177,10 @@ function Students() {
             student.last_name || '',
             student.father_name || '',
             student.mother_name || '',
-            student.email || '',
             student.dob || '',
-            (student.contactNumber || '').toString(),
-            (student.fatherContactNumber || '').toString(),
-            (student.motherContactNumber || '').toString(),
+            (student.phoneNumber || '').toString(),
+            (student.fatherPhoneNumber || '').toString(),
+            (student.motherPhoneNumber || '').toString(),
             student.gender || '',
             student.group.name || ''
         ]);
@@ -208,11 +206,10 @@ function Students() {
             last_name: "",
             father_name: "",
             mother_name: "",
-            email: "",
             dob: "",
-            contactNumber: "",
-            fatherContactNumber: "",
-            motherContactNumber: "",
+            phoneNumber: "",
+            fatherPhoneNumber: "",
+            motherPhoneNumber: "",
             gender: "",
             group: "",
         });
@@ -268,7 +265,7 @@ function Students() {
             if (
                 newStudent.first_name !== "" &&
                 newStudent.last_name !== "" &&
-                newStudent.email !== ""
+                newStudent.phoneNumber !== ""
             ) {
                 dispatch(studentStart());
                 try {
@@ -484,11 +481,11 @@ function Students() {
                                         <NavLink to={`/admin/student-info/${student._id}`}>{student.first_name} {student.last_name}</NavLink>
                                     </td>
                                     <td
-                                        onClick={() => handleCopy(student.contactNumber)}
+                                        onClick={() => handleCopy(student.phoneNumber)}
                                         className="w-[180px] flex items-center gap-1 text-left text-sm cursor-pointer text-blue-400">
-                                        {student.contactNumber}
+                                        {student.phoneNumber}
                                         <img
-                                            src={copied === student.contactNumber ? tick : copy}
+                                            src={copied === student.phoneNumber ? tick : copy}
                                             alt="copy svg"
                                             className="cursor-pointer" />
                                     </td>
@@ -559,7 +556,7 @@ function Students() {
                                         </div>
                                     </td>
                                 </tr>
-                            )) : <tr><td>Ma'lumot topilmadi</td></tr>
+                            )) : <tr className="mx-auto my-6"><td>Ma'lumot topilmadi!</td></tr>
                         }
                     </tbody>
                 </table>

@@ -77,20 +77,7 @@ function StudentModal({
                                 className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                         </div>
                     </div>
-
-                    {/* Email */}
-                    <div className="flex flex-col">
-                        <label htmlFor="email" className="text-sm">Email</label>
-                        <input
-                            disabled={newStudent._id ? modals.passModal : false}
-                            onChange={getStudentCred}
-                            value={newStudent.email}
-                            type="email"
-                            name="email"
-                            id="email"
-                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
-                    </div>
-
+                    
                     {/* Date of Birth */}
                     <div className="flex flex-col">
                         <label htmlFor="dob" className="text-sm">Tug'ilgan sana</label>
@@ -104,18 +91,18 @@ function StudentModal({
                             className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                     </div>
 
-                    {/* Contact Number */}
+                    {/* Phone Number */}
                     <div className="flex flex-col">
-                        <label htmlFor="contactNumber" className="text-sm">Telefon</label>
+                        <label htmlFor="phoneNumber" className="text-sm">Telefon</label>
                         <div className="flex">
-                            <label htmlFor="contactNumber" className="text-base border-2 border-r-0 rounded-l border-gray-300 px-2 py-1">+998</label>
+                            <label htmlFor="phoneNumber" className="text-base border-2 border-r-0 rounded-l border-gray-300 px-2 py-1">+998</label>
                             <input
                                 disabled={newStudent._id ? modals.passModal : false}
                                 onChange={getStudentCred}
-                                value={newStudent.contactNumber}
+                                value={newStudent.phoneNumber}
                                 type="number"
-                                name="contactNumber"
-                                id="contactNumber"
+                                name="phoneNumber"
+                                id="phoneNumber"
                                 className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 outline-cyan-600"
                             />
                         </div>
@@ -248,16 +235,16 @@ function StudentModal({
                                         id="father_name"
                                         className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                                 </div>
-                                {/* Father's Contact Number */}
+                                {/* Father's Phone Number */}
                                 <div className="w-full flex flex-col">
-                                    <label htmlFor="fatherContactNumber" className="text-sm">Telefon raqami</label>
+                                    <label htmlFor="fatherPhoneNumber" className="text-sm">Telefon raqami</label>
                                     <input
                                         disabled={newStudent._id ? modals.passModal : false}
                                         onChange={getStudentCred}
-                                        value={newStudent.fatherContactNumber}
+                                        value={newStudent.fatherPhoneNumber}
                                         type="text"
-                                        name="fatherContactNumber"
-                                        id="fatherContactNumber"
+                                        name="fatherPhoneNumber"
+                                        id="fatherPhoneNumber"
                                         className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600"
                                         placeholder="998991234567" />
                                 </div>
@@ -272,15 +259,15 @@ function StudentModal({
                                         id="mother_name"
                                         className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                                 </div>
-                                {/* Mother's Contact Number */}
+                                {/* Mother's Phone Number */}
                                 <div className="w-full flex flex-col">
-                                    <label htmlFor="motherContactNumber" className="text-sm">Telefon raqami</label>
+                                    <label htmlFor="motherPhoneNumber" className="text-sm">Telefon raqami</label>
                                     <input
                                         onChange={getStudentCred}
-                                        value={newStudent.motherContactNumber}
+                                        value={newStudent.motherPhoneNumber}
                                         type="text"
-                                        name="motherContactNumber"
-                                        id="motherContactNumber"
+                                        name="motherPhoneNumber"
+                                        id="motherPhoneNumber"
                                         className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600"
                                         placeholder="998991234567" />
                                 </div>

@@ -219,7 +219,7 @@ function GroupInfo() {
     // Guruhdagi barcha o'quvchilar ma'lumotlarini exel fayli sifatida yuklab olish funksiyasi
     const exportToExcel = () => {
         const fileName = 'group_students.xlsx';
-        const header = ['First Name', 'Last Name', 'Father Name', 'Mother Name', 'Email', 'Date of Birth', 'Contact Number', 'Father Contact Number', 'Mother Contact Number', 'Gender', 'Group'];
+        const header = ['First Name', 'Last Name', 'Father Name', 'Mother Name', 'Date of Birth', 'Contact Number', 'Father Contact Number', 'Mother Contact Number', 'Gender', 'Group'];
 
         const wb = XLSX.utils.book_new();
         const data = group?.students.map(student => [
@@ -227,11 +227,10 @@ function GroupInfo() {
             student.last_name || '',
             student.father_name || '',
             student.mother_name || '',
-            student.email || '',
             student.dob || '',
-            (student.contactNumber || '').toString(),
-            (student.fatherContactNumber || '').toString(),
-            (student.motherContactNumber || '').toString(),
+            (student.phoneNumber || '').toString(),
+            (student.fatherPhoneNumber || '').toString(),
+            (student.motherPhoneNumber || '').toString(),
             student.gender || '',
             student.group.name || ''
         ]);
@@ -344,12 +343,12 @@ function GroupInfo() {
                                                                         }
                                                                         <h1 className="w-48">{student.first_name} {student.last_name}</h1>
                                                                         <h1
-                                                                            onClick={() => handleCopy(student.contactNumber)}
+                                                                            onClick={() => handleCopy(student.phoneNumber)}
                                                                             className="w-28 flex items-center gap-1 cursor-pointer"
                                                                         >
-                                                                            {student.contactNumber}
+                                                                            {student.phoneNumber}
                                                                             <img
-                                                                                src={copied === student.contactNumber ? tick : copy}
+                                                                                src={copied === student.phoneNumber ? tick : copy}
                                                                                 alt="copy svg"
                                                                                 className="size-3" />
                                                                         </h1>

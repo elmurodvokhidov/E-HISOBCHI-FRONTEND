@@ -18,9 +18,8 @@ function Admins() {
     const [newAdmin, setNewAdmin] = useState({
         first_name: "",
         last_name: "",
-        email: "",
         dob: "",
-        contactNumber: "",
+        phoneNumber: "",
         avatar: "",
     });
     const [newPass, setNewPass] = useState({
@@ -56,9 +55,8 @@ function Admins() {
         setNewAdmin({
             first_name: "",
             last_name: "",
-            email: "",
             dob: "",
-            contactNumber: "",
+            phoneNumber: "",
             avatar: "",
         });
         setNewPass({ newPassword: "", confirmPassword: "" });
@@ -75,9 +73,8 @@ function Admins() {
         if (
             newAdmin.first_name !== "" &&
             newAdmin.last_name !== "" &&
-            newAdmin.email !== "" &&
             newAdmin.dob !== "" &&
-            newAdmin.contactNumber !== ""
+            newAdmin.phoneNumber !== ""
         ) {
             if (newPass.newPassword.length >= 8) {
                 try {
@@ -147,8 +144,14 @@ function Admins() {
                                         }
                                     </figure>
                                     <div className="min-w-0 flex-auto">
-                                        <p className="text-sm font-semibold capitalize leading-6 text-gray-900 hover:text-cyan-600 transition-all"><NavLink to={`/admin/admin-info/${admin._id}`}>{admin.first_name} {admin.last_name}</NavLink></p>
-                                        <p className="mt-1 truncate text-xs leading-5 text-gray-500">{admin.email}</p>
+                                        <p className="text-sm font-semibold capitalize leading-6 text-gray-900 hover:text-cyan-600 transition-all">
+                                            <NavLink to={`/admin/admin-info/${admin._id}`}>
+                                                {admin.first_name} {admin.last_name}
+                                            </NavLink>
+                                        </p>
+                                        <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                                            {admin.phoneNumber}
+                                        </p>
                                     </div>
                                 </div>
                                 <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
