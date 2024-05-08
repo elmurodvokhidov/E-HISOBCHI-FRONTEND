@@ -127,6 +127,18 @@ const AuthService = {
         const res = api.delete(`/admin/delete-student-pay/${id}`);
         return res;
     },
+    async createNewCompany(company) {
+        const res = api.post('/admin/create-new-company', company);
+        return res;
+    },
+    async getCompany() {
+        const res = api.get('/admin/get-company');
+        return res;
+    },
+    async updateCompany(company, id) {
+        const res = api.put(`/admin/update-company/${id}`, company);
+        return res;
+    },
 
 
 

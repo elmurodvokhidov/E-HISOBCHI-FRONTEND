@@ -1,11 +1,16 @@
 import { Outlet, useNavigate } from "react-router-dom"
 import Navbar from "../../components/Navbar"
 import AdminSidebar from "./AdminSidebar"
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getCookie } from "../../config/cookiesService";
 import AuthService from "../../config/authService";
 import { useDispatch } from "react-redux";
 import { allStudentSuccess } from "../../redux/slices/studentSlice";
+import {
+    companyFailure,
+    companyStart,
+    companySuccess
+} from "../../redux/slices/companySlice";
 
 function AdminLayout({ modals, handleModal, closeAllModals }) {
     const dispatch = useDispatch();
@@ -29,6 +34,19 @@ function AdminLayout({ modals, handleModal, closeAllModals }) {
             }
         };
 
+        // Mavjud kompaniyani olish funksiyasi
+        const getCompanyFunction = async () => {
+            try {
+                dispatch(companyStart());
+                const { data } = await AuthService.getCompany();
+                dispatch(companySuccess(data));
+            } catch (error) {
+                dispatch(companyFailure(error.response?.data.message));
+                if (!error.success) navigate('/company');
+            }
+        };
+
+        getCompanyFunction();
         caclStudentBalanceFunction();
     }, [navigate]);
 

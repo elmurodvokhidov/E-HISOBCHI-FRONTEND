@@ -221,7 +221,7 @@ function Students() {
             parentsModal: false,
             imageModal: false,
             more: null,
-        })
+        });
     };
 
     // O'quvchini tahrirlash uchun, modal oynani ochish funksiyasi
@@ -303,7 +303,6 @@ function Students() {
                             title: data.message
                         });
                     }
-
                 } catch (error) {
                     dispatch(studentFailure(error.response?.data.message));
                     await ToastLeft.fire({

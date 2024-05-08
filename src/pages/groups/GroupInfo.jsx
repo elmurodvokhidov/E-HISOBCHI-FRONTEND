@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import AuthService from "../../config/authService";
 import {
     getGroupSuccess,
@@ -9,7 +9,7 @@ import {
 import { Toast, ToastLeft } from "../../config/sweetToast";
 import { useDispatch, useSelector } from "react-redux";
 import { GoDotFill, GoHorizontalRule } from "react-icons/go";
-import { IoMdMore } from "react-icons/io";
+import { IoIosArrowRoundForward, IoMdMore } from "react-icons/io";
 import Swal from "sweetalert2";
 import GroupModal from "./GroupModal";
 import {
@@ -58,6 +58,7 @@ function GroupInfo() {
         modal: false,
         // createModal: false,
         more: null,
+        about: null,
     });
     const [copied, setCopied] = useState("");
 
@@ -260,7 +261,7 @@ function GroupInfo() {
                 {
                     group ? <>
                         <main className="w-[410px] flex mt-4">
-                            <div className="w-full shadow-smooth p-6 pb-4 rounded bg-white">
+                            <div className="w-full shadow-md p-6 pb-4 rounded bg-white">
                                 <div className="flex justify-between border-b pb-4">
                                     <div className="flex flex-col gap-4">
                                         <h1 className="w-fit rounded-sm px-2 bg-gray-200">{group.name}</h1>
@@ -274,7 +275,7 @@ function GroupInfo() {
                                         <div className="text-xs">
                                             <div className="flex items-center gap-2">
                                                 <b>Narx:</b>
-                                                <span>{group.course.price} UZS</span>
+                                                <span>{group.course.price.toLocaleString()} UZS</span>
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <b>Vaqt:</b>
@@ -341,7 +342,50 @@ function GroupInfo() {
                                                                                 <GoDotFill className="text-red-600" />
                                                                                 : null
                                                                         }
-                                                                        <h1 className="w-48">{student.first_name} {student.last_name}</h1>
+                                                                        <div
+                                                                            onMouseEnter={() => handleModal("about", student._id)}
+                                                                            onMouseLeave={() => handleModal("about", null)}
+                                                                            className="w-48 relative hover:text-cyan-600 cursor-pointer"
+                                                                        >
+                                                                            <h1 className="w-fit">{student.first_name} {student.last_name}</h1>
+
+                                                                            {
+                                                                                auth?.role === "admin" && modals.about === student._id ? <>
+                                                                                    <div className="w-64 absolute -top-32 -right-44 z-10 text-black border rounded-md p-4 cursor-auto shadow-smooth bg-white before:w-4 before:h-4 before:bg-white before:absolute before:top-[48%] before:rotate-45 before:-left-2 before:border-b before:border-l">
+                                                                                        <div className="border-b pb-4">
+                                                                                            <p className="text-sm">{student.first_name} {student.last_name}</p>
+                                                                                            <p className={`w-fit px-2 py-1 mt-1 rounded-md text-white ${student.balance < 0 ? "bg-red-500" : ""}`}>{student.balance < 0 ? "Qarzdor" : ""}</p>
+                                                                                        </div>
+
+                                                                                        <div className="flex items-center justify-between py-4 border-b">
+                                                                                            <p className="text-gray-500">Telefon:</p>
+                                                                                            <p className="text-blue-500">{student.phoneNumber}</p>
+                                                                                        </div>
+
+                                                                                        <div className="flex items-center justify-between py-4 border-b">
+                                                                                            <p className="text-gray-500">Balans:</p>
+                                                                                            <p>{Math.floor(student.balance).toLocaleString()} UZS</p>
+                                                                                        </div>
+
+                                                                                        <div className="flex items-center justify-between py-4 border-b">
+                                                                                            <p className="text-gray-500">Talaba qo'shilgan sana:</p>
+                                                                                            <p>
+                                                                                                <time dateTime={student.createdAt}>{student.createdAt.slice(0, 10).split("-").reverse().join(".")}</time>
+                                                                                            </p>
+                                                                                        </div>
+
+                                                                                        <div className="flex justify-end pt-4">
+                                                                                            <NavLink
+                                                                                                to={`/admin/student-info/${student._id}`}
+                                                                                                className="flex items-center gap-1 hover:text-cyan-600">
+                                                                                                <span>Profilga o'tish</span>
+                                                                                                <IoIosArrowRoundForward className="text-gray-500" />
+                                                                                            </NavLink>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </> : null
+                                                                            }
+                                                                        </div>
                                                                         <h1
                                                                             onClick={() => handleCopy(student.phoneNumber)}
                                                                             className="w-28 flex items-center gap-1 cursor-pointer"

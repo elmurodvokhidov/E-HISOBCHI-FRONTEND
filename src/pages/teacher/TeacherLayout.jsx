@@ -8,9 +8,7 @@ function TeacherLayout() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!getCookie("x-token") || getCookie("x-auth") !== "teacher") {
-            navigate("/");
-        }
+        if (!getCookie("x-token") || getCookie("x-auth") !== "teacher") navigate("/");
     }, [navigate]);
 
     return (

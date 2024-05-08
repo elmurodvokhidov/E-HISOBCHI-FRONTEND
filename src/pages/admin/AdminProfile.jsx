@@ -129,9 +129,9 @@ function AdminProfile({ auth, isLoading }) {
                 <div className="w-[410px] mt-12">
                     <Skeleton parentWidth={100} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
                 </div> : <>
-                    <div className="w-fit border-2 py-8 px-6 mt-12 rounded shadow-dim">
+                    <div className="w-[410px] border-2 py-8 px-6 mt-12 rounded shadow-dim">
                         <div className="flex relative justify-start">
-                            <div className="flex flex-col gap-4 text-sm">
+                            <div className="w-full flex flex-col gap-4 text-sm">
                                 <div className="flex items-center gap-4">
                                     <figure className={`w-20 h-20 border-4 border-white rounded-[50%] overflow-hidden bg-slate-100 ${!auth ? "bg-gray-300 animate-pulse" : null}`}>
                                         {

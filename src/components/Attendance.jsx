@@ -115,7 +115,7 @@ export default function Attendance({ group, isLoading }) {
                             thirdChildWidth={65}
                         />
                     </div> : <>
-                        <div className="2xsm:w-[900px] 2xl:w-full flex flex-col gap-5 border p-5 bg-white shadow-smooth rounded">
+                        <div className="2xsm:w-[900px] 2xl:w-full flex flex-col gap-5 border p-5 bg-white shadow-md rounded">
                             <h2 className="text-xl">Davomat</h2>
                             <table>
                                 <thead>

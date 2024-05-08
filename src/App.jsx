@@ -21,7 +21,7 @@ import TeacherLayout from "./pages/teacher/TeacherLayout";
 import StudentLayout from "./pages/student/StudentLayout";
 import Courses from "./pages/courses/Courses";
 import Groups from "./pages/groups/Groups";
-import GeneralSettings from "./pages/admin/GeneralSettings";
+import GeneralSettings from "./pages/company/GeneralSettings";
 import Rooms from "./pages/rooms/Rooms";
 import CourseInfo from "./pages/courses/CourseInfo";
 import GroupInfo from "./pages/groups/GroupInfo";
@@ -32,6 +32,7 @@ import Payments from "./pages/Payments";
 import Cost from "./pages/Cost";
 import Salary from "./pages/Salary";
 import Debtors from "./pages/Debtors";
+import Company from "./pages/company/Company";
 
 function App() {
   const dispatch = useDispatch();
@@ -87,6 +88,7 @@ function App() {
       <Routes>
         <Route index element={<Login />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="company" element={<Company />} />
 
         {/* admin routes */}
         <Route path="admin" element={<AdminLayout modals={modals} handleModal={handleModal} closeAllModals={closeAllModals} />}>

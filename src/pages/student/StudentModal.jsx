@@ -305,7 +305,7 @@ function StudentModal({
 
                     {/* Button */}
                     <button
-                        disabled={isLoading ? true : false}
+                        disabled={isLoading}
                         onClick={handleCreateAndUpdate}
                         className="w-fit px-6 py-1 mt-8 bg-cyan-600 rounded-2xl text-white">
                         {isLoading ? "Loading..." : newStudent._id ? "Saqlash" : "Qo'shish"}

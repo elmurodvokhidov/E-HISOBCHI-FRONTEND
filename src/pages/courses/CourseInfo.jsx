@@ -189,7 +189,7 @@ function CourseInfo() {
                                 </div>
                                 <div>
                                     <span className="text-xs text-gray-500">Narx</span>
-                                    <h1 className="text-sm text-black">{course.price} UZS</h1>
+                                    <h1 className="text-sm text-black">{course.price.toLocaleString()} UZS</h1>
                                 </div>
                                 <div>
                                     <span className="text-xs text-gray-500">Kurs davomiyligi</span>

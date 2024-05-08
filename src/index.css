@@ -214,7 +214,7 @@ input[type=number]::-webkit-outer-spin-button {
 #downloadExelBtn:hover::after {
     content: "";
     position: absolute;
-    top: -40%;
+    top: -11px;
     z-index: 15;
     width: 8px;
     height: 8px;
