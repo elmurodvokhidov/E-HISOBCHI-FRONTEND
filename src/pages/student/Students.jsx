@@ -130,11 +130,11 @@ function Students() {
 
             if (key === "searchBy") {
                 return student.first_name.toLowerCase().includes(value.toLowerCase().trim()) || student.last_name.toLowerCase().includes(value.toLowerCase().trim()) || student.phoneNumber.toString().includes(value.toString().trim());
-            }
+            };
 
             if (key === "course") {
                 return student.group.course.title === value;
-            }
+            };
 
             if (key === 'start_date' || key === 'end_date') {
                 const studentStartDate = new Date(student.group.start_date);
@@ -154,7 +154,7 @@ function Students() {
                 else {
                     return true;
                 }
-            }
+            };
 
 
             return student[key] === value;
@@ -255,6 +255,7 @@ function Students() {
                 }
             }
             else {
+                dispatch(studentFailure());
                 await ToastLeft.fire({
                     icon: "error",
                     title: "Parol 8 ta belgidan kam bo'lmasligi kerak!"
@@ -265,6 +266,7 @@ function Students() {
             if (
                 newStudent.first_name !== "" &&
                 newStudent.last_name !== "" &&
+                newStudent.gender !== "" &&
                 newStudent.phoneNumber !== ""
             ) {
                 dispatch(studentStart());
@@ -283,6 +285,7 @@ function Students() {
                                 title: data.message
                             });
                         } else {
+                            dispatch(studentFailure());
                             await ToastLeft.fire({
                                 icon: "error",
                                 title: "Parol 8 ta belgidan kam bo'lmasligi kerak!"
@@ -371,6 +374,7 @@ function Students() {
                 </button>
             </div>
 
+            {/* filters */}
             <div className="flex items-center flex-wrap gap-4 py-5 px-[40px]">
                 {/* Search by */}
                 <input
@@ -447,7 +451,7 @@ function Students() {
 
                 <button
                     onClick={() => setFilters({ searchBy: "", course: "", start_date: "", end_date: "" })}
-                    className="border rounded p-2 text-sm text-gray-700 bg-[#f8f8f8] hover:bg-gray-100 hover:text-gray-500 transition-all"
+                    className="border rounded p-2 text-sm text-gray-700 bg-[#f8f8f8] hover:bg-gray-100 hover:text-gray-500 transition-all outline-cyan-600"
                 >
                     Filterni tiklash
                 </button>

@@ -41,31 +41,6 @@ export default function Debtors() {
         getAllStudentsFunction();
     }, []);
 
-    // Barcha qarzdorlar ma'lumotlarini exel fayli sifatida yuklab olish funksiyasi
-    const exportToExcel = () => {
-        const fileName = 'debtors.xlsx';
-        const header = ['O\'quvchi ismi', 'Telefon', 'Qarz', 'Guruh nomi', 'Kurs nomi', 'O\'qituvchi ismi'];
-
-        const wb = XLSX.utils.book_new();
-        const data = debtors.map(debtor => [
-            debtor.first_name + " " + debtor.last_name || '',
-            debtor.phoneNumber || '',
-            (Math.floor(debtor.balance) || '').toLocaleString(),
-            debtor.group?.name || '',
-            debtor.group?.course?.title || '',
-            debtor.group?.teacher?.first_name + " " +
-            debtor.group?.teacher?.last_name || '',
-        ]);
-        data.unshift(header);
-        const ws = XLSX.utils.aoa_to_sheet(data);
-        const columnWidths = data[0].map((_, colIndex) => ({
-            wch: data.reduce((acc, row) => Math.max(acc, String(row[colIndex]).length), 0)
-        }));
-        ws['!cols'] = columnWidths;
-        XLSX.utils.book_append_sheet(wb, ws, 'Debtors');
-        XLSX.writeFile(wb, fileName);
-    };
-
     // Matnni nusxalash funksiyasi
     const handleCopy = (text) => {
         setCopied(text);
@@ -111,6 +86,31 @@ export default function Debtors() {
             return debtor[key] === value;
         });
     });
+
+    // Barcha qarzdorlar ma'lumotlarini exel fayli sifatida yuklab olish funksiyasi
+    const exportToExcel = () => {
+        const fileName = 'debtors.xlsx';
+        const header = ['O\'quvchi ismi', 'Telefon', 'Qarz', 'Guruh nomi', 'Kurs nomi', 'O\'qituvchi ismi'];
+
+        const wb = XLSX.utils.book_new();
+        const data = filteredDebtors.map(debtor => [
+            debtor.first_name + " " + debtor.last_name || '',
+            debtor.phoneNumber || '',
+            (Math.floor(debtor.balance) || '').toLocaleString(),
+            debtor.group?.name || '',
+            debtor.group?.course?.title || '',
+            debtor.group?.teacher?.first_name + " " +
+            debtor.group?.teacher?.last_name || '',
+        ]);
+        data.unshift(header);
+        const ws = XLSX.utils.aoa_to_sheet(data);
+        const columnWidths = data[0].map((_, colIndex) => ({
+            wch: data.reduce((acc, row) => Math.max(acc, String(row[colIndex]).length), 0)
+        }));
+        ws['!cols'] = columnWidths;
+        XLSX.utils.book_append_sheet(wb, ws, 'Debtors');
+        XLSX.writeFile(wb, fileName);
+    };
 
     return (
         <div className="container !px-0">
@@ -180,8 +180,8 @@ export default function Debtors() {
                 <div className="flex justify-between pb-4 font-semibold text-sm px-4 mt-6">
                     <h4 className="min-w-[200px] text-base">O'quvchi ismi</h4>
                     <h4 className="min-w-[150px] text-base">Telefon</h4>
-                    <h4 className="min-w-[100px] text-sm capitalize">Qarz</h4>
-                    <h4 className="min-w-[150px] text-sm">Guruh</h4>
+                    <h4 className="min-w-[100px] text-base">Qarz</h4>
+                    <h4 className="min-w-[150px] text-base">Guruh</h4>
                 </div>
             </div>
 

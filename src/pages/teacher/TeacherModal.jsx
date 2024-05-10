@@ -53,7 +53,10 @@ function TeacherModal({
                     <div className="flex justify-between gap-4">
                         {/* First Name */}
                         <div className="w-[47%] flex flex-col">
-                            <label htmlFor="first_name" className="text-sm">Ism</label>
+                            <label htmlFor="first_name" className="text-sm">
+                                <span>Ism</span>
+                                <span className="ml-1 text-red-500">*</span>
+                            </label>
                             <input
                                 disabled={newTeacher._id ? modals.passModal : false}
                                 onChange={getTeacherCred}
@@ -66,7 +69,10 @@ function TeacherModal({
 
                         {/* Last Name */}
                         <div className="w-[47%] flex flex-col">
-                            <label htmlFor="last_name" className="text-sm">Familya</label>
+                            <label htmlFor="last_name" className="text-sm">
+                                <span>Familya</span>
+                                <span className="ml-1 text-red-500">*</span>
+                            </label>
                             <input
                                 disabled={newTeacher._id ? modals.passModal : false}
                                 onChange={getTeacherCred}
@@ -93,7 +99,10 @@ function TeacherModal({
 
                     {/* Contact Number */}
                     <div className="flex flex-col">
-                        <label htmlFor="phoneNumber" className="text-sm">Telefon</label>
+                        <label htmlFor="phoneNumber" className="text-sm">
+                            <span>Telefon</span>
+                            <span className="ml-1 text-red-500">*</span>
+                        </label>
                         <div className="flex">
                             <label htmlFor="phoneNumber" className="text-base border-2 border-r-0 rounded-l border-gray-300 px-2 py-1">+998</label>
                             <input
@@ -110,7 +119,10 @@ function TeacherModal({
 
                     {/* Gender */}
                     <div className="w-full">
-                        <p className="text-sm">Gender</p>
+                        <p className="text-sm">
+                            <span>Gender</span>
+                            <span className="ml-1 text-red-500">*</span>
+                        </p>
                         <div className="flex gap-6">
                             <div className="flex items-center gap-1">
                                 <input
@@ -163,7 +175,10 @@ function TeacherModal({
                     {
                         modals.passModal ? <>
                             <div className="flex flex-col">
-                                <label htmlFor="newPassword" className="text-sm">Yangi parol</label>
+                                <label htmlFor="newPassword" className="text-sm">
+                                    <span>Yangi parol</span>
+                                    <span className="ml-1 text-red-500">*</span>
+                                </label>
                                 <input
                                     onChange={getNewPass}
                                     value={newTeacher.newPassword}
@@ -173,7 +188,10 @@ function TeacherModal({
                                     className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
                             </div>
                             <div className="flex flex-col">
-                                <label htmlFor="confirmPassword" className="text-sm">Parolni tasdiqlang</label>
+                                <label htmlFor="confirmPassword" className="text-sm">
+                                    <span>Parolni tasdiqlang</span>
+                                    <span className="ml-1 text-red-500">*</span>
+                                </label>
                                 <input
                                     onChange={getNewPass}
                                     value={newTeacher.confirmPassword}

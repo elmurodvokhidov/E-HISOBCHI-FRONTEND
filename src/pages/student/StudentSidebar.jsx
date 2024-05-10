@@ -10,11 +10,11 @@ function StudentSidebar() {
             {
                 auth &&
                 <NavLink
-                    to={`/student/course-info/${auth.group.course._id}`}
+                    to={`/student/course-info/${auth?.group?.course?._id}`}
                     className="w-32 relative flex flex-col items-center gap-2 py-4 hover:text-cyan-600 transition-all duration-300"
-                    key={auth.group.course._id}>
+                    key={auth?.group?.course?._id}>
                     <SlLayers className="text-3xl" />
-                    <h1 className="text-xs">{auth.group.course.title}</h1>
+                    <h1 className="text-xs">{auth?.group?.course?.title}</h1>
                 </NavLink>
             }
         </div>

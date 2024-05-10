@@ -29,7 +29,7 @@ import TeacherSalary from "./pages/teacher/TeacherSalary";
 import Leads from "./pages/leads/Leads";
 import { getCookie } from "./config/cookiesService";
 import Payments from "./pages/Payments";
-import Cost from "./pages/Cost";
+import Cost from "./pages/cost/Cost";
 import Salary from "./pages/Salary";
 import Debtors from "./pages/Debtors";
 import Company from "./pages/company/Company";
@@ -91,7 +91,11 @@ function App() {
         <Route path="company" element={<Company />} />
 
         {/* admin routes */}
-        <Route path="admin" element={<AdminLayout modals={modals} handleModal={handleModal} closeAllModals={closeAllModals} />}>
+        <Route path="admin" element={<AdminLayout
+          modals={modals}
+          handleModal={handleModal}
+          closeAllModals={closeAllModals}
+        />}>
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="notice" element={<Notice />} />
           <Route path="admins" element={<Admins />} />

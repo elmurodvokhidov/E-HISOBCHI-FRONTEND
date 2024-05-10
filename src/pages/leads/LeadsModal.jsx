@@ -39,7 +39,10 @@ export default function LeadsModal({
                     <div className="flex justify-between">
                         {/* First Name */}
                         <div className="w-[47%] flex flex-col">
-                            <label htmlFor="first_name" className="text-sm">Ism</label>
+                            <label htmlFor="first_name" className="text-sm">
+                                <span>Ism</span>
+                                <span className="ml-1 text-red-500">*</span>
+                            </label>
                             <input
                                 onChange={getLeadsCred}
                                 value={newLead.first_name}
@@ -51,7 +54,10 @@ export default function LeadsModal({
 
                         {/* Last Name */}
                         <div className="w-[47%] flex flex-col">
-                            <label htmlFor="last_name" className="text-sm">Familya</label>
+                            <label htmlFor="last_name" className="text-sm">
+                                <span>Familya</span>
+                                <span className="ml-1 text-red-500">*</span>
+                            </label>
                             <input
                                 onChange={getLeadsCred}
                                 value={newLead.last_name}
@@ -64,7 +70,10 @@ export default function LeadsModal({
 
                     {/* Column */}
                     <div className="flex flex-col">
-                        <label htmlFor="column" className="text-sm">Bo'limni tanglang</label>
+                        <label htmlFor="column" className="text-sm">
+                            <span>Bo'limni tanglang</span>
+                            <span className="ml-1 text-red-500">*</span>
+                        </label>
                         <select
                             onChange={getLeadsCred}
                             value={newLead.column}
@@ -94,7 +103,10 @@ export default function LeadsModal({
 
                     {/* Contact Number */}
                     <div className="flex flex-col">
-                        <label htmlFor="phone" className="text-sm">Telefon</label>
+                        <label htmlFor="phone" className="text-sm">
+                            <span>Telefon</span>
+                            <span className="ml-1 text-red-500">*</span>
+                        </label>
                         <div className="flex">
                             <label htmlFor="phone" className="text-base border-2 border-r-0 rounded-l border-gray-300 px-2 py-1">+998</label>
                             <input

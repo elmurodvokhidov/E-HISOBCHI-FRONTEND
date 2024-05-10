@@ -58,8 +58,8 @@ function Rooms() {
         });
     };
 
-    const updateBtnFunc = (id) => {
-        setNewRoom(rooms.filter(room => room._id === id)[0]);
+    const updateBtnFunc = (room) => {
+        setNewRoom(room);
         handleModal("modal", true);
         handleModal("createModal", false);
     };
@@ -182,7 +182,7 @@ function Rooms() {
                                                 <td>{room.name}</td>
                                                 <td className="flex gap-2">
                                                     <button
-                                                        onClick={() => updateBtnFunc(room._id)}
+                                                        onClick={() => updateBtnFunc(room)}
                                                         className="text-base"
                                                     >
                                                         <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">

@@ -91,6 +91,10 @@ function PaymentModal({
                 });
             }
         } catch (error) {
+            await ToastLeft.fire({
+                icon: "error",
+                title: error.message
+            });
             console.log("Student payment error: " + error);
         }
     };
@@ -140,12 +144,16 @@ function PaymentModal({
 
                     {/* Payment method */}
                     <div className="w-full">
-                        <p className="text-sm">To'lov usuli</p>
+                        <p className="text-sm">
+                            <span>To'lov usuli</span>
+                            <span className="ml-1 text-red-500">*</span>
+                        </p>
                         <div className="flex gap-6">
                             <div className="flex items-center gap-1">
                                 <input
                                     disabled={isLoading}
                                     onChange={getPaymentCred}
+                                    checked={studentPayment.method === "cash"}
                                     value="cash"
                                     type="radio"
                                     name="method"
@@ -158,6 +166,7 @@ function PaymentModal({
                                 <input
                                     disabled={isLoading}
                                     onChange={getPaymentCred}
+                                    checked={studentPayment.method === "card"}
                                     value="card"
                                     type="radio"
                                     name="method"
@@ -170,7 +179,10 @@ function PaymentModal({
 
                     {/* Amount */}
                     <div className="w-full flex flex-col">
-                        <label htmlFor="amount" className="text-sm">Midor</label>
+                        <label htmlFor="amount" className="text-sm">
+                            <span>Midor</span>
+                            <span className="ml-1 text-red-500">*</span>
+                        </label>
                         <input
                             disabled={isLoading}
                             onChange={getPaymentCred}
@@ -183,7 +195,10 @@ function PaymentModal({
 
                     {/* Date */}
                     <div className="flex flex-col">
-                        <label htmlFor="date" className="text-sm">Sana</label>
+                        <label htmlFor="date" className="text-sm">
+                            <span>Sana</span>
+                            <span className="ml-1 text-red-500">*</span>
+                        </label>
                         <input
                             disabled={isLoading}
                             onChange={getPaymentCred}

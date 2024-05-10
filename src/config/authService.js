@@ -139,6 +139,22 @@ const AuthService = {
         const res = api.put(`/admin/update-company/${id}`, company);
         return res;
     },
+    async createNewCost(cost) {
+        const res = api.post('/admin/create-new-cost', cost);
+        return res;
+    },
+    async getAllCost() {
+        const res = api.get('/admin/get-cost');
+        return res;
+    },
+    async updateCost(id, cost) {
+        const res = api.put(`/admin/update-cost/${id}`, cost);
+        return res;
+    },
+    async deleteCost(id) {
+        const res = api.delete(`/admin/delete-cost/${id}`);
+        return res;
+    },
 
 
 
