@@ -24,6 +24,8 @@ import { NavLink } from "react-router-dom";
 import Skeleton from "../components/loaders/Skeleton";
 import * as XLSX from 'xlsx';
 import { MdFileDownload } from "react-icons/md";
+import { IoRemoveOutline } from "react-icons/io5";
+import { DateTime } from "../components/DateTime";
 
 export default function Payments() {
     const { studentPayHistory, isLoading } = useSelector(state => state.studentPayHistory);
@@ -194,9 +196,9 @@ export default function Payments() {
                                     </span>
                                     <span>UZS</span>
                                 </h1>
-                                <span>(2024-04-04</span>
+                                <span>(04.05.2024</span>
                             </div>
-                            <h1 className="flex items-center"><GoHorizontalRule />2024-05-04)</h1>
+                            <h1 className="flex items-center"><GoHorizontalRule />04.06.2024)</h1>
                         </div>
 
                         <CiCoins1 className="text-3xl text-cyan-600 mr-4" />
@@ -212,9 +214,9 @@ export default function Payments() {
                                     </span>
                                     <span>UZS</span>
                                 </h1>
-                                <span>(2024-04-04</span>
+                                <span>(04.05.2024</span>
                             </div>
-                            <h1 className="flex items-center"><GoHorizontalRule />2024-05-04)</h1>
+                            <h1 className="flex items-center"><GoHorizontalRule />04.06.2024)</h1>
                         </div>
 
                         <CiCoins1 className="text-3xl text-cyan-600 mr-4" />
@@ -472,7 +474,7 @@ export default function Payments() {
                                                 key={pay._id}
                                                 className="flex justify-between py-2 border-b border-b-gray-200 last:border-b-0"
                                             >
-                                                <h4 className="min-w-[100px] text-sm">{pay.date}</h4>
+                                                <h4 className="min-w-[100px] text-sm"><DateTime date={pay.date} /></h4>
                                                 <h4 className="min-w-[200px] text-base">
                                                     <NavLink
                                                         to={`/admin/student-info/${pay.studentId?._id}`}
@@ -488,17 +490,26 @@ export default function Payments() {
                                                 </h4>
                                                 <h4 className="min-w-[100px] text-sm capitalize">{pay.method}</h4>
                                                 <h4 className="min-w-[200px] text-base">
-                                                    {pay.studentId?.group?.teacher?.first_name + " "}
-                                                    {pay.studentId?.group?.teacher?.last_name}
+                                                    {
+                                                        pay.studentId?.group?.teacher ?
+                                                            <NavLink className="hover:text-cyan-600 transition-all" to={`/admin/teacher-info/${pay.studentId?.group?.teacher?._id}`}>{pay.studentId?.group?.teacher?.first_name + " " + pay.studentId?.group?.teacher?.last_name}</NavLink> :
+                                                            <IoRemoveOutline />
+                                                    }
                                                 </h4>
                                                 <h4 className="min-w-[100px] text-sm">
-                                                    <span className="bg-gray-200 p-1 rounded">{pay.studentId?.group?.name}</span>
+                                                    {
+                                                        pay.studentId?.group ?
+                                                            <span className="bg-gray-200 p-1 rounded">
+                                                                {pay.studentId?.group?.name}
+                                                            </span> :
+                                                            <IoRemoveOutline />
+                                                    }
                                                 </h4>
                                                 <h4 className="min-w-[400px] text-sm">{pay.description}</h4>
                                             </div>
                                         ))
                                     }
-                                </> : <h1 className="text-base mt-6 text-center">Ma'lumot topilmadi!</h1>
+                                </> : <h1 className="text-base mt-6 text-center">To'lov tarixi bo'sh!</h1>
                         }
                     </div>
                 </div>

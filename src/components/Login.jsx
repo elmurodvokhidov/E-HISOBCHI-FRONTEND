@@ -54,14 +54,14 @@ function Login() {
             }
             else {
                 dispatch(authFailure());
-                await Toast.fire({
+                Toast.fire({
                     icon: "error",
                     title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
                 });
             }
         } catch (error) {
             dispatch(authFailure(error.response?.data.message));
-            await Toast.fire({
+            Toast.fire({
                 icon: "error",
                 title: error.response?.data.message || error.message
             });

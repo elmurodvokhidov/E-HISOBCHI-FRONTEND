@@ -5,7 +5,8 @@ import AuthService from "../../config/authService";
 import AdminModal from "./AdminModal";
 import { useDispatch } from "react-redux";
 import Skeleton from "../../components/loaders/Skeleton";
-import { IoPersonCircleOutline } from "react-icons/io5";
+import { IoPersonCircleOutline, IoRemoveOutline } from "react-icons/io5";
+import { DateTime } from "../../components/DateTime";
 
 function AdminProfile({ auth, isLoading }) {
     const dispatch = useDispatch();
@@ -63,20 +64,20 @@ function AdminProfile({ auth, isLoading }) {
                     const { data } = await AuthService.updateAdminPass({ ...newPass, phoneNumber: auth?.phoneNumber });
                     dispatch(authSuccess(data));
                     clearModal();
-                    await Toast.fire({
+                    Toast.fire({
                         icon: "success",
                         title: data.message
                     });
                 } catch (error) {
                     dispatch(authFailure(error.response?.data.message));
-                    await Toast.fire({
+                    Toast.fire({
                         icon: "error",
                         title: error.response?.data.message || error.message
                     });
                 }
             }
             else {
-                await ToastLeft.fire({
+                ToastLeft.fire({
                     icon: "error",
                     title: "Parol 8 ta belgidan kam bo'lmasligi kerak!"
                 });
@@ -95,20 +96,20 @@ function AdminProfile({ auth, isLoading }) {
                     const { data } = await AuthService.updateAdminProfile(updatedAuth._id, newAuthCred);
                     dispatch(authSuccess(data));
                     clearModal();
-                    await Toast.fire({
+                    Toast.fire({
                         icon: "success",
                         title: data.message
                     });
                 } catch (error) {
                     dispatch(authFailure(error.response.data.error));
-                    await Toast.fire({
+                    Toast.fire({
                         icon: "error",
                         title: error.response.data.error || error.message
                     });
                 }
             }
             else {
-                await ToastLeft.fire({
+                ToastLeft.fire({
                     icon: "error",
                     title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
                 });
@@ -140,17 +141,23 @@ function AdminProfile({ auth, isLoading }) {
                                                 <IoPersonCircleOutline className="w-full h-full text-gray-400" />
                                         }
                                     </figure>
-                                    <h1 className="capitalize text-xl">{auth.first_name} {auth.last_name}</h1>
+                                    <h1 className="capitalize text-xl">{
+                                        auth.first_name + " " + auth.last_name}
+                                    </h1>
                                 </div>
 
                                 <div className="flex justify-between gap-20">
                                     <span className="text-gray-500">Telefon:</span>
-                                    <span className="text-blue-300">+{auth.phoneNumber}</span>
+                                    <span className="text-blue-300">+(998) {auth.phoneNumber}</span>
                                 </div>
 
                                 <div className="flex justify-between gap-20">
                                     <span className="text-gray-500">Tug'ilgan kun:</span>
-                                    <span>{auth.dob}</span>
+                                    {
+                                        auth.dob ?
+                                            <DateTime date={auth.dob} /> :
+                                            <IoRemoveOutline />
+                                    }
                                 </div>
                             </div>
 

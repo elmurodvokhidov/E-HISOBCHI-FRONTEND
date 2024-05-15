@@ -51,13 +51,13 @@ function GeneralSettings() {
             dispatch(companyStart());
             const { data } = await AuthService.updateCompany(companyCred, company._id);
             dispatch(companySuccess(data));
-            await Toast.fire({
+            Toast.fire({
                 icon: "success",
                 title: data.message
             });
         } catch (error) {
             dispatch(companyFailure(error.response?.data.message));
-            await Toast.fire({
+            Toast.fire({
                 icon: "error",
                 title: error.response?.data.message || error.message
             });

@@ -15,14 +15,14 @@ function StudentInfo() {
     const dispatch = useDispatch();
     const { id } = useParams();
 
-    const getStudent = async () => {
+    const getStudentFunction = async () => {
         try {
             dispatch(studentStart());
             const { data } = await AuthService.getStudent(id);
             dispatch(getStudentSuccess(data));
         } catch (error) {
             dispatch(studentFailure(error.response?.data.message));
-            await Toast.fire({
+            Toast.fire({
                 icon: "error",
                 title: error.response?.data.message || error.message,
             });
@@ -30,13 +30,13 @@ function StudentInfo() {
     };
 
     useEffect(() => {
-        getStudent();
+        getStudentFunction();
     }, []);
 
     return <StudentProfile
         student={student}
         isLoading={isLoading}
-        getStudent={getStudent}
+        getStudentFunction={getStudentFunction}
     />
 }
 

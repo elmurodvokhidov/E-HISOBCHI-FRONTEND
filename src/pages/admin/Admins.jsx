@@ -11,6 +11,7 @@ import { Toast, ToastLeft } from "../../config/sweetToast";
 import AdminModal from "./AdminModal";
 import Skeleton from "../../components/loaders/Skeleton";
 import { IoPersonCircleOutline } from "react-icons/io5";
+import { DateTime } from "../../components/DateTime";
 
 function Admins() {
     const { admins, isLoading } = useSelector(state => state.admin);
@@ -82,27 +83,27 @@ function Admins() {
                     const { data } = await AuthService.addNewAdmin({ ...newAdmin, ...newPass });
                     getAllAdminsFunc();
                     clearModal();
-                    await Toast.fire({
+                    Toast.fire({
                         icon: "success",
                         title: data.message
                     });
                 } catch (error) {
                     dispatch(adminFailure(error.response?.data.message));
-                    await ToastLeft.fire({
+                    ToastLeft.fire({
                         icon: "error",
                         title: error.response?.data.message || error.message
                     });
                 }
             }
             else {
-                await ToastLeft.fire({
+                ToastLeft.fire({
                     icon: "error",
                     title: "Parol 8 ta belgidan kam bo'lmasligi kerak!"
                 });
             }
         }
         else {
-            await ToastLeft.fire({
+            ToastLeft.fire({
                 icon: "error",
                 title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
             });
@@ -156,7 +157,9 @@ function Admins() {
                                 </div>
                                 <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
                                     <p className="text-sm leading-6 text-gray-900">Adminstartor</p>
-                                    <p className="mt-1 text-xs leading-5 text-gray-500">Create at <time dateTime={admin.createdAt}>{admin.createdAt.slice(0, 10).split("-").reverse().join(".")}</time></p>
+                                    <p className="mt-1 text-xs leading-5 text-gray-500">
+                                        Create at <DateTime date={admin.createdAt} />
+                                    </p>
                                 </div>
                             </li>
                         )) :

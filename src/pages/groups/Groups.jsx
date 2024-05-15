@@ -31,6 +31,7 @@ import { GoHorizontalRule } from "react-icons/go";
 import * as XLSX from 'xlsx';
 import { MdFileDownload } from "react-icons/md";
 import { days } from "../../config/days";
+import { DateTime } from "../../components/DateTime";
 
 function Groups() {
     const { groups, isLoading } = useSelector(state => state.group);
@@ -157,16 +158,6 @@ function Groups() {
         });
     });
 
-    // Tasodifiy ranglarni generatsiya qiladigan funksiya
-    function getRandomColor() {
-        const letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-    };
-
     const handleModal = (modalName, value) => {
         setModals(prevState => ({ ...prevState, [modalName]: value }));
     };
@@ -191,17 +182,6 @@ function Groups() {
     const openModal = (group) => {
         setNewGroup(group);
         handleModal("modal", true);
-    };
-
-    // Guruh tugash sanasini kurs davomiyligiga ko'ra hisoblash
-    const selectedCourse = courses.find(course => course._id === newGroup.course);
-    const startDate = new Date(newGroup.start_date);
-    let endDate = null;
-    if (newGroup.start_date !== "" && selectedCourse) {
-        const endMonth = startDate.getMonth() + selectedCourse.course_duration;
-        const endYear = startDate.getFullYear() + Math.floor(endMonth / 12);
-        const endDay = new Date(endYear, endMonth % 12, startDate.getDate());
-        endDate = `${endYear}-${(endMonth % 12 + 1).toString().padStart(2, '0')}-${endDay.getDate().toString().padStart(2, '0')}`;
     };
 
     // Barcha guruh ma'lumotlarini exel fayli sifatida yuklab olish funksiyasi
@@ -245,34 +225,34 @@ function Groups() {
             try {
                 dispatch(groupStart());
                 if (!newGroup._id) {
-                    const { data } = await AuthService.addNewGroup({ ...newGroup, end_date: endDate, color: getRandomColor() });
+                    const { data } = await AuthService.addNewGroup(newGroup);
                     getAllGroupsFunc();
                     clearModal();
-                    await Toast.fire({
+                    Toast.fire({
                         icon: "success",
                         title: data.message
                     });
                 } else {
-                    const { _id, __v, color, students, createdAt, updatedAt, ...updatedGroupCred } = newGroup;
+                    const { _id, __v, end_time, students, createdAt, updatedAt, ...updatedGroupCred } = newGroup;
                     const { data } = await AuthService.updateGroup(newGroup._id, updatedGroupCred);
                     dispatch(getGroupSuccess(data));
                     getAllGroupsFunc();
                     clearModal();
-                    await Toast.fire({
+                    Toast.fire({
                         icon: "success",
                         title: data.message
                     });
                 }
             } catch (error) {
                 dispatch(groupFailure(error.response?.data.message));
-                await ToastLeft.fire({
+                ToastLeft.fire({
                     icon: "error",
                     title: error.response?.data.message || error.message
                 });
             }
         }
         else {
-            await ToastLeft.fire({
+            ToastLeft.fire({
                 icon: "error",
                 title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
             });
@@ -462,7 +442,7 @@ function Groups() {
                 </button>
             </div>
 
-            <div className="overflow-x-auto px-[40px]">
+            <div className="min-h-[200px] overflow-x-auto px-[40px] pb-[70px]">
                 <table className="w-full mt-4">
                     <thead>
                         <tr className="font-semibold text-xs flex justify-between text-left px-4">
@@ -472,7 +452,7 @@ function Groups() {
                             <th className="w-[130px] text-left">Kunlar</th>
                             <th className="w-[130px] text-left">Sanalar</th>
                             <th className="w-[100px] text-left">Xonalar</th>
-                            <th className="w-[80px] text-left">Talabalar</th>
+                            <th className="w-[80px] text-center">Talabalar</th>
                             <th className="w-[80px] text-center">Amallar</th>
                         </tr>
                     </thead>
@@ -501,10 +481,10 @@ function Groups() {
                                     <td className="w-[130px] text-left text-xs">
                                         <div>
                                             <h1 className="flex items-center gap-1">
-                                                {group.start_date}
+                                                <DateTime date={group.start_date} />
                                                 <GoHorizontalRule />
                                             </h1>
-                                            <h1>{group.end_date}</h1>
+                                            <DateTime date={group.end_date} />
                                         </div>
                                     </td>
                                     <td className="w-[100px] text-left text-xs">{group.room.name}</td>
@@ -542,7 +522,7 @@ function Groups() {
                                         </div>
                                     </td>
                                 </tr>
-                            )) : <tr className="mx-auto my-6"><td>Ma'lumot topilmadi</td></tr>
+                            )) : <tr className="mx-auto my-6"><td>Guruh mavjud emas!</td></tr>
                         }
                     </tbody>
                 </table>

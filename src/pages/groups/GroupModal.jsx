@@ -83,7 +83,9 @@ function GroupModal({
                             <option value="" className="italic">None</option>
                             {
                                 teachers.map(teacher => (
-                                    <option value={teacher._id} key={teacher._id}>{teacher.first_name} {teacher.last_name}</option>
+                                    <option value={teacher._id} key={teacher._id}>
+                                        {teacher.first_name + " " + teacher.last_name}
+                                    </option>
                                 ))
                             }
                         </select>

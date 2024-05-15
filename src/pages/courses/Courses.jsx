@@ -87,20 +87,20 @@ function Courses() {
                 const { data } = await AuthService.addNewCourse({ ...newCourse, color: getRandomColor() });
                 getAllCourses();
                 clearModal();
-                await Toast.fire({
+                Toast.fire({
                     icon: "success",
                     title: data.message
                 });
             } catch (error) {
                 dispatch(courseFailure(error.response?.data.message));
-                await ToastLeft.fire({
+                ToastLeft.fire({
                     icon: "error",
                     title: error.response?.data.message || error.message
                 });
             }
         }
         else {
-            await ToastLeft.fire({
+            ToastLeft.fire({
                 icon: "error",
                 title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
             });

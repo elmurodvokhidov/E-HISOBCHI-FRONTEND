@@ -27,6 +27,9 @@ import {
 import tick from "../../assets/icons/tick.svg";
 import copy from "../../assets/icons/copy.svg";
 import * as XLSX from 'xlsx';
+import { DateTime } from "../../components/DateTime";
+import { RxEnvelopeClosed } from "react-icons/rx";
+import { IoRemoveOutline } from "react-icons/io5";
 
 function Students() {
     const { students, isLoading } = useSelector(state => state.student);
@@ -66,6 +69,7 @@ function Students() {
     const [copied, setCopied] = useState("");
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
+    const [checkedStudentsList, setCheckedStudentsList] = useState([]);
 
     // Barcha o'quvchilarni olish
     const getAllStudentsFunction = async () => {
@@ -133,7 +137,7 @@ function Students() {
             };
 
             if (key === "course") {
-                return student.group.course.title === value;
+                return student?.group?.course?.title === value;
             };
 
             if (key === 'start_date' || key === 'end_date') {
@@ -242,13 +246,13 @@ function Students() {
                     const { data } = await AuthService.updateStudentPass({ ...newPass, _id: newStudent._id });
                     dispatch(getStudentSuccess(data));
                     clearModal();
-                    await Toast.fire({
+                    Toast.fire({
                         icon: "success",
                         title: data.message
                     });
                 } catch (error) {
                     dispatch(studentFailure(error.response?.data.message));
-                    await ToastLeft.fire({
+                    ToastLeft.fire({
                         icon: "error",
                         title: error.response?.data.message || error.message
                     });
@@ -256,7 +260,7 @@ function Students() {
             }
             else {
                 dispatch(studentFailure());
-                await ToastLeft.fire({
+                ToastLeft.fire({
                     icon: "error",
                     title: "Parol 8 ta belgidan kam bo'lmasligi kerak!"
                 });
@@ -275,18 +279,16 @@ function Students() {
                     if (!newStudent._id) {
                         if (newPass.newPassword.length >= 8) {
                             const { data } = await AuthService.addNewStudent({ ...newStudent, ...newPass });
-                            const res = await AuthService.getCurrentDate();
-                            const today = res.data.today;
-                            await AuthService.caclStudentBalance({ today });
+                            await AuthService.caclStudentBalance();
                             getAllStudentsFunction();
                             clearModal();
-                            await Toast.fire({
+                            Toast.fire({
                                 icon: "success",
                                 title: data.message
                             });
                         } else {
                             dispatch(studentFailure());
-                            await ToastLeft.fire({
+                            ToastLeft.fire({
                                 icon: "error",
                                 title: "Parol 8 ta belgidan kam bo'lmasligi kerak!"
                             });
@@ -295,27 +297,25 @@ function Students() {
                         // o'quvchi ma'lumotlarini o'zgartirish
                         const { _id, __v, password, createdAt, updatedAt, ...newStudentCred } = newStudent;
                         const { data } = await AuthService.updateStudent(newStudent._id, newStudentCred);
-                        const res = await AuthService.getCurrentDate();
-                        const today = res.data.today;
-                        await AuthService.caclStudentBalance({ today });
+                        await AuthService.caclStudentBalance();
                         dispatch(getStudentSuccess(data));
                         getAllStudentsFunction();
                         clearModal();
-                        await Toast.fire({
+                        Toast.fire({
                             icon: "success",
                             title: data.message
                         });
                     }
                 } catch (error) {
                     dispatch(studentFailure(error.response?.data.message));
-                    await ToastLeft.fire({
+                    ToastLeft.fire({
                         icon: "error",
                         title: error.response?.data.message || error.message
                     });
                 }
             }
             else {
-                await ToastLeft.fire({
+                ToastLeft.fire({
                     icon: "error",
                     title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
                 });
@@ -352,6 +352,65 @@ function Students() {
                 });
             }
         });
+    };
+
+    // O'chirilishi kerak bo'lgan o'quvchilarni belgilash funksiyasi
+    const settingDeletionStudents = (id) => {
+        // Agar berilgan id allaqachon ro'yhatda bo'lsa, u holda uni ro'yhatda o'chirish
+        if (checkedStudentsList.includes(id)) {
+            setCheckedStudentsList(prevList => prevList.filter(studentId => studentId !== id));
+        } else {
+            // Agar berilgan id ro'yhatda bo'lmasa, u holda uni ro'yhatga qo'shish
+            setCheckedStudentsList(prevList => [...prevList, id]);
+        }
+    };
+
+    // Bir nechta o'quvchilarni bir vaqtni o'zida o'chirish funksiyasi
+    const deleteManyStudents = async (e) => {
+        e.preventDefault();
+        if (filteredStudents.length > 0) {
+            if (checkedStudentsList.length > 0) {
+                Swal.fire({
+                    title: "Ishonchingiz komilmi?",
+                    text: "Buni qaytara olmaysiz!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    cancelButtonText: "Yo'q",
+                    confirmButtonText: "Ha, albatta!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        dispatch(studentStart());
+                        AuthService.deleteManyStudent(checkedStudentsList).then((res) => {
+                            getAllStudentsFunction();
+                            Toast.fire({
+                                icon: "success",
+                                title: res?.data.message
+                            });
+                        }).catch((error) => {
+                            dispatch(studentFailure(error.response?.data.message));
+                            ToastLeft.fire({
+                                icon: "error",
+                                title: error.response?.data.message || error.message
+                            });
+                        });
+                    }
+                });
+            }
+            else {
+                Toast.fire({
+                    icon: "error",
+                    title: "O'chirish uchun o'quvchi tanlanmadi!"
+                });
+            }
+        }
+        else {
+            Toast.fire({
+                icon: "error",
+                title: "O'quvchi mavjud emas!"
+            });
+        }
     };
 
     return (
@@ -457,17 +516,45 @@ function Students() {
                 </button>
             </div>
 
-            <div className="max-h-[600px] overflow-auto pb-2 px-[40px]">
+            <div className="max-h-[600px] min-h-[200px] overflow-auto pb-16 px-[40px]">
                 <table className="w-full mt-4">
                     <thead className="sticky top-0 bg-[#f8f8f8] z-[1]">
                         <tr className="font-semibold text-xs flex text-left px-4 py-2">
+                            <th className="w-fit mr-4">
+                                <input
+                                    disabled={filteredStudents.length === 0}
+                                    checked={filteredStudents.length > 0 && filteredStudents.every(student => checkedStudentsList.includes(student._id))}
+                                    onChange={(e) => {
+                                        if (e.target.checked) {
+                                            // Agar input belgilansa, barcha idlarni ro'yxatga saqlash
+                                            setCheckedStudentsList(filteredStudents.map(student => student._id));
+                                        } else {
+                                            // Agar input belgilanmagan bo'lsa, ro'yxatni tozalash
+                                            setCheckedStudentsList([]);
+                                        }
+                                    }}
+                                    type="checkbox"
+                                    className="align-middle"
+                                />
+                            </th>
                             <th className="w-[300px] text-left">Ism</th>
                             <th className="w-[180px] text-left">Telefon</th>
                             <th className="w-[200px] text-left">Guruhlar</th>
                             <th className="w-[180px] text-left">O'qituvchilar</th>
                             <th className="w-[200px] text-left">Mashg'ulotlar sanalari</th>
                             <th className="w-[120px] text-left">Balans</th>
-                            <th className="w-[80px] text-center">Amallar</th>
+                            <th className="w-[80px] text-center">
+                                <div className="flex items-center gap-4">
+                                    <button className="size-6 flex items-center justify-center text-sm border rounded-full text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
+                                        <RxEnvelopeClosed />
+                                    </button>
+                                    <button onClick={deleteManyStudents} className="size-6 flex items-center justify-center text-sm border rounded-full text-red-600 border-red-600 hover:bg-red-600 hover:text-white transition-all duration-300">
+                                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </th>
                         </tr>
                     </thead>
                     <tbody className="grid grid-cols-1 2xsm:gap-4 py-4">
@@ -480,6 +567,14 @@ function Students() {
                         </> : pageStudents.length > 0 ?
                             pageStudents.map((student, index) => (
                                 <tr key={index} className="2xsm:w-full flex items-center capitalize text-sm border rounded-lg px-4 py-3 shadow-sm hover:shadow-md transition-all">
+                                    <td className="w-fit mr-4">
+                                        <input
+                                            checked={checkedStudentsList.includes(student._id)}
+                                            onChange={() => settingDeletionStudents(student._id)}
+                                            type="checkbox"
+                                            className="align-middle"
+                                        />
+                                    </td>
                                     <td className="w-[300px] text-left text-base hover:text-cyan-600">
                                         <NavLink to={`/admin/student-info/${student._id}`}>{student.first_name} {student.last_name}</NavLink>
                                     </td>
@@ -517,13 +612,17 @@ function Students() {
                                         }
                                     </td>
                                     <td className="w-[200px] text-left text-xs">
-                                        <div>
-                                            <h1 className="flex items-center gap-1">
-                                                {student.group?.start_date}
-                                                <GoHorizontalRule />
-                                            </h1>
-                                            <h1>{student.group?.end_date}</h1>
-                                        </div>
+                                        {
+                                            student?.group ?
+                                                <div>
+                                                    <h1 className="flex items-center gap-1">
+                                                        <DateTime date={student.group?.start_date} />
+                                                        <GoHorizontalRule />
+                                                    </h1>
+                                                    <DateTime date={student.group?.end_date} />
+                                                </div> :
+                                                <IoRemoveOutline />
+                                        }
                                     </td>
                                     <td className="w-[120px] text-left text-xs">
                                         {Math.floor(student.balance).toLocaleString()} UZS
@@ -559,7 +658,7 @@ function Students() {
                                         </div>
                                     </td>
                                 </tr>
-                            )) : <tr className="mx-auto my-6"><td>Ma'lumot topilmadi!</td></tr>
+                            )) : <tr className="mx-auto my-6"><td>O'quvchi mavjud emas!</td></tr>
                         }
                     </tbody>
                 </table>

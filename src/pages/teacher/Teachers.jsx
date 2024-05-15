@@ -95,20 +95,20 @@ function Teachers() {
                     const { data } = await AuthService.updateTeacherPass({ ...newPass, phoneNumber: newTeacher.phoneNumber });
                     dispatch(getTeacherSuccess(data));
                     clearModal();
-                    await Toast.fire({
+                    Toast.fire({
                         icon: "success",
                         title: data.message
                     });
                 } catch (error) {
                     dispatch(teacherFailure(error.response?.data.message));
-                    await ToastLeft.fire({
+                    ToastLeft.fire({
                         icon: "error",
                         title: error.response?.data.message || error.message
                     });
                 }
             }
             else {
-                await ToastLeft.fire({
+                ToastLeft.fire({
                     icon: "error",
                     title: "Parol 8 ta belgidan kam bo'lmasligi kerak!"
                 });
@@ -119,7 +119,6 @@ function Teachers() {
                 newTeacher.first_name !== "" &&
                 newTeacher.last_name !== "" &&
                 newTeacher.phoneNumber !== "" &&
-                newTeacher.dob !== "" &&
                 newTeacher.gender !== ""
             ) {
                 dispatch(teacherStart());
@@ -130,12 +129,12 @@ function Teachers() {
                             const { data } = await AuthService.addNewTeacher({ ...newTeacher, ...newPass });
                             getAllTeachersFunc();
                             clearModal();
-                            await Toast.fire({
+                            Toast.fire({
                                 icon: "success",
                                 title: data.message
                             });
                         } else {
-                            await ToastLeft.fire({
+                            ToastLeft.fire({
                                 icon: "error",
                                 title: "Parol 8 ta belgidan kam bo'lmasligi kerak!"
                             });
@@ -147,7 +146,7 @@ function Teachers() {
                         dispatch(getTeacherSuccess(data));
                         getAllTeachersFunc();
                         clearModal();
-                        await Toast.fire({
+                        Toast.fire({
                             icon: "success",
                             title: data.message
                         });
@@ -155,14 +154,14 @@ function Teachers() {
 
                 } catch (error) {
                     dispatch(teacherFailure(error.response?.data.message));
-                    await ToastLeft.fire({
+                    ToastLeft.fire({
                         icon: "error",
                         title: error.response?.data.message || error.message
                     });
                 }
             }
             else {
-                await ToastLeft.fire({
+                ToastLeft.fire({
                     icon: "error",
                     title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
                 });

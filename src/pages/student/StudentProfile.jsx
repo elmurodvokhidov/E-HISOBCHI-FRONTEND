@@ -23,8 +23,9 @@ import { getCookie } from "../../config/cookiesService";
 import { MdOutlinePrint } from "react-icons/md";
 import { IoMdMore } from "react-icons/io";
 import Swal from "sweetalert2";
+import { DateTime } from "../../components/DateTime";
 
-function StudentProfile({ student, isLoading, getStudent }) {
+function StudentProfile({ student, isLoading, getStudentFunction }) {
     const { auth } = useSelector(state => state.auth);
     const { groups } = useSelector(state => state.group);
     const dispatch = useDispatch();
@@ -115,20 +116,20 @@ function StudentProfile({ student, isLoading, getStudent }) {
                     const { data } = await AuthService.updateStudentPass({ ...newPass, _id: newStudent._id });
                     dispatch(getStudentSuccess(data));
                     clearModal();
-                    await Toast.fire({
+                    Toast.fire({
                         icon: "success",
                         title: data.message
                     });
                 } catch (error) {
                     dispatch(studentFailure(error.response?.data.message));
-                    await ToastLeft.fire({
+                    ToastLeft.fire({
                         icon: "error",
                         title: error.response?.data.message || error.message
                     });
                 }
             }
             else {
-                await ToastLeft.fire({
+                ToastLeft.fire({
                     icon: "error",
                     title: "Parol 8 ta belgidan kam bo'lmasligi kerak!"
                 });
@@ -146,22 +147,24 @@ function StudentProfile({ student, isLoading, getStudent }) {
                     // o'quvchi ma'lumotlarini o'zgartirish
                     const { _id, __v, password, createdAt, updatedAt, ...newStudentCred } = newStudent;
                     const { data } = await AuthService.updateStudent(newStudent._id, newStudentCred);
+                    await AuthService.caclStudentBalance();
                     dispatch(getStudentSuccess(data));
+                    getStudentFunction();
                     clearModal();
-                    await Toast.fire({
+                    Toast.fire({
                         icon: "success",
                         title: data.message
                     });
                 } catch (error) {
                     dispatch(studentFailure(error.response?.data.message));
-                    await ToastLeft.fire({
+                    ToastLeft.fire({
                         icon: "error",
                         title: error.response?.data.message || error.message
                     });
                 }
             }
             else {
-                await ToastLeft.fire({
+                ToastLeft.fire({
                     icon: "error",
                     title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
                 });
@@ -183,7 +186,7 @@ function StudentProfile({ student, isLoading, getStudent }) {
         }).then((result) => {
             if (result.isConfirmed) {
                 AuthService.deleteStudentPay(id).then((res) => {
-                    getStudent();
+                    getStudentFunction();
                     clearModal();
                     Toast.fire({
                         icon: "success",
@@ -243,12 +246,16 @@ function StudentProfile({ student, isLoading, getStudent }) {
 
                                     <div className="flex justify-between gap-20">
                                         <span className="text-gray-500">Telefon:</span>
-                                        <span className="text-blue-300">+{student?.phoneNumber}</span>
+                                        <span className="text-blue-300">+(998) {student?.phoneNumber}</span>
                                     </div>
 
                                     <div className="flex justify-between gap-20">
                                         <span className="text-gray-500">Tug'ilgan kun:</span>
-                                        <span>{student?.dob}</span>
+                                        {
+                                            student?.dob ?
+                                                <DateTime date={student?.dob} /> :
+                                                <IoRemoveOutline />
+                                        }
                                     </div>
 
                                     <div className="flex items-center justify-between gap-20">
@@ -299,7 +306,7 @@ function StudentProfile({ student, isLoading, getStudent }) {
                                                     <span style={{ color: student?.fatherPhoneNumber ? "#93C5FD" : "#6B7280" }}>
                                                         {
                                                             student?.fatherPhoneNumber ?
-                                                                `+${student?.fatherPhoneNumber}` :
+                                                                `+(998) ${student?.fatherPhoneNumber}` :
                                                                 <IoRemoveOutline />
                                                         }
                                                     </span>
@@ -321,7 +328,7 @@ function StudentProfile({ student, isLoading, getStudent }) {
                                                     <span style={{ color: student?.motherPhoneNumber ? "#93C5FD" : "#6B7280" }}>
                                                         {
                                                             student?.motherPhoneNumber ?
-                                                                `+${student?.motherPhoneNumber}` :
+                                                                `+(998) ${student?.motherPhoneNumber}` :
                                                                 <IoRemoveOutline />
                                                         }
                                                     </span>
@@ -337,7 +344,7 @@ function StudentProfile({ student, isLoading, getStudent }) {
                                             <button
                                                 disabled={isLoading}
                                                 onClick={openModal}
-                                                className="w-8 h-8 flex items-center justify-center text-lg border rounded-full text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
+                                                className="size-8 flex items-center justify-center text-lg border rounded-full text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
                                                 <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
                                                 </svg>
@@ -351,6 +358,7 @@ function StudentProfile({ student, isLoading, getStudent }) {
                 }
 
                 <div className="lg:w-2/3 2xsm:w-full">
+                    {/* Guruhlar */}
                     <div className="lg:mt-0 2xsm:mt-8">
                         <h1 className="text-gray-500 text-base border-b-2 pb-2">Guruhlar</h1>
 
@@ -370,10 +378,10 @@ function StudentProfile({ student, isLoading, getStudent }) {
                                                         </h2>
                                                         <div className="text-xs text-gray-500">
                                                             <h1 className="flex items-center gap-1">
-                                                                {student?.group.start_date}
+                                                                <DateTime date={student?.group.start_date} />
                                                                 <span className="inline-block align-middle w-4 border border-gray-300"></span>
                                                             </h1>
-                                                            <h1>{student?.group.end_date}</h1>
+                                                            <DateTime date={student?.group.end_date} />
                                                         </div>
                                                         <div className="text-xs text-gray-500">
                                                             <h1>{days.find(day => day.value === student?.group.day)?.title}</h1>
@@ -382,13 +390,15 @@ function StudentProfile({ student, isLoading, getStudent }) {
                                                     </div>
                                                 </div>
                                             </NavLink>
-                                            : <h1>Ma'lumot topilmadi!</h1>
+                                            : <h1>Guruh mavjud emas!</h1>
                                     }
                                 </>
                             }
                         </div>
                     </div>
 
+
+                    {/* To'lovlar */}
                     {
                         !isLoading &&
                             student?.payment_history.length > 0 ? <>
@@ -408,7 +418,7 @@ function StudentProfile({ student, isLoading, getStudent }) {
                                                     className="studentPayHistory flex lg:gap-4 p-2 rounded odd:bg-gray-100"
                                                 >
                                                     <h1 className="min-w-[150px] text-sm">
-                                                        {pay.date}
+                                                        <DateTime date={pay.date} />
                                                     </h1>
                                                     <h1 className="min-w-[200px] text-base text-green-500">
                                                         <span>+</span>

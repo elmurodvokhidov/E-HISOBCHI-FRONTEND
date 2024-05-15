@@ -60,13 +60,13 @@ export default function Company() {
             dispatch(companySuccess(data));
             navigate('/admin/dashboard')
             clearInput();
-            await Toast.fire({
+            Toast.fire({
                 icon: "success",
                 title: data.message
             });
         } catch (error) {
             dispatch(companyFailure(error.response?.data.message));
-            await Toast.fire({
+            Toast.fire({
                 icon: "error",
                 title: error.response?.data.message || error.message
             });

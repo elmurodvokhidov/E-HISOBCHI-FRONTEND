@@ -155,6 +155,18 @@ const AuthService = {
         const res = api.delete(`/admin/delete-cost/${id}`);
         return res;
     },
+    async setAllTeacherSalaryPer(percent) {
+        const res = api.put('/admin/update-all-teachers-salary-per', percent);
+        return res;
+    },
+    async setTeacherSalaryPer(id, salaryPer) {
+        const res = api.put(`/admin/update-teacher-salary-per/${id}`, { salaryPer });
+        return res;
+    },
+    async deleteManyStudent(list) {
+        const res = api.delete('/admin/delete-many-students', { data: { studentIds: list } });
+        return res;
+    },
 
 
 

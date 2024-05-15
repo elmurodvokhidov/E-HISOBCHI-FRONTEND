@@ -4,7 +4,7 @@ import AdminSidebar from "./AdminSidebar"
 import { useEffect } from "react";
 import { getCookie } from "../../config/cookiesService";
 import AuthService from "../../config/authService";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { allStudentSuccess } from "../../redux/slices/studentSlice";
 import {
     companyFailure,
@@ -13,6 +13,7 @@ import {
 } from "../../redux/slices/companySlice";
 
 function AdminLayout({ modals, handleModal, closeAllModals }) {
+    const { students } = useSelector(state => state.student);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -24,9 +25,7 @@ function AdminLayout({ modals, handleModal, closeAllModals }) {
         // O'quvchi balansini hisoblash funksiyasi
         async function caclStudentBalanceFunction() {
             try {
-                const res = await AuthService.getCurrentDate();
-                const today = res.data.today;
-                await AuthService.caclStudentBalance({ today });
+                await AuthService.caclStudentBalance();
                 const { data } = await AuthService.getAllStudents();
                 dispatch(allStudentSuccess(data));
             } catch (error) {
@@ -46,9 +45,9 @@ function AdminLayout({ modals, handleModal, closeAllModals }) {
             }
         };
 
+        if (students.length > 0) caclStudentBalanceFunction();
         getCompanyFunction();
-        caclStudentBalanceFunction();
-    }, [navigate]);
+    }, [navigate, students.length]);
 
     return (
         <div className="w-full h-screen overflow-hidden">

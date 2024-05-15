@@ -71,7 +71,7 @@ export default function LeadsKanban() {
                     const { data } = await AuthService.addNewLead(newLead);
                     getAllLeadFunction();
                     clearModal();
-                    await Toast.fire({
+                    Toast.fire({
                         icon: "success",
                         title: data?.message
                     });
@@ -81,21 +81,21 @@ export default function LeadsKanban() {
                     const { data } = await AuthService.updateLead(newLead._id, newLeadCred);
                     getAllLeadFunction();
                     clearModal();
-                    await Toast.fire({
+                    Toast.fire({
                         icon: "success",
                         title: data?.message
                     });
                 }
             } catch (error) {
                 dispatch(leadFailure(error.response?.data.message));
-                await ToastLeft.fire({
+                ToastLeft.fire({
                     icon: "error",
                     title: error.response?.data.message || error.message
                 });
             }
         }
         else {
-            await ToastLeft.fire({
+            ToastLeft.fire({
                 icon: "error",
                 title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
             });

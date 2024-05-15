@@ -28,7 +28,7 @@ function PaymentModal({
             dispatch(getStudentSuccess(data));
         } catch (error) {
             dispatch(studentFailure(error.response?.data.message));
-            await Toast.fire({
+            Toast.fire({
                 icon: "error",
                 title: error.response?.data.message || error.message,
             });
@@ -78,20 +78,20 @@ function PaymentModal({
                 const { data } = await AuthService.payForStudent(studentPayment);
                 getStudent();
                 clearModal();
-                await Toast.fire({
+                Toast.fire({
                     icon: "success",
                     title: data.message
                 });
                 setIsLoading(false);
             }
             else {
-                await ToastLeft.fire({
+                ToastLeft.fire({
                     icon: "error",
                     title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
                 });
             }
         } catch (error) {
-            await ToastLeft.fire({
+            ToastLeft.fire({
                 icon: "error",
                 title: error.message
             });

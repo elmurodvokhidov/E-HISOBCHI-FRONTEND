@@ -48,7 +48,7 @@ function CourseInfo() {
             dispatch(getCourseSuccess(data));
         } catch (error) {
             dispatch(courseFailure(error.response?.data.message));
-            await Toast.fire({
+            Toast.fire({
                 icon: "error",
                 title: error.response?.data.message || error.message,
             });
@@ -95,20 +95,20 @@ function CourseInfo() {
                 // dispatch(getCourseSuccess(data));
                 getCourse();
                 clearModal();
-                await Toast.fire({
+                Toast.fire({
                     icon: "success",
                     title: data.message
                 });
             } catch (error) {
                 dispatch(courseFailure(error.response?.data.error));
-                await ToastLeft.fire({
+                ToastLeft.fire({
                     icon: "error",
                     title: error.response?.data.error || error.message
                 });
             }
         }
         else {
-            await ToastLeft.fire({
+            ToastLeft.fire({
                 icon: "error",
                 title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
             });

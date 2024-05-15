@@ -9,6 +9,7 @@ import Skeleton from "../../components/loaders/Skeleton";
 import Swal from "sweetalert2";
 import { Toast, ToastLeft } from "../../config/sweetToast";
 import * as XLSX from 'xlsx';
+import { DateTime } from "../../components/DateTime";
 
 export default function Cost() {
     const { costs, isLoading } = useSelector(state => state.cost);
@@ -22,7 +23,7 @@ export default function Cost() {
         author: "",
     });
     const [modals, setModals] = useState({
-        modal: false,
+        costModal: false,
     });
     const [filters, setFilters] = useState({
         searchBy: "",
@@ -166,7 +167,7 @@ export default function Cost() {
 
     const updateBtnFunc = (cost) => {
         setNewCost(cost);
-        handleModal("modal", true);
+        handleModal("costModal", true);
     };
 
     return (
@@ -177,7 +178,7 @@ export default function Cost() {
                         <h1 className="capitalize text-2xl">Xarajatlar</h1>
                     </div>
                     <button
-                        onClick={() => handleModal("modal", true)}
+                        onClick={() => handleModal("costModal", true)}
                         className="global_add_btn 2xsm:w-full 2xsm:mt-4 2xsm:py-2 sm:w-fit sm:mt-0 sm:py-0">
                         Yangisini qo'shish
                     </button>
@@ -303,12 +304,9 @@ export default function Cost() {
                                     <div
                                         key={cost._id}
                                         className="flex items-center justify-between p-4 rounded-md shadow-md hover:shadow-smooth transition-all bg-white">
-                                        <time
-                                            dateTime={cost.date}
-                                            className="min-w-[150px] text-base"
-                                        >
-                                            {cost.date.slice(0, 10).split("-").reverse().join(".")}
-                                        </time>
+                                        <p className="min-w-[150px] text-base">
+                                            <DateTime date={cost.date} />
+                                        </p>
                                         <p className="min-w-[250px] text-base">
                                             {cost.name}
                                         </p>

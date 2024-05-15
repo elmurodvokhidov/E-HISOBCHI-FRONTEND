@@ -24,7 +24,7 @@ const TimelineChart = () => {
                                     new Date(group.start_date).getTime(),
                                     new Date(group.end_date).getTime()
                                 ],
-                                fillColor: group.color
+                                fillColor: group.course.color
                             }
                         ]
                     };

@@ -1,15 +1,16 @@
 import { FaChalkboardTeacher } from "react-icons/fa";
-import { MdLibraryBooks, MdOutlineAdminPanelSettings } from "react-icons/md";
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { PiHandCoinsLight, PiStudent } from "react-icons/pi";
 import { BsExclamationTriangle, BsPerson } from "react-icons/bs";
 import { Link, NavLink } from "react-router-dom";
-import { IoMdSettings } from "react-icons/io";
 import { ImBooks } from "react-icons/im";
 import { AiOutlineAppstore } from "react-icons/ai";
 import { HiOutlineCurrencyDollar } from "react-icons/hi";
 import { CiCoins1 } from "react-icons/ci";
 import { LiaChartPieSolid } from "react-icons/lia";
+import { IoSettingsOutline } from "react-icons/io5";
+import { SlLayers } from "react-icons/sl";
 
 
 function AdminSidebar({ modals, handleModal, closeAllModals }) {
@@ -45,7 +46,7 @@ function AdminSidebar({ modals, handleModal, closeAllModals }) {
                         to="groups"
                         onClick={closeAllModals}
                         className="cell relative text-gray-500 border-b-2 py-4 md:px-6 2xsm:px-4 flex flex-col items-center">
-                        <MdLibraryBooks className="md:text-3xl 2xsm:text-2xl" />
+                        <SlLayers className="md:text-3xl 2xsm:text-2xl" />
                         <h1 className="md:text-sm 2xsm:text-xs">Guruhlar</h1>
                     </NavLink>
 
@@ -83,7 +84,7 @@ function AdminSidebar({ modals, handleModal, closeAllModals }) {
                             handleModal("financeModal", false);
                         }}
                         className="cell relative text-gray-500 border-b-2 py-4 md:px-6 2xsm:px-4 flex flex-col items-center cursor-pointer">
-                        <IoMdSettings className="md:text-3xl 2xsm:text-2xl" />
+                        <IoSettingsOutline className="md:text-3xl 2xsm:text-2xl" />
                         <h1 className="md:text-sm 2xsm:text-xs">Sozlamalar</h1>
                     </div>
                 </div>
@@ -153,7 +154,7 @@ function AdminSidebar({ modals, handleModal, closeAllModals }) {
                         onClick={closeAllModals}
                         to="settings"
                         className="relative text-gray-500 py-4 md:px-6 2xsm:px-4 flex justify-start gap-4">
-                        <IoMdSettings className="text-xl" />
+                        <IoSettingsOutline className="text-xl" />
                         <h1 className="md:text-sm 2xsm:text-xs">Umumiy sozlamalar</h1>
                     </Link>
                 </div>

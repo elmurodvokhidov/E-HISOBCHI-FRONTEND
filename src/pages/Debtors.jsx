@@ -238,7 +238,7 @@ export default function Debtors() {
                                     </div>
                                 ))
                             }
-                        </> : <h1 className="text-base mt-6 text-center">Ma'lumot topilmadi!</h1>
+                        </> : <h1 className="text-base mt-6 text-center">Qarzdorlar mavjud emas!</h1>
                 }
             </div>
 

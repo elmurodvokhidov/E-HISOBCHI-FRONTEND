@@ -73,7 +73,7 @@ function Rooms() {
                     const { data } = await AuthService.addNewRoom(newRoom);
                     clearModal();
                     getAllRoomsFunc();
-                    await Toast.fire({
+                    Toast.fire({
                         icon: "success",
                         title: data.message
                     });
@@ -83,21 +83,21 @@ function Rooms() {
                     const { data } = await AuthService.updateRoom(newRoom._id, newRoomCred);
                     clearModal();
                     getAllRoomsFunc();
-                    await Toast.fire({
+                    Toast.fire({
                         icon: "success",
                         title: data.message
                     });
                 }
             } catch (error) {
                 dispatch(roomFailure(error.response?.data.message));
-                await ToastLeft.fire({
+                ToastLeft.fire({
                     icon: "error",
                     title: error.response?.data.message || error.message
                 });
             }
         }
         else {
-            await ToastLeft.fire({
+            ToastLeft.fire({
                 icon: "error",
                 title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
             });

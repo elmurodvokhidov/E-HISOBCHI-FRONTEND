@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom"
 import { adminFailure, adminStart, getAdminSuccess } from "../../redux/slices/adminSlice";
 import AuthService from "../../config/authService";
 import Skeleton from "../../components/loaders/Skeleton";
+import { DateTime } from "../../components/DateTime";
 
 function AdminInfo() {
     const { admin } = useSelector(state => state.admin);
@@ -18,7 +19,7 @@ function AdminInfo() {
                 dispatch(getAdminSuccess(data));
             } catch (error) {
                 dispatch(adminFailure(error.response?.data.message));
-                await Toast.fire({
+                Toast.fire({
                     icon: "error",
                     title: error.response?.data.message || error.message,
                 });
@@ -48,11 +49,11 @@ function AdminInfo() {
                             </div>
                             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                 <dt className="text-sm font-medium leading-6 text-gray-900">Date of birthday</dt>
-                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{admin.dob}</dd>
+                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><DateTime date={admin.dob} /></dd>
                             </div>
                             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                 <dt className="text-sm font-medium leading-6 text-gray-900">Contact number</dt>
-                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">+{admin.phoneNumber}</dd>
+                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">+(998) {admin.phoneNumber}</dd>
                             </div>
                             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                 <dt className="text-sm font-medium leading-6 text-gray-900">About</dt>

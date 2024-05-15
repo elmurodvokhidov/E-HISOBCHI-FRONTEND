@@ -16,21 +16,21 @@ export default function TeacherInfo() {
     const { id } = useParams();
 
     useEffect(() => {
-        const getTeacherFunc = async () => {
+        const getTeacherFunction = async () => {
             try {
                 dispatch(teacherStart());
                 const { data } = await AuthService.getTeacher(id);
                 dispatch(getTeacherSuccess(data));
             } catch (error) {
                 dispatch(teacherFailure(error.response?.data.message));
-                await Toast.fire({
+                Toast.fire({
                     icon: "error",
                     title: error.response?.data.message || error.message,
                 });
             }
         };
 
-        getTeacherFunc();
+        getTeacherFunction();
     }, []);
 
     return <TeacherProfile teacher={teacher} isLoading={isLoading} />

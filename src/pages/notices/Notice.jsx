@@ -12,6 +12,7 @@ import {
 import { Toast, ToastLeft } from "../../config/sweetToast";
 import NoticeModal from "./NoticeModal";
 import Swal from "sweetalert2";
+import { DateTime } from "../../components/DateTime";
 
 function Notice() {
     const { notices, isLoading } = useSelector(state => state.notice);
@@ -81,7 +82,7 @@ function Notice() {
                     const { data } = await AuthService.addNewNotice({ ...newNotice, userId: auth?._id });
                     getAllNoticesFunc();
                     clearModal();
-                    await Toast.fire({
+                    Toast.fire({
                         icon: "success",
                         title: data.message
                     });
@@ -91,21 +92,21 @@ function Notice() {
                     dispatch(getNoticeSuccess(data));
                     getAllNoticesFunc();
                     clearModal();
-                    await Toast.fire({
+                    Toast.fire({
                         icon: "success",
                         title: data.message
                     });
                 }
             } catch (error) {
                 dispatch(noticeFailure(error.response?.data.error));
-                await ToastLeft.fire({
+                ToastLeft.fire({
                     icon: "error",
                     title: error.response?.data.error || error.message
                 });
             }
         }
         else {
-            await ToastLeft.fire({
+            ToastLeft.fire({
                 icon: "error",
                 title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
             });
@@ -266,7 +267,11 @@ function Notice() {
                                         <p className="text-gray-600 mb-4">{notice.content}</p>
                                         <div className="flex justify-between items-center text-gray-500">
                                             <p className="text-sm">{notice.from}</p>
-                                            <p className="text-sm">{notice.createdAt < notice.updatedAt ? notice.updatedAt.slice(0, 10).split("-").reverse().join(".") : notice.createdAt.slice(0, 10).split("-").reverse().join(".")}</p>
+                                            <p className="text-sm">
+                                                {notice.createdAt < notice.updatedAt ?
+                                                    <DateTime date={notice.updatedAt} /> :
+                                                    <DateTime date={notice.createdAt} />}
+                                            </p>
                                         </div>
                                     </div>
                                 )) : <h1>Ma'lumot topilmadi</h1>

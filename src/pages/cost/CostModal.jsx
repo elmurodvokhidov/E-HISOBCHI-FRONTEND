@@ -24,8 +24,9 @@ export default function CostModal({
             amount: "",
             method: "",
             author: "",
+            date: "",
         });
-        handleModal("modal", false);
+        handleModal("costModal", false);
     };
 
     // Inputdan ma'lumot olish
@@ -52,7 +53,7 @@ export default function CostModal({
         };
 
         getCurrentDateFunction();
-    }, [newCost.date]);
+    }, [newCost.date === ""]);
 
     // Yangi xarajat qo'shish funksiyasi
     const createAndUpdateHandle = async (e) => {
@@ -64,7 +65,7 @@ export default function CostModal({
                 const { data } = await AuthService.createNewCost({ ...newCost, author: auth?._id });
                 getAllCostFunction();
                 clearModal();
-                await Toast.fire({
+                Toast.fire({
                     icon: "success",
                     title: data?.message
                 });
@@ -73,14 +74,14 @@ export default function CostModal({
                 const { data } = await AuthService.updateCost(newCost._id, { ...newCost, author: auth?._id });
                 getAllCostFunction();
                 clearModal();
-                await Toast.fire({
+                Toast.fire({
                     icon: "success",
                     title: data?.message
                 });
             }
         } catch (error) {
             dispatch(costFailure(error.response?.data.message || error.message));
-            await ToastLeft.fire({
+            ToastLeft.fire({
                 icon: "error",
                 title: error.response?.data.message || error.message
             });
@@ -91,11 +92,11 @@ export default function CostModal({
         <div
             onClick={() => clearModal()}
             className="w-full h-screen fixed top-0 left-0 z-20"
-            style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modals.modal ? "1" : "0", zIndex: modals.modal ? "20" : "-1" }}>
+            style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modals.costModal ? "1" : "0", zIndex: modals.costModal ? "20" : "-1" }}>
             <form
                 onClick={(e) => e.stopPropagation()}
                 className="w-[27%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white"
-                style={{ right: modals.modal ? "0" : "-200%" }}>
+                style={{ right: modals.costModal ? "0" : "-200%" }}>
 
                 {/* Title and Close button */}
                 <div className="flex justify-between text-xl p-5 border-b-2">
