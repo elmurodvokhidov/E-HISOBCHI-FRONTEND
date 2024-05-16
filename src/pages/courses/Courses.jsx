@@ -139,7 +139,7 @@ function Courses() {
                                     </div>
                                     <div className="flex flex-col gap-4 p-8">
                                         <h1 className="text-base text-black">{course.title}</h1>
-                                        <h1 className="text-sm text-gray-500">{course.price} UZS</h1>
+                                        <h1 className="text-sm text-gray-500">{course.price.toLocaleString()} UZS</h1>
                                     </div>
                                 </div>
                             )) : <h1>Ma'lumot topilmadi!</h1>

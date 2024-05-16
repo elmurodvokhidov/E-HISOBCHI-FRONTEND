@@ -15,6 +15,7 @@ import Skeleton from "../../components/loaders/Skeleton";
 import { GoHorizontalRule } from "react-icons/go";
 import { days } from "../../config/days";
 import { getCookie } from "../../config/cookiesService";
+import { DateTime } from "../../components/DateTime";
 
 function CourseInfo() {
     const { auth } = useSelector(state => state.auth);
@@ -222,10 +223,10 @@ function CourseInfo() {
                                                         <h2 className="text-sm transition-all duration-300">{group.teacher?.first_name} {group.teacher?.last_name}</h2>
                                                         <div className="text-xs text-gray-500">
                                                             <h1 className="flex items-center gap-1">
-                                                                {group.start_date}
+                                                                <DateTime date={group.start_date} />
                                                                 <GoHorizontalRule />
                                                             </h1>
-                                                            <h1>{group.end_date}</h1>
+                                                            <DateTime date={group.end_date} />
                                                         </div>
                                                         <div className="text-xs text-gray-500">
                                                             <h1>{days.find(day => day.value === group.day)?.title}</h1>

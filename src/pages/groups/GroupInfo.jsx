@@ -380,7 +380,7 @@ function GroupInfo() {
 
                                                                 <div className="flex items-center justify-between py-4 border-b">
                                                                     <p className="text-gray-500">Talaba qo'shilgan sana:</p>
-                                                                    <DateTime date={student.createdAt} />
+                                                                    <DateTime date={student.join_date} />
                                                                 </div>
 
                                                                 <div className="flex justify-end pt-4">
