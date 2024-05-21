@@ -114,7 +114,7 @@ function Navbar({ modals, handleModal }) {
                     <div
                         onClick={() => setModal(false)}
                         className="fixed top-0 left-0 bottom-0 right-0">
-                        <div className="w-40 flex flex-col items-start justify-start absolute z-10 top-16 right-10 text-black text-xs rounded border border-gray-300 bg-white">
+                        <div className="w-40 flex flex-col items-start justify-start absolute z-10 sm:top-16 2xsm:top-12 right-10 text-black text-xs rounded border border-gray-300 bg-white">
                             <Link
                                 to="profile"
                                 className="w-full p-4 border-b border-gray-300 hover:bg-gray-100">Hisob qaydnomasi</Link>

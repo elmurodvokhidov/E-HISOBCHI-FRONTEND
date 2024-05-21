@@ -5,6 +5,7 @@ import { MdCheck, MdClose, MdSkipNext, MdSkipPrevious } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import Skeleton from "./loaders/Skeleton";
 import { getCookie } from "../config/cookiesService";
+import { Toast } from "../config/sweetToast";
 
 export default function Attendance({ group, isLoading }) {
     const [today, setToday] = useState(null);
@@ -51,7 +52,29 @@ export default function Attendance({ group, isLoading }) {
     const handleCheckboxChange = async (student, date, present) => {
         try {
             setLoadingCell({ student, date });
-            await AuthService.checkAttendance({ student, date, present }, group._id);
+
+            // First, try to calculate the teacher's salary
+            try {
+                await AuthService.calcTeacherSalary(student, date);
+            } catch (error) {
+                console.log(error.response?.data.message || error.message);
+                // Toast.fire({
+                //     icon: "error",
+                //     title: error.response?.data.message || error.message
+                // });
+            }
+
+            // Then, update the attendance record
+            try {
+                await AuthService.checkAttendance({ student, date, present }, group._id);
+            } catch (error) {
+                Toast.fire({
+                    icon: "error",
+                    title: "Davomatni yangilab bo'lmadi!"
+                });
+            }
+
+            // Fetch updated attendance data
             getAllAttendanceFunction();
         } catch (error) {
             console.log(error);
@@ -59,6 +82,7 @@ export default function Attendance({ group, isLoading }) {
             setLoadingCell(null);
         }
     };
+
 
     // Handle delete attendance
     const deleteAtdFunction = async (student, date) => {
@@ -82,8 +106,8 @@ export default function Attendance({ group, isLoading }) {
         ) : (
             <button
                 disabled={getCookie("x-auth") === "admin" ? today < date : today !== date}
-                onClick={() => deleteAtdFunction(id, date)}
-                className={`w-4 h-4 flex items-center justify-center cursor-pointer m-auto text-white text-sm rounded disabled:bg-zinc-100 disabled:border-gray-300 ${attendance.some(attendanceRecord => attendanceRecord?.student?._id === id && attendanceRecord.date.slice(0, 10) === date && attendanceRecord.present === "was") ? 'bg-green-500' : attendance.some(attendanceRecord => attendanceRecord.student?._id === id && attendanceRecord.date.slice(0, 10) === date && attendanceRecord.present === "not") ? 'bg-red-500' : 'border border-gray-500'}`}
+                // onClick={() => deleteAtdFunction(id, date)}
+                className={`w-4 h-4 flex items-center justify-center cursor-pointer m-auto text-white text-sm rounded disabled:opacity-20 ${attendance.some(attendanceRecord => attendanceRecord?.student?._id === id && attendanceRecord.date.slice(0, 10) === date && attendanceRecord.present === "was") ? 'bg-green-500' : attendance.some(attendanceRecord => attendanceRecord.student?._id === id && attendanceRecord.date.slice(0, 10) === date && attendanceRecord.present === "not") ? 'bg-red-500' : 'border border-gray-500'}`}
             >
                 {
                     attendance.some(attendanceRecord => attendanceRecord.student?._id === id && attendanceRecord.date.slice(0, 10) === date && attendanceRecord.present === "was") ? <MdCheck /> : attendance.some(attendanceRecord => attendanceRecord.student?._id === id && attendanceRecord.date.slice(0, 10) === date && attendanceRecord.present === "not") ? <MdClose /> : ""
@@ -131,12 +155,7 @@ export default function Attendance({ group, isLoading }) {
                                         group.students.map(student => (
                                             <tr className="border-y last:border-b-0 [&>*]:py-2" key={student._id}>
                                                 <td className="w-52 text-left text-sm">
-                                                    <NavLink
-                                                        to={`/${getCookie("x-auth")}/student-info/${student._id}`}
-                                                        className="hover:text-cyan-600"
-                                                    >
-                                                        {student.first_name} {student.last_name}
-                                                    </NavLink>
+                                                    {student.first_name} {student.last_name}
                                                 </td>
                                                 {currentDates.map(date => (
                                                     <td

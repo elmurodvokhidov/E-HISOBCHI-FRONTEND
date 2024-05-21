@@ -17,8 +17,9 @@ import { getCookie } from "../../config/cookiesService";
 import { DateTime } from "../../components/DateTime";
 import CostModal from "../cost/CostModal";
 import { costFailure, costStart, costSuccess } from "../../redux/slices/costSlice";
+import Swal from "sweetalert2";
 
-export default function TeacherProfile({ teacher, isLoading }) {
+export default function TeacherProfile({ teacher, isLoading, getTeacherFunction }) {
     const { auth } = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const [newTeacher, setNewTeacher] = useState({
@@ -49,28 +50,15 @@ export default function TeacherProfile({ teacher, isLoading }) {
         author: "",
     });
 
-    // Barcha xarajatlar ro'yhatini olish funksiyasi
-    const getAllCostFunction = async () => {
-        try {
-            dispatch(costStart());
-            const { data } = await AuthService.getAllCost();
-            dispatch(costSuccess(data));
-        } catch (error) {
-            dispatch(costFailure(error.response?.data.message || error.message));
-        }
-    };
-
-    useEffect(() => {
-        getAllCostFunction();
-    }, []);
-
     useEffect(() => {
         setNewCost({
             ...newCost,
+            name: "Oylik maosh",
             receiver: teacher?.first_name + " " + teacher?.last_name,
-            amount: teacher?.balance,
+            amount: Math.round(teacher?.balance) || 0,
+            type: teacher?._id,
         });
-    }, [newCost.receiver === ""]);
+    }, [newCost.receiver === "", teacher]);
 
     const handleModal = (modalName, value) => {
         setModals(prevState => ({ ...prevState, [modalName]: value }));
@@ -176,6 +164,42 @@ export default function TeacherProfile({ teacher, isLoading }) {
         }
     };
 
+    // Xarajatni o'chirish funksiyasi
+    const handleDeleteFunc = async (id) => {
+        Swal.fire({
+            title: "Ishonchingiz komilmi?",
+            text: "Buni qaytara olmaysiz!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Yo'q",
+            confirmButtonText: "Ha, albatta!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(costStart());
+                AuthService.deleteCost(id).then((res) => {
+                    getTeacherFunction();
+                    Toast.fire({
+                        icon: "success",
+                        title: res?.data.message
+                    });
+                }).catch((error) => {
+                    dispatch(costFailure(error.response?.data.message));
+                    ToastLeft.fire({
+                        icon: "error",
+                        title: error.response?.data.message || error.message
+                    });
+                });
+            }
+        });
+    };
+
+    const updateBtnFunc = (cost) => {
+        setNewCost(cost);
+        handleModal("costModal", true);
+    };
+
     return (
         <div className="w-full h-screen overflow-auto pt-24 px-10">
             {/* <div className="flex justify-between border-b-2 pb-16 relative">
@@ -188,7 +212,7 @@ export default function TeacherProfile({ teacher, isLoading }) {
                     <div className="w-[410px]">
                         <Skeleton parentWidth={100} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
                     </div> : <>
-                        <div className="md:w-[440px] border-2 py-8 px-6 rounded shadow-dim">
+                        <div className="md:min-w-[440px] h-fit border-2 py-8 px-6 rounded shadow-dim">
                             <div className="flex relative justify-start gap-10">
                                 <div className="w-full flex flex-col gap-4 text-sm">
                                     <div className="flex items-center gap-4">
@@ -208,9 +232,9 @@ export default function TeacherProfile({ teacher, isLoading }) {
                                                 {teacher?.first_name + " " + teacher?.last_name}
                                             </h1>
                                             {
-                                                auth?.role === "admin" || auth?.role === "student" ?
+                                                auth?.role === "admin" || auth?.role === "teacher" ?
                                                     <h1 className={`${teacher?.balance > 0 ? 'bg-green-700' : teacher?.balance < 0 ? 'bg-red-700' : 'bg-gray-500'} w-fit text-xs text-white px-3 py-px rounded-xl`}>
-                                                        {Math.floor(teacher?.balance).toLocaleString()} UZS
+                                                        {Math.round(teacher?.balance).toLocaleString()} UZS
                                                     </h1>
                                                     : null
                                             }
@@ -265,52 +289,109 @@ export default function TeacherProfile({ teacher, isLoading }) {
                     </>
                 }
 
-                {/* Guruh haqida ma'lumot */}
-                <div className="xl:mt-0 2xsm:mt-8">
-                    <h1 className="text-xl">Guruhlar</h1>
-                    <div className="flex flex-col gap-4 mt-2">
-                        {
-                            isLoading || !teacher ? <>
-                                <h1>Loading...</h1>
-                            </> : <>
-                                {
-                                    teacher?.groups.length > 0 ?
-                                        teacher?.groups.map((group, index) => (
-                                            <NavLink to={`/${getCookie("x-auth")}/group-info/${group._id}`} key={index}>
-                                                <div className="courseCard flex gap-28 w-50% p-5 cursor-pointer bg-white shadow-smooth">
-                                                    <div className="flex flex-col text-xs">
-                                                        <h1 className="w-fit text-[10px] rounded px-2 py-1 bg-gray-200">{group.name}</h1>
-                                                        {/* Problem fixed... */}
-                                                        <h1>{group.course?.title}</h1>
-                                                    </div>
-                                                    <div className="flex items-center gap-10">
-                                                        <div className="flex flex-col">
-                                                            <div className="text-xs text-gray-500">
-                                                                <h1 className="flex items-center gap-1">
-                                                                    <DateTime date={group.start_date} />
-                                                                    <IoRemoveOutline />
-                                                                </h1>
-                                                                <DateTime date={group.end_date} />
-                                                            </div>
-                                                            <div className="flex items-center gap-1 text-xs text-gray-500">
-                                                                <h1>{days.find(day => day.value === group.day)?.title}</h1>
-                                                                <span><GoDotFill fontSize={8} /></span>
-                                                                <h1>{group.start_time}</h1>
-                                                            </div>
+                <div className="lg:w-2/3 2xsm:w-full">
+                    {/* Guruh haqida ma'lumot */}
+                    <div className="xl:mt-0 2xsm:mt-8">
+                        <h1 className="text-xl">Guruhlar</h1>
+                        <div className="flex flex-wrap gap-8 mt-2">
+                            {
+                                isLoading || !teacher ? <>
+                                    <h1>Loading...</h1>
+                                </> : <>
+                                    {
+                                        teacher?.groups.length > 0 ?
+                                            teacher?.groups.map((group, index) => (
+                                                <NavLink to={`/${getCookie("x-auth")}/group-info/${group._id}`} key={index}>
+                                                    <div className="courseCard flex gap-28 w-50% p-5 cursor-pointer bg-white shadow-smooth">
+                                                        <div className="flex flex-col text-xs">
+                                                            <h1 className="w-fit text-[10px] rounded px-2 py-1 bg-gray-200">{group.name}</h1>
+                                                            {/* Problem fixed... */}
+                                                            <h1>{group.course?.title}</h1>
                                                         </div>
-                                                        <h1 className="w-4 text-center text-xs text-white rounded bg-cyan-600">{group.students?.length}</h1>
+                                                        <div className="flex items-center gap-10">
+                                                            <div className="flex flex-col">
+                                                                <div className="text-xs text-gray-500">
+                                                                    <h1 className="flex items-center gap-1">
+                                                                        <DateTime date={group.start_date} />
+                                                                        <IoRemoveOutline />
+                                                                    </h1>
+                                                                    <DateTime date={group.end_date} />
+                                                                </div>
+                                                                <div className="flex items-center gap-1 text-xs text-gray-500">
+                                                                    <h1>{days.find(day => day.value === group.day)?.title}</h1>
+                                                                    <span><GoDotFill fontSize={8} /></span>
+                                                                    <h1>{group.start_time}</h1>
+                                                                </div>
+                                                            </div>
+                                                            <h1 className="w-4 text-center text-xs text-white rounded bg-cyan-600">{group.students?.length}</h1>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </NavLink>
-                                        )) : <h1>Guruh mavjud emas!</h1>
-                                }
-                            </>
-                        }
+                                                </NavLink>
+                                            )) : <h1>Guruh mavjud emas!</h1>
+                                    }
+                                </>
+                            }
+                        </div>
                     </div>
-                </div>
 
-                {/* Guruhdagi barcha o'quvchilar ro'yxati */}
-                <div></div>
+                    {/* To'lovlar */}
+                    {
+                        !isLoading &&
+                            teacher?.payment_history.length > 0 ? <>
+                            <div className="mt-10">
+                                <h1 className="text-gray-500 text-base border-b-2 pb-2">To'lovlar</h1>
+                                <div className="shadow-smooth rounded px-6 py-4 mt-6 overflow-y-auto bg-white">
+                                    <div className="w-fit flex lg:gap-4 p-2 text-sm">
+                                        <h1 className="min-w-[150px]">Sana</h1>
+                                        <h1 className="min-w-[200px]">Miqdor</h1>
+                                        <h1 className="min-w-[400px]">Izoh</h1>
+                                    </div>
+                                    <div className="w-fit max-h-60">
+                                        {
+                                            teacher?.payment_history.map(pay => (
+                                                <div
+                                                    key={pay._id}
+                                                    className="studentPayHistory flex lg:gap-4 p-2 rounded odd:bg-gray-100"
+                                                >
+                                                    <p className="min-w-[150px] text-sm">
+                                                        <DateTime date={pay.date} />
+                                                    </p>
+                                                    <p className="min-w-[200px] text-base text-red-500">
+                                                        <span>-</span>
+                                                        {Math.round(pay.amount).toLocaleString()}
+                                                        <span className="text-black text-xs"> UZS</span>
+                                                    </p>
+                                                    <p className="min-w-[380px] flex items-center text-sm">
+                                                        {pay.name}
+                                                    </p>
+                                                    {
+                                                        auth?.role === 'admin' ?
+                                                            <div className="flex gap-2 items-center">
+                                                                <button onClick={() => updateBtnFunc(pay)}>
+                                                                    <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
+                                                                    </svg>
+                                                                </button>
+                                                                <button
+                                                                    onClick={() => handleDeleteFunc(pay._id)}
+                                                                    className="text-red-500"
+                                                                >
+                                                                    <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"></path>
+                                                                    </svg>
+                                                                </button>
+                                                            </div>
+                                                            : null
+                                                    }
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </> : null
+                    }
+                </div>
             </div>
 
             {/* update teacher modal */}
@@ -330,7 +411,7 @@ export default function TeacherProfile({ teacher, isLoading }) {
             <CostModal
                 modals={modals}
                 handleModal={handleModal}
-                getAllCostFunction={getAllCostFunction}
+                getAllCostFunction={getTeacherFunction}
                 newCost={newCost}
                 setNewCost={setNewCost}
             />

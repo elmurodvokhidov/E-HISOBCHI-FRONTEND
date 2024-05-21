@@ -163,7 +163,7 @@ function GroupInfo() {
         ) {
             try {
                 dispatch(groupStart());
-                const { _id, __v, students, end_time, attendance, createdAt, updatedAt, ...updatedGroupCred } = newGroup;
+                const { _id, __v, due_dates, students, end_time, attendance, createdAt, updatedAt, ...updatedGroupCred } = newGroup;
                 const { data } = await AuthService.updateGroup(newGroup._id, updatedGroupCred);
                 dispatch(getGroupSuccess(data));
                 getGroupFunc();
@@ -246,6 +246,8 @@ function GroupInfo() {
         XLSX.writeFile(wb, fileName);
     };
 
+    // console.log(group.course_days.filter(date => date > "2024-02-30" && date <= "2024-03-30"));
+
     return (
         <div className="container">
             <div className="flex items-center gap-3 text-2xl">
@@ -291,7 +293,7 @@ function GroupInfo() {
                                     <div className="text-xs">
                                         <div className="flex items-center gap-2">
                                             <b>Narx:</b>
-                                            <span>{group.course.price.toLocaleString()} UZS</span>
+                                            <span>{group.course.price?.toLocaleString()} UZS</span>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <b>Vaqt:</b>
@@ -375,7 +377,7 @@ function GroupInfo() {
 
                                                                 <div className="flex items-center justify-between py-4 border-b">
                                                                     <p className="text-gray-500">Balans:</p>
-                                                                    <p>{Math.floor(student.balance).toLocaleString()} UZS</p>
+                                                                    <p>{Math.round(student?.balance).toLocaleString()} UZS</p>
                                                                 </div>
 
                                                                 <div className="flex items-center justify-between py-4 border-b">
@@ -443,7 +445,7 @@ function GroupInfo() {
                     {/* Davomat jadval */}
                     <div className="2xl:w-2/3 pt-4 px-4 overflow-x-auto">
                         {
-                            auth?.role === "admin" || auth?.role === "teacher" ?
+                            (group?.students?.length > 0 && (auth?.role === "admin" || auth?.role === "teacher")) ?
                                 <Attendance group={group} isLoading={isLoading} />
                                 : null
                         }

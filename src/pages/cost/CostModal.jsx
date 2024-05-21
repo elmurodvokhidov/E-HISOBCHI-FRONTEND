@@ -59,25 +59,41 @@ export default function CostModal({
     const createAndUpdateHandle = async (e) => {
         e.preventDefault();
         try {
-            dispatch(costStart());
-            if (!newCost._id) {
-                // yangi xarajat qo'shish
-                const { data } = await AuthService.createNewCost({ ...newCost, author: auth?._id });
-                getAllCostFunction();
-                clearModal();
-                Toast.fire({
-                    icon: "success",
-                    title: data?.message
-                });
-            } else {
-                // xarajat ma'lumotlarini tahrirlash
-                const { data } = await AuthService.updateCost(newCost._id, { ...newCost, author: auth?._id });
-                getAllCostFunction();
-                clearModal();
-                Toast.fire({
-                    icon: "success",
-                    title: data?.message
-                });
+            if (
+                newCost.name !== "" &&
+                newCost.date !== "" &&
+                newCost.receiver !== "" &&
+                newCost.method !== "" &&
+                newCost.amount !== ""
+
+            ) {
+                dispatch(costStart());
+                if (!newCost._id) {
+                    // yangi xarajat qo'shish
+                    const { data } = await AuthService.createNewCost({ ...newCost, author: auth?._id });
+                    getAllCostFunction();
+                    clearModal();
+                    Toast.fire({
+                        icon: "success",
+                        title: data?.message
+                    });
+                } else {
+                    // xarajat ma'lumotlarini tahrirlash
+                    const { date, ...others } = newCost;
+                    const { data } = await AuthService.updateCost(newCost._id, { ...others, author: auth?._id });
+                    getAllCostFunction();
+                    clearModal();
+                    Toast.fire({
+                        icon: "success",
+                        title: data?.message
+                    });
+                }
+            }
+            else {
+                ToastLeft.fire({
+                    icon: "error",
+                    title: "Iltimos barcha bo'sh joylarni to'ldiring!"
+                })
             }
         } catch (error) {
             dispatch(costFailure(error.response?.data.message || error.message));
@@ -100,7 +116,9 @@ export default function CostModal({
 
                 {/* Title and Close button */}
                 <div className="flex justify-between text-xl p-5 border-b-2">
-                    <h1>Yangi xarajatlar</h1>
+                    <h1>
+                        {newCost._id ? "Ma'lumotlarni yangilash" : "Yangi xarajatlar"}
+                    </h1>
                     <button
                         type="button"
                         onClick={() => clearModal()}
@@ -128,20 +146,24 @@ export default function CostModal({
                     </div>
 
                     {/* Date */}
-                    <div className="flex flex-col">
-                        <label htmlFor="date" className="text-sm">
-                            <span>Sana</span>
-                            <span className="ml-1 text-red-500">*</span>
-                        </label>
-                        <input
-                            disabled={isLoading}
-                            onChange={getCostCred}
-                            value={newCost.date}
-                            type="date"
-                            name="date"
-                            id="date"
-                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
-                    </div>
+                    {
+                        !newCost._id ?
+                            <div className="flex flex-col">
+                                <label htmlFor="date" className="text-sm">
+                                    <span>Sana</span>
+                                    <span className="ml-1 text-red-500">*</span>
+                                </label>
+                                <input
+                                    disabled={isLoading}
+                                    onChange={getCostCred}
+                                    value={newCost.date}
+                                    type="date"
+                                    name="date"
+                                    id="date"
+                                    className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                            </div>
+                            : null
+                    }
 
                     {/* Receiver */}
                     <div className="flex flex-col">

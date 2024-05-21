@@ -70,7 +70,7 @@ function Login() {
 
     useEffect(() => {
         if (isLoggedIn && getCookie("x-auth") === "admin") {
-            navigate("/company");
+            navigate("/admin/dashboard");
         }
         if (isLoggedIn && getCookie("x-auth") === "teacher") {
             navigate("/teacher/dashboard");

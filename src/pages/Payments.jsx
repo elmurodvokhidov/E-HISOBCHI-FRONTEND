@@ -26,13 +26,16 @@ import * as XLSX from 'xlsx';
 import { MdFileDownload } from "react-icons/md";
 import { IoRemoveOutline } from "react-icons/io5";
 import { DateTime } from "../components/DateTime";
+import { costFailure, costStart, costSuccess } from "../redux/slices/costSlice";
 
 export default function Payments() {
-    const { studentPayHistory, isLoading } = useSelector(state => state.studentPayHistory);
+    const { isLoading } = useSelector(state => state.studentPayHistory);
     const { groups } = useSelector(state => state.group);
     const { courses } = useSelector(state => state.course);
     const { teachers } = useSelector(state => state.teacher);
+    const { costs } = useSelector(state => state.cost);
     const dispatch = useDispatch();
+    const [payments, setPayments] = useState([]);
     const [filters, setFilters] = useState({
         searchBy: "",
         amount: "",
@@ -50,6 +53,7 @@ export default function Payments() {
             dispatch(studentPayHistoryStart());
             const { data } = await AuthService.getStudentPayHistory();
             dispatch(allStudentPayHistorySuccess(data));
+            setPayments(data.data.filter(pay => pay.type === "pay"));
         } catch (error) {
             dispatch(studentPayHistoryFailure(error.message));
         }
@@ -89,10 +93,22 @@ export default function Payments() {
             }
         };
 
+        // Barcha xarajatlar ro'yhatini olish funksiyasi
+        const getAllCostFunction = async () => {
+            try {
+                dispatch(costStart());
+                const { data } = await AuthService.getAllCost();
+                dispatch(costSuccess(data));
+            } catch (error) {
+                dispatch(costFailure(error.response?.data.message || error.message));
+            }
+        };
+
         getAllGroupsFunction();
         getAllCoursesFunction();
         getAllTeachersFunction();
         getAllStudentPayHistoryFunction();
+        getAllCostFunction();
     }, []);
 
     // Filterlash uchun qiymat olish
@@ -104,7 +120,7 @@ export default function Payments() {
     };
 
     // O'quvchilarni to'lov tarixini filterlash funksiyasi
-    const filteredStudentPayHistory = studentPayHistory.filter(pay => {
+    const filteredStudentPayHistory = payments.filter(pay => {
         return Object.entries(filters).every(([key, value]) => {
             if (value === "") return true;
 
@@ -165,7 +181,7 @@ export default function Payments() {
         const data = filteredStudentPayHistory.map(pay => [
             pay.date || '',
             pay.studentId?.first_name + " " + pay.studentId?.last_name || '',
-            (Math.floor(pay.amount) || '').toLocaleString(),
+            (Math.round(pay.amount) || '').toLocaleString(),
             pay.method || '',
             pay.studentId?.group?.teacher?.first_name + " " + pay.studentId?.group?.teacher?.last_name || '',
             pay.studentId?.group?.name || '',
@@ -192,7 +208,7 @@ export default function Payments() {
                                 <h1 className="flex gap-2">
                                     <span>To'lovlar miqdori:</span>
                                     <span>
-                                        {Math.floor(studentPayHistory.reduce((total, pay) => total + pay.amount, 0)).toLocaleString()}
+                                        {Math.round(payments.reduce((total, pay) => total + pay.amount, 0)).toLocaleString()}
                                     </span>
                                     <span>UZS</span>
                                 </h1>
@@ -210,7 +226,11 @@ export default function Payments() {
                                 <h1 className="flex gap-2">
                                     <span>Sof foyda miqdori:</span>
                                     <span>
-                                        {Math.floor(studentPayHistory.reduce((total, pay) => total + pay.amount, 0)).toLocaleString()}
+                                        {
+                                            Math.round(
+                                                (payments.reduce((total, pay) => total + pay.amount, 0)) - (costs.reduce((total, cost) => total + (+cost.amount), 0))
+                                            ).toLocaleString()
+                                        }
                                     </span>
                                     <span>UZS</span>
                                 </h1>
@@ -225,19 +245,19 @@ export default function Payments() {
                     <ul className="list-disc rounded shadow-md py-6 px-12 text-sm bg-white">
                         <li>Naqd pul: <span>
                             {
-                                Math.floor(studentPayHistory.filter(item => item.method === "cash")
+                                Math.round(payments.filter(item => item.method === "cash")
                                     .reduce((total, pay) => total + pay.amount, 0))
                                     .toLocaleString()
                             }
                         </span> UZS</li>
                         <li>Plastik kartasi: <span>
                             {
-                                Math.floor(studentPayHistory.filter(item => item.method === "card")
+                                Math.round(payments.filter(item => item.method === "card")
                                     .reduce((total, pay) => total + pay.amount, 0))
                                     .toLocaleString()
                             }
                         </span> UZS</li>
-                        <li>Jami tushumlar: <span>{Math.floor(studentPayHistory.reduce((total, pay) => total + pay.amount, 0)).toLocaleString()}</span> UZS</li>
+                        <li>Jami tushumlar: <span>{Math.round(payments.reduce((total, pay) => total + pay.amount, 0)).toLocaleString()}</span> UZS</li>
                     </ul>
                 </div>
 
@@ -485,7 +505,7 @@ export default function Payments() {
                                                     </NavLink>
                                                 </h4>
                                                 <h4 className="min-w-[150px] text-base">
-                                                    {Math.floor(pay.amount).toLocaleString()}
+                                                    {Math.round(pay.amount).toLocaleString()}
                                                     <span className="text-xs"> UZS</span>
                                                 </h4>
                                                 <h4 className="min-w-[100px] text-sm capitalize">{pay.method}</h4>
@@ -505,7 +525,13 @@ export default function Payments() {
                                                             <IoRemoveOutline />
                                                     }
                                                 </h4>
-                                                <h4 className="min-w-[400px] text-sm">{pay.description}</h4>
+                                                <h4 className="min-w-[400px] flex items-center text-sm">
+                                                    {
+                                                        pay.description === "" ?
+                                                            <IoRemoveOutline /> :
+                                                            pay.description
+                                                    }
+                                                </h4>
                                             </div>
                                         ))
                                     }

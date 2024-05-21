@@ -15,23 +15,27 @@ export default function TeacherInfo() {
     const dispatch = useDispatch();
     const { id } = useParams();
 
-    useEffect(() => {
-        const getTeacherFunction = async () => {
-            try {
-                dispatch(teacherStart());
-                const { data } = await AuthService.getTeacher(id);
-                dispatch(getTeacherSuccess(data));
-            } catch (error) {
-                dispatch(teacherFailure(error.response?.data.message));
-                Toast.fire({
-                    icon: "error",
-                    title: error.response?.data.message || error.message,
-                });
-            }
-        };
+    const getTeacherFunction = async () => {
+        try {
+            dispatch(teacherStart());
+            const { data } = await AuthService.getTeacher(id);
+            dispatch(getTeacherSuccess(data));
+        } catch (error) {
+            dispatch(teacherFailure(error.response?.data.message));
+            Toast.fire({
+                icon: "error",
+                title: error.response?.data.message || error.message,
+            });
+        }
+    };
 
+    useEffect(() => {
         getTeacherFunction();
     }, []);
 
-    return <TeacherProfile teacher={teacher} isLoading={isLoading} />
+    return <TeacherProfile
+        teacher={teacher}
+        isLoading={isLoading}
+        getTeacherFunction={getTeacherFunction}
+    />
 };

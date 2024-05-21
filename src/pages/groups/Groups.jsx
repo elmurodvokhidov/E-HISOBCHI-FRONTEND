@@ -233,7 +233,7 @@ function Groups() {
                         title: data.message
                     });
                 } else {
-                    const { _id, __v, end_time, students, createdAt, updatedAt, ...updatedGroupCred } = newGroup;
+                    const { _id, __v, due_dates, end_time, students, createdAt, updatedAt, ...updatedGroupCred } = newGroup;
                     const { data } = await AuthService.updateGroup(newGroup._id, updatedGroupCred);
                     dispatch(getGroupSuccess(data));
                     getAllGroupsFunc();

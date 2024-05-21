@@ -4,7 +4,7 @@ import AdminSidebar from "./AdminSidebar"
 import { useEffect } from "react";
 import { getCookie } from "../../config/cookiesService";
 import AuthService from "../../config/authService";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { allStudentSuccess } from "../../redux/slices/studentSlice";
 import {
     companyFailure,
@@ -13,7 +13,6 @@ import {
 } from "../../redux/slices/companySlice";
 
 function AdminLayout({ modals, handleModal, closeAllModals }) {
-    const { students } = useSelector(state => state.student);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -34,26 +33,30 @@ function AdminLayout({ modals, handleModal, closeAllModals }) {
         };
 
         // Mavjud kompaniyani olish funksiyasi
-        const getCompanyFunction = async () => {
-            try {
-                dispatch(companyStart());
-                const { data } = await AuthService.getCompany();
-                dispatch(companySuccess(data));
-            } catch (error) {
-                dispatch(companyFailure(error.response?.data.message));
-                if (!error.success) navigate('/company');
-            }
-        };
+        // const getCompanyFunction = async () => {
+        //     try {
+        //         dispatch(companyStart());
+        //         const { data } = await AuthService.getCompany();
+        //         dispatch(companySuccess(data));
+        //     } catch (error) {
+        //         dispatch(companyFailure(error.response?.data.message));
+        //         if (!error.success) navigate('/company');
+        //     }
+        // };
 
-        if (students.length > 0) caclStudentBalanceFunction();
-        getCompanyFunction();
-    }, [navigate, students.length]);
+        caclStudentBalanceFunction();
+        // getCompanyFunction();
+    }, [navigate]);
 
     return (
         <div className="w-full h-screen overflow-hidden">
             <Navbar modals={modals} handleModal={handleModal} />
             <div className="w-full flex">
-                <AdminSidebar modals={modals} handleModal={handleModal} closeAllModals={closeAllModals} />
+                <AdminSidebar
+                    modals={modals}
+                    handleModal={handleModal}
+                    closeAllModals={closeAllModals}
+                />
                 <Outlet />
             </div>
         </div>

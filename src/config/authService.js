@@ -123,6 +123,10 @@ const AuthService = {
         const res = api.get("/admin/get-student-pay-history");
         return res;
     },
+    async updateStudentPay(id, data) {
+        const res = api.put(`/admin/update-student-pay-history/${id}`, data);
+        return res;
+    },
     async deleteStudentPay(id) {
         const res = api.delete(`/admin/delete-student-pay/${id}`);
         return res;
@@ -165,6 +169,10 @@ const AuthService = {
     },
     async deleteManyStudent(list) {
         const res = api.delete('/admin/delete-many-students', { data: { studentIds: list } });
+        return res;
+    },
+    async calcTeacherSalary(id, date) {
+        const res = api.put(`/admin/calc-teacher-salary/${id}/${date}`);
         return res;
     },
 

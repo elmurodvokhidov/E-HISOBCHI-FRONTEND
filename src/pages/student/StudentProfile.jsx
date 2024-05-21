@@ -29,6 +29,14 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
     const { auth } = useSelector(state => state.auth);
     const { groups } = useSelector(state => state.group);
     const dispatch = useDispatch();
+    const [studentPayment, setStudentPayment] = useState({
+        studentId: "",
+        student_balance: "",
+        method: "",
+        amount: "",
+        date: "",
+        description: "",
+    });
     const [newStudent, setNewStudent] = useState({
         first_name: "",
         last_name: "",
@@ -202,6 +210,11 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
         });
     };
 
+    const updateBtnFunc = (cost) => {
+        setStudentPayment({ ...cost, student_balance: student?.balance });
+        handleModal("payModal", true);
+    };
+
     return (
         <div
             className="container"
@@ -237,7 +250,7 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                                             {
                                                 auth?.role === "admin" || auth?.role === "student" ?
                                                     <h1 className={`${student?.balance > 0 ? 'bg-green-700' : student?.balance < 0 ? 'bg-red-700' : 'bg-gray-500'} w-fit text-xs text-white px-3 py-px rounded-xl`}>
-                                                        {Math.floor(student?.balance).toLocaleString()} UZS
+                                                        {Math.round(student?.balance).toLocaleString()} UZS
                                                     </h1>
                                                     : null
                                             }
@@ -420,42 +433,42 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                                                     <h1 className="min-w-[150px] text-sm">
                                                         <DateTime date={pay.date} />
                                                     </h1>
-                                                    <h1 className="min-w-[200px] text-base text-green-500">
-                                                        <span>+</span>
-                                                        {pay.amount?.toLocaleString()}
+                                                    <h1 className={`min-w-[200px] text-base text-${pay.amount >= 0 ? 'green' : 'red'}-500`}>
+                                                        {pay.amount >= 0 && <span>+</span>}
+                                                        {Math.round(pay.amount).toLocaleString()}
                                                         <span className="text-black text-xs"> UZS</span>
                                                     </h1>
-                                                    <h1 className="min-w-[400px] flex items-center text-sm">
+                                                    <h1 className="min-w-[360px] flex items-center text-sm">
                                                         {
                                                             pay.description !== "" ?
                                                                 pay.description : <IoRemoveOutline className="text-gray-500" />
                                                         }
                                                     </h1>
                                                     {/* more button */}
-                                                    <div onClick={(e) => {
-                                                        e.stopPropagation()
-                                                        handleModal("more", pay._id)
-                                                    }} className="relative cursor-pointer text-cyan-600 text-xl">
-                                                        <IoMdMore />
-                                                        {/* more btn modal */}
-                                                        <div className={`${modals.more === pay._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute 2xsm:right-8 top-2 p-1 shadow-smooth rounded-lg text-xs bg-white`}>
-                                                            <button
-                                                                className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"
-                                                            >
-                                                                <MdOutlinePrint className="text-base" />
-                                                                Print
-                                                            </button>
-                                                            <button
-                                                                onClick={() => deleteStudentPayHistory(pay._id)}
-                                                                className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-red-500"
-                                                            >
-                                                                <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"></path>
-                                                                </svg>
-                                                                O'chirish
-                                                            </button>
-                                                        </div>
-                                                    </div>
+                                                    {
+                                                        auth?.role === 'admin' ?
+                                                            <div className="flex items-center gap-2 w-fit text-sm">
+                                                                <button
+                                                                    className="text-green-500"
+                                                                >
+                                                                    <MdOutlinePrint className="text-[18px]" />
+                                                                </button>
+                                                                <button onClick={() => updateBtnFunc(pay)}>
+                                                                    <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
+                                                                    </svg>
+                                                                </button>
+                                                                <button
+                                                                    onClick={() => deleteStudentPayHistory(pay._id)}
+                                                                    className="text-red-500"
+                                                                >
+                                                                    <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"></path>
+                                                                    </svg>
+                                                                </button>
+                                                            </div>
+                                                            : null
+                                                    }
                                                 </div>
                                             ))
                                         }
@@ -487,6 +500,8 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                 modals={modals}
                 isLoading={isLoading}
                 student={student}
+                studentPayment={studentPayment}
+                setStudentPayment={setStudentPayment}
             />
         </div >
     )

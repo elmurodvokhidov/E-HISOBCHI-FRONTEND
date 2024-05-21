@@ -2,11 +2,11 @@ import { SlLayers } from 'react-icons/sl';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-function StudentSidebar() {
+function StudentSidebar({ modals, handleModal, closeAllModals }) {
     const { auth } = useSelector(state => state.auth);
 
     return (
-        <div className="sidebar pt-20 h-screen overflow-auto bg-white shadow-smooth">
+        <div className={`sidebar md:static absolute z-10 ${modals.sideModal ? "left-0" : "-left-full"} h-screen pt-20 overflow-y-auto shadow-smooth transition-all bg-white`}>
             {
                 auth &&
                 <NavLink

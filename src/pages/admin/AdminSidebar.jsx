@@ -34,13 +34,13 @@ function AdminSidebar({ modals, handleModal, closeAllModals }) {
                         <h1 className="md:text-sm 2xsm:text-xs">Lidlar</h1>
                     </NavLink>
 
-                    <NavLink
+                    {/* <NavLink
                         to="admins"
                         onClick={closeAllModals}
                         className="cell relative text-gray-500 border-b-2 py-4 md:px-6 2xsm:px-4 flex flex-col items-center">
                         <MdOutlineAdminPanelSettings className="md:text-3xl 2xsm:text-2xl" />
                         <h1 className="md:text-sm 2xsm:text-xs">Adminlar</h1>
-                    </NavLink>
+                    </NavLink> */}
 
                     <NavLink
                         to="groups"

@@ -8,11 +8,12 @@ import { allAdminSuccess } from "../../redux/slices/adminSlice";
 import { allTeacherSuccess } from "../../redux/slices/teacherSlice";
 import { allStudentSuccess } from "../../redux/slices/studentSlice";
 import SplineChart from "../../components/charts/SplineChart";
-import TimelineChart from "../../components/charts/TimelineChart";
+import TimeTable from "../../components/charts/TimeTable";
 import { BsExclamationTriangle } from "react-icons/bs";
 import { SlLayers } from "react-icons/sl";
 import { allGroupSuccess } from "../../redux/slices/groupSlice";
 import { allLeadSuccess } from "../../redux/slices/leadSlice";
+import { allRoomSuccess } from "../../redux/slices/roomSlice";
 
 function AdminDashboard() {
     const { admins } = useSelector(state => state.admin);
@@ -20,6 +21,7 @@ function AdminDashboard() {
     const { students } = useSelector(state => state.student);
     const { groups } = useSelector(state => state.group);
     const { leads } = useSelector(state => state.lead);
+    const { rooms } = useSelector(state => state.room);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -43,13 +45,18 @@ function AdminDashboard() {
             const { data } = await AuthService.getAllLead();
             dispatch(allLeadSuccess(data));
         };
+        const getAllRoomsFunction = async () => {
+            const { data } = await AuthService.getAllRooms();
+            dispatch(allRoomSuccess(data));
+        };
 
         getAllAdminsFunction();
         getAllTeachersFunction();
         getAllStudentsFunction();
         getAllGroupsFunction();
         getAllLeadFunction();
-    }, [])
+        getAllRoomsFunction();
+    }, []);
 
 
     return (
@@ -61,11 +68,11 @@ function AdminDashboard() {
                     <h1 className="text-2xl text-cyan-600 mt-3">{admins ? leads.length : 0}</h1>
                 </div>
 
-                <div className="sm:size-36 2xsm:size-28 flex flex-col items-center justify-center border shadow-smooth">
+                {/* <div className="sm:size-36 2xsm:size-28 flex flex-col items-center justify-center border shadow-smooth">
                     <RiAdminLine className="sm:text-4xl 2xsm:text-2xl text-cyan-600" />
                     <h1 className="sm:text-sm 2xsm:text-xs text-gray-500 mt-1">Adminlar</h1>
                     <h1 className="text-2xl text-cyan-600 mt-3">{admins ? admins.length : 0}</h1>
-                </div>
+                </div> */}
 
                 <div className="sm:size-36 2xsm:size-28 flex flex-col items-center justify-center border shadow-smooth">
                     <FaChalkboardTeacher className="sm:text-4xl 2xsm:text-2xl text-cyan-600" />
@@ -99,7 +106,10 @@ function AdminDashboard() {
             </section>
 
             <section className="shadow-smooth">
-                <TimelineChart />
+                <TimeTable
+                    rooms={rooms}
+                    groups={groups}
+                />
             </section>
         </div>
     )

@@ -625,7 +625,7 @@ function Students() {
                                         }
                                     </td>
                                     <td className="w-[120px] text-left text-xs">
-                                        {Math.floor(student.balance).toLocaleString()} UZS
+                                        {Math.round(student.balance).toLocaleString()} UZS
                                     </td>
                                     <td className="w-[80px] flex justify-center">
                                         {/* more button */}

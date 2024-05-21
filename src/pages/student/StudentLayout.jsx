@@ -4,7 +4,7 @@ import StudentSidebar from "./StudentSidebar";
 import Navbar from "../../components/Navbar";
 import { getCookie } from "../../config/cookiesService";
 
-function StudentLayout() {
+function StudentLayout({ modals, handleModal, closeAllModals }) {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -13,9 +13,13 @@ function StudentLayout() {
 
     return (
         <div className="w-full h-screen overflow-hidden">
-            <Navbar />
+            <Navbar modals={modals} handleModal={handleModal} />
             <div className="flex">
-                <StudentSidebar />
+                <StudentSidebar
+                    modals={modals}
+                    handleModal={handleModal}
+                    closeAllModals={closeAllModals}
+                />
                 <Outlet />
             </div>
         </div>

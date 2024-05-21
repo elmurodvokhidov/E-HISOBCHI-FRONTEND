@@ -206,7 +206,7 @@ export default function Salary() {
                             </> : <>
                                 {
                                     teachers.filter(teacher => teacher.salaryPer > 0).map(teacher => (
-                                        <div className="flex items-center text-base py-2 pl-2 border-b">
+                                        <div key={teacher._id} className="flex items-center text-base py-2 pl-2 border-b">
                                             <p className="min-w-[500px]">
                                                 {teacher?.first_name + " " + teacher?.last_name}
                                             </p>

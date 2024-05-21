@@ -68,7 +68,7 @@ export default function Debtors() {
             }
 
             if (key === 'amountFrom' || key === 'amountTo') {
-                const deb = Math.floor(Math.abs(debtor.balance));
+                const deb = Math.round(Math.abs(debtor.balance));
                 const filterAmountFrom = parseInt(filters['amountFrom']);
                 const filterAmountTo = parseInt(filters['amountTo']);
 
@@ -96,7 +96,7 @@ export default function Debtors() {
         const data = filteredDebtors.map(debtor => [
             debtor.first_name + " " + debtor.last_name || '',
             debtor.phoneNumber || '',
-            (Math.floor(debtor.balance) || '').toLocaleString(),
+            (Math.round(debtor.balance) || '').toLocaleString(),
             debtor.group?.name || '',
             debtor.group?.course?.title || '',
             debtor.group?.teacher?.first_name + " " +
@@ -123,7 +123,7 @@ export default function Debtors() {
                     <div className="flex items-center gap-2 text-xl">
                         <div className="w-[5px] h-[70px] mr-2 rounded-md bg-cyan-600"></div>
                         <h1>Jami:</h1>
-                        <h1>{Math.floor(debtors.reduce((total, debtor) => total + debtor.balance, 0)).toLocaleString()} UZS</h1>
+                        <h1>{Math.round(debtors.reduce((total, debtor) => total + debtor.balance, 0)).toLocaleString()} UZS</h1>
                     </div>
                     <CiCoins1 className="text-3xl text-cyan-600 mr-4" />
                 </div>
@@ -222,7 +222,7 @@ export default function Debtors() {
                                                 className="cursor-pointer" />
                                         </h4>
                                         <h4 className="min-w-[100px] text-base text-red-500">
-                                            {Math.floor(debtor.balance).toLocaleString()}
+                                            {Math.round(debtor.balance).toLocaleString()}
                                             <span className="text-xs"> UZS</span>
                                         </h4>
                                         <div className="min-w-[150px] text-sm">

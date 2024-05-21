@@ -9,17 +9,11 @@ function PaymentModal({
     handleModal,
     modals,
     student,
+    studentPayment,
+    setStudentPayment,
 }) {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
-    const [studentPayment, setStudentPayment] = useState({
-        studentId: "",
-        student_balance: "",
-        method: "",
-        amount: "",
-        date: "",
-        description: "",
-    });
 
     const getStudent = async () => {
         try {
@@ -44,9 +38,11 @@ function PaymentModal({
 
     const clearModal = () => {
         setStudentPayment({
-            ...studentPayment,
+            studentId: "",
+            student_balance: "",
             method: "",
             amount: "",
+            date: "",
             description: "",
         });
         handleModal("payModal", false);
@@ -68,21 +64,43 @@ function PaymentModal({
         };
 
         getCurrentDateFunction();
-    }, [student]);
+    }, [student, studentPayment.date]);
 
     const studentPaymentFunction = async (e) => {
         e.preventDefault();
         try {
-            if (studentPayment.method !== "" && studentPayment.amount !== "" && studentPayment.date !== "") {
+            if (studentPayment.amount !== "") {
                 setIsLoading(true);
-                const { data } = await AuthService.payForStudent(studentPayment);
-                getStudent();
-                clearModal();
-                Toast.fire({
-                    icon: "success",
-                    title: data.message
-                });
-                setIsLoading(false);
+                if (!studentPayment._id) {
+                    // yangi ma'lumot qo'shish
+                    const { data } = await AuthService.payForStudent(studentPayment);
+                    getStudent();
+                    clearModal();
+                    Toast.fire({
+                        icon: "success",
+                        title: data.message
+                    });
+                }
+                else {
+                    // ma'lumotni tahrirlash
+                    if (studentPayment.type === "debt") {
+                        const { method, ...others } = studentPayment;
+                        const { data } = await AuthService.updateStudentPay(studentPayment._id, others);
+                        Toast.fire({
+                            icon: "success",
+                            title: data.message
+                        });
+                    }
+                    else {
+                        const { data } = await AuthService.updateStudentPay(studentPayment._id, studentPayment);
+                        Toast.fire({
+                            icon: "success",
+                            title: data.message
+                        });
+                    }
+                    getStudent();
+                    clearModal();
+                }
             }
             else {
                 ToastLeft.fire({
@@ -96,6 +114,8 @@ function PaymentModal({
                 title: error.message
             });
             console.log("Student payment error: " + error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -111,7 +131,9 @@ function PaymentModal({
 
                 {/* Title and Close button */}
                 <div className="flex justify-between text-xl p-5 border-b-2">
-                    <h1>To'lov qo'shish</h1>
+                    <h1>
+                        {studentPayment._id ? "Ma'lumotni tahrirlash" : "To'lov qo'shish"}
+                    </h1>
                     <button
                         type="button"
                         onClick={() => clearModal()}
@@ -138,44 +160,47 @@ function PaymentModal({
                     <div className="flex items-center gap-2">
                         <label className="text-sm">Balans</label>
                         <h1 className={`${student?.balance > 0 ? 'bg-green-700' : student?.balance < 0 ? 'bg-red-700' : 'bg-gray-500'} w-fit text-xs text-white px-3 py-1 rounded-xl`}>
-                            {Math.floor(student?.balance).toLocaleString()} UZS
+                            {Math.round(student?.balance).toLocaleString()} UZS
                         </h1>
                     </div>
 
                     {/* Payment method */}
-                    <div className="w-full">
-                        <p className="text-sm">
-                            <span>To'lov usuli</span>
-                            <span className="ml-1 text-red-500">*</span>
-                        </p>
-                        <div className="flex gap-6">
-                            <div className="flex items-center gap-1">
-                                <input
-                                    disabled={isLoading}
-                                    onChange={getPaymentCred}
-                                    checked={studentPayment.method === "cash"}
-                                    value="cash"
-                                    type="radio"
-                                    name="method"
-                                    id="cash"
-                                    className="border-gray-300 outline-cyan-600" />
-                                <label htmlFor="cash" className="text-sm">Naqd pul</label>
-                            </div>
+                    {
+                        studentPayment.type !== "debt" &&
+                        <div className="w-full">
+                            <p className="text-sm">
+                                <span>To'lov usuli</span>
+                                <span className="ml-1 text-red-500">*</span>
+                            </p>
+                            <div className="flex gap-6">
+                                <div className="flex items-center gap-1">
+                                    <input
+                                        disabled={isLoading}
+                                        onChange={getPaymentCred}
+                                        checked={studentPayment.method === "cash"}
+                                        value="cash"
+                                        type="radio"
+                                        name="method"
+                                        id="cash"
+                                        className="border-gray-300 outline-cyan-600" />
+                                    <label htmlFor="cash" className="text-sm">Naqd pul</label>
+                                </div>
 
-                            <div className="flex items-center gap-1">
-                                <input
-                                    disabled={isLoading}
-                                    onChange={getPaymentCred}
-                                    checked={studentPayment.method === "card"}
-                                    value="card"
-                                    type="radio"
-                                    name="method"
-                                    id="card"
-                                    className="border-gray-300 outline-cyan-600" />
-                                <label htmlFor="card" className="text-sm">Plastik kartasi</label>
+                                <div className="flex items-center gap-1">
+                                    <input
+                                        disabled={isLoading}
+                                        onChange={getPaymentCred}
+                                        checked={studentPayment.method === "card"}
+                                        value="card"
+                                        type="radio"
+                                        name="method"
+                                        id="card"
+                                        className="border-gray-300 outline-cyan-600" />
+                                    <label htmlFor="card" className="text-sm">Plastik kartasi</label>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
 
                     {/* Amount */}
                     <div className="w-full flex flex-col">
@@ -194,20 +219,23 @@ function PaymentModal({
                     </div>
 
                     {/* Date */}
-                    <div className="flex flex-col">
-                        <label htmlFor="date" className="text-sm">
-                            <span>Sana</span>
-                            <span className="ml-1 text-red-500">*</span>
-                        </label>
-                        <input
-                            disabled={isLoading}
-                            onChange={getPaymentCred}
-                            value={studentPayment.date}
-                            type="date"
-                            name="date"
-                            id="date"
-                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
-                    </div>
+                    {
+                        !studentPayment._id &&
+                        <div className="flex flex-col">
+                            <label htmlFor="date" className="text-sm">
+                                <span>Sana</span>
+                                <span className="ml-1 text-red-500">*</span>
+                            </label>
+                            <input
+                                disabled={isLoading}
+                                onChange={getPaymentCred}
+                                value={studentPayment.date}
+                                type="date"
+                                name="date"
+                                id="date"
+                                className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                        </div>
+                    }
 
                     <div className="flex flex-col">
                         <label htmlFor="description" className="text-sm">Izoh</label>

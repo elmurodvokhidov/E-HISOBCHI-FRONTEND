@@ -4,7 +4,7 @@ import TeacherSidebar from "./TeacherSidebar";
 import Navbar from "../../components/Navbar";
 import { getCookie } from "../../config/cookiesService";
 
-function TeacherLayout() {
+function TeacherLayout({ modals, handleModal, closeAllModals }) {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -13,9 +13,13 @@ function TeacherLayout() {
 
     return (
         <div className="w-full h-screen overflow-hidden">
-            <Navbar />
+            <Navbar modals={modals} handleModal={handleModal} />
             <div className="flex">
-                <TeacherSidebar />
+                <TeacherSidebar
+                    modals={modals}
+                    handleModal={handleModal}
+                    closeAllModals={closeAllModals}
+                />
                 <Outlet />
             </div>
         </div>

@@ -91,11 +91,7 @@ function App() {
         <Route path="company" element={<Company />} />
 
         {/* admin routes */}
-        <Route path="admin" element={<AdminLayout
-          modals={modals}
-          handleModal={handleModal}
-          closeAllModals={closeAllModals}
-        />}>
+        <Route path="admin" element={<AdminLayout modals={modals} handleModal={handleModal} closeAllModals={closeAllModals} />}>
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="notice" element={<Notice />} />
           <Route path="admins" element={<Admins />} />
@@ -119,7 +115,7 @@ function App() {
         </Route>
 
         {/* teacher routes */}
-        <Route path="teacher" element={<TeacherLayout />}>
+        <Route path="teacher" element={<TeacherLayout modals={modals} handleModal={handleModal} closeAllModals={closeAllModals} />}>
           <Route path="dashboard" element={<TeacherDashboard />} />
           <Route path="profile" element={<Profile />} />
           <Route path="notice" element={<Notice />} />
@@ -129,7 +125,7 @@ function App() {
         </Route>
 
         {/* student routes */}
-        <Route path="student" element={<StudentLayout />}>
+        <Route path="student" element={<StudentLayout modals={modals} handleModal={handleModal} closeAllModals={closeAllModals} />}>
           <Route path="dashboard" element={<StudentDashboard />} />
           <Route path="profile" element={<Profile />} />
           <Route path="notice" element={<Notice />} />
