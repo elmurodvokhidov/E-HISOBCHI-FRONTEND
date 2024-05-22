@@ -11,7 +11,7 @@ import { Toast, ToastLeft } from "../../config/sweetToast";
 import AdminModal from "./AdminModal";
 import Skeleton from "../../components/loaders/Skeleton";
 import { IoPersonCircleOutline } from "react-icons/io5";
-import { DateTime } from "../../components/DateTime";
+import { FormattedDate } from "../../components/FormattedDate";
 
 function Admins() {
     const { admins, isLoading } = useSelector(state => state.admin);
@@ -158,7 +158,7 @@ function Admins() {
                                 <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
                                     <p className="text-sm leading-6 text-gray-900">Adminstartor</p>
                                     <p className="mt-1 text-xs leading-5 text-gray-500">
-                                        Create at <DateTime date={admin.createdAt} />
+                                        Create at <FormattedDate date={admin.createdAt} />
                                     </p>
                                 </div>
                             </li>

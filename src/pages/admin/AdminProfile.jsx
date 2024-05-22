@@ -6,7 +6,7 @@ import AdminModal from "./AdminModal";
 import { useDispatch } from "react-redux";
 import Skeleton from "../../components/loaders/Skeleton";
 import { IoPersonCircleOutline, IoRemoveOutline } from "react-icons/io5";
-import { DateTime } from "../../components/DateTime";
+import { FormattedDate } from "../../components/FormattedDate";
 
 function AdminProfile({ auth, isLoading }) {
     const dispatch = useDispatch();
@@ -155,7 +155,7 @@ function AdminProfile({ auth, isLoading }) {
                                     <span className="text-gray-500">Tug'ilgan kun:</span>
                                     {
                                         auth.dob ?
-                                            <DateTime date={auth.dob} /> :
+                                            <FormattedDate date={auth.dob} /> :
                                             <IoRemoveOutline />
                                     }
                                 </div>

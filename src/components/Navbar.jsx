@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { FaBell } from "react-icons/fa";
-import logo from "../assets/images/uitc_logo.png"
 import LoaderDots from "./loaders/LoaderDots";
 import { allNoticeSuccess, noticeFailure, noticeStart } from "../redux/slices/noticeSlice";
 import AuthService from "../config/authService";
@@ -11,9 +10,11 @@ import SearchBar from "./SearchBar";
 import { authLogout, authStart } from "../redux/slices/authSlice";
 import { IoMenuOutline } from "react-icons/io5";
 import { getCookie } from "../config/cookiesService";
+import { companySuccess } from "../redux/slices/companySlice";
 
 function Navbar({ modals, handleModal }) {
     const { auth } = useSelector(state => state.auth);
+    const { company } = useSelector(state => state.company);
     const { notices } = useSelector(state => state.notice);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -68,8 +69,18 @@ function Navbar({ modals, handleModal }) {
         }
     };
 
+    const getCompanyFunction = async () => {
+        try {
+            const { data } = await AuthService.getCompany();
+            dispatch(companySuccess(data));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     useEffect(() => {
         getNotices();
+        getCompanyFunction();
     }, [notices?.length]);
 
     const logoutHandler = () => {
@@ -81,7 +92,7 @@ function Navbar({ modals, handleModal }) {
     return (
         <div className="w-full fixed z-20 top-0 flex items-center justify-between py-2 px-10 shadow-dim bg-white">
             <div className="logo w-14">
-                <Link to="dashboard" className="md:inline-block hidden"><img src={logo} alt="logo" /></Link>
+                <Link to="dashboard" className="md:inline-block hidden"><img src={company?.image} alt="company logo" /></Link>
                 <IoMenuOutline
                     onClick={(e) => {
                         e.stopPropagation();

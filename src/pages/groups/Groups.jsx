@@ -31,7 +31,7 @@ import { GoHorizontalRule } from "react-icons/go";
 import * as XLSX from 'xlsx';
 import { MdFileDownload } from "react-icons/md";
 import { days } from "../../config/days";
-import { DateTime } from "../../components/DateTime";
+import { FormattedDate } from "../../components/FormattedDate";
 
 function Groups() {
     const { groups, isLoading } = useSelector(state => state.group);
@@ -481,10 +481,10 @@ function Groups() {
                                     <td className="w-[130px] text-left text-xs">
                                         <div>
                                             <h1 className="flex items-center gap-1">
-                                                <DateTime date={group.start_date} />
+                                                <FormattedDate date={group.start_date} />
                                                 <GoHorizontalRule />
                                             </h1>
-                                            <DateTime date={group.end_date} />
+                                            <FormattedDate date={group.end_date} />
                                         </div>
                                     </td>
                                     <td className="w-[100px] text-left text-xs">{group.room.name}</td>

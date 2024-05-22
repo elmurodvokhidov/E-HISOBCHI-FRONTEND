@@ -25,7 +25,7 @@ import Skeleton from "../components/loaders/Skeleton";
 import * as XLSX from 'xlsx';
 import { MdFileDownload } from "react-icons/md";
 import { IoRemoveOutline } from "react-icons/io5";
-import { DateTime } from "../components/DateTime";
+import { FormattedDate } from "../components/FormattedDate";
 import { costFailure, costStart, costSuccess } from "../redux/slices/costSlice";
 
 export default function Payments() {
@@ -200,9 +200,9 @@ export default function Payments() {
     return (
         <div className="container flex flex-col gap-6">
             <h1 className="text-2xl">Barcha to'lovlar</h1>
-            <div className="lg:flex gap-10">
+            <div className="lg:flex justify-between gap-10">
                 <div className="w-fit flex flex-col gap-6">
-                    <div className="flex items-center justify-between gap-6 relative rounded before:w-1 before:h-full before:absolute before:rounded-lg before:bg-cyan-600 bg-white shadow-md text-base">
+                    <div className="min-w-[400px] flex items-center justify-between gap-6 relative rounded before:w-1 before:h-full before:absolute before:rounded-lg before:bg-cyan-600 bg-white shadow-md text-base">
                         <div className="my-3 ml-5">
                             <div className="flex items-center gap-2">
                                 <h1 className="flex gap-2">
@@ -212,15 +212,15 @@ export default function Payments() {
                                     </span>
                                     <span>UZS</span>
                                 </h1>
-                                <span>(04.05.2024</span>
+                                {/* <span>(04.05.2024</span> */}
                             </div>
-                            <h1 className="flex items-center"><GoHorizontalRule />04.06.2024)</h1>
+                            {/* <h1 className="flex items-center"><GoHorizontalRule />04.06.2024)</h1> */}
                         </div>
 
                         <CiCoins1 className="text-3xl text-cyan-600 mr-4" />
                     </div>
 
-                    <div className="flex items-center justify-between gap-6 relative rounded before:w-1 before:h-full before:absolute before:rounded-lg before:bg-cyan-600 bg-white shadow-md text-base">
+                    <div className="min-w-[400px] flex items-center justify-between gap-6 relative rounded before:w-1 before:h-full before:absolute before:rounded-lg before:bg-cyan-600 bg-white shadow-md text-base">
                         <div className="my-3 ml-5">
                             <div className="flex items-center gap-2">
                                 <h1 className="flex gap-2">
@@ -234,9 +234,9 @@ export default function Payments() {
                                     </span>
                                     <span>UZS</span>
                                 </h1>
-                                <span>(04.05.2024</span>
+                                {/* <span>(04.05.2024</span> */}
                             </div>
-                            <h1 className="flex items-center"><GoHorizontalRule />04.06.2024)</h1>
+                            {/* <h1 className="flex items-center"><GoHorizontalRule />04.06.2024)</h1> */}
                         </div>
 
                         <CiCoins1 className="text-3xl text-cyan-600 mr-4" />
@@ -261,7 +261,7 @@ export default function Payments() {
                     </ul>
                 </div>
 
-                <div className="lg:w-3/5 w-full shadow-md">
+                <div className="lg:w-4/6 w-full shadow-md">
                     <SplineChart />
                 </div>
             </div>
@@ -494,7 +494,7 @@ export default function Payments() {
                                                 key={pay._id}
                                                 className="flex justify-between py-2 border-b border-b-gray-200 last:border-b-0"
                                             >
-                                                <h4 className="min-w-[100px] text-sm"><DateTime date={pay.date} /></h4>
+                                                <h4 className="min-w-[100px] text-sm"><FormattedDate date={pay.date} /></h4>
                                                 <h4 className="min-w-[200px] text-base">
                                                     <NavLink
                                                         to={`/admin/student-info/${pay.studentId?._id}`}

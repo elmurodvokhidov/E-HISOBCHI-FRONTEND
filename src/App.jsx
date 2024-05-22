@@ -88,7 +88,7 @@ function App() {
       <Routes>
         <Route index element={<Login />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="company" element={<Company />} />
+        {/* <Route path="company" element={<Company />} /> */}
 
         {/* admin routes */}
         <Route path="admin" element={<AdminLayout modals={modals} handleModal={handleModal} closeAllModals={closeAllModals} />}>

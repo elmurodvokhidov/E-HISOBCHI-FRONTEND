@@ -3,7 +3,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import AuthService from "../../config/authService";
 import { Toast, ToastLeft } from "../../config/sweetToast";
 import { getStudentSuccess, studentFailure, studentStart } from "../../redux/slices/studentSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function PaymentModal({
     handleModal,
@@ -11,7 +11,10 @@ function PaymentModal({
     student,
     studentPayment,
     setStudentPayment,
+    getCompanyFunction,
 }) {
+    const { auth } = useSelector(state => state.auth);
+    const { company } = useSelector(state => state.company);
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -38,12 +41,12 @@ function PaymentModal({
 
     const clearModal = () => {
         setStudentPayment({
-            studentId: "",
             student_balance: "",
             method: "",
             amount: "",
             date: "",
             description: "",
+            createdAt: "",
         });
         handleModal("payModal", false);
     };
@@ -56,7 +59,9 @@ function PaymentModal({
                     ...studentPayment,
                     studentId: student?._id,
                     student_balance: student?.balance,
-                    date: data.today
+                    date: data.today,
+                    author: auth?._id,
+                    company: company?.name,
                 });
             } catch (error) {
                 console.log(error);
@@ -64,8 +69,10 @@ function PaymentModal({
         };
 
         getCurrentDateFunction();
-    }, [student, studentPayment.date]);
+        getCompanyFunction();
+    }, [student, modals.payModal]);
 
+    // O'quvchiga to'lov kiritish
     const studentPaymentFunction = async (e) => {
         e.preventDefault();
         try {
@@ -126,7 +133,7 @@ function PaymentModal({
             style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modals.payModal ? "1" : "0", zIndex: modals.payModal ? "20" : "-1" }}>
             <form
                 onClick={(e) => e.stopPropagation()}
-                className="w-[27%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white"
+                className="lg:w-[27%] 2xsm:w-[60%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white"
                 style={{ right: modals.payModal ? "0" : "-200%" }}>
 
                 {/* Title and Close button */}

@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import logo from "../assets/images/uitc_logo.png";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import bgImg from "../assets/images/bg.jpg";
@@ -91,7 +90,7 @@ function Login() {
                     {/* Logo */}
                     <figure>
                         <img
-                            src={logo}
+                            src="https://uitc-crm-api.onrender.com/api/uploads/uitc.png"
                             alt="logo"
                             className="lg:w-52 2xsm:w-40" />
                     </figure>

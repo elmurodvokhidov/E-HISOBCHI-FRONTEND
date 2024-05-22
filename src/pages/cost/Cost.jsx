@@ -9,7 +9,7 @@ import Skeleton from "../../components/loaders/Skeleton";
 import Swal from "sweetalert2";
 import { Toast, ToastLeft } from "../../config/sweetToast";
 import * as XLSX from 'xlsx';
-import { DateTime } from "../../components/DateTime";
+import { FormattedDate } from "../../components/FormattedDate";
 
 export default function Cost() {
     const { costs, isLoading } = useSelector(state => state.cost);
@@ -274,7 +274,9 @@ export default function Cost() {
                         Filterni tiklash
                     </button>
                 </div>
+            </div>
 
+            <div className="max-h-[800px] overflow-y-auto pt-2 pb-6 pl-[40px] pr-4 mr-[24px] flex flex-col gap-4">
                 {/* Barcha qarzdorlar */}
                 <div className="flex justify-between pb-4 font-semibold text-sm px-4 mt-6">
                     <h4 className="min-w-[150px] text-base">Sana</h4>
@@ -285,9 +287,6 @@ export default function Cost() {
                     <h4 className="min-w-[175px] text-base">Xodim</h4>
                     <h4 className="min-w-[100px] text-base">Amallar</h4>
                 </div>
-            </div>
-
-            <div className="max-h-[800px] overflow-y-auto pt-2 pb-6 pl-[40px] pr-4 mr-[24px] flex flex-col gap-4">
                 {
                     isLoading ?
                         <>
@@ -303,9 +302,9 @@ export default function Cost() {
                                 filteredCosts.map(cost => (
                                     <div
                                         key={cost._id}
-                                        className="flex items-center justify-between p-4 rounded-md shadow-md hover:shadow-smooth transition-all bg-white">
+                                        className="min-w-fit flex items-center justify-between p-4 rounded-md shadow-md hover:shadow-smooth transition-all bg-white">
                                         <p className="min-w-[150px] text-base">
-                                            <DateTime date={cost.date} />
+                                            <FormattedDate date={cost.date} />
                                         </p>
                                         <p className="min-w-[250px] text-base">
                                             {cost.name}

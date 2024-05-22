@@ -34,7 +34,7 @@ import tick from "../../assets/icons/tick.svg";
 import copy from "../../assets/icons/copy.svg";
 import { MdFileDownload } from "react-icons/md";
 import * as XLSX from 'xlsx';
-import { DateTime } from "../../components/DateTime";
+import { FormattedDate } from "../../components/FormattedDate"; 
 
 function GroupInfo() {
     const { group, isLoading } = useSelector(state => state.group);
@@ -312,10 +312,10 @@ function GroupInfo() {
                                             <b>Mashg'ulot sanalari:</b>
                                             <div className="flex items-center gap-1">
                                                 <h1 className="flex items-center gap-1">
-                                                    <DateTime date={group.start_date} />
+                                                    <FormattedDate date={group.start_date} />
                                                 </h1>
                                                 <GoHorizontalRule />
-                                                <DateTime date={group.end_date} />
+                                                <FormattedDate date={group.end_date} />
                                             </div>
                                         </div>
                                     </div>
@@ -382,7 +382,7 @@ function GroupInfo() {
 
                                                                 <div className="flex items-center justify-between py-4 border-b">
                                                                     <p className="text-gray-500">Talaba qo'shilgan sana:</p>
-                                                                    <DateTime date={student.join_date} />
+                                                                    <FormattedDate date={student.join_date} />
                                                                 </div>
 
                                                                 <div className="flex justify-end pt-4">

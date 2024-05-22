@@ -12,7 +12,7 @@ import {
 import { Toast, ToastLeft } from "../../config/sweetToast";
 import NoticeModal from "./NoticeModal";
 import Swal from "sweetalert2";
-import { DateTime } from "../../components/DateTime";
+import { FormattedDate } from "../../components/FormattedDate";
 
 function Notice() {
     const { notices, isLoading } = useSelector(state => state.notice);
@@ -269,8 +269,8 @@ function Notice() {
                                             <p className="text-sm">{notice.from}</p>
                                             <p className="text-sm">
                                                 {notice.createdAt < notice.updatedAt ?
-                                                    <DateTime date={notice.updatedAt} /> :
-                                                    <DateTime date={notice.createdAt} />}
+                                                    <FormattedDate date={notice.updatedAt} /> :
+                                                    <FormattedDate date={notice.createdAt} />}
                                             </p>
                                         </div>
                                     </div>

@@ -14,7 +14,7 @@ import { GoDotFill } from "react-icons/go";
 import { days } from "../../config/days";
 import { IoPersonCircleOutline, IoRemoveOutline } from "react-icons/io5";
 import { getCookie } from "../../config/cookiesService";
-import { DateTime } from "../../components/DateTime";
+import { FormattedDate } from "../../components/FormattedDate";
 import CostModal from "../cost/CostModal";
 import { costFailure, costStart, costSuccess } from "../../redux/slices/costSlice";
 import Swal from "sweetalert2";
@@ -82,12 +82,13 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
         })
     };
 
+    // Ma'lumotlarni o'zgartirish uchun modalni ochish
     const openModal = () => {
         setNewTeacher(teacher);
         handleModal("modal", true);
-        handleModal("editModal", false);
     };
 
+    // O'qituchi ma'lumotlarini o'zgartirish
     const updateHandler = async (e) => {
         e.preventDefault();
         // o'qituvchi parolini o'zgartirish
@@ -152,6 +153,7 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
         }
     };
 
+    // Salary to'lash uchun modal oynani ochish
     const teacherSalaryModalFunction = () => {
         if (teacher.balance > 0) {
             handleModal("costModal", true);
@@ -195,6 +197,7 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
         });
     };
 
+    // Salary tahrirlash uchun modalni ochish
     const updateBtnFunc = (cost) => {
         setNewCost(cost);
         handleModal("costModal", true);
@@ -250,7 +253,7 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
                                         <span className="text-gray-500">Tug'ilgan kun:</span>
                                         {
                                             teacher?.dob ?
-                                                <DateTime date={teacher?.dob} /> :
+                                                <FormattedDate date={teacher?.dob} /> :
                                                 <IoRemoveOutline />
                                         }
                                     </div>
@@ -312,10 +315,10 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
                                                             <div className="flex flex-col">
                                                                 <div className="text-xs text-gray-500">
                                                                     <h1 className="flex items-center gap-1">
-                                                                        <DateTime date={group.start_date} />
+                                                                        <FormattedDate date={group.start_date} />
                                                                         <IoRemoveOutline />
                                                                     </h1>
-                                                                    <DateTime date={group.end_date} />
+                                                                    <FormattedDate date={group.end_date} />
                                                                 </div>
                                                                 <div className="flex items-center gap-1 text-xs text-gray-500">
                                                                     <h1>{days.find(day => day.value === group.day)?.title}</h1>
@@ -354,7 +357,7 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
                                                     className="studentPayHistory flex lg:gap-4 p-2 rounded odd:bg-gray-100"
                                                 >
                                                     <p className="min-w-[150px] text-sm">
-                                                        <DateTime date={pay.date} />
+                                                        <FormattedDate date={pay.date} />
                                                     </p>
                                                     <p className="min-w-[200px] text-base text-red-500">
                                                         <span>-</span>

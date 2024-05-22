@@ -27,7 +27,7 @@ import {
 import tick from "../../assets/icons/tick.svg";
 import copy from "../../assets/icons/copy.svg";
 import * as XLSX from 'xlsx';
-import { DateTime } from "../../components/DateTime";
+import { FormattedDate } from "../../components/FormattedDate";
 import { RxEnvelopeClosed } from "react-icons/rx";
 import { IoRemoveOutline } from "react-icons/io5";
 
@@ -616,10 +616,10 @@ function Students() {
                                             student?.group ?
                                                 <div>
                                                     <h1 className="flex items-center gap-1">
-                                                        <DateTime date={student.group?.start_date} />
+                                                        <FormattedDate date={student.group?.start_date} />
                                                         <GoHorizontalRule />
                                                     </h1>
-                                                    <DateTime date={student.group?.end_date} />
+                                                    <FormattedDate date={student.group?.end_date} />
                                                 </div> :
                                                 <IoRemoveOutline />
                                         }

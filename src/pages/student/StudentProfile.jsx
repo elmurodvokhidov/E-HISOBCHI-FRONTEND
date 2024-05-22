@@ -23,19 +23,21 @@ import { getCookie } from "../../config/cookiesService";
 import { MdOutlinePrint } from "react-icons/md";
 import { IoMdMore } from "react-icons/io";
 import Swal from "sweetalert2";
-import { DateTime } from "../../components/DateTime";
+import { FormattedDate } from "../../components/FormattedDate";
+import Receipt from "../../components/Receipt";
+import { companyFailure, companyStart, companySuccess } from "../../redux/slices/companySlice";
 
 function StudentProfile({ student, isLoading, getStudentFunction }) {
     const { auth } = useSelector(state => state.auth);
     const { groups } = useSelector(state => state.group);
     const dispatch = useDispatch();
     const [studentPayment, setStudentPayment] = useState({
-        studentId: "",
         student_balance: "",
         method: "",
         amount: "",
         date: "",
         description: "",
+        createdAt: "",
     });
     const [newStudent, setNewStudent] = useState({
         first_name: "",
@@ -63,6 +65,7 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
         more: null,
         extra: false,
         payModal: false,
+        receiptModal: false,
     });
 
     const getAllGroupsFunc = async () => {
@@ -75,6 +78,18 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
         }
     };
 
+    // Mavjud kompaniyani olish funksiyasi
+    const getCompanyFunction = async () => {
+        try {
+            dispatch(companyStart());
+            const { data } = await AuthService.getCompany();
+            dispatch(companySuccess(data));
+        } catch (error) {
+            dispatch(companyFailure(error.response?.data.message));
+            if (!error.success) navigate('/company');
+        }
+    };
+
     useEffect(() => {
         getAllGroupsFunc();
     }, []);
@@ -83,10 +98,10 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
         setModals(prevState => ({ ...prevState, [modalName]: value }));
     };
 
+    // O'quvchi ma'lumotlarini o'zgartirish uchun modal oynani ochish
     const openModal = () => {
         setNewStudent(student);
         handleModal("modal", true);
-        handleModal("editModal", false);
     };
 
     const clearModal = () => {
@@ -111,9 +126,19 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
             imageModal: false,
             more: null,
             payModal: false,
+            receiptModal: false,
+        });
+        setStudentPayment({
+            student_balance: "",
+            method: "",
+            amount: "",
+            date: "",
+            description: "",
+            createdAt: "",
         });
     };
 
+    // O'quvchini ma'lumotlarini o'zgartirish
     const updateHandler = async (e) => {
         e.preventDefault();
         // o'quvchi parolini o'zgartirish
@@ -210,9 +235,16 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
         });
     };
 
+    // O'quvchini to'lov tarixini yangilash uchun modal oynani ochish
     const updateBtnFunc = (cost) => {
         setStudentPayment({ ...cost, student_balance: student?.balance });
         handleModal("payModal", true);
+    };
+
+    // O'quvchi to'lov tarixini print qilish uchun modal oynani ochish
+    const printReceipt = (pay) => {
+        setStudentPayment(pay);
+        handleModal("receiptModal", true);
     };
 
     return (
@@ -266,7 +298,7 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                                         <span className="text-gray-500">Tug'ilgan kun:</span>
                                         {
                                             student?.dob ?
-                                                <DateTime date={student?.dob} /> :
+                                                <FormattedDate date={student?.dob} /> :
                                                 <IoRemoveOutline />
                                         }
                                     </div>
@@ -391,10 +423,10 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                                                         </h2>
                                                         <div className="text-xs text-gray-500">
                                                             <h1 className="flex items-center gap-1">
-                                                                <DateTime date={student?.group.start_date} />
+                                                                <FormattedDate date={student?.group?.start_date} />
                                                                 <span className="inline-block align-middle w-4 border border-gray-300"></span>
                                                             </h1>
-                                                            <DateTime date={student?.group.end_date} />
+                                                            <FormattedDate date={student?.group?.end_date} />
                                                         </div>
                                                         <div className="text-xs text-gray-500">
                                                             <h1>{days.find(day => day.value === student?.group.day)?.title}</h1>
@@ -417,11 +449,11 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                             student?.payment_history.length > 0 ? <>
                             <div className="mt-10">
                                 <h1 className="text-gray-500 text-base border-b-2 pb-2">To'lovlar</h1>
-                                <div className="shadow-smooth rounded px-6 py-4 mt-6 overflow-y-auto bg-white">
-                                    <div className="w-fit flex lg:gap-4 p-2 text-sm">
+                                <div className="shadow-smooth rounded px-6 pb-4 mt-6 overflow-y-auto bg-white">
+                                    <div className="w-fit flex lg:gap-4 p-2 text-sm sticky top-0 bg-white pt-6">
                                         <h1 className="min-w-[150px]">Sana</h1>
                                         <h1 className="min-w-[200px]">Miqdor</h1>
-                                        <h1 className="min-w-[400px]">Izoh</h1>
+                                        <h1 className="min-w-[440px]">Izoh</h1>
                                     </div>
                                     <div className="w-fit max-h-60">
                                         {
@@ -431,7 +463,7 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                                                     className="studentPayHistory flex lg:gap-4 p-2 rounded odd:bg-gray-100"
                                                 >
                                                     <h1 className="min-w-[150px] text-sm">
-                                                        <DateTime date={pay.date} />
+                                                        <FormattedDate date={pay.date} />
                                                     </h1>
                                                     <h1 className={`min-w-[200px] text-base text-${pay.amount >= 0 ? 'green' : 'red'}-500`}>
                                                         {pay.amount >= 0 && <span>+</span>}
@@ -451,7 +483,7 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                                                                 <button
                                                                     className="text-green-500"
                                                                 >
-                                                                    <MdOutlinePrint className="text-[18px]" />
+                                                                    <MdOutlinePrint onClick={() => printReceipt(pay)} className="text-[18px]" />
                                                                 </button>
                                                                 <button onClick={() => updateBtnFunc(pay)}>
                                                                     <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -478,6 +510,7 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                         </> : null
                     }
                 </div>
+
             </div>
 
             {/* create new student and update student modal */}
@@ -502,6 +535,17 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                 student={student}
                 studentPayment={studentPayment}
                 setStudentPayment={setStudentPayment}
+                getCompanyFunction={getCompanyFunction}
+            />
+
+            {/* receipt modal */}
+            <Receipt
+                modals={modals}
+                handleModal={handleModal}
+                closeModal={clearModal}
+                payment={studentPayment}
+                student={student}
+                getCompanyFunction={getCompanyFunction}
             />
         </div >
     )

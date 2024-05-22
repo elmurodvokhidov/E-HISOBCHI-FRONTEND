@@ -111,7 +111,7 @@ export default function CostModal({
             style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modals.costModal ? "1" : "0", zIndex: modals.costModal ? "20" : "-1" }}>
             <form
                 onClick={(e) => e.stopPropagation()}
-                className="w-[27%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white"
+                className="lg:w-[27%] 2xsm:w-[60%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white"
                 style={{ right: modals.costModal ? "0" : "-200%" }}>
 
                 {/* Title and Close button */}
