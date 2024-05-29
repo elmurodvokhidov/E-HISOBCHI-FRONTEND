@@ -41,9 +41,9 @@ export default function AdminModal({
             style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modals.modal ? "1" : "0", zIndex: modals.modal ? "20" : "-1" }}>
             <form
                 onClick={(e) => e.stopPropagation()}
-                className="lg:w-[27%] 2xsm:w-[60%] h-screen fixed top-0 right-0 overflow-y-auto transition-all duration-300 bg-white"
+                className="lg:w-[27%] small:w-[60%] h-screen fixed top-0 right-0 overflow-y-auto transition-all duration-300 bg-white"
                 style={{ right: modals.modal ? "0" : "-200%" }}>
-                <div className="flex justify-between text-xl p-5 border-b-2">
+                <div className="flex justify-between text-xl pc:text-2xl p-5 border-b-2">
                     <h1>{newAdmin._id ? "Hisobni yangilash" : "Admin ma'lumotlari"}</h1>
                     <button
                         type="button"
@@ -55,7 +55,7 @@ export default function AdminModal({
                 <div className="flex flex-col gap-2 px-5 py-7">
                     {/* First Name */}
                     <div className="flex flex-col">
-                        <label htmlFor="first_name" className="text-sm">
+                        <label htmlFor="first_name" className="text-sm pc:text-lg">
                             <span>Ism</span>
                             <span className="ml-1 text-red-500">*</span>
                         </label>
@@ -66,12 +66,12 @@ export default function AdminModal({
                             type="text"
                             name="first_name"
                             id="first_name"
-                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
                     </div>
 
                     {/* Last Name */}
                     <div className="flex flex-col">
-                        <label htmlFor="last_name" className="text-sm">
+                        <label htmlFor="last_name" className="text-sm pc:text-lg">
                             <span>Familya</span>
                             <span className="ml-1 text-red-500">*</span>
                         </label>
@@ -82,12 +82,12 @@ export default function AdminModal({
                             type="text"
                             name="last_name"
                             id="last_name"
-                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
                     </div>
 
                     {/* Date of Birth */}
                     <div className="flex flex-col">
-                        <label htmlFor="dob" className="text-sm">Tug'ilgan sana</label>
+                        <label htmlFor="dob" className="text-sm pc:text-lg">Tug'ilgan sana</label>
                         <input
                             disabled={newAdmin._id ? modals.passModal : false}
                             onChange={getAuthCred}
@@ -95,17 +95,17 @@ export default function AdminModal({
                             type="date"
                             name="dob"
                             id="dob"
-                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
                     </div>
 
                     {/* Contact Number */}
                     <div className="flex flex-col">
-                        <label htmlFor="phoneNumber" className="text-sm">
+                        <label htmlFor="phoneNumber" className="text-sm pc:text-lg">
                             <span>Telefon</span>
                             <span className="ml-1 text-red-500">*</span>
                         </label>
                         <div className="flex">
-                            <label htmlFor="phoneNumber" className="text-base border-2 border-r-0 rounded-l border-gray-300 px-2 py-1">+998</label>
+                            <label htmlFor="phoneNumber" className="text-base pc:text-lg border-2 border-r-0 rounded-l border-gray-300 px-2 py-1">+998</label>
                             <input
                                 disabled={newAdmin._id ? modals.passModal : false}
                                 onChange={getAuthCred}
@@ -113,7 +113,7 @@ export default function AdminModal({
                                 type="number"
                                 name="phoneNumber"
                                 id="phoneNumber"
-                                className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 outline-cyan-600"
+                                className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 pc:text-lg outline-cyan-600"
                             />
                         </div>
                     </div>
@@ -125,7 +125,7 @@ export default function AdminModal({
                                 onClick={() => handleModal("passModal", !modals.passModal)}
                                 type="button"
                                 className="flex items-center justify-end gap-1">
-                                {modals.passModal ? <FaAngleUp className="text-sm" /> : <FaAngleDown className="text-sm" />}
+                                {modals.passModal ? <FaAngleUp className="text-sm pc:text-lg" /> : <FaAngleDown className="text-sm pc:text-lg" />}
                                 Yangi parol qo'shish
                             </button>
                         </> : null
@@ -134,7 +134,7 @@ export default function AdminModal({
                         modals.passModal ?
                             <>
                                 <div className="flex flex-col">
-                                    <label htmlFor="newPassword" className="text-sm">
+                                    <label htmlFor="newPassword" className="text-sm pc:text-lg">
                                         <span>Yangi parol</span>
                                         <span className="ml-1 text-red-500">*</span>
                                     </label>
@@ -143,10 +143,10 @@ export default function AdminModal({
                                         type="text"
                                         name="newPassword"
                                         id="newPassword"
-                                        className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                                        className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <label htmlFor="confirmPassword" className="text-sm">
+                                    <label htmlFor="confirmPassword" className="text-sm pc:text-lg">
                                         <span>Parolni tasdiqlang</span>
                                         <span className="ml-1 text-red-500">*</span>
                                     </label>
@@ -155,7 +155,7 @@ export default function AdminModal({
                                         type="text"
                                         name="confirmPassword"
                                         id="confirmPassword"
-                                        className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                                        className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
                                 </div>
                             </>
                             : null
@@ -169,23 +169,23 @@ export default function AdminModal({
                         {
                             modals.imageModal
                                 ?
-                                <FaAngleUp className="text-sm" />
+                                <FaAngleUp className="text-sm pc:text-lg" />
                                 :
-                                <FaAngleDown className="text-sm" />
+                                <FaAngleDown className="text-sm pc:text-lg" />
                         }
                         Rasm qo'shish
                     </button>
                     {
                         modals.imageModal ? <>
                             <div className="flex flex-col">
-                                <label htmlFor="avatar" className="text-sm">Rasm</label>
+                                <label htmlFor="avatar" className="text-sm pc:text-lg">Rasm</label>
                                 <input
                                     disabled={newAdmin._id ? modals.passModal : false}
                                     // onChange={getImage}
                                     type="file"
                                     name="avatar"
                                     id="avatar"
-                                    className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                                    className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
                             </div>
                         </> : null
                     }
@@ -194,7 +194,7 @@ export default function AdminModal({
                     <button
                         disabled={isLoading ? true : modals.imageModal ? newAdmin.avatar === "" ? true : false : false}
                         onClick={handleCreateAndUpdate}
-                        className="w-fit px-6 py-1 mt-8 bg-cyan-600 rounded-2xl text-white">
+                        className="w-fit px-6 py-1 mt-8 pc:text-lg bg-cyan-600 rounded-2xl text-white">
                         {isLoading ? "Loading..." : newAdmin._id ? "Saqlash" : "Qo'shish"}
                     </button>
                 </div>

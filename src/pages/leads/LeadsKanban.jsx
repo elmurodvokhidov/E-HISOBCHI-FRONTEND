@@ -163,7 +163,7 @@ export default function LeadsKanban() {
                 <div>
                     <button
                         onClick={() => handleModal("modal", true)}
-                        className="global_add_btn 2xsm:w-full 2xsm:mt-4 2xsm:h-8 sm:w-fit sm:mt-0 sm:py-0"
+                        className="global_add_btn small:w-full small:mt-4 small:h-8 sm:w-fit sm:mt-0 sm:py-0"
                     >
                         Yangisini qo'shish
                     </button>

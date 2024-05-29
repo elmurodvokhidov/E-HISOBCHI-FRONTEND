@@ -19,7 +19,7 @@ function NoticeEditModal({
             className="w-full h-screen fixed top-0 left-0 z-20"
             style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modals.modal ? "1" : "0", zIndex: modals.modal ? "20" : "-1" }}>
             <form onClick={(e) => e.stopPropagation()}
-                className="lg:w-[27%] 2xsm:w-[60%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white"
+                className="lg:w-[27%] small:w-[60%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white"
                 style={{ right: modals.modal ? "0" : "-200%" }}>
 
                 {/* Title and Close button */}
@@ -40,7 +40,7 @@ function NoticeEditModal({
                     <div className="flex flex-col">
                         <label
                             htmlFor="topic"
-                            className="text-sm">Topic</label>
+                            className="text-sm pc:text-lg">Topic</label>
                         <input
                             onChange={getNewNoticeCred}
                             value={newNotice.topic}
@@ -54,7 +54,7 @@ function NoticeEditModal({
                     <div className="flex flex-col">
                         <label
                             htmlFor="content"
-                            className="text-sm">Content</label>
+                            className="text-sm pc:text-lg">Content</label>
                         <textarea
                             onChange={getNewNoticeCred}
                             value={newNotice.content}
@@ -70,7 +70,7 @@ function NoticeEditModal({
                         <div className="w-[47%] flex flex-col">
                             <label
                                 htmlFor="from"
-                                className="text-sm">From:</label>
+                                className="text-sm pc:text-lg">From:</label>
                             <input
                                 onChange={getNewNoticeCred}
                                 value={newNotice.from}
@@ -84,7 +84,7 @@ function NoticeEditModal({
                         <div className="w-[47%] flex flex-col">
                             <label
                                 htmlFor="to"
-                                className="text-sm">To</label>
+                                className="text-sm pc:text-lg">To</label>
                             <input
                                 onChange={getNewNoticeCred}
                                 value={newNotice.to}

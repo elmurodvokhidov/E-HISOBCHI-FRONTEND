@@ -118,9 +118,9 @@ export default function Column({
 
     return (
         <div className="w-[360px] shrink-0 overflow-y-scroll overflow-x-hidden pr-2">
-            <div className="mb-3 flex items-center justify-between sticky top-0 bg-[#f8f8f8]">
+            <div className="mb-3 flex items-center justify-between sticky top-0 pc:text-lg bg-[#f8f8f8]">
                 <h3 className="flex items-center font-bold">{title} (<span className="rounded text-lg">{filteredLeads.length}</span>)</h3>
-                <button><img src={dotMenu} alt="dot menu" /></button>
+                <button><img className="pc:size-5" src={dotMenu} alt="dot menu" /></button>
             </div>
             <div
                 onDragOver={handleDragOver}

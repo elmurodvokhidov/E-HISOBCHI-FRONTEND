@@ -292,9 +292,9 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
                     </>
                 }
 
-                <div className="lg:w-2/3 2xsm:w-full">
+                <div className="lg:w-2/3 small:w-full">
                     {/* Guruh haqida ma'lumot */}
-                    <div className="xl:mt-0 2xsm:mt-8">
+                    <div className="xl:mt-0 small:mt-8">
                         <h1 className="text-xl">Guruhlar</h1>
                         <div className="flex flex-wrap gap-8 mt-2">
                             {

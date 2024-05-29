@@ -19,7 +19,7 @@ export default function TimeTable({ rooms, groups, teacher }) {
     return (
         <div className="overflow-x-auto p-4">
             <div className="flex justify-between pb-4">
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 pc:text-lg">
                     <button
                         onClick={() => setFilter("odd")}
                         className={`${filter === 'odd' && 'underscore'}`}>
@@ -36,7 +36,7 @@ export default function TimeTable({ rooms, groups, teacher }) {
                         Boshqa
                     </button>
                 </div>
-                <h1 className="text-xl">Jadval</h1>
+                <h1 className="text-xl pc:text-2xl">Jadval</h1>
                 <div></div>
             </div>
             <table className="border-collapse">
@@ -44,14 +44,14 @@ export default function TimeTable({ rooms, groups, teacher }) {
                     <tr className="border border-gray-300">
                         <td className="border-r border-r-gray-300"></td>
                         {timeArray.map((time, index) => (
-                            <td key={index} className="border-r border-r-gray-300 text-sm text-center p-2 last:border-r-0">{time}</td>
+                            <td key={index} className="border-r border-r-gray-300 text-sm pc:text-base text-center p-2 last:border-r-0">{time}</td>
                         ))}
                     </tr>
                 </thead>
                 <tbody>
                     {rooms.map(room => (
                         <tr key={room._id} className="border border-gray-300">
-                            <td className="min-w-24 text-base text-center">{room.name}</td>
+                            <td className="min-w-24 text-base pc:text-lg text-center">{room.name}</td>
                             <TimeTableCells
                                 room={room}
                                 groups={filteredGroups}

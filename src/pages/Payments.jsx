@@ -1,5 +1,4 @@
 import { CiCoins1 } from "react-icons/ci";
-import { GoHorizontalRule } from "react-icons/go";
 import SplineChart from "../components/charts/SplineChart";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -34,6 +33,7 @@ export default function Payments() {
     const { courses } = useSelector(state => state.course);
     const { teachers } = useSelector(state => state.teacher);
     const { costs } = useSelector(state => state.cost);
+    const { company } = useSelector(state => state.company);
     const dispatch = useDispatch();
     const [payments, setPayments] = useState([]);
     const [filters, setFilters] = useState({
@@ -199,17 +199,15 @@ export default function Payments() {
 
     return (
         <div className="container flex flex-col gap-6">
-            <h1 className="text-2xl">Barcha to'lovlar</h1>
+            <h1 className="text-2xl pc:text-3xl">Barcha to'lovlar</h1>
             <div className="lg:flex justify-between gap-10">
                 <div className="w-fit flex flex-col gap-6">
-                    <div className="min-w-[400px] flex items-center justify-between gap-6 relative rounded before:w-1 before:h-full before:absolute before:rounded-lg before:bg-cyan-600 bg-white shadow-md text-base">
+                    <div className="min-w-[400px] pc:min-w-[450px] flex items-center justify-between gap-6 relative rounded before:w-1 before:h-full before:absolute before:rounded-lg before:bg-cyan-600 bg-white shadow-md text-base pc:text-lg">
                         <div className="my-3 ml-5">
                             <div className="flex items-center gap-2">
                                 <h1 className="flex gap-2">
                                     <span>To'lovlar miqdori:</span>
-                                    <span>
-                                        {Math.round(payments.reduce((total, pay) => total + pay.amount, 0)).toLocaleString()}
-                                    </span>
+                                    <span>{Math.round(payments.reduce((total, pay) => total + pay.amount, 0)).toLocaleString()}</span>
                                     <span>UZS</span>
                                 </h1>
                                 {/* <span>(04.05.2024</span> */}
@@ -217,21 +215,15 @@ export default function Payments() {
                             {/* <h1 className="flex items-center"><GoHorizontalRule />04.06.2024)</h1> */}
                         </div>
 
-                        <CiCoins1 className="text-3xl text-cyan-600 mr-4" />
+                        <CiCoins1 className="text-3xl pc:text-4xl text-cyan-600 mr-4" />
                     </div>
 
-                    <div className="min-w-[400px] flex items-center justify-between gap-6 relative rounded before:w-1 before:h-full before:absolute before:rounded-lg before:bg-cyan-600 bg-white shadow-md text-base">
+                    <div className="min-w-[400px] pc:min-w-[450px] flex items-center justify-between gap-6 relative rounded before:w-1 before:h-full before:absolute before:rounded-lg before:bg-cyan-600 bg-white shadow-md text-base pc:text-lg">
                         <div className="my-3 ml-5">
                             <div className="flex items-center gap-2">
                                 <h1 className="flex gap-2">
                                     <span>Sof foyda miqdori:</span>
-                                    <span>
-                                        {
-                                            Math.round(
-                                                (payments.reduce((total, pay) => total + pay.amount, 0)) - (costs.reduce((total, cost) => total + (+cost.amount), 0))
-                                            ).toLocaleString()
-                                        }
-                                    </span>
+                                    <span>{Math.round(company?.budget || 0).toLocaleString()}</span>
                                     <span>UZS</span>
                                 </h1>
                                 {/* <span>(04.05.2024</span> */}
@@ -239,10 +231,10 @@ export default function Payments() {
                             {/* <h1 className="flex items-center"><GoHorizontalRule />04.06.2024)</h1> */}
                         </div>
 
-                        <CiCoins1 className="text-3xl text-cyan-600 mr-4" />
+                        <CiCoins1 className="text-3xl pc:text-4xl text-cyan-600 mr-4" />
                     </div>
 
-                    <ul className="list-disc rounded shadow-md py-6 px-12 text-sm bg-white">
+                    <ul className="list-disc rounded shadow-md py-6 px-12 text-sm pc:text-base bg-white">
                         <li>Naqd pul: <span>
                             {
                                 Math.round(payments.filter(item => item.method === "cash")
@@ -273,7 +265,7 @@ export default function Payments() {
                     <input
                         value={filters.searchBy}
                         onChange={handleFilterChange}
-                        className="w-48 p-2 text-xs outline-cyan-600 border rounded bg-[#f8f8f8]"
+                        className="w-48 pc:w-60 p-2 text-xs pc:text-base outline-cyan-600 border rounded bg-[#f8f8f8]"
                         type="text"
                         name="searchBy"
                         id="searchBy"
@@ -283,7 +275,7 @@ export default function Payments() {
                     <input
                         value={filters.amount}
                         onChange={handleFilterChange}
-                        className="w-36 p-2 text-xs outline-cyan-600 border rounded bg-[#f8f8f8]"
+                        className="w-36 p-2 text-xs pc:text-base outline-cyan-600 border rounded bg-[#f8f8f8]"
                         type="text"
                         name="amount"
                         id="amount"
@@ -291,10 +283,10 @@ export default function Payments() {
                     />
 
                     {/* Courses */}
-                    <div className="w-28 relative text-gray-500">
+                    <div className="w-28 pc:w-36 relative text-gray-500">
                         <label
                             htmlFor="course"
-                            className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
+                            className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
                             <span>Kurslar</span>
                         </label>
                         <select
@@ -302,10 +294,10 @@ export default function Payments() {
                             onChange={handleFilterChange}
                             name="course"
                             id="course"
-                            className="w-full p-2 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]">
+                            className="w-full p-2 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]">
                             <option
                                 value=""
-                                className="text-sm italic">
+                                className="text-sm pc:text-base italic">
                                 None
                             </option>
                             {
@@ -313,7 +305,7 @@ export default function Payments() {
                                     <option
                                         key={course?._id}
                                         value={course?._id}
-                                        className="text-sm">
+                                        className="text-sm pc:text-lg">
                                         {course?.title}
                                     </option>
                                 ))
@@ -322,10 +314,10 @@ export default function Payments() {
                     </div>
 
                     {/* Groups */}
-                    <div className="w-28 relative text-gray-500">
+                    <div className="w-28 pc:w-36 relative text-gray-500">
                         <label
                             htmlFor="group"
-                            className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
+                            className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
                             <span>Guruhlar</span>
                         </label>
                         <select
@@ -333,10 +325,10 @@ export default function Payments() {
                             onChange={handleFilterChange}
                             name="group"
                             id="group"
-                            className="w-full p-2 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]">
+                            className="w-full p-2 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]">
                             <option
                                 value=""
-                                className="text-sm italic">
+                                className="text-sm pc:text-base italic">
                                 None
                             </option>
                             {
@@ -344,7 +336,7 @@ export default function Payments() {
                                     <option
                                         key={group?._id}
                                         value={group?._id}
-                                        className="text-sm">
+                                        className="text-sm pc:text-lg">
                                         {group?.name}
                                     </option>
                                 ))
@@ -353,10 +345,10 @@ export default function Payments() {
                     </div>
 
                     {/* Teacher */}
-                    <div className="w-28 relative text-gray-500">
+                    <div className="w-28 pc:w-36 relative text-gray-500">
                         <label
                             htmlFor="teacher"
-                            className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
+                            className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
                             <span>O'qituvchi</span>
                         </label>
                         <select
@@ -364,10 +356,10 @@ export default function Payments() {
                             onChange={handleFilterChange}
                             name="teacher"
                             id="teacher"
-                            className="w-full p-2 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]">
+                            className="w-full p-2 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]">
                             <option
                                 value=""
-                                className="text-sm italic">
+                                className="text-sm pc:text-base italic">
                                 None
                             </option>
                             {
@@ -375,7 +367,7 @@ export default function Payments() {
                                     <option
                                         key={teacher?._id}
                                         value={teacher?._id}
-                                        className="text-sm">
+                                        className="text-sm pc:text-lg">
                                         {teacher?.first_name + " "}
                                         {teacher?.last_name}
                                     </option>
@@ -385,10 +377,10 @@ export default function Payments() {
                     </div>
 
                     {/* Mehtod */}
-                    <div className="w-28 relative text-gray-500">
+                    <div className="w-28 pc:w-36 relative text-gray-500">
                         <label
                             htmlFor="method"
-                            className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
+                            className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
                             <span>To'lov turi</span>
                         </label>
                         <select
@@ -396,20 +388,20 @@ export default function Payments() {
                             onChange={handleFilterChange}
                             name="method"
                             id="method"
-                            className="w-full p-2 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]">
+                            className="w-full p-2 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]">
                             <option
                                 value=""
-                                className="text-sm italic">
+                                className="text-sm pc:text-base italic">
                                 None
                             </option>
                             <option
                                 value="cash"
-                                className="text-sm">
+                                className="text-sm pc:text-lg">
                                 Cash
                             </option>
                             <option
                                 value="card"
-                                className="text-sm">
+                                className="text-sm pc:text-lg">
                                 Card
                             </option>
                         </select>
@@ -419,7 +411,7 @@ export default function Payments() {
                     <div className="relative text-gray-500">
                         <label
                             htmlFor="start_date"
-                            className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
+                            className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
                             <span>Sanadan</span>
                         </label>
                         <input
@@ -428,14 +420,14 @@ export default function Payments() {
                             type="date"
                             name="start_date"
                             id="start_date"
-                            className="w-full p-1.5 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]" />
+                            className="w-full p-1.5 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]" />
                     </div>
 
                     {/* End Date */}
                     <div className="relative text-gray-500">
                         <label
                             htmlFor="end_date"
-                            className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
+                            className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
                             <span>Sanagacha</span>
                         </label>
                         <input
@@ -444,7 +436,7 @@ export default function Payments() {
                             type="date"
                             name="end_date"
                             id="end_date"
-                            className="w-full p-1.5 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]" />
+                            className="w-full p-1.5 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]" />
                     </div>
 
                     <button
@@ -458,7 +450,7 @@ export default function Payments() {
                             start_date: "",
                             end_date: ""
                         })}
-                        className="border rounded p-2 text-sm text-gray-700 bg-[#f8f8f8] hover:bg-gray-100 hover:text-gray-500 transition-all"
+                        className="border rounded p-2 text-sm pc:text-base text-gray-700 bg-[#f8f8f8] hover:bg-gray-100 hover:text-gray-500 transition-all"
                     >
                         Filterni tiklash
                     </button>
@@ -467,13 +459,13 @@ export default function Payments() {
                 {/* Barcha to'lovlar */}
                 <div className="px-6 py-8 overflow-x-auto rounded shadow-md bg-white">
                     <div className="flex justify-between pb-2 border-b border-b-gray-200 font-semibold text-sm">
-                        <h4 className="min-w-[100px] text-sm">Sana</h4>
-                        <h4 className="min-w-[200px] text-base">O'quvchi ismi</h4>
-                        <h4 className="min-w-[150px] text-base">Sum</h4>
-                        <h4 className="min-w-[100px] text-sm capitalize">To'lov turi</h4>
-                        <h4 className="min-w-[200px] text-base">O'qituvchi</h4>
-                        <h4 className="min-w-[100px] text-sm">Guruh</h4>
-                        <h4 className="min-w-[400px] text-sm">Izoh</h4>
+                        <h4 className="min-w-[100px] text-sm pc:text-base">Sana</h4>
+                        <h4 className="min-w-[200px] text-base pc:text-lg">O'quvchi ismi</h4>
+                        <h4 className="min-w-[150px] text-base pc:text-lg">Sum</h4>
+                        <h4 className="min-w-[100px] text-sm pc:text-base capitalize">To'lov turi</h4>
+                        <h4 className="min-w-[200px] text-base pc:text-lg">O'qituvchi</h4>
+                        <h4 className="min-w-[100px] text-sm pc:text-base">Guruh</h4>
+                        <h4 className="min-w-[400px] text-sm pc:text-base">Izoh</h4>
                     </div>
 
                     <div>
@@ -494,8 +486,8 @@ export default function Payments() {
                                                 key={pay._id}
                                                 className="flex justify-between py-2 border-b border-b-gray-200 last:border-b-0"
                                             >
-                                                <h4 className="min-w-[100px] text-sm"><FormattedDate date={pay.date} /></h4>
-                                                <h4 className="min-w-[200px] text-base">
+                                                <h4 className="min-w-[100px] text-sm pc:text-base"><FormattedDate date={pay.date} /></h4>
+                                                <h4 className="min-w-[200px] text-base pc:text-lg">
                                                     <NavLink
                                                         to={`/admin/student-info/${pay.studentId?._id}`}
                                                         className="hover:text-cyan-500"
@@ -504,19 +496,19 @@ export default function Payments() {
                                                         {pay.studentId?.last_name}
                                                     </NavLink>
                                                 </h4>
-                                                <h4 className="min-w-[150px] text-base">
+                                                <h4 className="min-w-[150px] text-base pc:text-lg">
                                                     {Math.round(pay.amount).toLocaleString()}
                                                     <span className="text-xs"> UZS</span>
                                                 </h4>
-                                                <h4 className="min-w-[100px] text-sm capitalize">{pay.method}</h4>
-                                                <h4 className="min-w-[200px] text-base">
+                                                <h4 className="min-w-[100px] text-sm pc:text-base capitalize">{pay.method}</h4>
+                                                <h4 className="min-w-[200px] text-base pc:text-lg">
                                                     {
                                                         pay.studentId?.group?.teacher ?
                                                             <NavLink className="hover:text-cyan-600 transition-all" to={`/admin/teacher-info/${pay.studentId?.group?.teacher?._id}`}>{pay.studentId?.group?.teacher?.first_name + " " + pay.studentId?.group?.teacher?.last_name}</NavLink> :
                                                             <IoRemoveOutline />
                                                     }
                                                 </h4>
-                                                <h4 className="min-w-[100px] text-sm">
+                                                <h4 className="min-w-[100px] text-sm pc:text-base">
                                                     {
                                                         pay.studentId?.group ?
                                                             <span className="bg-gray-200 p-1 rounded">
@@ -525,7 +517,7 @@ export default function Payments() {
                                                             <IoRemoveOutline />
                                                     }
                                                 </h4>
-                                                <h4 className="min-w-[400px] flex items-center text-sm">
+                                                <h4 className="min-w-[400px] flex items-center text-sm pc:text-base">
                                                     {
                                                         pay.description === "" ?
                                                             <IoRemoveOutline /> :
@@ -535,7 +527,7 @@ export default function Payments() {
                                             </div>
                                         ))
                                     }
-                                </> : <h1 className="text-base mt-6 text-center">To'lov tarixi bo'sh!</h1>
+                                </> : <h1 className="text-base pc:text-lg mt-6 text-center">To'lov tarixi bo'sh!</h1>
                         }
                     </div>
                 </div>
@@ -545,7 +537,7 @@ export default function Payments() {
                     disabled={isLoading}
                     onClick={exportToExcel}
                     id="downloadExelBtn"
-                    className="size-8 relative float-end flex items-center justify-center mt-8 text-gray-400 border border-gray-300 outline-cyan-600 text-xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all"
+                    className="size-8 pc:size-10 relative float-end flex items-center justify-center mt-8 text-gray-400 border border-gray-300 outline-cyan-600 text-xl pc:text-2xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all"
                 >
                     <MdFileDownload />
                 </button>

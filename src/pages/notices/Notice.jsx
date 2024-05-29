@@ -237,7 +237,7 @@ function Notice() {
                                                         }} className="relative cursor-pointer text-cyan-600 text-xl">
                                                             <IoMdMore />
                                                             {/* more btn modal */}
-                                                            <div className={`${modals.more === notice._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute 2xsm:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] bg-white`}>
+                                                            <div className={`${modals.more === notice._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute small:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] bg-white`}>
                                                                 <button
                                                                     onClick={() => openModal(notice._id)}
                                                                     className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"
@@ -266,8 +266,8 @@ function Notice() {
                                         </div>
                                         <p className="text-gray-600 mb-4">{notice.content}</p>
                                         <div className="flex justify-between items-center text-gray-500">
-                                            <p className="text-sm">{notice.from}</p>
-                                            <p className="text-sm">
+                                            <p className="text-sm pc:text-lg">{notice.from}</p>
+                                            <p className="text-sm pc:text-lg">
                                                 {notice.createdAt < notice.updatedAt ?
                                                     <FormattedDate date={notice.updatedAt} /> :
                                                     <FormattedDate date={notice.createdAt} />}

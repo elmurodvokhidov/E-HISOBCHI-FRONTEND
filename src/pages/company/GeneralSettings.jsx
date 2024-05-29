@@ -75,10 +75,10 @@ function GeneralSettings() {
     };
 
     return (
-        <div className="w-full h-screen overflow-auto pt-24 pb-10 px-10">
-            <h1 className="text-3xl mb-8">Umumiy sozlamalar</h1>
-            <div className="w-fit flex items-center 2xsm:flex-col lg:flex-row gap-20 border rounded-md shadow-md px-10 py-8 bg-white">
-                {company?.image && <img src={company.image} className="size-[400px]" alt="company logo" />}
+        <div className="w-full h-screen overflow-auto pt-24 pc:pt-28 pb-10 px-10">
+            <h1 className="text-3xl pc:text-4xl mb-8">Umumiy sozlamalar</h1>
+            <div className="w-fit flex items-center small:flex-col lg:flex-row gap-20 border rounded-md shadow-md px-10 py-8 bg-white">
+                {company?.image && <img crossOrigin="anonymous" src={company.image} className="size-[400px]" alt="company logo" />}
 
                 <form className="w-[450px] flex flex-col gap-4">
                     {/* Company logo */}
@@ -89,13 +89,13 @@ function GeneralSettings() {
                             type="file"
                             name="image"
                             id="image"
-                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
                     </div>
 
                     {/* Company Name */}
                     <div className="flex flex-col gap-1">
                         <label
-                            className="flex gap-1"
+                            className="flex gap-1 pc:text-lg"
                             htmlFor="name">
                             <span>Kompaniya nomi</span>
                             <span className="text-red-500">*</span>
@@ -107,20 +107,20 @@ function GeneralSettings() {
                             type="text"
                             name="name"
                             id="name"
-                            className="w-full border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600"
+                            className="w-full border-2 border-gray-300 rounded pc:text-lg px-2 py-1 outline-cyan-600"
                         />
                     </div>
 
                     {/* Phone Number */}
                     <div className="flex flex-col gap-1">
                         <label
-                            className="flex gap-1"
+                            className="flex gap-1 pc:text-lg"
                             htmlFor="phoneNumber">
                             <span>Kompaniya telefon raqami</span>
                             <span className="text-red-500">*</span>
                         </label>
                         <div className="flex">
-                            <label htmlFor="phoneNumber" className="text-base border-2 border-r-0 rounded-l border-gray-300 px-2 py-1">+998</label>
+                            <label htmlFor="phoneNumber" className="text-base pc:text-lg border-2 border-r-0 rounded-l border-gray-300 px-2 py-1">+998</label>
                             <input
                                 disabled={isLoading}
                                 onChange={getCompanyCred}
@@ -128,7 +128,7 @@ function GeneralSettings() {
                                 type="number"
                                 name="phoneNumber"
                                 id="phoneNumber"
-                                className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 outline-cyan-600"
+                                className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 pc:text-lg outline-cyan-600"
                             />
                         </div>
                     </div>
@@ -138,7 +138,7 @@ function GeneralSettings() {
                         <button
                             disabled={!isLoading && companyCred.name !== "" && companyCred.phoneNumber !== "" ? false : true}
                             onClick={handleUpdate}
-                            className="w-fit px-6 py-1 mt-8 bg-cyan-600 rounded-2xl text-white disabled:bg-gray-400">
+                            className="w-fit px-6 py-1 mt-8 bg-cyan-600 rounded-2xl pc:text-lg text-white disabled:bg-gray-400">
                             {isLoading ? "Loading..." : "Saqlash"}
                         </button>
                     </div>

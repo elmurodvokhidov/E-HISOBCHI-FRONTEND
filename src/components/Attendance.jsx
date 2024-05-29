@@ -131,7 +131,7 @@ export default function Attendance({ group, isLoading }) {
         <>
             {
                 isLoading ?
-                    <div className="2xsm:w-[900px] 2xl:w-full">
+                    <div className="small:w-[900px] 2xl:w-full">
                         <Skeleton
                             parentWidth={100}
                             firstChildWidth={85}
@@ -139,7 +139,7 @@ export default function Attendance({ group, isLoading }) {
                             thirdChildWidth={65}
                         />
                     </div> : <>
-                        <div className="2xsm:w-[900px] 2xl:w-full flex flex-col gap-5 border p-5 bg-white shadow-md rounded">
+                        <div className="small:w-[900px] 2xl:w-full flex flex-col gap-5 border p-5 bg-white shadow-md rounded">
                             <h2 className="text-xl">Davomat</h2>
                             <table>
                                 <thead>

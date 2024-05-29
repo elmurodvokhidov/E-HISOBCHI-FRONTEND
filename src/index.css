@@ -239,3 +239,17 @@ input[type=number]::-webkit-outer-spin-button {
     border-bottom: 2px solid rgb(8, 145, 178);
     color: rgb(8, 145, 178);
 }
+
+@media screen and (min-width: 1700px) {
+    .global_add_btn {
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+        padding: 6px 26px;
+    }
+
+    #downloadExelBtn:hover::before {
+        top: -40px;
+        font-size: 15px;
+        width: 120px;
+    }
+}

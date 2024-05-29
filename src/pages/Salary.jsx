@@ -63,10 +63,7 @@ export default function Salary() {
                     const { data } = await AuthService.setAllTeacherSalaryPer({ salaryPer: salarySettings.globalPer });
                     getAllTeachersFunction();
                     clearInput();
-                    Toast.fire({
-                        icon: "success",
-                        title: data.message
-                    });
+                    Toast.fire({ icon: "success", title: data.message });
                 }
                 // Tanlangan o'qituvchiga ish haqi foizini belgilash
                 else {
@@ -74,17 +71,11 @@ export default function Salary() {
                     const { data } = await AuthService.setTeacherSalaryPer(salarySettings.id, salarySettings.salaryPer);
                     getAllTeachersFunction();
                     clearInput();
-                    Toast.fire({
-                        icon: "success",
-                        title: data.message
-                    });
+                    Toast.fire({ icon: "success", title: data.message });
                 }
             }
             else {
-                Toast.fire({
-                    icon: "error",
-                    title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
-                });
+                Toast.fire({ icon: "error", title: "Iltimos, barcha bo'sh joylarni to'ldiring!" });
             }
         } catch (error) {
             console.log(error);
@@ -96,20 +87,20 @@ export default function Salary() {
     return (
         <div className="container">
             <div className="flex flex-col gap-6 p-6 shadow-md bg-white">
-                <div className="flex items-center gap-2 text-2xl mb-1">
+                <div className="flex items-center gap-2 text-2xl pc:text-3xl mb-1">
                     <IoSettingsOutline className="" />
                     <h1>Ish haqi kalkulyatorini sozlash</h1>
                 </div>
 
-                <div className="flex items-center gap-6 text-xl shadow-md">
+                <div className="flex items-center gap-6 text-xl pc:text-2xl shadow-md">
                     <div className="w-[5px] h-[80px] rounded-md bg-cyan-600"></div>
-                    <h1 className="size-14 flex items-center justify-center text-4xl text-white border-[3px] border-black bg-cyan-600">1</h1>
+                    <h1 className="size-14 flex items-center justify-center text-4xl pc:text-5xl text-white border-[3px] border-black bg-cyan-600">1</h1>
                     <h1>Barcha o'qituvchilar uchun standart xarajatlarni belgilash parametrlarini ko'rsating</h1>
                 </div>
 
                 {/* Barcha o'qituvchilar uchun */}
                 <form className="w-11/12">
-                    <label htmlFor="forAllTeacher" className="text-base">Xarajat qiymati</label>
+                    <label htmlFor="forAllTeacher" className="text-base pc:text-lg">Xarajat qiymati</label>
                     <div className="flex items-center gap-8">
                         <div className="w-full flex items-center">
                             <input
@@ -118,39 +109,39 @@ export default function Salary() {
                                 type="number"
                                 name="globalPer"
                                 id="forAllTeacher"
-                                className="w-full border border-gray-200 outline-cyan-600 p-2 rounded-l-md"
+                                className="w-full border pc:text-lg border-gray-200 outline-cyan-600 p-2 rounded-l-md"
                             />
                             <button
                                 disabled
-                                className="min-w-48 py-2 rounded-r-3xl bg-gray-200"
+                                className="min-w-48 py-2 pc:text-lg rounded-r-3xl bg-gray-200"
                             >
                                 talaba to'lovidan %
                             </button>
                         </div>
                         <button
                             onClick={setTeachersSalaryPerFunction}
-                            className="border-2 border-cyan-600 rounded-3xl text-cyan-600 py-2 px-4"
+                            className="border-2 border-cyan-600 rounded-3xl pc:text-lg text-cyan-600 py-2 px-4"
                         >
                             {loading === "1" ? "Loading..." : "Saqlash"}
                         </button>
                     </div>
                 </form>
 
-                <div className="flex items-center gap-6 text-xl shadow-md">
+                <div className="flex items-center gap-6 text-xl pc:text-2xl shadow-md">
                     <div className="w-[5px] h-[80px] rounded-md bg-cyan-600"></div>
-                    <h1 className="size-14 flex items-center justify-center text-4xl text-white border-[3px] border-black bg-cyan-600">2</h1>
+                    <h1 className="size-14 flex items-center justify-center text-4xl pc:text-5xl text-white border-[3px] border-black bg-cyan-600">2</h1>
                     <h1>Ba'zi o'qituvchilar uchun individual hisoblashni belgilashingiz mumkin</h1>
                 </div>
 
                 {/* Individual o'qituvchilar uchun */}
                 <form className="w-11/12 flex items-center gap-8">
                     <div className="w-1/4 flex flex-col">
-                        <label htmlFor="teacher">O'qituvchini tanlang</label>
+                        <label htmlFor="teacher pc:text-lg">O'qituvchini tanlang</label>
                         <select onChange={getInputValue} value={salarySettings.id} name="id" id="teacher" className="border border-gray-200 outline-cyan-600 py-2 px-4 rounded-md">
-                            <option value="" className="italic">None</option>
+                            <option value="" className="italic pc:text-lg">None</option>
                             {
                                 teachers.map(teacher => (
-                                    <option value={teacher._id} key={teacher._id}>
+                                    <option value={teacher._id} key={teacher._id} className="pc:text-lg">
                                         {teacher.first_name + " " + teacher.last_name}
                                     </option>
                                 ))
@@ -159,7 +150,7 @@ export default function Salary() {
                     </div>
 
                     <div className="w-3/4">
-                        <label htmlFor="forOneTeacher" className="text-base">Xarajat qiymati</label>
+                        <label htmlFor="forOneTeacher" className="text-base pc:text-lg">Xarajat qiymati</label>
                         <div className="flex items-center gap-8">
                             <div className="w-full flex items-center">
                                 <input
@@ -168,18 +159,18 @@ export default function Salary() {
                                     type="number"
                                     name="salaryPer"
                                     id="forOneTeacher"
-                                    className="w-full border border-gray-200 outline-cyan-600 p-2 rounded-l-md"
+                                    className="w-full border pc:text-lg border-gray-200 outline-cyan-600 p-2 rounded-l-md"
                                 />
                                 <button
                                     disabled
-                                    className="min-w-48 py-2 rounded-r-3xl bg-gray-200"
+                                    className="min-w-48 py-2 pc:text-lg rounded-r-3xl bg-gray-200"
                                 >
                                     talaba to'lovidan %
                                 </button>
                             </div>
                             <button
                                 onClick={setTeachersSalaryPerFunction}
-                                className="border-2 border-cyan-600 rounded-3xl text-cyan-600 py-2 px-4"
+                                className="border-2 border-cyan-600 rounded-3xl pc:text-lg text-cyan-600 py-2 px-4"
                             >
                                 {loading === "2" ? "Loading..." : "Saqlash"}
                             </button>
@@ -189,7 +180,7 @@ export default function Salary() {
 
                 {/* Barcha o'qituvchilar */}
                 <div className="my-4">
-                    <div className="flex items-center text-sm pb-2 pl-2 border-b">
+                    <div className="flex items-center text-sm pc:text-base pb-2 pl-2 border-b">
                         <p className="min-w-[500px] font-semibold">O'qituvchi</p>
                         <p className="min-w-[150px] font-semibold">Hisoblash usuli</p>
                     </div>
@@ -206,7 +197,7 @@ export default function Salary() {
                             </> : <>
                                 {
                                     teachers.filter(teacher => teacher.salaryPer > 0).map(teacher => (
-                                        <div key={teacher._id} className="flex items-center text-base py-2 pl-2 border-b">
+                                        <div key={teacher._id} className="flex items-center text-base pc:text-lg py-2 pl-2 border-b">
                                             <p className="min-w-[500px]">
                                                 {teacher?.first_name + " " + teacher?.last_name}
                                             </p>

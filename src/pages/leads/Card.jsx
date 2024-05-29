@@ -20,12 +20,12 @@ const Card = ({
                 onDragStart={(e) => handleDragStart(e, lead)}
                 className="flex items-center justify-between cursor-grab rounded-lg border border-gray-100 p-3 shadow-md active:cursor-grabbing"
             >
-                <div className="flex flex-col items-start gap-1 text-sm">
+                <div className="flex flex-col items-start gap-1 text-sm pc:text-lg">
                     <h1>{lead.first_name} {lead.last_name}</h1>
-                    <p className="text-xs text-blue-500">{lead.phone}</p>
+                    <p className="text-xs pc:text-base text-blue-500">{lead.phone}</p>
                 </div>
 
-                <div className="flex items-center justify-between gap-2 text-sm">
+                <div className="flex items-center justify-between gap-2 text-sm pc:text-lg">
                     <button
                         onClick={() => openUpdateModal(lead)}
                         className="hover:text-green-500"

@@ -95,23 +95,14 @@ function Teachers() {
                     const { data } = await AuthService.updateTeacherPass({ ...newPass, phoneNumber: newTeacher.phoneNumber });
                     dispatch(getTeacherSuccess(data));
                     clearModal();
-                    Toast.fire({
-                        icon: "success",
-                        title: data.message
-                    });
+                    Toast.fire({ icon: "success", title: data.message });
                 } catch (error) {
                     dispatch(teacherFailure(error.response?.data.message));
-                    ToastLeft.fire({
-                        icon: "error",
-                        title: error.response?.data.message || error.message
-                    });
+                    ToastLeft.fire({ icon: "error", title: error.response?.data.message || error.message });
                 }
             }
             else {
-                ToastLeft.fire({
-                    icon: "error",
-                    title: "Parol 8 ta belgidan kam bo'lmasligi kerak!"
-                });
+                ToastLeft.fire({ icon: "error", title: "Parol 8 ta belgidan kam bo'lmasligi kerak!" });
             }
         }
         else {
@@ -129,15 +120,9 @@ function Teachers() {
                             const { data } = await AuthService.addNewTeacher({ ...newTeacher, ...newPass });
                             getAllTeachersFunc();
                             clearModal();
-                            Toast.fire({
-                                icon: "success",
-                                title: data.message
-                            });
+                            Toast.fire({ icon: "success", title: data.message });
                         } else {
-                            ToastLeft.fire({
-                                icon: "error",
-                                title: "Parol 8 ta belgidan kam bo'lmasligi kerak!"
-                            });
+                            ToastLeft.fire({ icon: "error", title: "Parol 8 ta belgidan kam bo'lmasligi kerak!" });
                         }
                     } else {
                         // o'qituvchi ma'lumotlarini o'zgartirish
@@ -146,25 +131,16 @@ function Teachers() {
                         dispatch(getTeacherSuccess(data));
                         getAllTeachersFunc();
                         clearModal();
-                        Toast.fire({
-                            icon: "success",
-                            title: data.message
-                        });
+                        Toast.fire({ icon: "success", title: data.message });
                     }
 
                 } catch (error) {
                     dispatch(teacherFailure(error.response?.data.message));
-                    ToastLeft.fire({
-                        icon: "error",
-                        title: error.response?.data.message || error.message
-                    });
+                    ToastLeft.fire({ icon: "error", title: error.response?.data.message || error.message });
                 }
             }
             else {
-                ToastLeft.fire({
-                    icon: "error",
-                    title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
-                });
+                ToastLeft.fire({ icon: "error", title: "Iltimos, barcha bo'sh joylarni to'ldiring!" });
             }
         }
     };
@@ -189,16 +165,10 @@ function Teachers() {
                 dispatch(teacherStart());
                 AuthService.deleteTeacher(id).then((res) => {
                     getAllTeachersFunc();
-                    Toast.fire({
-                        icon: "success",
-                        title: res?.data.message
-                    });
+                    Toast.fire({ icon: "success", title: res?.data.message });
                 }).catch((error) => {
                     dispatch(teacherFailure(error.response?.data.message));
-                    ToastLeft.fire({
-                        icon: "error",
-                        title: error.response?.data.message || error.message
-                    });
+                    ToastLeft.fire({ icon: "error", title: error.response?.data.message || error.message });
                 });
             }
         });
@@ -230,30 +200,30 @@ function Teachers() {
     return (
         <div
             onClick={() => handleModal("more", null)}
-            className="w-full h-screen overflow-auto pt-24 px-10 bg-[#f8f8f8]"
+            className="w-full h-screen overflow-auto pt-24 pc:pt-28 px-10 bg-[#f8f8f8]"
         >
             <div className="sm:flex justify-between relative">
-                <div className="flex items-end gap-4 text-sm">
-                    <h1 className="capitalize text-2xl">O'qituvchilar</h1>
+                <div className="flex items-end gap-4 text-sm pc:text-base">
+                    <h1 className="capitalize text-2xl pc:text-3xl">O'qituvchilar</h1>
                     <p>Miqdor <span className="inline-block w-4 h-[1px] mx-1 align-middle bg-black"></span> <span>{teachers?.length}</span></p>
                 </div>
                 <button onClick={() => {
                     handleModal("modal", true);
                     handleModal("passModal", true);
                     handleModal("createModal", true);
-                }} className="global_add_btn 2xsm:w-full 2xsm:mt-4 2xsm:py-2 sm:w-fit sm:mt-0 sm:py-0">
+                }} className="global_add_btn small:w-full small:mt-4 small:py-2 sm:w-fit sm:mt-0 sm:py-0">
                     Yangisini qo'shish
                 </button>
             </div>
 
-            <div className="grid xl:grid-cols-2 2xsm:grid-cols-1 2xsm:gap-4 py-6">
+            <div className="grid xl:grid-cols-2 small:grid-cols-1 small:gap-4 py-6">
                 {isLoading ? <>
                     <Skeleton parentWidth={90} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
                 </> : teachers.length > 0 ?
                     teachers.map((teacher, index) => (
-                        <div key={index} className="xl:w-4/5 flex justify-between capitalize text-sm border rounded-lg p-4 shadow-sm hover:shadow-md transition-all">
-                            <NavLink to={`/admin/teacher-info/${teacher._id}`} className="hover:text-cyan-600">{teacher.first_name} {teacher.last_name}</NavLink>
-                            <div className="flex items-center gap-8 text-xs">
+                        <div key={index} className="xl:w-4/5 flex justify-between capitalize text-sm pc:text-base border rounded-lg p-4 shadow-sm hover:shadow-md transition-all">
+                            <NavLink to={`/admin/teacher-info/${teacher._id}`} className="hover:text-cyan-600 pc:text-base">{teacher.first_name} {teacher.last_name}</NavLink>
+                            <div className="flex items-center gap-8 text-xs pc:text-base">
                                 <h3
                                     onClick={() => handleCopy(teacher.phoneNumber)}
                                     className="flex items-center gap-1 text-blue-400 cursor-pointer">
@@ -263,7 +233,7 @@ function Teachers() {
                                         alt="copy svg"
                                         className="cursor-pointer" />
                                 </h3>
-                                <h3 className="text-xs lowercase">{teacher.groups.length} guruh</h3>
+                                <h3 className="text-xs pc:text-base lowercase">{teacher.groups.length} guruh</h3>
                                 {/* more button */}
                                 <div onClick={(e) => {
                                     e.stopPropagation()
@@ -271,7 +241,7 @@ function Teachers() {
                                 }} className="relative cursor-pointer text-cyan-600 text-xl">
                                     <IoMdMore />
                                     {/* more btn modal */}
-                                    <div className={`${modals.more === teacher._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute z-10 lg:left-8 2xsm:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] bg-white`}>
+                                    <div className={`${modals.more === teacher._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute z-10 lg:left-8 small:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] pc:text-base bg-white`}>
                                         <button
                                             onClick={() => openModal(teacher)}
                                             className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"
@@ -303,7 +273,7 @@ function Teachers() {
                 <button
                     onClick={exportToExcel}
                     id="downloadExelBtn"
-                    className="size-8 relative float-end flex items-center justify-center ml-8 text-gray-400 border border-gray-300 outline-cyan-600 text-xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all">
+                    className="size-8 pc:size-10 relative float-end flex items-center justify-center ml-8 text-gray-400 border border-gray-300 outline-cyan-600 text-xl pc:text-2xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all">
                     <MdFileDownload />
                 </button>
             }

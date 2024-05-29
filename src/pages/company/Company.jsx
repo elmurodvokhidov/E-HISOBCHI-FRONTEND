@@ -113,7 +113,7 @@ export default function Company() {
                                 type="number"
                                 name="phoneNumber"
                                 id="phoneNumber"
-                                className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 outline-cyan-600"
+                                className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 pc:text-lg outline-cyan-600"
                             />
                         </div>
                     </div>

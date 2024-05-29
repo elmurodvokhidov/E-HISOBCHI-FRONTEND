@@ -120,10 +120,8 @@ function AdminProfile({ auth, isLoading }) {
     return (
         <div className="w-full h-screen overflow-auto pt-24 px-10">
             <div className="flex justify-between border-b-2 pb-16 relative">
-                <h1 className="capitalize text-2xl">Hisob qaydnomalari</h1>
-                <p className="absolute bottom-[-1px] border-b-2 uppercase text-xs pb-2 border-cyan-600 text-cyan-600">
-                    admin
-                </p>
+                <h1 className="capitalize text-2xl pc:text-3xl">Hisob qaydnomalari</h1>
+                <p className="absolute bottom-[-1px] border-b-2 uppercase text-xs pc:text-lg pb-2 border-cyan-600 text-cyan-600">admin</p>
             </div>
 
             {!auth ?
@@ -132,16 +130,16 @@ function AdminProfile({ auth, isLoading }) {
                 </div> : <>
                     <div className="w-[410px] border-2 py-8 px-6 mt-12 rounded shadow-dim">
                         <div className="flex relative justify-start">
-                            <div className="w-full flex flex-col gap-4 text-sm">
+                            <div className="w-full flex flex-col gap-4 text-sm pc:text-lg">
                                 <div className="flex items-center gap-4">
-                                    <figure className={`w-20 h-20 border-4 border-white rounded-[50%] overflow-hidden bg-slate-100 ${!auth ? "bg-gray-300 animate-pulse" : null}`}>
+                                    <figure className={`size-20 pc:size-24 border-4 border-white rounded-[50%] overflow-hidden bg-slate-100 ${!auth ? "bg-gray-300 animate-pulse" : null}`}>
                                         {
                                             auth && auth.avatar !== "" ?
                                                 <img className="w-full h-full object-cover" src={auth.avatar} alt="auth avatar" /> :
                                                 <IoPersonCircleOutline className="w-full h-full text-gray-400" />
                                         }
                                     </figure>
-                                    <h1 className="capitalize text-xl">{
+                                    <h1 className="capitalize text-xl pc:text-2xl">{
                                         auth.first_name + " " + auth.last_name}
                                     </h1>
                                 </div>
@@ -165,7 +163,7 @@ function AdminProfile({ auth, isLoading }) {
                                 <button
                                     disabled={auth ? false : true}
                                     onClick={() => openModal()}
-                                    className="w-8 h-8 flex items-center justify-center text-lg border rounded-full ml-16 text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
+                                    className="size-8 pc:size-9 flex items-center justify-center text-lg pc:text-xl border rounded-full ml-16 pc:ml-20 text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
                                     <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
                                     </svg>

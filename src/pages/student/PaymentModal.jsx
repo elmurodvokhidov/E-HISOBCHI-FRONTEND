@@ -76,7 +76,7 @@ function PaymentModal({
     const studentPaymentFunction = async (e) => {
         e.preventDefault();
         try {
-            if (studentPayment.amount !== "") {
+            if (studentPayment.amount !== "" && studentPayment.method !== "") {
                 setIsLoading(true);
                 if (!studentPayment._id) {
                     // yangi ma'lumot qo'shish
@@ -133,7 +133,7 @@ function PaymentModal({
             style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modals.payModal ? "1" : "0", zIndex: modals.payModal ? "20" : "-1" }}>
             <form
                 onClick={(e) => e.stopPropagation()}
-                className="lg:w-[27%] 2xsm:w-[60%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white"
+                className="lg:w-[27%] small:w-[60%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white"
                 style={{ right: modals.payModal ? "0" : "-200%" }}>
 
                 {/* Title and Close button */}
@@ -153,7 +153,7 @@ function PaymentModal({
                 <div className="flex flex-col gap-4 px-5 py-7">
                     {/* Student */}
                     <div className="flex flex-col">
-                        <label htmlFor="student" className="text-sm">Talaba</label>
+                        <label htmlFor="student" className="text-sm pc:text-lg">Talaba</label>
                         <input
                             disabled={true}
                             value={student?.first_name + " " + student?.last_name}
@@ -165,7 +165,7 @@ function PaymentModal({
 
                     {/* Student's balance */}
                     <div className="flex items-center gap-2">
-                        <label className="text-sm">Balans</label>
+                        <label className="text-sm pc:text-lg">Balans</label>
                         <h1 className={`${student?.balance > 0 ? 'bg-green-700' : student?.balance < 0 ? 'bg-red-700' : 'bg-gray-500'} w-fit text-xs text-white px-3 py-1 rounded-xl`}>
                             {Math.round(student?.balance).toLocaleString()} UZS
                         </h1>
@@ -175,7 +175,7 @@ function PaymentModal({
                     {
                         studentPayment.type !== "debt" &&
                         <div className="w-full">
-                            <p className="text-sm">
+                            <p className="text-sm pc:text-lg">
                                 <span>To'lov usuli</span>
                                 <span className="ml-1 text-red-500">*</span>
                             </p>
@@ -190,7 +190,7 @@ function PaymentModal({
                                         name="method"
                                         id="cash"
                                         className="border-gray-300 outline-cyan-600" />
-                                    <label htmlFor="cash" className="text-sm">Naqd pul</label>
+                                    <label htmlFor="cash" className="text-sm pc:text-lg">Naqd pul</label>
                                 </div>
 
                                 <div className="flex items-center gap-1">
@@ -203,7 +203,7 @@ function PaymentModal({
                                         name="method"
                                         id="card"
                                         className="border-gray-300 outline-cyan-600" />
-                                    <label htmlFor="card" className="text-sm">Plastik kartasi</label>
+                                    <label htmlFor="card" className="text-sm pc:text-lg">Plastik kartasi</label>
                                 </div>
                             </div>
                         </div>
@@ -211,7 +211,7 @@ function PaymentModal({
 
                     {/* Amount */}
                     <div className="w-full flex flex-col">
-                        <label htmlFor="amount" className="text-sm">
+                        <label htmlFor="amount" className="text-sm pc:text-lg">
                             <span>Midor</span>
                             <span className="ml-1 text-red-500">*</span>
                         </label>
@@ -222,14 +222,14 @@ function PaymentModal({
                             type="number"
                             name="amount"
                             id="amount"
-                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
                     </div>
 
                     {/* Date */}
                     {
                         !studentPayment._id &&
                         <div className="flex flex-col">
-                            <label htmlFor="date" className="text-sm">
+                            <label htmlFor="date" className="text-sm pc:text-lg">
                                 <span>Sana</span>
                                 <span className="ml-1 text-red-500">*</span>
                             </label>
@@ -240,12 +240,12 @@ function PaymentModal({
                                 type="date"
                                 name="date"
                                 id="date"
-                                className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                                className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
                         </div>
                     }
 
                     <div className="flex flex-col">
-                        <label htmlFor="description" className="text-sm">Izoh</label>
+                        <label htmlFor="description" className="text-sm pc:text-lg">Izoh</label>
                         <textarea
                             disabled={isLoading}
                             onChange={getPaymentCred}
@@ -262,7 +262,7 @@ function PaymentModal({
                     <button
                         disabled={isLoading}
                         onClick={studentPaymentFunction}
-                        className="w-fit px-6 py-1 mt-8 bg-cyan-600 outline-none rounded-2xl text-white">
+                        className="w-fit px-6 py-1 mt-8 pc:text-lg bg-cyan-600 outline-none rounded-2xl text-white">
                         {isLoading ? "Loading..." : "Saqlash"}
                     </button>
                 </div>

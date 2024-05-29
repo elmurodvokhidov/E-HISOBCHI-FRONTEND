@@ -34,7 +34,7 @@ function TeacherModal({
             style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modals.modal ? "1" : "0", zIndex: modals.modal ? "20" : "-1" }}>
             <form
                 onClick={(e) => e.stopPropagation()}
-                className="lg:w-[27%] 2xsm:w-[60%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white"
+                className="lg:w-[27%] small:w-[60%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white"
                 style={{ right: modals.modal ? "0" : "-200%" }}>
 
                 {/* Title and Close button */}
@@ -53,7 +53,7 @@ function TeacherModal({
                     <div className="flex justify-between gap-4">
                         {/* First Name */}
                         <div className="w-[47%] flex flex-col">
-                            <label htmlFor="first_name" className="text-sm">
+                            <label htmlFor="first_name" className="text-sm pc:text-lg">
                                 <span>Ism</span>
                                 <span className="ml-1 text-red-500">*</span>
                             </label>
@@ -64,12 +64,12 @@ function TeacherModal({
                                 type="text"
                                 name="first_name"
                                 id="first_name"
-                                className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                                className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
                         </div>
 
                         {/* Last Name */}
                         <div className="w-[47%] flex flex-col">
-                            <label htmlFor="last_name" className="text-sm">
+                            <label htmlFor="last_name" className="text-sm pc:text-lg">
                                 <span>Familya</span>
                                 <span className="ml-1 text-red-500">*</span>
                             </label>
@@ -80,13 +80,13 @@ function TeacherModal({
                                 type="text"
                                 name="last_name"
                                 id="last_name"
-                                className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                                className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
                         </div>
                     </div>
 
                     {/* Date of Birth */}
                     <div className="flex flex-col">
-                        <label htmlFor="dob" className="text-sm">Tug'ilgan sana</label>
+                        <label htmlFor="dob" className="text-sm pc:text-lg">Tug'ilgan sana</label>
                         <input
                             disabled={newTeacher._id ? modals.passModal : false}
                             onChange={getTeacherCred}
@@ -94,12 +94,12 @@ function TeacherModal({
                             type="date"
                             name="dob"
                             id="dob"
-                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
                     </div>
 
                     {/* Contact Number */}
                     <div className="flex flex-col">
-                        <label htmlFor="phoneNumber" className="text-sm">
+                        <label htmlFor="phoneNumber" className="text-sm pc:text-lg">
                             <span>Telefon</span>
                             <span className="ml-1 text-red-500">*</span>
                         </label>
@@ -112,14 +112,14 @@ function TeacherModal({
                                 type="number"
                                 name="phoneNumber"
                                 id="phoneNumber"
-                                className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 outline-cyan-600"
+                                className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 pc:text-lg outline-cyan-600"
                             />
                         </div>
                     </div>
 
                     {/* Gender */}
                     <div className="w-full">
-                        <p className="text-sm">
+                        <p className="text-sm pc:text-lg">
                             <span>Gender</span>
                             <span className="ml-1 text-red-500">*</span>
                         </p>
@@ -134,7 +134,7 @@ function TeacherModal({
                                     name="gender"
                                     id="erkak"
                                     className="border-gray-300 outline-cyan-600" />
-                                <label htmlFor="erkak" className="text-sm">Erkak</label>
+                                <label htmlFor="erkak" className="text-sm pc:text-lg">Erkak</label>
                             </div>
 
                             <div className="flex items-center gap-1">
@@ -147,7 +147,7 @@ function TeacherModal({
                                     name="gender"
                                     id="ayol"
                                     className="border-gray-300 outline-cyan-600" />
-                                <label htmlFor="ayol" className="text-sm">Ayol</label>
+                                <label htmlFor="ayol" className="text-sm pc:text-lg">Ayol</label>
                             </div>
                         </div>
                     </div>
@@ -164,9 +164,9 @@ function TeacherModal({
                                 {
                                     modals.passModal
                                         ?
-                                        <FaAngleUp className="text-sm" />
+                                        <FaAngleUp className="text-sm pc:text-lg" />
                                         :
-                                        <FaAngleDown className="text-sm" />
+                                        <FaAngleDown className="text-sm pc:text-lg" />
                                 }
                                 Yangi parol qo'shing
                             </button>
@@ -175,7 +175,7 @@ function TeacherModal({
                     {
                         modals.passModal ? <>
                             <div className="flex flex-col">
-                                <label htmlFor="newPassword" className="text-sm">
+                                <label htmlFor="newPassword" className="text-sm pc:text-lg">
                                     <span>Yangi parol</span>
                                     <span className="ml-1 text-red-500">*</span>
                                 </label>
@@ -185,10 +185,10 @@ function TeacherModal({
                                     type="text"
                                     name="newPassword"
                                     id="newPassword"
-                                    className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                                    className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
                             </div>
                             <div className="flex flex-col">
-                                <label htmlFor="confirmPassword" className="text-sm">
+                                <label htmlFor="confirmPassword" className="text-sm pc:text-lg">
                                     <span>Parolni tasdiqlang</span>
                                     <span className="ml-1 text-red-500">*</span>
                                 </label>
@@ -198,7 +198,7 @@ function TeacherModal({
                                     type="text"
                                     name="confirmPassword"
                                     id="confirmPassword"
-                                    className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                                    className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
                             </div>
                         </> : null
                     }
@@ -211,22 +211,22 @@ function TeacherModal({
                         {
                             modals.imageModal
                                 ?
-                                <FaAngleUp className="text-sm" />
+                                <FaAngleUp className="text-sm pc:text-lg" />
                                 :
-                                <FaAngleDown className="text-sm" />
+                                <FaAngleDown className="text-sm pc:text-lg" />
                         }
                         O'qituvchi rasmi
                     </button>
                     {
                         modals.imageModal ? <>
                             <div className="flex flex-col">
-                                <label htmlFor="avatar" className="text-sm">Rasm</label>
+                                <label htmlFor="avatar" className="text-sm pc:text-lg">Rasm</label>
                                 <input
                                     disabled={newTeacher._id ? modals.passModal : false}
                                     type="file"
                                     name="avatar"
                                     id="avatar"
-                                    className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                                    className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
                             </div>
                         </> : null
                     }
@@ -235,7 +235,7 @@ function TeacherModal({
                     <button
                         disabled={isLoading ? true : false}
                         onClick={handleCreateAndUpdate}
-                        className="w-fit px-6 py-1 mt-8 bg-cyan-600 rounded-2xl text-white">
+                        className="w-fit px-6 py-1 mt-8 pc:text-lg bg-cyan-600 rounded-2xl text-white">
                         {isLoading ? "Loading..." : newTeacher._id ? "Saqlash" : "Qo'shish"}
                     </button>
                 </div>

@@ -61,13 +61,13 @@ export default function Pagination({ students, page, setPage, limit, exportToExc
             <div className="flex flex-1 justify-between sm:hidden">
                 <button
                     onClick={() => handleClick("prev")}
-                    className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                    className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm pc:text-base font-medium text-gray-700 hover:bg-gray-50"
                 >
                     Previous
                 </button>
                 <button
                     onClick={() => handleClick("next")}
-                    className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                    className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm pc:text-base font-medium text-gray-700 hover:bg-gray-50"
                 >
                     Next
                 </button>
@@ -76,7 +76,7 @@ export default function Pagination({ students, page, setPage, limit, exportToExc
             {/* Page numbers */}
             <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
                 <div>
-                    <p className="text-sm text-gray-700">
+                    <p className="text-sm pc:text-base text-gray-700">
                         Showing <span className="font-medium">{page}</span> to <span className="font-medium">{limit}</span> of{' '}
                         <span className="font-medium">{students.length}</span> results
                     </p>
@@ -96,7 +96,7 @@ export default function Pagination({ students, page, setPage, limit, exportToExc
                         {generatePageNumbers().map((pageNumber, index) => (
                             <button
                                 key={index}
-                                className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${pageNumber === currentPage ? "text-gray-900" : "text-gray-700"
+                                className={`relative inline-flex items-center px-4 py-2 text-sm pc:text-base font-semibold ${pageNumber === currentPage ? "text-gray-900" : "text-gray-700"
                                     } ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0`}
                                 onClick={() => {
                                     if (pageNumber !== '...') {
@@ -125,7 +125,7 @@ export default function Pagination({ students, page, setPage, limit, exportToExc
             <button
                 onClick={exportToExcel}
                 id="downloadExelBtn"
-                className="size-8 relative float-end flex items-center justify-center ml-8 text-gray-400 border border-gray-300 outline-cyan-600 text-xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all"
+                className="size-8 pc:size-10 relative float-end flex items-center justify-center ml-8 text-gray-400 border border-gray-300 outline-cyan-600 text-xl pc:text-2xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all"
             >
                 <MdFileDownload />
             </button>

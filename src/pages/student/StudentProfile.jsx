@@ -100,7 +100,7 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
 
     // O'quvchi ma'lumotlarini o'zgartirish uchun modal oynani ochish
     const openModal = () => {
-        setNewStudent(student);
+        setNewStudent({...student, group: student?.group?._id});
         handleModal("modal", true);
     };
 
@@ -402,12 +402,12 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                     </>
                 }
 
-                <div className="lg:w-2/3 2xsm:w-full">
+                <div className="lg:w-2/3 small:w-full">
                     {/* Guruhlar */}
-                    <div className="lg:mt-0 2xsm:mt-8">
+                    <div className="lg:mt-0 small:mt-8">
                         <h1 className="text-gray-500 text-base border-b-2 pb-2">Guruhlar</h1>
 
-                        <div className="grid xl:grid-cols-2 2xsm:grid-cols-1 gap-8 mt-6">
+                        <div className="grid xl:grid-cols-2 small:grid-cols-1 gap-8 mt-6">
                             {
                                 isLoading || !student ? <>
                                     <h1>Loading...</h1>

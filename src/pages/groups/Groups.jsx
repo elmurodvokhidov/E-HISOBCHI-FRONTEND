@@ -180,7 +180,12 @@ function Groups() {
     };
 
     const openModal = (group) => {
-        setNewGroup(group);
+        setNewGroup({
+            ...group,
+            course: group?.course?._id,
+            room: group?.room?._id,
+            teacher: group?.teacher?._id,
+        });
         handleModal("modal", true);
     };
 
@@ -228,34 +233,22 @@ function Groups() {
                     const { data } = await AuthService.addNewGroup(newGroup);
                     getAllGroupsFunc();
                     clearModal();
-                    Toast.fire({
-                        icon: "success",
-                        title: data.message
-                    });
+                    Toast.fire({ icon: "success", title: data.message });
                 } else {
-                    const { _id, __v, due_dates, end_time, students, createdAt, updatedAt, ...updatedGroupCred } = newGroup;
+                    const { _id, __v, attendance, due_dates, end_time, students, createdAt, updatedAt, ...updatedGroupCred } = newGroup;
                     const { data } = await AuthService.updateGroup(newGroup._id, updatedGroupCred);
                     dispatch(getGroupSuccess(data));
                     getAllGroupsFunc();
                     clearModal();
-                    Toast.fire({
-                        icon: "success",
-                        title: data.message
-                    });
+                    Toast.fire({ icon: "success", title: data.message });
                 }
             } catch (error) {
                 dispatch(groupFailure(error.response?.data.message));
-                ToastLeft.fire({
-                    icon: "error",
-                    title: error.response?.data.message || error.message
-                });
+                ToastLeft.fire({ icon: "error", title: error.response?.data.message || error.message });
             }
         }
         else {
-            ToastLeft.fire({
-                icon: "error",
-                title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
-            });
+            ToastLeft.fire({ icon: "error", title: "Iltimos, barcha bo'sh joylarni to'ldiring!" });
         }
     };
 
@@ -275,16 +268,10 @@ function Groups() {
                 dispatch(groupStart());
                 AuthService.deleteGroup(id).then((res) => {
                     getAllGroupsFunc();
-                    Toast.fire({
-                        icon: "success",
-                        title: res?.data.message
-                    });
+                    Toast.fire({ icon: "success", title: res?.data.message });
                 }).catch((error) => {
                     dispatch(groupFailure(error.response?.data.message));
-                    ToastLeft.fire({
-                        icon: "error",
-                        title: error.response?.data.message || error.message
-                    });
+                    ToastLeft.fire({ icon: "error", title: error.response?.data.message || error.message });
                 });
             }
         });
@@ -297,8 +284,8 @@ function Groups() {
             style={{ paddingLeft: 0, paddingRight: 0 }}
         >
             <div className="sm:flex justify-between relative px-[40px]">
-                <div className="flex items-end gap-4 text-sm">
-                    <h1 className="capitalize text-2xl">Guruhlar</h1>
+                <div className="flex items-end gap-4 text-sm pc:text-base">
+                    <h1 className="capitalize text-2xl pc:text-3xl">Guruhlar</h1>
                     <p>
                         <span>Miqdor</span>
                         <span className="inline-block w-4 h-[1px] mx-1 align-middle bg-black"></span>
@@ -307,7 +294,7 @@ function Groups() {
                 </div>
                 <button
                     onClick={() => handleModal("modal", true)}
-                    className="global_add_btn 2xsm:w-full 2xsm:mt-4 2xsm:py-2 sm:w-fit sm:mt-0 sm:py-0">
+                    className="global_add_btn small:w-full small:mt-4 small:py-2 sm:w-fit sm:mt-0 sm:py-0">
                     Yangisini qo'shish
                 </button>
             </div>
@@ -317,7 +304,7 @@ function Groups() {
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="teacher"
-                        className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
+                        className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
                         <span>O'qituvchi</span>
                     </label>
                     <select
@@ -325,10 +312,10 @@ function Groups() {
                         onChange={handleFilterChange}
                         name="teacher"
                         id="teacher"
-                        className="w-full p-2 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]">
+                        className="w-full p-2 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]">
                         <option
                             value=""
-                            className="text-sm italic">
+                            className="text-sm pc:text-base italic">
                             None
                         </option>
                         {
@@ -336,7 +323,7 @@ function Groups() {
                                 <option
                                     key={teacher._id}
                                     value={`${teacher.first_name} ${teacher.last_name}`}
-                                    className="text-sm">
+                                    className="text-sm pc:text-lg">
                                     {teacher?.first_name} {teacher?.last_name}
                                 </option>
                             ))
@@ -348,7 +335,7 @@ function Groups() {
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="course"
-                        className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
+                        className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
                         <span>Kurslar</span>
                     </label>
                     <select
@@ -356,7 +343,7 @@ function Groups() {
                         onChange={handleFilterChange}
                         name="course"
                         id="course"
-                        className="w-full p-2 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]">
+                        className="w-full p-2 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]">
                         <option
                             value=""
                             className="text-sm italic">
@@ -367,7 +354,7 @@ function Groups() {
                                 <option
                                     key={course._id}
                                     value={course?.title}
-                                    className="text-sm">
+                                    className="text-sm pc:text-lg">
                                     {course?.title}
                                 </option>
                             ))
@@ -379,7 +366,7 @@ function Groups() {
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="day"
-                        className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
+                        className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
                         <span>Kunlar</span>
                     </label>
                     <select
@@ -387,15 +374,20 @@ function Groups() {
                         onChange={handleFilterChange}
                         name="day"
                         id="day"
-                        className="w-full p-2 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]">
+                        className="w-full p-2 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]">
                         <option
                             value=""
-                            className="text-sm italic">
+                            className="text-sm pc:text-base italic">
                             None
                         </option>
                         {
                             days.map((day, index) => (
-                                <option value={day.value} key={index}>{day.title}</option>
+                                <option
+                                    value={day.value}
+                                    key={index}
+                                    className="text-sm pc:text-lg">
+                                    {day.title}
+                                </option>
                             ))
                         }
                     </select>
@@ -405,7 +397,7 @@ function Groups() {
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="start_date"
-                        className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
+                        className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
                         <span>Boshlanish</span>
                     </label>
                     <input
@@ -414,14 +406,14 @@ function Groups() {
                         type="date"
                         name="start_date"
                         id="start_date"
-                        className="w-full p-1.5 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]" />
+                        className="w-full p-1.5 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]" />
                 </div>
 
                 {/* End Date */}
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="end_date"
-                        className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
+                        className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
                         <span>Tugash</span>
                     </label>
                     <input
@@ -430,13 +422,13 @@ function Groups() {
                         type="date"
                         name="end_date"
                         id="end_date"
-                        className="w-full p-1.5 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]" />
+                        className="w-full p-1.5 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]" />
                 </div>
 
                 {/* Clear Filter */}
                 <button
                     onClick={() => setFilters({ teacher: "", course: "", day: "", start_date: "", end_date: "" })}
-                    className="border rounded p-2 text-sm text-gray-700 bg-[#f8f8f8] hover:bg-gray-100 hover:text-gray-500 transition-all"
+                    className="border rounded p-2 text-sm pc:text-lg text-gray-700 bg-[#f8f8f8] hover:bg-gray-100 hover:text-gray-500 transition-all"
                 >
                     Filterni tiklash
                 </button>
@@ -445,7 +437,7 @@ function Groups() {
             <div className="min-h-[200px] overflow-x-auto px-[40px] pb-[70px]">
                 <table className="w-full mt-4">
                     <thead>
-                        <tr className="font-semibold text-xs flex justify-between text-left px-4">
+                        <tr className="font-semibold text-xs pc:text-lg flex justify-between text-left px-4">
                             <th className="w-[130px] text-left">Guruh</th>
                             <th className="w-[200px] text-left">Kurslar</th>
                             <th className="w-[270px] text-left">O'qituvchi</th>
@@ -456,7 +448,7 @@ function Groups() {
                             <th className="w-[80px] text-center">Amallar</th>
                         </tr>
                     </thead>
-                    <tbody className="grid grid-cols-1 2xsm:gap-4 py-4">
+                    <tbody className="grid grid-cols-1 small:gap-4 py-4">
                         {isLoading ? <>
                             <tr className="w-[90%] flex flex-col justify-center gap-1 p-8 shadow-smooth animate-pulse bg-white">
                                 <td className="w-[85%] h-4 rounded bg-gray-300"></td>
@@ -468,18 +460,18 @@ function Groups() {
                                 <tr
                                     onClick={() => navigate(`/admin/group-info/${group._id}`)}
                                     key={index}
-                                    className="2xsm:w-full flex items-center justify-between capitalize text-sm border rounded-lg px-4 py-3 cursor-pointer shadow-sm hover:shadow-md transition-all">
+                                    className="small:w-full flex items-center justify-between capitalize text-sm pc:text-base border rounded-lg px-4 py-3 cursor-pointer shadow-sm hover:shadow-md transition-all">
                                     <td className="w-[130px] text-left">{group.name}</td>
-                                    <td className="w-[200px] text-left text-xs">{group.course?.title}</td>
-                                    <td className="w-[270px] text-left">{group.teacher?.first_name} {group.teacher?.last_name}</td>
-                                    <td className="w-[130px] text-left text-xs">
+                                    <td className="w-[200px] text-left text-xs pc:text-base">{group.course?.title}</td>
+                                    <td className="w-[270px] text-left pc:text-base">{group.teacher?.first_name} {group.teacher?.last_name}</td>
+                                    <td className="w-[130px] text-left text-xs pc:text-base">
                                         <div>
                                             <h1>{days.find(day => day.value === group.day)?.title}</h1>
                                             <h1>{group.start_time}</h1>
                                         </div>
                                     </td>
-                                    <td className="w-[130px] text-left text-xs">
-                                        <div>
+                                    <td className="w-[130px] text-left text-xs pc:text-base">
+                                        <div className="pc:text-base">
                                             <h1 className="flex items-center gap-1">
                                                 <FormattedDate date={group.start_date} />
                                                 <GoHorizontalRule />
@@ -487,8 +479,8 @@ function Groups() {
                                             <FormattedDate date={group.end_date} />
                                         </div>
                                     </td>
-                                    <td className="w-[100px] text-left text-xs">{group.room.name}</td>
-                                    <td className="w-[80px] text-center">{group.students.length}</td>
+                                    <td className="w-[100px] text-left text-xs pc:text-base">{group.room.name}</td>
+                                    <td className="w-[80px] text-center pc:text-base">{group.students.length}</td>
                                     <td className="w-[80px] flex justify-center gap-8">
                                         {/* more button */}
                                         <div onClick={(e) => {
@@ -497,7 +489,7 @@ function Groups() {
                                         }} className="relative cursor-pointer text-cyan-600 text-xl">
                                             <IoMdMore />
                                             {/* more btn modal */}
-                                            <div className={`${modals.more === group._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute 2xsm:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] bg-white`}>
+                                            <div className={`${modals.more === group._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute small:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] pc:text-base bg-white`}>
                                                 <button
                                                     onClick={() => openModal(group)}
                                                     className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"
@@ -533,7 +525,7 @@ function Groups() {
                 <button
                     onClick={exportToExcel}
                     id="downloadExelBtn"
-                    className="size-8 relative float-end flex items-center justify-center 2xsm:mt-2 sm:mt-0 text-gray-400 border border-gray-300 outline-cyan-600 text-xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all mx-[40px]">
+                    className="size-8 pc:size-10 relative float-end flex items-center justify-center small:mt-2 sm:mt-0 text-gray-400 border border-gray-300 outline-cyan-600 text-xl pc:text-2xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all mx-[40px]">
                     <MdFileDownload />
                 </button>
             }

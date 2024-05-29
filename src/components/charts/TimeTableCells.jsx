@@ -36,19 +36,19 @@ export default function TimeTableCells({ room, groups, timeArray }) {
                     >
                         <div className="flex flex-wrap items-center justify-between">
                             <div className="flex flex-wrap gap-8 items-center">
-                                <div className="flex flex-col text-sm">
+                                <div className="flex flex-col text-sm pc:text-base">
                                     <span className="w-fit rounded-sm px-2 bg-gray-200">{group.name}</span>
-                                    <span>{group.course.title}</span>
+                                    <span className="pc:text-lg">{group.course.title}</span>
                                 </div>
-                                <span >{group.teacher.first_name + " " + group.teacher.last_name}</span>
+                                <span className="pc:text-lg">{group.teacher.first_name + " " + group.teacher.last_name}</span>
                             </div>
                             <div className="flex flex-col-reverse items-end">
-                                <div className="flex items-center text-xs">
+                                <div className="flex items-center text-xs pc:text-sm">
                                     <span>{formatDate(group.start_date)}</span>
                                     <span>-</span>
                                     <span>{formatDate(group.end_date)}</span>
                                 </div>
-                                <span className="w-fit rounded text-xs px-1 bg-gray-200">{group.students.length} tal.</span>
+                                <span className="w-fit rounded text-xs pc:text-sm px-1 bg-gray-200">{group.students.length} tal.</span>
                             </div>
                         </div>
                     </td>

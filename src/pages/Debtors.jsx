@@ -115,17 +115,17 @@ export default function Debtors() {
     return (
         <div className="container !px-0">
             <div className="relative px-[40px]">
-                <div className="flex items-end gap-4 text-sm">
-                    <h1 className="capitalize text-2xl">Qarzdorlar</h1>
+                <div className="flex items-end gap-4 text-sm pc:text-base">
+                    <h1 className="capitalize text-2xl pc:text-3xl">Qarzdorlar</h1>
                     <p>Miqdor <span className="inline-block w-4 h-[1px] mx-1 align-middle bg-black"></span> <span>{debtors.length || 0}</span></p>
                 </div>
                 <div className="flex items-center justify-between mt-3 rounded-md shadow-md bg-white">
-                    <div className="flex items-center gap-2 text-xl">
+                    <div className="flex items-center gap-2 text-xl pc:text-2xl">
                         <div className="w-[5px] h-[70px] mr-2 rounded-md bg-cyan-600"></div>
                         <h1>Jami:</h1>
                         <h1>{Math.round(debtors.reduce((total, debtor) => total + debtor.balance, 0)).toLocaleString()} UZS</h1>
                     </div>
-                    <CiCoins1 className="text-3xl text-cyan-600 mr-4" />
+                    <CiCoins1 className="text-3xl pc:text-4xl text-cyan-600 mr-4" />
                 </div>
             </div>
 
@@ -136,7 +136,7 @@ export default function Debtors() {
                     <input
                         value={filters.searchBy}
                         onChange={handleFilterChange}
-                        className="w-48 p-2 text-xs outline-cyan-600 border rounded bg-[#f8f8f8]"
+                        className="w-48 pc:w-60 p-2 text-xs pc:text-base outline-cyan-600 border rounded bg-[#f8f8f8]"
                         type="text"
                         name="searchBy"
                         id="searchBy"
@@ -146,7 +146,7 @@ export default function Debtors() {
                     <input
                         value={filters.amountFrom}
                         onChange={handleFilterChange}
-                        className="w-36 p-2 text-xs outline-cyan-600 border rounded bg-[#f8f8f8]"
+                        className="w-36 pc:w-40 p-2 text-xs pc:text-base outline-cyan-600 border rounded bg-[#f8f8f8]"
                         type="number"
                         name="amountFrom"
                         id="amountFrom"
@@ -157,7 +157,7 @@ export default function Debtors() {
                     <input
                         value={filters.amountTo}
                         onChange={handleFilterChange}
-                        className="w-36 p-2 text-xs outline-cyan-600 border rounded bg-[#f8f8f8]"
+                        className="w-36 pc:w-40 p-2 text-xs pc:text-base outline-cyan-600 border rounded bg-[#f8f8f8]"
                         type="number"
                         name="amountTo"
                         id="amountTo"
@@ -170,18 +170,18 @@ export default function Debtors() {
                             amountFrom: "",
                             amountTo: "",
                         })}
-                        className="border rounded p-2 text-sm text-gray-700 bg-[#f8f8f8] hover:bg-gray-100 hover:text-gray-500 transition-all"
+                        className="border rounded p-2 text-sm pc:text-base text-gray-700 bg-[#f8f8f8] hover:bg-gray-100 hover:text-gray-500 transition-all"
                     >
                         Filterni tiklash
                     </button>
                 </div>
 
                 {/* Barcha qarzdorlar */}
-                <div className="flex justify-between pb-4 font-semibold text-sm px-4 mt-6">
-                    <h4 className="min-w-[200px] text-base">O'quvchi ismi</h4>
-                    <h4 className="min-w-[150px] text-base">Telefon</h4>
-                    <h4 className="min-w-[100px] text-base">Qarz</h4>
-                    <h4 className="min-w-[150px] text-base">Guruh</h4>
+                <div className="flex justify-between pb-4 font-semibold text-base pc:text-lg px-4 mt-6">
+                    <h4 className="min-w-[200px]">O'quvchi ismi</h4>
+                    <h4 className="min-w-[150px]">Telefon</h4>
+                    <h4 className="min-w-[100px]">Qarz</h4>
+                    <h4 className="min-w-[150px]">Guruh</h4>
                 </div>
             </div>
 
@@ -203,7 +203,7 @@ export default function Debtors() {
                                         key={debtor._id}
                                         className="flex items-center justify-between px-4 py-2.5 rounded-md shadow-md hover:shadow-smooth transition-all bg-white"
                                     >
-                                        <h4 className="min-w-[200px] text-base">
+                                        <h4 className="min-w-[200px] text-base pc:text-lg">
                                             <NavLink
                                                 to={`/admin/student-info/${debtor._id}`}
                                                 className="hover:text-cyan-500"
@@ -214,18 +214,18 @@ export default function Debtors() {
                                         </h4>
                                         <h4
                                             onClick={() => handleCopy(debtor.phoneNumber)}
-                                            className="min-w-[150px] flex items-center gap-1 cursor-pointer text-base text-cyan-500">
+                                            className="min-w-[150px] flex items-center gap-1 cursor-pointer text-base pc:text-lg text-cyan-500">
                                             {debtor.phoneNumber}
                                             <img
                                                 src={copied === debtor.phoneNumber ? tick : copy}
                                                 alt="copy svg"
                                                 className="cursor-pointer" />
                                         </h4>
-                                        <h4 className="min-w-[100px] text-base text-red-500">
+                                        <h4 className="min-w-[100px] text-base pc:text-lg text-red-500">
                                             {Math.round(debtor.balance).toLocaleString()}
                                             <span className="text-xs"> UZS</span>
                                         </h4>
-                                        <div className="min-w-[150px] text-sm">
+                                        <div className="min-w-[150px] text-sm pc:text-base">
                                             <h4 className=" flex flex-wrap items-center gap-1">
                                                 <span className="bg-gray-200 px-1 rounded">{debtor.group?.name}</span>
                                                 <span>{debtor.group?.course?.title}</span> <br />
@@ -238,7 +238,7 @@ export default function Debtors() {
                                     </div>
                                 ))
                             }
-                        </> : <h1 className="text-base mt-6 text-center">Qarzdorlar mavjud emas!</h1>
+                        </> : <h1 className="text-base pc:text-lg mt-6 text-center">Qarzdorlar mavjud emas!</h1>
                 }
             </div>
 
@@ -247,7 +247,7 @@ export default function Debtors() {
                 disabled={isLoading}
                 onClick={exportToExcel}
                 id="downloadExelBtn"
-                className="size-8 relative float-end flex items-center justify-center mt-8 mr-[40px] text-gray-400 border border-gray-300 outline-cyan-600 text-xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all"
+                className="size-8 pc:size-10 relative float-end flex items-center justify-center mt-8 mr-[40px] text-gray-400 border border-gray-300 outline-cyan-600 text-xl pc:text-2xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all"
             >
                 <MdFileDownload />
             </button>

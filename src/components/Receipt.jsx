@@ -77,7 +77,7 @@ export default function Receipt({
                 <div className="w-full flex flex-col gap-6 items-center py-6">
                     <div className="w-72 p-5 border border-gray-300 rounded-lg shadow-dim bg-white">
                         <div className="text-center border-b border-gray-300 pb-4 mb-4">
-                            <img src={company?.image} alt="company logo " className="w-24 h-auto mx-auto mb-2" />
+                            <img crossOrigin="anonymous" src={company?.image} alt="company logo " className="w-24 h-auto mx-auto mb-2" />
                         </div>
                         <div ref={receiptRef}>
                             <div>

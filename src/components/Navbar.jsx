@@ -91,8 +91,8 @@ function Navbar({ modals, handleModal }) {
 
     return (
         <div className="w-full fixed z-20 top-0 flex items-center justify-between py-2 px-10 shadow-dim bg-white">
-            <div className="logo w-14">
-                <Link to="dashboard" className="md:inline-block hidden"><img src={company?.image} alt="company logo" /></Link>
+            <div className="logo w-14 pc:w-16">
+                <Link to="dashboard" className="md:inline-block hidden"><img crossOrigin="anonymous" src={company?.image} alt="company logo" /></Link>
                 <IoMenuOutline
                     onClick={(e) => {
                         e.stopPropagation();
@@ -106,12 +106,12 @@ function Navbar({ modals, handleModal }) {
             {huru === "admin" && <SearchBar modals={modals} handleModal={handleModal} />}
 
             <div className="right flex relative items-center gap-4 text-gray-500">
-                <GlobalElement />
+                {/* <GlobalElement /> */}
                 <button
                     onClick={() => setModal(!modal)}
                     className="flex items-center gap-2">
-                    <span className="md:inline-block hidden text-sm text-black">{auth ? auth.first_name : <LoaderDots />}</span>
-                    <figure className="h-8 w-8 rounded-full overflow-hidden flex items-center justify-center">
+                    <span className="md:inline-block hidden text-base pc:text-lg text-black">{auth ? auth.first_name : <LoaderDots />}</span>
+                    <figure className="size-8 pc:size-11 2xl:size-9 rounded-full overflow-hidden flex items-center justify-center">
                         {
                             auth &&
                                 auth.avatar && auth.avatar !== "" ?
@@ -125,7 +125,7 @@ function Navbar({ modals, handleModal }) {
                     <div
                         onClick={() => setModal(false)}
                         className="fixed top-0 left-0 bottom-0 right-0">
-                        <div className="w-40 flex flex-col items-start justify-start absolute z-10 sm:top-16 2xsm:top-12 right-10 text-black text-xs rounded border border-gray-300 bg-white">
+                        <div className="w-40 flex flex-col items-start justify-start absolute z-10 sm:top-16 small:top-12 pc:top-20 right-10 text-black text-xs pc:text-sm rounded border border-gray-300 bg-white">
                             <Link
                                 to="profile"
                                 className="w-full p-4 border-b border-gray-300 hover:bg-gray-100">Hisob qaydnomasi</Link>

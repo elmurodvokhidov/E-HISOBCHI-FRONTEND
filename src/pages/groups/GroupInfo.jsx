@@ -34,7 +34,7 @@ import tick from "../../assets/icons/tick.svg";
 import copy from "../../assets/icons/copy.svg";
 import { MdFileDownload } from "react-icons/md";
 import * as XLSX from 'xlsx';
-import { FormattedDate } from "../../components/FormattedDate"; 
+import { FormattedDate } from "../../components/FormattedDate";
 
 function GroupInfo() {
     const { group, isLoading } = useSelector(state => state.group);
@@ -95,7 +95,12 @@ function GroupInfo() {
     };
 
     const openModal = () => {
-        setNewGroup(group);
+        setNewGroup({
+            ...group,
+            course: group?.course?._id,
+            room: group?.room?._id,
+            teacher: group?.teacher?._id,
+        });
         handleModal("modal", true);
     };
 
@@ -168,23 +173,14 @@ function GroupInfo() {
                 dispatch(getGroupSuccess(data));
                 getGroupFunc();
                 clearModal();
-                Toast.fire({
-                    icon: "success",
-                    title: data.message
-                });
+                Toast.fire({ icon: "success", title: data.message });
             } catch (error) {
                 dispatch(groupFailure(error.response?.data.message));
-                ToastLeft.fire({
-                    icon: "error",
-                    title: error.response?.data.message || error.message
-                });
+                ToastLeft.fire({ icon: "error", title: error.response?.data.message || error.message });
             }
         }
         else {
-            ToastLeft.fire({
-                icon: "error",
-                title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
-            });
+            ToastLeft.fire({ icon: "error", title: "Iltimos, barcha bo'sh joylarni to'ldiring!" });
         }
     };
 
@@ -203,16 +199,10 @@ function GroupInfo() {
                 dispatch(groupStart());
                 AuthService.deleteGroup(id).then((res) => {
                     navigate("/admin/groups");
-                    Toast.fire({
-                        icon: "success",
-                        title: res?.data.message
-                    });
+                    Toast.fire({ icon: "success", title: res?.data.message });
                 }).catch((error) => {
                     dispatch(groupFailure(error.response?.data.message));
-                    ToastLeft.fire({
-                        icon: "error",
-                        title: error.response?.data.message || error.message
-                    });
+                    ToastLeft.fire({ icon: "error", title: error.response?.data.message || error.message });
                 });
             }
         });
@@ -245,8 +235,6 @@ function GroupInfo() {
         XLSX.utils.book_append_sheet(wb, ws, 'Students');
         XLSX.writeFile(wb, fileName);
     };
-
-    // console.log(group.course_days.filter(date => date > "2024-02-30" && date <= "2024-03-30"));
 
     return (
         <div className="container">
@@ -366,7 +354,7 @@ function GroupInfo() {
                                                         {auth?.role === "admin" && modals.about === student._id ? <>
                                                             <div className="w-64 absolute -top-32 -right-44 z-10 text-black border rounded-md p-4 cursor-auto shadow-smooth bg-white before:w-4 before:h-4 before:bg-white before:absolute before:top-[48%] before:rotate-45 before:-left-2 before:border-b before:border-l">
                                                                 <div className="border-b pb-4">
-                                                                    <p className="text-sm">{student.first_name} {student.last_name}</p>
+                                                                    <p className="text-sm pc:text-lg">{student.first_name} {student.last_name}</p>
                                                                     <p className={`w-fit px-2 py-1 mt-1 rounded-md text-white ${student.balance < 0 ? "bg-red-500" : ""}`}>{student.balance < 0 ? "Qarzdor" : ""}</p>
                                                                 </div>
 

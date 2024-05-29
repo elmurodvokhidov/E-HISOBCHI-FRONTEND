@@ -230,7 +230,7 @@ function Students() {
 
     // O'quvchini tahrirlash uchun, modal oynani ochish funksiyasi
     const openModal = (student) => {
-        setNewStudent(student);
+        setNewStudent({...student, group: student?.group?._id});
         handleModal("modal", true);
         handleModal("createModal", false);
     };
@@ -420,15 +420,15 @@ function Students() {
             style={{ paddingLeft: 0, paddingRight: 0 }}
         >
             <div className="sm:flex justify-between relative px-[40px]">
-                <div className="flex items-end gap-4 text-sm">
-                    <h1 className="capitalize text-2xl">O'quvchilar</h1>
+                <div className="flex items-end gap-4 text-sm pc:text-base">
+                    <h1 className="capitalize text-2xl pc:text-3xl">O'quvchilar</h1>
                     <p>Miqdor <span className="inline-block w-4 h-[1px] mx-1 align-middle bg-black"></span> <span>{students?.length}</span></p>
                 </div>
                 <button onClick={() => {
                     handleModal("modal", true);
                     handleModal("passModal", true);
                     handleModal("createModal", true);
-                }} className="global_add_btn 2xsm:w-full 2xsm:mt-4 2xsm:py-2 sm:w-fit sm:mt-0 sm:py-0">
+                }} className="global_add_btn small:w-full small:mt-4 small:py-2 sm:w-fit sm:mt-0 sm:py-0">
                     Yangisini qo'shish
                 </button>
             </div>
@@ -439,7 +439,7 @@ function Students() {
                 <input
                     value={filters.searchBy}
                     onChange={handleFilterChange}
-                    className="w-56 px-4 py-2 text-xs outline-cyan-600 border rounded bg-[#f8f8f8]"
+                    className="w-56 pc:w-64 px-4 py-2 text-xs pc:text-lg outline-cyan-600 border rounded bg-[#f8f8f8]"
                     type="text"
                     name="searchBy"
                     id="searchBy"
@@ -449,7 +449,7 @@ function Students() {
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="course"
-                        className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
+                        className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
                         <span>Kurslar</span>
                     </label>
                     <select
@@ -457,10 +457,10 @@ function Students() {
                         onChange={handleFilterChange}
                         name="course"
                         id="course"
-                        className="w-full p-2 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]">
+                        className="w-full p-2 text-sm pc:text-lg rounded border outline-cyan-600 bg-[#f8f8f8]">
                         <option
                             value=""
-                            className="text-sm italic">
+                            className="text-sm pc:text-lg italic">
                             None
                         </option>
                         {
@@ -468,7 +468,7 @@ function Students() {
                                 <option
                                     key={course._id}
                                     value={course?.title}
-                                    className="text-sm">
+                                    className="text-sm pc:text-lg">
                                     {course?.title}
                                 </option>
                             ))
@@ -480,7 +480,7 @@ function Students() {
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="start_date"
-                        className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
+                        className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
                         <span>Boshlanish</span>
                     </label>
                     <input
@@ -489,14 +489,14 @@ function Students() {
                         type="date"
                         name="start_date"
                         id="start_date"
-                        className="w-full p-1.5 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]" />
+                        className="w-full p-1.5 text-sm pc:text-lg rounded border outline-cyan-600 bg-[#f8f8f8]" />
                 </div>
 
                 {/* End Date */}
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="end_date"
-                        className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
+                        className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
                         <span>Tugash</span>
                     </label>
                     <input
@@ -505,12 +505,12 @@ function Students() {
                         type="date"
                         name="end_date"
                         id="end_date"
-                        className="w-full p-1.5 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]" />
+                        className="w-full p-1.5 text-sm pc:text-lg rounded border outline-cyan-600 bg-[#f8f8f8]" />
                 </div>
 
                 <button
                     onClick={() => setFilters({ searchBy: "", course: "", start_date: "", end_date: "" })}
-                    className="border rounded p-2 text-sm text-gray-700 bg-[#f8f8f8] hover:bg-gray-100 hover:text-gray-500 transition-all outline-cyan-600"
+                    className="border rounded p-2 text-sm pc:text-lg text-gray-700 bg-[#f8f8f8] hover:bg-gray-100 hover:text-gray-500 transition-all outline-cyan-600"
                 >
                     Filterni tiklash
                 </button>
@@ -519,7 +519,7 @@ function Students() {
             <div className="max-h-[600px] min-h-[200px] overflow-auto pb-16 px-[40px]">
                 <table className="w-full mt-4">
                     <thead className="sticky top-0 bg-[#f8f8f8] z-[1]">
-                        <tr className="font-semibold text-xs flex text-left px-4 py-2">
+                        <tr className="font-semibold text-xs pc:text-base flex text-left px-4 py-2">
                             <th className="w-fit mr-4">
                                 <input
                                     disabled={filteredStudents.length === 0}
@@ -537,18 +537,18 @@ function Students() {
                                     className="align-middle"
                                 />
                             </th>
-                            <th className="w-[300px] text-left">Ism</th>
-                            <th className="w-[180px] text-left">Telefon</th>
-                            <th className="w-[200px] text-left">Guruhlar</th>
-                            <th className="w-[180px] text-left">O'qituvchilar</th>
-                            <th className="w-[200px] text-left">Mashg'ulotlar sanalari</th>
-                            <th className="w-[120px] text-left">Balans</th>
-                            <th className="w-[80px] text-center">
+                            <th className="w-[300px] pc:w-[350px] text-left">Ism</th>
+                            <th className="w-[180px] pc:w-[230px] text-left">Telefon</th>
+                            <th className="w-[200px] pc:w-[250px] text-left">Guruhlar</th>
+                            <th className="w-[180px] pc:w-[230px] text-left">O'qituvchilar</th>
+                            <th className="w-[200px] pc:w-[250px] text-left">Mashg'ulotlar sanalari</th>
+                            <th className="w-[120px] pc:w-[170px] text-left">Balans</th>
+                            <th className="w-[80px] pc:w-[130px] text-center">
                                 <div className="flex items-center gap-4">
-                                    <button className="size-6 flex items-center justify-center text-sm border rounded-full text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
+                                    <button className="size-6 pc:size-8 flex items-center justify-center text-sm pc:text-base border rounded-full text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
                                         <RxEnvelopeClosed />
                                     </button>
-                                    <button onClick={deleteManyStudents} className="size-6 flex items-center justify-center text-sm border rounded-full text-red-600 border-red-600 hover:bg-red-600 hover:text-white transition-all duration-300">
+                                    <button onClick={deleteManyStudents} className="size-6 pc:size-8 flex items-center justify-center text-sm pc:text-base border rounded-full text-red-600 border-red-600 hover:bg-red-600 hover:text-white transition-all duration-300">
                                         <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"></path>
                                         </svg>
@@ -557,16 +557,16 @@ function Students() {
                             </th>
                         </tr>
                     </thead>
-                    <tbody className="grid grid-cols-1 2xsm:gap-4 py-4">
+                    <tbody className="grid grid-cols-1 small:gap-4 py-4">
                         {isLoading ? <>
-                            <tr className="w-[90%] flex flex-col justify-center gap-1 p-8 shadow-smooth animate-pulse]">
+                            <tr className="w-[90%] flex flex-col justify-center gap-1 p-8 shadow-smooth animate-pulse">
                                 <td className="w-[85%] h-4 rounded bg-gray-300"></td>
                                 <td className="w-[50%] h-4 rounded bg-gray-300"></td>
                                 <td className="w-[65%] h-4 rounded bg-gray-300"></td>
                             </tr>
                         </> : pageStudents.length > 0 ?
                             pageStudents.map((student, index) => (
-                                <tr key={index} className="2xsm:w-full flex items-center capitalize text-sm border rounded-lg px-4 py-3 shadow-sm hover:shadow-md transition-all">
+                                <tr key={index} className="small:w-full flex items-center capitalize text-sm pc:text-base border rounded-lg px-4 py-3 shadow-sm hover:shadow-md transition-all">
                                     <td className="w-fit mr-4">
                                         <input
                                             checked={checkedStudentsList.includes(student._id)}
@@ -575,19 +575,19 @@ function Students() {
                                             className="align-middle"
                                         />
                                     </td>
-                                    <td className="w-[300px] text-left text-base hover:text-cyan-600">
+                                    <td className="w-[300px] pc:w-[350px] text-left text-base pc:text-lg hover:text-cyan-600">
                                         <NavLink to={`/admin/student-info/${student._id}`}>{student.first_name} {student.last_name}</NavLink>
                                     </td>
                                     <td
                                         onClick={() => handleCopy(student.phoneNumber)}
-                                        className="w-[180px] flex items-center gap-1 text-left text-sm cursor-pointer text-blue-400">
+                                        className="w-[180px] pc:w-[230px] flex items-center gap-1 text-left text-sm pc:text-base cursor-pointer text-blue-400">
                                         {student.phoneNumber}
                                         <img
                                             src={copied === student.phoneNumber ? tick : copy}
                                             alt="copy svg"
                                             className="cursor-pointer" />
                                     </td>
-                                    <td className="w-[200px] text-left text-xs hover:text-cyan-600">
+                                    <td className="w-[200px] pc:w-[250px] text-left text-xs pc:text-base hover:text-cyan-600">
                                         {
                                             student?.group ? <>
                                                 <NavLink
@@ -602,16 +602,16 @@ function Students() {
                                             </>
                                         }
                                     </td>
-                                    <td className="w-[180px] text-left text-sm">
+                                    <td className="w-[180px] pc:w-[230px] text-left text-sm pc:text-base">
                                         {
                                             student?.group ? <>
                                                 {student.group?.teacher.first_name} {student.group?.teacher.last_name}
                                             </> : <>
-                                                <GoHorizontalRule className="text-xs" />
+                                                <GoHorizontalRule className="text-xs pc:text-base" />
                                             </>
                                         }
                                     </td>
-                                    <td className="w-[200px] text-left text-xs">
+                                    <td className="w-[200px] pc:w-[250px] text-left text-xs pc:text-base">
                                         {
                                             student?.group ?
                                                 <div>
@@ -624,10 +624,10 @@ function Students() {
                                                 <IoRemoveOutline />
                                         }
                                     </td>
-                                    <td className="w-[120px] text-left text-xs">
+                                    <td className="w-[120px] pc:w-[170px] text-left text-xs pc:text-base">
                                         {Math.round(student.balance).toLocaleString()} UZS
                                     </td>
-                                    <td className="w-[80px] flex justify-center">
+                                    <td className="w-[80px] pc:w-[130px] flex justify-center">
                                         {/* more button */}
                                         <div onClick={(e) => {
                                             e.stopPropagation()
@@ -635,7 +635,7 @@ function Students() {
                                         }} className="relative cursor-pointer text-cyan-600 text-xl">
                                             <IoMdMore />
                                             {/* more btn modal */}
-                                            <div className={`${modals.more === student._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute 2xsm:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] bg-white`}>
+                                            <div className={`${modals.more === student._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute small:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] pc:text-base bg-white`}>
                                                 <button
                                                     onClick={() => openModal(student)}
                                                     className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"

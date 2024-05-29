@@ -111,7 +111,7 @@ export default function CostModal({
             style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modals.costModal ? "1" : "0", zIndex: modals.costModal ? "20" : "-1" }}>
             <form
                 onClick={(e) => e.stopPropagation()}
-                className="lg:w-[27%] 2xsm:w-[60%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white"
+                className="lg:w-[27%] small:w-[60%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white"
                 style={{ right: modals.costModal ? "0" : "-200%" }}>
 
                 {/* Title and Close button */}
@@ -131,7 +131,7 @@ export default function CostModal({
                 <div className="flex flex-col gap-4 px-5 py-7">
                     {/* Name */}
                     <div className="flex flex-col">
-                        <label htmlFor="name" className="text-sm">
+                        <label htmlFor="name" className="text-sm pc:text-lg">
                             <span>Nomi</span>
                             <span className="ml-1 text-red-500">*</span>
                         </label>
@@ -142,14 +142,14 @@ export default function CostModal({
                             type="text"
                             name="name"
                             id="name"
-                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
                     </div>
 
                     {/* Date */}
                     {
                         !newCost._id ?
                             <div className="flex flex-col">
-                                <label htmlFor="date" className="text-sm">
+                                <label htmlFor="date" className="text-sm pc:text-lg">
                                     <span>Sana</span>
                                     <span className="ml-1 text-red-500">*</span>
                                 </label>
@@ -160,14 +160,14 @@ export default function CostModal({
                                     type="date"
                                     name="date"
                                     id="date"
-                                    className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                                    className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
                             </div>
                             : null
                     }
 
                     {/* Receiver */}
                     <div className="flex flex-col">
-                        <label htmlFor="receiver" className="text-sm">
+                        <label htmlFor="receiver" className="text-sm pc:text-lg">
                             <span>Oluvchi</span>
                             <span className="ml-1 text-red-500">*</span>
                         </label>
@@ -178,12 +178,12 @@ export default function CostModal({
                             type="text"
                             name="receiver"
                             id="receiver"
-                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
                     </div>
 
                     {/* Method */}
                     <div className="w-full">
-                        <p className="text-sm">
+                        <p className="text-sm pc:text-lg">
                             <span>To'lov usuli</span>
                             <span className="ml-1 text-red-500">*</span>
                         </p>
@@ -198,7 +198,7 @@ export default function CostModal({
                                     name="method"
                                     id="cash"
                                     className="border-gray-300 outline-cyan-600" />
-                                <label htmlFor="cash" className="text-sm">Naqd pul</label>
+                                <label htmlFor="cash" className="text-sm pc:text-lg">Naqd pul</label>
                             </div>
 
                             <div className="flex items-center gap-1">
@@ -211,14 +211,14 @@ export default function CostModal({
                                     name="method"
                                     id="card"
                                     className="border-gray-300 outline-cyan-600" />
-                                <label htmlFor="card" className="text-sm">Plastik kartasi</label>
+                                <label htmlFor="card" className="text-sm pc:text-lg">Plastik kartasi</label>
                             </div>
                         </div>
                     </div>
 
                     {/* Amount */}
                     <div className="w-full flex flex-col">
-                        <label htmlFor="amount" className="text-sm">
+                        <label htmlFor="amount" className="text-sm pc:text-lg">
                             <span>Midor</span>
                             <span className="ml-1 text-red-500">*</span>
                         </label>
@@ -229,14 +229,14 @@ export default function CostModal({
                             type="number"
                             name="amount"
                             id="amount"
-                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
                     </div>
 
                     {/* Button */}
                     <button
                         disabled={isLoading}
                         onClick={createAndUpdateHandle}
-                        className="w-fit px-6 py-1 mt-8 bg-cyan-600 outline-none rounded-2xl text-white">
+                        className="w-fit px-6 py-1 mt-8 pc:text-lg bg-cyan-600 outline-none rounded-2xl text-white">
                         {isLoading ? "Loading..." : "Saqlash"}
                     </button>
                 </div>

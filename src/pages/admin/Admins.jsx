@@ -126,7 +126,7 @@ function Admins() {
                         handleModal("modal", true);
                         handleModal("passModal", true);
                         handleModal("createModal", true);
-                    }} className="global_add_btn 2xsm:w-full 2xsm:mt-4 2xsm:py-2 sm:w-fit sm:mt-0 sm:py-0">
+                    }} className="global_add_btn small:w-full small:mt-4 small:py-2 sm:w-fit sm:mt-0 sm:py-0">
                     Yangisini qo'shish
                 </button>
             </div>

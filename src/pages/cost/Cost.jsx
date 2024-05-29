@@ -174,17 +174,17 @@ export default function Cost() {
         <div className="container !px-0">
             <div className="relative px-[40px]">
                 <div className="sm:flex justify-between relative mb-6">
-                    <div className="flex items-end gap-4 text-sm">
-                        <h1 className="capitalize text-2xl">Xarajatlar</h1>
+                    <div className="flex items-end gap-4 text-sm pc:text-base">
+                        <h1 className="capitalize text-2xl pc:text-3xl">Xarajatlar</h1>
                     </div>
                     <button
                         onClick={() => handleModal("costModal", true)}
-                        className="global_add_btn 2xsm:w-full 2xsm:mt-4 2xsm:py-2 sm:w-fit sm:mt-0 sm:py-0">
+                        className="global_add_btn small:w-full small:mt-4 small:py-2 sm:w-fit sm:mt-0 sm:py-0">
                         Yangisini qo'shish
                     </button>
                 </div>
                 <div className="flex items-center justify-between mt-3 rounded-md shadow-md bg-white">
-                    <div className="flex items-center gap-2 text-xl">
+                    <div className="flex items-center gap-2 text-xl pc:text-2xl">
                         <div className="w-[5px] h-[70px] mr-2 rounded-md bg-cyan-600"></div>
                         <h1>Jami:</h1>
                         <h1>{Math.round(costs.reduce((total, cost) => total + (+cost.amount), 0)).toLocaleString()} UZS</h1>
@@ -200,7 +200,7 @@ export default function Cost() {
                     <input
                         value={filters.searchBy}
                         onChange={handleFilterChange}
-                        className="w-48 p-2 text-xs outline-cyan-600 border rounded bg-[#f8f8f8]"
+                        className="w-48 pc:w-60 p-2 text-xs pc:text-base outline-cyan-600 border rounded bg-[#f8f8f8]"
                         type="text"
                         name="searchBy"
                         id="searchBy"
@@ -210,7 +210,7 @@ export default function Cost() {
                     <input
                         value={filters.amountFrom}
                         onChange={handleFilterChange}
-                        className="w-36 p-2 text-xs outline-cyan-600 border rounded bg-[#f8f8f8]"
+                        className="w-36 p-2 text-xs pc:text-base outline-cyan-600 border rounded bg-[#f8f8f8]"
                         type="number"
                         name="amountFrom"
                         id="amountFrom"
@@ -221,7 +221,7 @@ export default function Cost() {
                     <input
                         value={filters.amountTo}
                         onChange={handleFilterChange}
-                        className="w-36 p-2 text-xs outline-cyan-600 border rounded bg-[#f8f8f8]"
+                        className="w-36 p-2 text-xs pc:text-base outline-cyan-600 border rounded bg-[#f8f8f8]"
                         type="number"
                         name="amountTo"
                         id="amountTo"
@@ -233,7 +233,7 @@ export default function Cost() {
                     <div className="relative text-gray-500">
                         <label
                             htmlFor="start_date"
-                            className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
+                            className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
                             <span>Boshlanish</span>
                         </label>
                         <input
@@ -242,14 +242,14 @@ export default function Cost() {
                             type="date"
                             name="start_date"
                             id="start_date"
-                            className="w-full p-1.5 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]" />
+                            className="w-full p-1.5 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]" />
                     </div>
 
                     {/* End Date */}
                     <div className="relative text-gray-500">
                         <label
                             htmlFor="end_date"
-                            className="absolute text-xs bg-[#f8f8f8] -top-1.5 left-3">
+                            className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
                             <span>Tugash</span>
                         </label>
                         <input
@@ -258,7 +258,7 @@ export default function Cost() {
                             type="date"
                             name="end_date"
                             id="end_date"
-                            className="w-full p-1.5 text-sm rounded border outline-cyan-600 bg-[#f8f8f8]" />
+                            className="w-full p-1.5 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]" />
                     </div>
 
                     <button
@@ -269,7 +269,7 @@ export default function Cost() {
                             start_date: "",
                             end_date: ""
                         })}
-                        className="border rounded p-2 text-sm text-gray-700 bg-[#f8f8f8] hover:bg-gray-100 hover:text-gray-500 transition-all outline-cyan-600"
+                        className="border rounded p-2 text-sm pc:text-base text-gray-700 bg-[#f8f8f8] hover:bg-gray-100 hover:text-gray-500 transition-all outline-cyan-600"
                     >
                         Filterni tiklash
                     </button>
@@ -278,14 +278,14 @@ export default function Cost() {
 
             <div className="max-h-[800px] overflow-y-auto pt-2 pb-6 pl-[40px] pr-4 mr-[24px] flex flex-col gap-4">
                 {/* Barcha qarzdorlar */}
-                <div className="flex justify-between pb-4 font-semibold text-sm px-4 mt-6">
-                    <h4 className="min-w-[150px] text-base">Sana</h4>
-                    <h4 className="min-w-[250px] text-base">Nomi</h4>
-                    <h4 className="min-w-[175px] text-base">Oluvhi</h4>
-                    <h4 className="min-w-[120px] text-base">To'lov turi</h4>
-                    <h4 className="min-w-[180px] text-base">Sum</h4>
-                    <h4 className="min-w-[175px] text-base">Xodim</h4>
-                    <h4 className="min-w-[100px] text-base">Amallar</h4>
+                <div className="flex justify-between pb-4 font-semibold text-sm pc:text-lg px-4 mt-6">
+                    <h4 className="min-w-[150px]">Sana</h4>
+                    <h4 className="min-w-[250px]">Nomi</h4>
+                    <h4 className="min-w-[175px]">Oluvhi</h4>
+                    <h4 className="min-w-[120px]">To'lov turi</h4>
+                    <h4 className="min-w-[180px]">Sum</h4>
+                    <h4 className="min-w-[175px]">Xodim</h4>
+                    <h4 className="min-w-[100px]">Amallar</h4>
                 </div>
                 {
                     isLoading ?
@@ -303,26 +303,26 @@ export default function Cost() {
                                     <div
                                         key={cost._id}
                                         className="min-w-fit flex items-center justify-between p-4 rounded-md shadow-md hover:shadow-smooth transition-all bg-white">
-                                        <p className="min-w-[150px] text-base">
+                                        <p className="min-w-[150px] text-base pc:text-lg">
                                             <FormattedDate date={cost.date} />
                                         </p>
-                                        <p className="min-w-[250px] text-base">
+                                        <p className="min-w-[250px] text-base pc:text-lg">
                                             {cost.name}
                                         </p>
-                                        <p className="min-w-[175px] text-base">
+                                        <p className="min-w-[175px] text-base pc:text-lg">
                                             {cost.receiver}
                                         </p>
-                                        <p className="min-w-[120px] text-base">
+                                        <p className="min-w-[120px] text-base pc:text-lg">
                                             {cost.method}
                                         </p>
-                                        <p className="min-w-[180px] text-base">
+                                        <p className="min-w-[180px] text-base pc:text-lg">
                                             <span>{Math.round(cost.amount).toLocaleString()}</span>
                                             <span> UZS</span>
                                         </p>
-                                        <p className="min-w-[175px] text-base">
+                                        <p className="min-w-[175px] text-base pc:text-lg">
                                             {cost.author?.first_name + " " + cost.author?.last_name}
                                         </p>
-                                        <div className="min-w-[100px] flex items-center gap-2 pl-3 text-base">
+                                        <div className="min-w-[100px] flex items-center gap-2 pl-3 text-base pc:text-lg">
                                             <button onClick={() => updateBtnFunc(cost)}>
                                                 <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
@@ -349,7 +349,7 @@ export default function Cost() {
                 disabled={isLoading}
                 onClick={exportToExcel}
                 id="downloadExelBtn"
-                className="size-8 relative float-end flex items-center justify-center mt-8 mr-[40px] text-gray-400 border border-gray-300 outline-cyan-600 text-xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all"
+                className="size-8 pc:size-10 relative float-end flex items-center justify-center mt-8 mr-[40px] text-gray-400 border border-gray-300 outline-cyan-600 text-xl pc:text-2xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all"
             >
                 <MdFileDownload />
             </button>
