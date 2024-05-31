@@ -102,12 +102,12 @@ export default function Attendance({ group, isLoading }) {
         const isLoading = loadingCell && loadingCell.student === id && loadingCell.date === date;
 
         return isLoading ? (
-            <AiOutlineLoading3Quarters className="animate-spin text-sm m-auto" />
+            <AiOutlineLoading3Quarters className="animate-spin text-sm pc:text-base m-auto" />
         ) : (
             <button
                 disabled={getCookie("x-auth") === "admin" ? today < date : today !== date}
                 // onClick={() => deleteAtdFunction(id, date)}
-                className={`w-4 h-4 flex items-center justify-center cursor-pointer m-auto text-white text-sm rounded disabled:opacity-20 ${attendance.some(attendanceRecord => attendanceRecord?.student?._id === id && attendanceRecord.date.slice(0, 10) === date && attendanceRecord.present === "was") ? 'bg-green-500' : attendance.some(attendanceRecord => attendanceRecord.student?._id === id && attendanceRecord.date.slice(0, 10) === date && attendanceRecord.present === "not") ? 'bg-red-500' : 'border border-gray-500'}`}
+                className={`size-4 pc:size-[18px] flex items-center justify-center cursor-pointer m-auto text-white text-sm pc:text-base rounded disabled:opacity-20 ${attendance.some(attendanceRecord => attendanceRecord?.student?._id === id && attendanceRecord.date.slice(0, 10) === date && attendanceRecord.present === "was") ? 'bg-green-500' : attendance.some(attendanceRecord => attendanceRecord.student?._id === id && attendanceRecord.date.slice(0, 10) === date && attendanceRecord.present === "not") ? 'bg-red-500' : 'border border-gray-500'}`}
             >
                 {
                     attendance.some(attendanceRecord => attendanceRecord.student?._id === id && attendanceRecord.date.slice(0, 10) === date && attendanceRecord.present === "was") ? <MdCheck /> : attendance.some(attendanceRecord => attendanceRecord.student?._id === id && attendanceRecord.date.slice(0, 10) === date && attendanceRecord.present === "not") ? <MdClose /> : ""
@@ -140,10 +140,10 @@ export default function Attendance({ group, isLoading }) {
                         />
                     </div> : <>
                         <div className="small:w-[900px] 2xl:w-full flex flex-col gap-5 border p-5 bg-white shadow-md rounded">
-                            <h2 className="text-xl">Davomat</h2>
+                            <h2 className="text-xl pc:text-2xl">Davomat</h2>
                             <table>
                                 <thead>
-                                    <tr className="text-sm [&>*]:pb-2">
+                                    <tr className="text-sm pc:text-base [&>*]:pb-2">
                                         <td className="w-52 text-left">Ism</td>
                                         {currentDates.map(date => (
                                             <td className="w-20 text-center lowercase" key={date}>{formatDate(date)}</td>
@@ -154,17 +154,17 @@ export default function Attendance({ group, isLoading }) {
                                     {
                                         group.students.map(student => (
                                             <tr className="border-y last:border-b-0 [&>*]:py-2" key={student._id}>
-                                                <td className="w-52 text-left text-sm">
+                                                <td className="w-52 pc:w-60 text-left text-sm pc:text-base">
                                                     {student.first_name} {student.last_name}
                                                 </td>
                                                 {currentDates.map(date => (
                                                     <td
                                                         key={date}
-                                                        className={`${(getCookie("x-auth") === "admin" ? today < date : today !== date) ? '' : 'group'} w-20 text-center text-xl relative`}
+                                                        className={`${(getCookie("x-auth") === "admin" ? today < date : today !== date) ? '' : 'group'} w-20 pc:w-24 text-center text-xl pc:text-2xl relative`}
                                                     >
                                                         {renderCellContent(student._id, date)}
 
-                                                        <div className="atd_modal bg-gray-200 text-sm gap-2 p-2 rounded-md absolute -top-7 hidden group-hover:flex">
+                                                        <div className="atd_modal bg-gray-200 text-sm pc:text-lg gap-2 p-2 rounded-md absolute -top-7 pc:-top-8 pc:left-1 hidden group-hover:flex">
                                                             <button onClick={() => handleCheckboxChange(student._id, date, "was")}><MdCheck className="text-green-500" /></button>
                                                             <button onClick={() => handleCheckboxChange(student._id, date, "not")}><MdClose className="text-red-500" /></button>
                                                         </div>
@@ -177,7 +177,7 @@ export default function Attendance({ group, isLoading }) {
                             </table>
 
                             {/* Pagination buttons */}
-                            <div className="flex items-center gap-4 text-xl text-gray-600 [&>*]:cursor-pointer">
+                            <div className="flex items-center gap-4 text-xl pc:text-2xl text-gray-600 [&>*]:cursor-pointer">
                                 <button
                                     disabled={currentPage === 1}
                                     onClick={() => setCurrentPage(currentPage - 1)}

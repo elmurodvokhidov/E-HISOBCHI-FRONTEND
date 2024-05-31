@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-    getTeacherSuccess,
-    teacherFailure,
-    teacherStart
-} from "../../redux/slices/teacherSlice";
+import { getTeacherSuccess, teacherFailure, teacherStart } from "../../redux/slices/teacherSlice";
 import AuthService from "../../config/authService";
 import { Toast, ToastLeft } from "../../config/sweetToast";
 import TeacherModal from "./TeacherModal";
@@ -16,7 +12,7 @@ import { IoPersonCircleOutline, IoRemoveOutline } from "react-icons/io5";
 import { getCookie } from "../../config/cookiesService";
 import { FormattedDate } from "../../components/FormattedDate";
 import CostModal from "../cost/CostModal";
-import { costFailure, costStart, costSuccess } from "../../redux/slices/costSlice";
+import { costFailure, costStart } from "../../redux/slices/costSlice";
 import Swal from "sweetalert2";
 
 export default function TeacherProfile({ teacher, isLoading, getTeacherFunction }) {
@@ -99,23 +95,14 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
                     const { data } = await AuthService.updateTeacherPass({ ...newPass, _id: newTeacher._id });
                     dispatch(getTeacherSuccess(data));
                     clearModal();
-                    Toast.fire({
-                        icon: "success",
-                        title: data.message
-                    });
+                    Toast.fire({ icon: "success", title: data.message });
                 } catch (error) {
                     dispatch(teacherFailure(error.response?.data.message));
-                    ToastLeft.fire({
-                        icon: "error",
-                        title: error.response?.data.message || error.message
-                    });
+                    ToastLeft.fire({ icon: "error", title: error.response?.data.message || error.message });
                 }
             }
             else {
-                ToastLeft.fire({
-                    icon: "error",
-                    title: "Parol 8 ta belgidan kam bo'lmasligi kerak!"
-                });
+                ToastLeft.fire({ icon: "error", title: "Parol 8 ta belgidan kam bo'lmasligi kerak!" });
             }
         }
         else {
@@ -132,23 +119,14 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
                     const { data } = await AuthService.updateTeacher(newTeacher._id, newTeacherCred);
                     dispatch(getTeacherSuccess(data));
                     clearModal();
-                    Toast.fire({
-                        icon: "success",
-                        title: data.message
-                    });
+                    Toast.fire({ icon: "success", title: data.message });
                 } catch (error) {
                     dispatch(teacherFailure(error.response?.data.error));
-                    ToastLeft.fire({
-                        icon: "error",
-                        title: error.response?.data.error || error.message
-                    });
+                    ToastLeft.fire({ icon: "error", title: error.response?.data.error || error.message });
                 }
             }
             else {
-                ToastLeft.fire({
-                    icon: "error",
-                    title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
-                });
+                ToastLeft.fire({ icon: "error", title: "Iltimos, barcha bo'sh joylarni to'ldiring!" });
             }
         }
     };
@@ -159,10 +137,7 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
             handleModal("costModal", true);
         }
         else {
-            Toast.fire({
-                icon: "error",
-                title: "Mablag' yetarli emas!"
-            });
+            Toast.fire({ icon: "error", title: "Mablag' yetarli emas!" });
         }
     };
 
@@ -182,16 +157,10 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
                 dispatch(costStart());
                 AuthService.deleteCost(id).then((res) => {
                     getTeacherFunction();
-                    Toast.fire({
-                        icon: "success",
-                        title: res?.data.message
-                    });
+                    Toast.fire({ icon: "success", title: res?.data.message });
                 }).catch((error) => {
                     dispatch(costFailure(error.response?.data.message));
-                    ToastLeft.fire({
-                        icon: "error",
-                        title: error.response?.data.message || error.message
-                    });
+                    ToastLeft.fire({ icon: "error", title: error.response?.data.message || error.message });
                 });
             }
         });
@@ -204,7 +173,7 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
     };
 
     return (
-        <div className="w-full h-screen overflow-auto pt-24 px-10">
+        <div className="w-full h-screen overflow-auto pt-24 pc:pt-28 px-10">
             {/* <div className="flex justify-between border-b-2 pb-16 relative">
                 <h1 className="capitalize text-2xl">Hisob qaydnomalari</h1>
                 <p className="absolute bottom-[-1px] border-b-2 uppercase text-xs pb-2 border-cyan-600 text-cyan-600">o'qituvchi</p>
@@ -215,9 +184,9 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
                     <div className="w-[410px]">
                         <Skeleton parentWidth={100} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
                     </div> : <>
-                        <div className="md:min-w-[440px] h-fit border-2 py-8 px-6 rounded shadow-dim">
+                        <div className="md:min-w-[440px] pc:min-w-[500px] h-fit border-2 py-8 px-6 rounded shadow-dim">
                             <div className="flex relative justify-start gap-10">
-                                <div className="w-full flex flex-col gap-4 text-sm">
+                                <div className="w-full flex flex-col gap-4 text-sm pc:text-base">
                                     <div className="flex items-center gap-4">
                                         <figure className={`size-20 rounded-full overflow-hidden ${isLoading ? "bg-gray-300 animate-pulse" : null}`}>
                                             {
@@ -231,12 +200,12 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
                                             }
                                         </figure>
                                         <div>
-                                            <h1 className="capitalize text-xl">
+                                            <h1 className="capitalize text-xl pc:text-2xl">
                                                 {teacher?.first_name + " " + teacher?.last_name}
                                             </h1>
                                             {
                                                 auth?.role === "admin" || auth?.role === "teacher" ?
-                                                    <h1 className={`${teacher?.balance > 0 ? 'bg-green-700' : teacher?.balance < 0 ? 'bg-red-700' : 'bg-gray-500'} w-fit text-xs text-white px-3 py-px rounded-xl`}>
+                                                    <h1 className={`${teacher?.balance > 0 ? 'bg-green-700' : teacher?.balance < 0 ? 'bg-red-700' : 'bg-gray-500'} w-fit text-xs pc:text-sm text-white px-3 py-px rounded-xl`}>
                                                         {Math.round(teacher?.balance).toLocaleString()} UZS
                                                     </h1>
                                                     : null
@@ -263,8 +232,7 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
                                             auth?.role === "admin" ?
                                                 <button
                                                     onClick={teacherSalaryModalFunction}
-                                                    className="global_add_btn"
-                                                    style={{ fontSize: "12px", paddingTop: "2px", paddingBottom: "2px" }}
+                                                    className="global_add_btn text-xs py-0.5 pc:text-sm"
                                                 >
                                                     To'lov
                                                 </button>
@@ -279,7 +247,7 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
                                             <button
                                                 disabled={isLoading}
                                                 onClick={openModal}
-                                                className="size-8 flex items-center justify-center text-lg border rounded-full text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
+                                                className="size-8 flex items-center justify-center text-lg pc:text-xl border rounded-full text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
                                                 <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
                                                 </svg>
@@ -295,7 +263,7 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
                 <div className="lg:w-2/3 small:w-full">
                     {/* Guruh haqida ma'lumot */}
                     <div className="xl:mt-0 small:mt-8">
-                        <h1 className="text-xl">Guruhlar</h1>
+                        <h1 className="text-xl pc:text-2xl">Guruhlar</h1>
                         <div className="flex flex-wrap gap-8 mt-2">
                             {
                                 isLoading || !teacher ? <>
@@ -306,31 +274,31 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
                                             teacher?.groups.map((group, index) => (
                                                 <NavLink to={`/${getCookie("x-auth")}/group-info/${group._id}`} key={index}>
                                                     <div className="courseCard flex gap-28 w-50% p-5 cursor-pointer bg-white shadow-smooth">
-                                                        <div className="flex flex-col text-xs">
-                                                            <h1 className="w-fit text-[10px] rounded px-2 py-1 bg-gray-200">{group.name}</h1>
+                                                        <div className="flex flex-col text-xs pc:text-base">
+                                                            <h1 className="w-fit text-[10px] pc:text-xs rounded px-2 py-1 bg-gray-200">{group.name}</h1>
                                                             {/* Problem fixed... */}
                                                             <h1>{group.course?.title}</h1>
                                                         </div>
                                                         <div className="flex items-center gap-10">
                                                             <div className="flex flex-col">
-                                                                <div className="text-xs text-gray-500">
+                                                                <div className="text-xs pc:text-sm text-gray-500">
                                                                     <h1 className="flex items-center gap-1">
                                                                         <FormattedDate date={group.start_date} />
                                                                         <IoRemoveOutline />
                                                                     </h1>
                                                                     <FormattedDate date={group.end_date} />
                                                                 </div>
-                                                                <div className="flex items-center gap-1 text-xs text-gray-500">
+                                                                <div className="flex items-center gap-1 text-xs pc:text-sm text-gray-500">
                                                                     <h1>{days.find(day => day.value === group.day)?.title}</h1>
                                                                     <span><GoDotFill fontSize={8} /></span>
                                                                     <h1>{group.start_time}</h1>
                                                                 </div>
                                                             </div>
-                                                            <h1 className="w-4 text-center text-xs text-white rounded bg-cyan-600">{group.students?.length}</h1>
+                                                            <h1 className="w-4 text-center text-xs pc:text-sm text-white rounded bg-cyan-600">{group.students?.length}</h1>
                                                         </div>
                                                     </div>
                                                 </NavLink>
-                                            )) : <h1>Guruh mavjud emas!</h1>
+                                            )) : <h1 className="pc:text-lg">Guruh mavjud emas!</h1>
                                     }
                                 </>
                             }

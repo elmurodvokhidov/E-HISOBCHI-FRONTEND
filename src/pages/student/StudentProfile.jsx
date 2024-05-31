@@ -100,7 +100,7 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
 
     // O'quvchi ma'lumotlarini o'zgartirish uchun modal oynani ochish
     const openModal = () => {
-        setNewStudent({...student, group: student?.group?._id});
+        setNewStudent({ ...student, group: student?.group?._id });
         handleModal("modal", true);
     };
 
@@ -149,23 +149,14 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                     const { data } = await AuthService.updateStudentPass({ ...newPass, _id: newStudent._id });
                     dispatch(getStudentSuccess(data));
                     clearModal();
-                    Toast.fire({
-                        icon: "success",
-                        title: data.message
-                    });
+                    Toast.fire({ icon: "success", title: data.message });
                 } catch (error) {
                     dispatch(studentFailure(error.response?.data.message));
-                    ToastLeft.fire({
-                        icon: "error",
-                        title: error.response?.data.message || error.message
-                    });
+                    ToastLeft.fire({ icon: "error", title: error.response?.data.message || error.message });
                 }
             }
             else {
-                ToastLeft.fire({
-                    icon: "error",
-                    title: "Parol 8 ta belgidan kam bo'lmasligi kerak!"
-                });
+                ToastLeft.fire({ icon: "error", title: "Parol 8 ta belgidan kam bo'lmasligi kerak!" });
             }
         }
         else {
@@ -184,23 +175,14 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                     dispatch(getStudentSuccess(data));
                     getStudentFunction();
                     clearModal();
-                    Toast.fire({
-                        icon: "success",
-                        title: data.message
-                    });
+                    Toast.fire({ icon: "success", title: data.message });
                 } catch (error) {
                     dispatch(studentFailure(error.response?.data.message));
-                    ToastLeft.fire({
-                        icon: "error",
-                        title: error.response?.data.message || error.message
-                    });
+                    ToastLeft.fire({ icon: "error", title: error.response?.data.message || error.message });
                 }
             }
             else {
-                ToastLeft.fire({
-                    icon: "error",
-                    title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
-                });
+                ToastLeft.fire({ icon: "error", title: "Iltimos, barcha bo'sh joylarni to'ldiring!" });
             }
         }
     };
@@ -221,15 +203,9 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                 AuthService.deleteStudentPay(id).then((res) => {
                     getStudentFunction();
                     clearModal();
-                    Toast.fire({
-                        icon: "success",
-                        title: res?.data.message
-                    });
+                    Toast.fire({ icon: "success", title: res?.data.message });
                 }).catch((error) => {
-                    ToastLeft.fire({
-                        icon: "error",
-                        title: error.response?.data.message || error.message
-                    });
+                    ToastLeft.fire({ icon: "error", title: error.response?.data.message || error.message });
                 });
             }
         });
@@ -254,7 +230,7 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
         >
             <div className="lg:flex gap-8">
                 {isLoading || !student ?
-                    <div className="w-[410px]">
+                    <div className="w-[410px] pc:w-[460px]">
                         <Skeleton
                             parentWidth={100}
                             firstChildWidth={85}
@@ -262,9 +238,9 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                             thirdChildWidth={65}
                         />
                     </div> : <>
-                        <div className="sm:w-[410px] h-fit border py-8 px-6 rounded shadow-dim">
+                        <div className="sm:w-[410px] pc:w-[460px] h-fit border py-8 px-6 rounded shadow-dim">
                             <div className="flex relative justify-start gap-10">
-                                <div className="w-full flex flex-col gap-4 text-sm">
+                                <div className="w-full flex flex-col gap-4 text-sm pc:text-base">
                                     <div className="flex items-center gap-4">
                                         <figure className={`size-20 rounded-[50%] overflow-hidden ${isLoading ? "bg-gray-300 animate-pulse" : null}`}>
                                             {
@@ -278,10 +254,10 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                                             }
                                         </figure>
                                         <div>
-                                            <h1 className="capitalize text-xl">{student?.first_name} {student?.last_name}</h1>
+                                            <h1 className="capitalize text-xl pc:text-2xl">{student?.first_name} {student?.last_name}</h1>
                                             {
                                                 auth?.role === "admin" || auth?.role === "student" ?
-                                                    <h1 className={`${student?.balance > 0 ? 'bg-green-700' : student?.balance < 0 ? 'bg-red-700' : 'bg-gray-500'} w-fit text-xs text-white px-3 py-px rounded-xl`}>
+                                                    <h1 className={`${student?.balance > 0 ? 'bg-green-700' : student?.balance < 0 ? 'bg-red-700' : 'bg-gray-500'} w-fit text-xs pc:text-sm text-white px-3 py-px rounded-xl`}>
                                                         {Math.round(student?.balance).toLocaleString()} UZS
                                                     </h1>
                                                     : null
@@ -322,7 +298,7 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                                     <button
                                         onClick={() => handleModal("extra", !modals.extra)}
                                         type="button"
-                                        className="flex items-center justify-end gap-1 text-sm outline-none mt-2">
+                                        className="flex items-center justify-end gap-1 text-sm pc:text-base outline-none mt-2">
                                         {
                                             modals.extra
                                                 ?
@@ -334,7 +310,7 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                                     </button>
                                     {
                                         modals.extra ? <>
-                                            <div className="flex flex-col gap-2 text-sm">
+                                            <div className="flex flex-col gap-2 text-sm pc:text-base">
                                                 <div className="flex justify-between">
                                                     <span className="text-gray-500">Otasining ismi:</span>
                                                     <span>
@@ -389,7 +365,7 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                                             <button
                                                 disabled={isLoading}
                                                 onClick={openModal}
-                                                className="size-8 flex items-center justify-center text-lg border rounded-full text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
+                                                className="size-8 pc:size-10 flex items-center justify-center text-lg pc:text-xl border rounded-full text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
                                                 <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
                                                 </svg>
@@ -405,37 +381,37 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                 <div className="lg:w-2/3 small:w-full">
                     {/* Guruhlar */}
                     <div className="lg:mt-0 small:mt-8">
-                        <h1 className="text-gray-500 text-base border-b-2 pb-2">Guruhlar</h1>
+                        <h1 className="text-gray-500 text-base pc:text-lg border-b-2 pb-2">Guruhlar</h1>
 
                         <div className="grid xl:grid-cols-2 small:grid-cols-1 gap-8 mt-6">
                             {
                                 isLoading || !student ? <>
-                                    <h1>Loading...</h1>
+                                    <h1 className="pc:text-lg">Loading...</h1>
                                 </> : <>
                                     {
                                         student?.group ?
                                             <NavLink to={`/${getCookie("x-auth")}/group-info/${student?.group._id}`}>
                                                 <div className="courseCard xl:w-50% p-4 cursor-pointer bg-white shadow-smooth rounded">
-                                                    <h1 className="w-fit text-xs rounded px-2 py-1 bg-gray-200">{student?.group.name}</h1>
+                                                    <h1 className="w-fit text-xs pc:text-sm rounded px-2 py-1 bg-gray-200">{student?.group.name}</h1>
                                                     <div className="flex items-start justify-between gap-8">
-                                                        <h2 className="text-sm transition-all duration-300">
+                                                        <h2 className="text-sm pc:text-base transition-all duration-300">
                                                             {student?.group.teacher?.first_name} {student?.group.teacher?.last_name}
                                                         </h2>
-                                                        <div className="text-xs text-gray-500">
+                                                        <div className="text-xs pc:text-sm text-gray-500">
                                                             <h1 className="flex items-center gap-1">
                                                                 <FormattedDate date={student?.group?.start_date} />
                                                                 <span className="inline-block align-middle w-4 border border-gray-300"></span>
                                                             </h1>
                                                             <FormattedDate date={student?.group?.end_date} />
                                                         </div>
-                                                        <div className="text-xs text-gray-500">
+                                                        <div className="text-xs pc:text-sm text-gray-500">
                                                             <h1>{days.find(day => day.value === student?.group.day)?.title}</h1>
                                                             <h1>{student?.group.start_time}</h1>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </NavLink>
-                                            : <h1>Guruh mavjud emas!</h1>
+                                            : <h1 className="pc:text-lg">Guruh mavjud emas!</h1>
                                     }
                                 </>
                             }
@@ -448,9 +424,9 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                         !isLoading &&
                             student?.payment_history.length > 0 ? <>
                             <div className="mt-10">
-                                <h1 className="text-gray-500 text-base border-b-2 pb-2">To'lovlar</h1>
+                                <h1 className="text-gray-500 text-base pc:text-lg border-b-2 pb-2">To'lovlar</h1>
                                 <div className="shadow-smooth rounded px-6 pb-4 mt-6 overflow-y-auto bg-white">
-                                    <div className="w-fit flex lg:gap-4 p-2 text-sm sticky top-0 bg-white pt-6">
+                                    <div className="w-fit flex lg:gap-4 p-2 text-sm pc:text-sm sticky top-0 bg-white pt-6">
                                         <h1 className="min-w-[150px]">Sana</h1>
                                         <h1 className="min-w-[200px]">Miqdor</h1>
                                         <h1 className="min-w-[440px]">Izoh</h1>
@@ -462,15 +438,15 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                                                     key={pay._id}
                                                     className="studentPayHistory flex lg:gap-4 p-2 rounded odd:bg-gray-100"
                                                 >
-                                                    <h1 className="min-w-[150px] text-sm">
+                                                    <h1 className="min-w-[150px] pc:min-w-[200px] text-sm pc:text-lg">
                                                         <FormattedDate date={pay.date} />
                                                     </h1>
-                                                    <h1 className={`min-w-[200px] text-base text-${pay.amount >= 0 ? 'green' : 'red'}-500`}>
+                                                    <h1 className={`min-w-[200px] pc:min-w-[250px] text-base pc:text-lg text-${pay.amount >= 0 ? 'green' : 'red'}-500`}>
                                                         {pay.amount >= 0 && <span>+</span>}
                                                         {Math.round(pay.amount).toLocaleString()}
-                                                        <span className="text-black text-xs"> UZS</span>
+                                                        <span className="text-black text-xs pc:text-sm"> UZS</span>
                                                     </h1>
-                                                    <h1 className="min-w-[360px] flex items-center text-sm">
+                                                    <h1 className="min-w-[360px] pc:min-w-[410px] flex items-center text-sm pc:text-base">
                                                         {
                                                             pay.description !== "" ?
                                                                 pay.description : <IoRemoveOutline className="text-gray-500" />
@@ -479,11 +455,11 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                                                     {/* more button */}
                                                     {
                                                         auth?.role === 'admin' ?
-                                                            <div className="flex items-center gap-2 w-fit text-sm">
+                                                            <div className="flex items-center gap-2 w-fit text-sm pc:text-base">
                                                                 <button
                                                                     className="text-green-500"
                                                                 >
-                                                                    <MdOutlinePrint onClick={() => printReceipt(pay)} className="text-[18px]" />
+                                                                    <MdOutlinePrint onClick={() => printReceipt(pay)} className="text-lg pc:text-xl" />
                                                                 </button>
                                                                 <button onClick={() => updateBtnFunc(pay)}>
                                                                     <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">

@@ -194,36 +194,40 @@ function CourseInfo() {
                             </div>
                         </div>
 
-                        <div className="lg:w-2/3 lg:mt-0 small:w-full small:mt-8">
-                            <h1 className="text-gray-500 text-sm pc:text-base border-b-2 py-2">Guruhlar</h1>
+                        {
+                            auth?.role !== "student" ? <>
+                                <div className="lg:w-2/3 lg:mt-0 small:w-full small:mt-8">
+                                    <h1 className="text-gray-500 text-sm pc:text-base border-b-2 py-2">Guruhlar</h1>
 
-                            <div className="grid md:grid-cols-2 small:grid-cols-1 gap-8 mt-8">
-                                {
-                                    course.groups.length > 0 ?
-                                        course.groups.map((group, index) => (
-                                            <NavLink to={`/${getCookie("x-auth")}/group-info/${group._id}`} key={index}>
-                                                <div className="courseCard md:w-50% small:w-full p-4 cursor-pointer bg-white shadow-smooth rounded">
-                                                    <h1 className="w-fit text-xs pc:text-base rounded px-2 py-1 bg-gray-200">{group.name}</h1>
-                                                    <div className="flex items-start justify-between gap-8">
-                                                        <h2 className="text-sm pc:text-base transition-all duration-300">{group.teacher?.first_name} {group.teacher?.last_name}</h2>
-                                                        <div className="text-xs pc:text-base text-gray-500">
-                                                            <h1 className="flex items-center gap-1">
-                                                                <FormattedDate date={group.start_date} />
-                                                                <GoHorizontalRule />
-                                                            </h1>
-                                                            <FormattedDate date={group.end_date} />
+                                    <div className="grid md:grid-cols-2 small:grid-cols-1 gap-8 mt-8">
+                                        {
+                                            course.groups.length > 0 ?
+                                                course.groups.map((group, index) => (
+                                                    <NavLink to={`/${getCookie("x-auth")}/group-info/${group._id}`} key={index}>
+                                                        <div className="courseCard md:w-50% small:w-full p-4 cursor-pointer bg-white shadow-smooth rounded">
+                                                            <h1 className="w-fit text-xs pc:text-base rounded px-2 py-1 bg-gray-200">{group.name}</h1>
+                                                            <div className="flex items-start justify-between gap-8">
+                                                                <h2 className="text-sm pc:text-base transition-all duration-300">{group.teacher?.first_name} {group.teacher?.last_name}</h2>
+                                                                <div className="text-xs pc:text-base text-gray-500">
+                                                                    <h1 className="flex items-center gap-1">
+                                                                        <FormattedDate date={group.start_date} />
+                                                                        <GoHorizontalRule />
+                                                                    </h1>
+                                                                    <FormattedDate date={group.end_date} />
+                                                                </div>
+                                                                <div className="text-xs pc:text-base text-gray-500">
+                                                                    <h1>{days.find(day => day.value === group.day)?.title}</h1>
+                                                                    <h1>{group.start_time}</h1>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div className="text-xs pc:text-base text-gray-500">
-                                                            <h1>{days.find(day => day.value === group.day)?.title}</h1>
-                                                            <h1>{group.start_time}</h1>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </NavLink>
-                                        )) : <h1>Ma'lumot topilmadi!</h1>
-                                }
-                            </div>
-                        </div>
+                                                    </NavLink>
+                                                )) : <h1>Ma'lumot topilmadi!</h1>
+                                        }
+                                    </div>
+                                </div>
+                            </> : null
+                        }
                     </div>
                 </> :
                     <Skeleton parentWidth={90} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />

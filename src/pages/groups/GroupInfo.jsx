@@ -238,7 +238,7 @@ function GroupInfo() {
 
     return (
         <div className="container">
-            <div className="flex items-center gap-3 text-2xl">
+            <div className="flex items-center gap-3 text-2xl pc:text-3xl">
                 {group && <>
                     <span>{group.name}</span>
                     <span><GoDotFill fontSize={10} /></span>
@@ -250,13 +250,13 @@ function GroupInfo() {
 
             <div className="2xl:flex gap-10">
                 {group ? <>
-                    <main className="w-[410px] flex mt-4">
+                    <main className="w-[410px] pc:w-[460px] flex mt-4">
                         <div className="w-full shadow-md p-6 pb-4 rounded bg-white">
                             <div className="flex justify-between border-b pb-4">
                                 <div className="flex flex-col gap-4">
-                                    <h1 className="w-fit rounded-sm px-2 bg-gray-200">{group.name}</h1>
+                                    <h1 className="w-fit rounded-sm px-2 pc:text-lg bg-gray-200">{group.name}</h1>
 
-                                    <div className="flex items-center gap-2 text-[18px]">
+                                    <div className="flex items-center gap-2 text-lg pc:text-xl">
                                         {
                                             auth?.role === "admin" ?
                                                 <NavLink
@@ -278,7 +278,7 @@ function GroupInfo() {
                                         }
                                     </div>
 
-                                    <div className="text-xs">
+                                    <div className="text-xs pc:text-base">
                                         <div className="flex items-center gap-2">
                                             <b>Narx:</b>
                                             <span>{group.course.price?.toLocaleString()} UZS</span>
@@ -291,7 +291,7 @@ function GroupInfo() {
                                         </div>
                                     </div>
 
-                                    <div className="text-xs">
+                                    <div className="text-xs pc:text-base">
                                         <div className="flex items-center gap-2">
                                             <b>Xonalar:</b>
                                             <span>{group.room.name}</span>
@@ -312,17 +312,17 @@ function GroupInfo() {
 
                                 {
                                     auth?.role === "admin" ?
-                                        <div className="flex flex-col justify-start gap-2">
+                                        <div className="flex flex-col justify-start gap-2 pc:text-xl">
                                             <button
                                                 onClick={openModal}
-                                                className="w-8 h-8 flex items-center justify-center border border-cyan-600 rounded-full text-cyan-600 hover:text-white hover:bg-cyan-600">
+                                                className="size-8 pc:size-10 flex items-center justify-center border border-cyan-600 rounded-full text-cyan-600 hover:text-white hover:bg-cyan-600">
                                                 <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
                                                 </svg>
                                             </button>
                                             <button
                                                 onClick={() => deleteHandler(group._id)}
-                                                className="w-8 h-8 flex items-center justify-center border border-red-500 rounded-full text-red-500 hover:text-white hover:bg-red-500">
+                                                className="size-8 pc:size-10 flex items-center justify-center border border-red-500 rounded-full text-red-500 hover:text-white hover:bg-red-500">
                                                 <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"></path>
                                                 </svg>
@@ -338,7 +338,7 @@ function GroupInfo() {
                                         group.students.length > 0 ?
                                             <>{group.students.map((student, index) => (
                                                 <div
-                                                    className="flex items-center justify-between text-xs"
+                                                    className="flex items-center justify-between text-xs pc:text-base"
                                                     key={index}>
                                                     <h1 className="w-6 text-gray-500">{index + 1}.</h1>
                                                     {auth?.role === "admin" && student.balance < 0 ?
@@ -352,7 +352,7 @@ function GroupInfo() {
                                                         <h1 className="w-fit">{student.first_name + " " + student.last_name}</h1>
 
                                                         {auth?.role === "admin" && modals.about === student._id ? <>
-                                                            <div className="w-64 absolute -top-32 -right-44 z-10 text-black border rounded-md p-4 cursor-auto shadow-smooth bg-white before:w-4 before:h-4 before:bg-white before:absolute before:top-[48%] before:rotate-45 before:-left-2 before:border-b before:border-l">
+                                                            <div className="w-64 pc:w-80 absolute -top-32 pc:-top-36 -right-44 pc:-right-60 z-10 text-black border rounded-md p-4 cursor-auto shadow-smooth bg-white before:w-4 before:h-4 before:bg-white before:absolute before:top-[48%] before:rotate-45 before:-left-2 before:border-b before:border-l">
                                                                 <div className="border-b pb-4">
                                                                     <p className="text-sm pc:text-lg">{student.first_name} {student.last_name}</p>
                                                                     <p className={`w-fit px-2 py-1 mt-1 rounded-md text-white ${student.balance < 0 ? "bg-red-500" : ""}`}>{student.balance < 0 ? "Qarzdor" : ""}</p>
@@ -395,7 +395,7 @@ function GroupInfo() {
                                                             className="size-3" />
                                                     </h1>
                                                     <button>
-                                                        <IoMdMore className="text-[18px] text-cyan-600" />
+                                                        <IoMdMore className="text-lg pc:text-xl text-cyan-600" />
                                                     </button>
                                                 </div>
                                             ))}
@@ -405,13 +405,13 @@ function GroupInfo() {
                                                     <button
                                                         onClick={exportToExcel}
                                                         id="downloadExelBtn"
-                                                        className="size-8 relative float-start flex items-center justify-center text-gray-400 border border-gray-300 outline-cyan-600 text-xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all"
+                                                        className="size-8 pc:size-10 relative float-start flex items-center justify-center text-gray-400 border border-gray-300 outline-cyan-600 text-xl pc:text-2xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all"
                                                     >
                                                         <MdFileDownload />
                                                     </button>
                                                 </div>
                                             </> : <h1 className="text-base">O'quvchilar mavjud emas!</h1> :
-                                        <h1>Loading...</h1>}
+                                        <h1 className="pc:text-lg">Loading...</h1>}
                                 </div>
                                 : null}
                         </div>

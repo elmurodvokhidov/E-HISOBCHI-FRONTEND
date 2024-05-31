@@ -230,7 +230,7 @@ function Students() {
 
     // O'quvchini tahrirlash uchun, modal oynani ochish funksiyasi
     const openModal = (student) => {
-        setNewStudent({...student, group: student?.group?._id});
+        setNewStudent({ ...student, group: student?.group?._id });
         handleModal("modal", true);
         handleModal("createModal", false);
     };
@@ -566,7 +566,7 @@ function Students() {
                             </tr>
                         </> : pageStudents.length > 0 ?
                             pageStudents.map((student, index) => (
-                                <tr key={index} className="small:w-full flex items-center capitalize text-sm pc:text-base border rounded-lg px-4 py-3 shadow-sm hover:shadow-md transition-all">
+                                <tr key={index} className={`${student.balance < 0 && 'bg-red-100'} small:w-full flex items-center capitalize text-sm pc:text-base border rounded-lg px-4 py-3 shadow-sm hover:shadow-md transition-all`}>
                                     <td className="w-fit mr-4">
                                         <input
                                             checked={checkedStudentsList.includes(student._id)}
