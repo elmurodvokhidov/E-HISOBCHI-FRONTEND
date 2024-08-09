@@ -4,7 +4,7 @@ import DropIndicator from "./DropIndicator";
 import dotMenu from "../../assets/icons/dot-menu.svg";
 import { allLeadSuccess } from "../../redux/slices/leadSlice";
 import { useDispatch } from "react-redux";
-import AuthService from "../../config/authService";
+import service from "../../config/service";
 
 export default function Column({
     title,
@@ -66,7 +66,7 @@ export default function Column({
 
             dispatch(allLeadSuccess({ data: copy }));
             try {
-                await AuthService.updateLeadColumn(cardId, { newColumn: column });
+                await service.updateLeadColumn(cardId, { newColumn: column });
             } catch (error) {
                 dispatch(leadFailure(error.message));
                 console.log(error);
@@ -118,7 +118,7 @@ export default function Column({
 
     return (
         <div className="w-[360px] pc:w-[410px] shrink-0 overflow-y-scroll overflow-x-hidden pr-2">
-            <div className="mb-3 flex items-center justify-between sticky top-0 pc:text-lg bg-[#f8f8f8]">
+            <div className="mb-3 flex items-center justify-between sticky top-0 pc:text-lg bg-main-2">
                 <h3 className="flex items-center font-bold">{title} (<span className="rounded text-lg">{filteredLeads.length}</span>)</h3>
                 <button><img className="pc:size-5" src={dotMenu} alt="dot menu" /></button>
             </div>

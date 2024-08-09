@@ -9,7 +9,7 @@ import {
     studentFailure,
     studentStart
 } from "../redux/slices/studentSlice";
-import AuthService from "../config/authService";
+import service from "../config/service";
 import { NavLink } from "react-router-dom";
 import tick from "../assets/icons/tick.svg";
 import copy from "../assets/icons/copy.svg";
@@ -29,7 +29,7 @@ export default function Debtors() {
     const getAllStudentsFunction = async () => {
         try {
             dispatch(studentStart());
-            const { data } = await AuthService.getAllStudents();
+            const { data } = await service.getAllStudents();
             dispatch(allStudentSuccess(data));
             setDebtors(data.data.filter(student => student.balance < 0));
         } catch (error) {
@@ -121,11 +121,11 @@ export default function Debtors() {
                 </div>
                 <div className="flex items-center justify-between mt-3 rounded-md shadow-md bg-white">
                     <div className="flex items-center gap-2 text-xl pc:text-2xl">
-                        <div className="w-[5px] h-[70px] mr-2 rounded-md bg-cyan-600"></div>
+                        <div className="w-[5px] h-[70px] mr-2 rounded-md bg-main-1"></div>
                         <h1>Jami:</h1>
                         <h1>{Math.round(debtors.reduce((total, debtor) => total + debtor.balance, 0)).toLocaleString()} UZS</h1>
                     </div>
-                    <CiCoins1 className="text-3xl pc:text-4xl text-cyan-600 mr-4" />
+                    <CiCoins1 className="text-3xl pc:text-4xl text-main-1 mr-4" />
                 </div>
             </div>
 
@@ -136,7 +136,7 @@ export default function Debtors() {
                     <input
                         value={filters.searchBy}
                         onChange={handleFilterChange}
-                        className="w-48 pc:w-60 p-2 text-xs pc:text-base outline-cyan-600 border rounded bg-[#f8f8f8]"
+                        className="w-48 pc:w-60 p-2 text-xs pc:text-base outline-main-1 border rounded bg-main-2"
                         type="text"
                         name="searchBy"
                         id="searchBy"
@@ -146,7 +146,7 @@ export default function Debtors() {
                     <input
                         value={filters.amountFrom}
                         onChange={handleFilterChange}
-                        className="w-36 pc:w-40 p-2 text-xs pc:text-base outline-cyan-600 border rounded bg-[#f8f8f8]"
+                        className="w-36 pc:w-40 p-2 text-xs pc:text-base outline-main-1 border rounded bg-main-2"
                         type="number"
                         name="amountFrom"
                         id="amountFrom"
@@ -157,7 +157,7 @@ export default function Debtors() {
                     <input
                         value={filters.amountTo}
                         onChange={handleFilterChange}
-                        className="w-36 pc:w-40 p-2 text-xs pc:text-base outline-cyan-600 border rounded bg-[#f8f8f8]"
+                        className="w-36 pc:w-40 p-2 text-xs pc:text-base outline-main-1 border rounded bg-main-2"
                         type="number"
                         name="amountTo"
                         id="amountTo"
@@ -170,7 +170,7 @@ export default function Debtors() {
                             amountFrom: "",
                             amountTo: "",
                         })}
-                        className="border rounded p-2 text-sm pc:text-base text-gray-700 bg-[#f8f8f8] hover:bg-gray-100 hover:text-gray-500 transition-all"
+                        className="border rounded p-2 text-sm pc:text-base text-gray-700 bg-main-2 hover:bg-gray-100 hover:text-gray-500 transition-all"
                     >
                         Filterni tiklash
                     </button>
@@ -247,7 +247,7 @@ export default function Debtors() {
                 disabled={isLoading}
                 onClick={exportToExcel}
                 id="downloadExelBtn"
-                className="size-8 pc:size-10 relative float-end flex items-center justify-center mt-8 mr-[40px] text-gray-400 border border-gray-300 outline-cyan-600 text-xl pc:text-2xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all"
+                className="size-8 pc:size-10 relative float-end flex items-center justify-center mt-8 mr-[40px] text-gray-400 border border-gray-300 outline-main-1 text-xl pc:text-2xl rounded-full hover:text-main-1 hover:bg-blue-100 transition-all"
             >
                 <MdFileDownload />
             </button>

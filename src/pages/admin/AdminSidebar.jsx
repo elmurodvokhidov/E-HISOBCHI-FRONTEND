@@ -1,19 +1,20 @@
-import { FaChalkboardTeacher } from "react-icons/fa";
-import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { LuLayoutDashboard } from "react-icons/lu";
-import { PiHandCoinsLight, PiStudent } from "react-icons/pi";
-import { BsExclamationTriangle, BsPerson } from "react-icons/bs";
-import { Link, NavLink } from "react-router-dom";
-import { ImBooks } from "react-icons/im";
+import { PiCurrencyDollar, PiHandCoinsLight } from "react-icons/pi";
+import { BsExclamationTriangle, BsPeople, BsPerson } from "react-icons/bs";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { AiOutlineAppstore } from "react-icons/ai";
-import { HiOutlineCurrencyDollar } from "react-icons/hi";
 import { CiCoins1 } from "react-icons/ci";
-import { LiaChartPieSolid } from "react-icons/lia";
+import { LiaChartPieSolid, LiaSwatchbookSolid } from "react-icons/lia";
 import { IoSettingsOutline } from "react-icons/io5";
 import { SlLayers } from "react-icons/sl";
+import { useSelector } from "react-redux";
+import { HiOutlineDocumentChartBar } from "react-icons/hi2";
 
 
 function AdminSidebar({ modals, handleModal, closeAllModals }) {
+    const { auth } = useSelector(state => state.auth);
+    const location = useLocation();
+
     return (
         <>
             <div className={`sidebar md:static absolute z-10 ${modals.sideModal ? "left-0" : "-left-full"} h-screen pt-20 overflow-y-auto shadow-smooth transition-all bg-white`}>
@@ -34,18 +35,21 @@ function AdminSidebar({ modals, handleModal, closeAllModals }) {
                         <h1 className="pc:text-lg text-base">Lidlar</h1>
                     </NavLink>
 
-                    {/* <NavLink
-                        to="admins"
-                        onClick={closeAllModals}
-                        className="cell relative text-gray-500 border-b-2 py-4 md:px-6 small:px-4 flex flex-col items-center">
-                        <MdOutlineAdminPanelSettings className="pc:text-4xl 2xl:text-3xl text-2xl" />
-                        <h1 className="pc:text-lg text-base">Adminlar</h1>
-                    </NavLink> */}
+                    {
+                        auth?.role === "ceo" &&
+                        <NavLink
+                            to="employees"
+                            onClick={closeAllModals}
+                            className={`${location.pathname.includes('admin-info') && 'active'} cell relative text-gray-500 border-b-2 py-4 md:px-6 small:px-4 flex flex-col items-center`}>
+                            <BsPeople className="pc:text-4xl 2xl:text-3xl text-2xl" />
+                            <h1 className="pc:text-lg text-base">Xodimlar</h1>
+                        </NavLink>
+                    }
 
                     <NavLink
                         to="groups"
                         onClick={closeAllModals}
-                        className="cell relative text-gray-500 border-b-2 py-4 md:px-6 small:px-4 flex flex-col items-center">
+                        className={`${location.pathname.includes('group-info') && 'active'} cell relative text-gray-500 border-b-2 py-4 md:px-6 small:px-4 flex flex-col items-center`}>
                         <SlLayers className="pc:text-4xl 2xl:text-3xl text-2xl" />
                         <h1 className="pc:text-lg text-base">Guruhlar</h1>
                     </NavLink>
@@ -53,18 +57,29 @@ function AdminSidebar({ modals, handleModal, closeAllModals }) {
                     <NavLink
                         to="teachers"
                         onClick={closeAllModals}
-                        className="cell relative text-gray-500 border-b-2 py-4 md:px-6 small:px-4 flex flex-col items-center">
-                        <FaChalkboardTeacher className="pc:text-4xl 2xl:text-3xl text-2xl" />
+                        className={`${location.pathname.includes('teacher-info') && 'active'} cell relative text-gray-500 border-b-2 py-4 md:px-6 small:px-4 flex flex-col items-center`}>
+                        <BsPeople className="pc:text-4xl 2xl:text-3xl text-2xl" />
                         <h1 className="pc:text-lg text-base">O'qituvchilar</h1>
                     </NavLink>
 
                     <NavLink
                         to="students"
                         onClick={closeAllModals}
-                        className="cell relative text-gray-500 border-b-2 py-4 md:px-6 small:px-4 flex flex-col items-center">
-                        <PiStudent className="pc:text-4xl 2xl:text-3xl text-2xl" />
+                        className={`${location.pathname.includes('student-info') && 'active'} cell relative text-gray-500 border-b-2 py-4 md:px-6 small:px-4 flex flex-col items-center`}>
+                        <BsPerson className="pc:text-4xl 2xl:text-3xl text-2xl" />
                         <h1 className="pc:text-lg text-base">O'quvchilar</h1>
                     </NavLink>
+
+                    {
+                        auth?.role === "ceo" &&
+                        <NavLink
+                            to="reports"
+                            onClick={closeAllModals}
+                            className="cell relative text-gray-500 border-b-2 py-4 md:px-6 small:px-4 flex flex-col items-center">
+                            <HiOutlineDocumentChartBar className="pc:text-4xl 2xl:text-3xl text-2xl" />
+                            <h1 className="pc:text-lg text-base">Hisobotlar</h1>
+                        </NavLink>
+                    }
 
                     <div
                         onClick={(e) => {
@@ -72,8 +87,8 @@ function AdminSidebar({ modals, handleModal, closeAllModals }) {
                             handleModal("financeModal", !modals.financeModal);
                             handleModal("settingsModal", false);
                         }}
-                        className="cell relative text-gray-500 border-b-2 py-4 md:px-6 small:px-4 flex flex-col items-center cursor-pointer">
-                        <HiOutlineCurrencyDollar className="pc:text-4xl 2xl:text-3xl text-2xl" />
+                        className={`${(location.pathname === '/admin/payments' || location.pathname === '/admin/cost' || location.pathname === '/admin/salary' || location.pathname === '/admin/debtors') && 'activeDiv'} cell relative text-gray-500 border-b-2 py-4 md:px-6 small:px-4 flex flex-col items-center cursor-pointer`}>
+                        <PiCurrencyDollar className="pc:text-4xl 2xl:text-3xl text-2xl" />
                         <h1 className="pc:text-lg text-base">Moliya</h1>
                     </div>
 
@@ -83,7 +98,7 @@ function AdminSidebar({ modals, handleModal, closeAllModals }) {
                             handleModal("settingsModal", !modals.settingsModal);
                             handleModal("financeModal", false);
                         }}
-                        className="cell relative text-gray-500 border-b-2 py-4 md:px-6 small:px-4 flex flex-col items-center cursor-pointer">
+                        className={`${(location.pathname === '/admin/courses' || location.pathname === '/admin/rooms' || location.pathname === '/admin/settings' || location.pathname.includes('course-info')) && 'activeDiv'} cell relative text-gray-500 border-b-2 py-4 md:px-6 small:px-4 flex flex-col items-center cursor-pointer`}>
                         <IoSettingsOutline className="pc:text-4xl 2xl:text-3xl text-2xl" />
                         <h1 className="pc:text-lg text-base">Sozlamalar</h1>
                     </div>
@@ -138,7 +153,7 @@ function AdminSidebar({ modals, handleModal, closeAllModals }) {
                         onClick={closeAllModals}
                         to="courses"
                         className="relative text-gray-500 py-4 md:px-6 small:px-4 flex justify-start gap-4">
-                        <ImBooks className="pc:text-2xl text-xl" />
+                        <LiaSwatchbookSolid className="pc:text-2xl text-xl" />
                         <h1 className="pc:text-lg text-base">Kurslar</h1>
                     </Link>
 
@@ -150,13 +165,16 @@ function AdminSidebar({ modals, handleModal, closeAllModals }) {
                         <h1 className="pc:text-lg text-base">Xonalar</h1>
                     </Link>
 
-                    <Link
-                        onClick={closeAllModals}
-                        to="settings"
-                        className="relative text-gray-500 py-4 md:px-6 small:px-4 flex justify-start gap-4">
-                        <IoSettingsOutline className="pc:text-2xl text-xl" />
-                        <h1 className="pc:text-lg text-base">Umumiy sozlamalar</h1>
-                    </Link>
+                    {
+                        auth?.role === "ceo" &&
+                        <Link
+                            onClick={closeAllModals}
+                            to="settings"
+                            className="relative text-gray-500 py-4 md:px-6 small:px-4 flex justify-start gap-4">
+                            <IoSettingsOutline className="pc:text-2xl text-xl" />
+                            <h1 className="pc:text-lg text-base">Umumiy sozlamalar</h1>
+                        </Link>
+                    }
                 </div>
             </div>
         </>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { IoMdMore } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import AuthService from "../../config/authService";
+import service from "../../config/service";
 import {
     allNoticeSuccess,
     getNoticeSuccess,
@@ -51,7 +51,7 @@ function Notice() {
     const getAllNoticesFunc = async () => {
         try {
             dispatch(noticeStart());
-            const { data } = await AuthService.getAllNotices();
+            const { data } = await service.getAllNotices();
             dispatch(allNoticeSuccess(data));
         } catch (error) {
             dispatch(noticeFailure(error.message));
@@ -79,7 +79,7 @@ function Notice() {
             try {
                 dispatch(noticeStart());
                 if (!newNotice._id) {
-                    const { data } = await AuthService.addNewNotice({ ...newNotice, userId: auth?._id });
+                    const { data } = await service.addNewNotice({ ...newNotice, userId: auth?._id });
                     getAllNoticesFunc();
                     clearModal();
                     Toast.fire({
@@ -88,7 +88,7 @@ function Notice() {
                     });
                 } else {
                     const { _id, __v, ...others } = newNotice;
-                    const { data } = await AuthService.updateNotice(newNotice._id, others);
+                    const { data } = await service.updateNotice(newNotice._id, others);
                     dispatch(getNoticeSuccess(data));
                     getAllNoticesFunc();
                     clearModal();
@@ -125,7 +125,7 @@ function Notice() {
         }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(noticeStart());
-                AuthService.deleteNotice(id).then(() => {
+                service.deleteNotice(id).then(() => {
                     getAllNoticesFunc();
                     Toast.fire({
                         icon: "success",
@@ -234,7 +234,7 @@ function Notice() {
                                                         <div onClick={(e) => {
                                                             e.stopPropagation()
                                                             handleModal("more", notice._id)
-                                                        }} className="relative cursor-pointer text-cyan-600 text-xl">
+                                                        }} className="relative cursor-pointer text-main-1 text-xl">
                                                             <IoMdMore />
                                                             {/* more btn modal */}
                                                             <div className={`${modals.more === notice._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute small:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] bg-white`}>

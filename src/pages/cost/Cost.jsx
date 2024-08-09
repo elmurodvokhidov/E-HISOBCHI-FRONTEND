@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { CiCoins1 } from "react-icons/ci";
 import { MdFileDownload } from "react-icons/md";
 import CostModal from "./CostModal";
-import AuthService from "../../config/authService";
+import service from "../../config/service";
 import { costFailure, costStart, costSuccess } from "../../redux/slices/costSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Skeleton from "../../components/loaders/Skeleton";
@@ -42,7 +42,7 @@ export default function Cost() {
     const getAllCostFunction = async () => {
         try {
             dispatch(costStart());
-            const { data } = await AuthService.getAllCost();
+            const { data } = await service.getAllCost();
             dispatch(costSuccess(data));
         } catch (error) {
             dispatch(costFailure(error.response?.data.message || error.message));
@@ -148,7 +148,7 @@ export default function Cost() {
         }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(costStart());
-                AuthService.deleteCost(id).then((res) => {
+                service.deleteCost(id).then((res) => {
                     getAllCostFunction();
                     Toast.fire({
                         icon: "success",
@@ -185,11 +185,11 @@ export default function Cost() {
                 </div>
                 <div className="flex items-center justify-between mt-3 rounded-md shadow-md bg-white">
                     <div className="flex items-center gap-2 text-xl pc:text-2xl">
-                        <div className="w-[5px] h-[70px] mr-2 rounded-md bg-cyan-600"></div>
+                        <div className="w-[5px] h-[70px] mr-2 rounded-md bg-main-1"></div>
                         <h1>Jami:</h1>
                         <h1>{Math.round(costs.reduce((total, cost) => total + (+cost.amount), 0)).toLocaleString()} UZS</h1>
                     </div>
-                    <CiCoins1 className="text-3xl text-cyan-600 mr-4" />
+                    <CiCoins1 className="text-3xl text-main-1 mr-4" />
                 </div>
             </div>
 
@@ -200,7 +200,7 @@ export default function Cost() {
                     <input
                         value={filters.searchBy}
                         onChange={handleFilterChange}
-                        className="w-48 pc:w-60 p-2 text-xs pc:text-base outline-cyan-600 border rounded bg-[#f8f8f8]"
+                        className="w-48 pc:w-60 p-2 text-xs pc:text-base outline-main-1 border rounded bg-main-2"
                         type="text"
                         name="searchBy"
                         id="searchBy"
@@ -210,7 +210,7 @@ export default function Cost() {
                     <input
                         value={filters.amountFrom}
                         onChange={handleFilterChange}
-                        className="w-36 p-2 text-xs pc:text-base outline-cyan-600 border rounded bg-[#f8f8f8]"
+                        className="w-36 p-2 text-xs pc:text-base outline-main-1 border rounded bg-main-2"
                         type="number"
                         name="amountFrom"
                         id="amountFrom"
@@ -221,7 +221,7 @@ export default function Cost() {
                     <input
                         value={filters.amountTo}
                         onChange={handleFilterChange}
-                        className="w-36 p-2 text-xs pc:text-base outline-cyan-600 border rounded bg-[#f8f8f8]"
+                        className="w-36 p-2 text-xs pc:text-base outline-main-1 border rounded bg-main-2"
                         type="number"
                         name="amountTo"
                         id="amountTo"
@@ -233,7 +233,7 @@ export default function Cost() {
                     <div className="relative text-gray-500">
                         <label
                             htmlFor="start_date"
-                            className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
+                            className="absolute text-xs pc:text-base bg-main-2 -top-1.5 pc:-top-3 left-3">
                             <span>Boshlanish</span>
                         </label>
                         <input
@@ -242,14 +242,14 @@ export default function Cost() {
                             type="date"
                             name="start_date"
                             id="start_date"
-                            className="w-full p-1.5 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]" />
+                            className="w-full p-1.5 text-sm pc:text-base rounded border outline-main-1 bg-main-2" />
                     </div>
 
                     {/* End Date */}
                     <div className="relative text-gray-500">
                         <label
                             htmlFor="end_date"
-                            className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
+                            className="absolute text-xs pc:text-base bg-main-2 -top-1.5 pc:-top-3 left-3">
                             <span>Tugash</span>
                         </label>
                         <input
@@ -258,7 +258,7 @@ export default function Cost() {
                             type="date"
                             name="end_date"
                             id="end_date"
-                            className="w-full p-1.5 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]" />
+                            className="w-full p-1.5 text-sm pc:text-base rounded border outline-main-1 bg-main-2" />
                     </div>
 
                     <button
@@ -269,7 +269,7 @@ export default function Cost() {
                             start_date: "",
                             end_date: ""
                         })}
-                        className="border rounded p-2 text-sm pc:text-base text-gray-700 bg-[#f8f8f8] hover:bg-gray-100 hover:text-gray-500 transition-all outline-cyan-600"
+                        className="border rounded p-2 text-sm pc:text-base text-gray-700 bg-main-2 hover:bg-gray-100 hover:text-gray-500 transition-all outline-main-1"
                     >
                         Filterni tiklash
                     </button>
@@ -349,7 +349,7 @@ export default function Cost() {
                 disabled={isLoading}
                 onClick={exportToExcel}
                 id="downloadExelBtn"
-                className="size-8 pc:size-10 relative float-end flex items-center justify-center mt-8 mr-[40px] text-gray-400 border border-gray-300 outline-cyan-600 text-xl pc:text-2xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all"
+                className="size-8 pc:size-10 relative float-end flex items-center justify-center mt-8 mr-[40px] text-gray-400 border border-gray-300 outline-main-1 text-xl pc:text-2xl rounded-full hover:text-main-1 hover:bg-blue-100 transition-all"
             >
                 <MdFileDownload />
             </button>

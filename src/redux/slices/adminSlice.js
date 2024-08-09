@@ -18,10 +18,6 @@ const AdminSlice = createSlice({
             state.isLoading = false;
             state.admin = action.payload?.data;
         },
-        // newAdminSuccess: (state, action) => {
-        //     state.isLoading = false;
-        //     state.admins = [...state.admins, action.payload?.data];
-        // },
         allAdminSuccess: (state, action) => {
             state.isLoading = false;
             state.admins = action.payload?.data;
@@ -37,7 +33,6 @@ const AdminSlice = createSlice({
 export const {
     adminStart,
     getAdminSuccess,
-    // newAdminSuccess,
     allAdminSuccess,
     adminFailure,
 } = AdminSlice.actions;

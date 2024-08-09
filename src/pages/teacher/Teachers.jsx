@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import AuthService from "../../config/authService";
+import service from "../../config/service";
 import { useDispatch, useSelector } from "react-redux";
 import { IoMdMore } from "react-icons/io";
 import {
@@ -44,7 +44,7 @@ function Teachers() {
     const getAllTeachersFunc = async () => {
         try {
             dispatch(teacherStart());
-            const { data } = await AuthService.getAllTeachers();
+            const { data } = await service.getAllTeachers();
             dispatch(allTeacherSuccess(data));
         } catch (error) {
             dispatch(teacherFailure(error.message));
@@ -92,7 +92,7 @@ function Teachers() {
             if (newPass.newPassword.length >= 8) {
                 try {
                     dispatch(teacherStart());
-                    const { data } = await AuthService.updateTeacherPass({ ...newPass, phoneNumber: newTeacher.phoneNumber });
+                    const { data } = await service.updateTeacherPass({ ...newPass, phoneNumber: newTeacher.phoneNumber });
                     dispatch(getTeacherSuccess(data));
                     clearModal();
                     Toast.fire({ icon: "success", title: data.message });
@@ -117,7 +117,7 @@ function Teachers() {
                     // yangi o'qituvchi qo'shish
                     if (!newTeacher._id) {
                         if (newPass.newPassword.length >= 8) {
-                            const { data } = await AuthService.addNewTeacher({ ...newTeacher, ...newPass });
+                            const { data } = await service.addNewTeacher({ ...newTeacher, ...newPass });
                             getAllTeachersFunc();
                             clearModal();
                             Toast.fire({ icon: "success", title: data.message });
@@ -127,7 +127,7 @@ function Teachers() {
                     } else {
                         // o'qituvchi ma'lumotlarini o'zgartirish
                         const { _id, __v, groups, password, createdAt, updatedAt, ...newTeacherCred } = newTeacher;
-                        const { data } = await AuthService.updateTeacher(newTeacher._id, newTeacherCred);
+                        const { data } = await service.updateTeacher(newTeacher._id, newTeacherCred);
                         dispatch(getTeacherSuccess(data));
                         getAllTeachersFunc();
                         clearModal();
@@ -163,7 +163,7 @@ function Teachers() {
         }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(teacherStart());
-                AuthService.deleteTeacher(id).then((res) => {
+                service.deleteTeacher(id).then((res) => {
                     getAllTeachersFunc();
                     Toast.fire({ icon: "success", title: res?.data.message });
                 }).catch((error) => {
@@ -200,7 +200,7 @@ function Teachers() {
     return (
         <div
             onClick={() => handleModal("more", null)}
-            className="w-full h-screen overflow-auto pt-24 pc:pt-28 px-10 bg-[#f8f8f8]"
+            className="w-full h-screen overflow-auto pt-24 pc:pt-28 px-10 bg-main-2"
         >
             <div className="sm:flex justify-between relative">
                 <div className="flex items-end gap-4 text-sm pc:text-base">
@@ -222,7 +222,7 @@ function Teachers() {
                 </> : teachers.length > 0 ?
                     teachers.map((teacher, index) => (
                         <div key={index} className="xl:w-4/5 flex justify-between capitalize text-sm pc:text-base border rounded-lg p-4 shadow-sm hover:shadow-md transition-all">
-                            <NavLink to={`/admin/teacher-info/${teacher._id}`} className="hover:text-cyan-600 pc:text-base">{teacher.first_name} {teacher.last_name}</NavLink>
+                            <NavLink to={`/admin/teacher-info/${teacher._id}`} className="hover:text-main-1 pc:text-base">{teacher.first_name} {teacher.last_name}</NavLink>
                             <div className="flex items-center gap-8 text-xs pc:text-base">
                                 <h3
                                     onClick={() => handleCopy(teacher.phoneNumber)}
@@ -238,7 +238,7 @@ function Teachers() {
                                 <div onClick={(e) => {
                                     e.stopPropagation()
                                     handleModal("more", teacher._id)
-                                }} className="relative cursor-pointer text-cyan-600 text-xl">
+                                }} className="relative cursor-pointer text-main-1 text-xl">
                                     <IoMdMore />
                                     {/* more btn modal */}
                                     <div className={`${modals.more === teacher._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute z-10 lg:left-8 small:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] pc:text-base bg-white`}>
@@ -273,7 +273,7 @@ function Teachers() {
                 <button
                     onClick={exportToExcel}
                     id="downloadExelBtn"
-                    className="size-8 pc:size-10 relative float-end flex items-center justify-center ml-8 text-gray-400 border border-gray-300 outline-cyan-600 text-xl pc:text-2xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all">
+                    className="size-8 pc:size-10 relative float-end flex items-center justify-center ml-8 text-gray-400 border border-gray-300 outline-main-1 text-xl pc:text-2xl rounded-full hover:text-main-1 hover:bg-blue-100 transition-all">
                     <MdFileDownload />
                 </button>
             }

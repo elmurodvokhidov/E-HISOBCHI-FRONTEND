@@ -64,7 +64,7 @@ function StudentModal({
                                 type="text"
                                 name="first_name"
                                 id="first_name"
-                                className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                                className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                         </div>
 
                         {/* Last Name */}
@@ -80,7 +80,7 @@ function StudentModal({
                                 type="text"
                                 name="last_name"
                                 id="last_name"
-                                className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                                className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                         </div>
                     </div>
 
@@ -94,7 +94,7 @@ function StudentModal({
                             type="date"
                             name="dob"
                             id="dob"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                     </div>
 
                     {/* Phone Number */}
@@ -112,7 +112,7 @@ function StudentModal({
                                 type="number"
                                 name="phoneNumber"
                                 id="phoneNumber"
-                                className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 pc:text-lg outline-cyan-600"
+                                className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 pc:text-lg outline-main-1"
                             />
                         </div>
                     </div>
@@ -133,7 +133,7 @@ function StudentModal({
                                     type="radio"
                                     name="gender"
                                     id="erkak"
-                                    className="border-gray-300 outline-cyan-600" />
+                                    className="border-gray-300 outline-main-1" />
                                 <label htmlFor="erkak" className="text-sm pc:text-lg">Erkak</label>
                             </div>
 
@@ -146,7 +146,7 @@ function StudentModal({
                                     type="radio"
                                     name="gender"
                                     id="ayol"
-                                    className="border-gray-300 outline-cyan-600" />
+                                    className="border-gray-300 outline-main-1" />
                                 <label htmlFor="ayol" className="text-sm pc:text-lg">Ayol</label>
                             </div>
                         </div>
@@ -161,7 +161,7 @@ function StudentModal({
                             value={newStudent.group}
                             name="group"
                             id="group"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600">
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1">
                             <option value="" className="italic">None</option>
                             {
                                 groups.map(group => (
@@ -205,7 +205,7 @@ function StudentModal({
                                         type="text"
                                         name="newPassword"
                                         id="newPassword"
-                                        className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                                        className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                                 </div>
                                 <div className="w-[47%] flex flex-col">
                                     <label htmlFor="confirmPassword" className="text-sm pc:text-lg">
@@ -218,7 +218,7 @@ function StudentModal({
                                         type="text"
                                         name="confirmPassword"
                                         id="confirmPassword"
-                                        className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                                        className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                                 </div>
                             </div>
                         </> : null
@@ -251,7 +251,7 @@ function StudentModal({
                                         type="text"
                                         name="father_name"
                                         id="father_name"
-                                        className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                                        className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                                 </div>
                                 {/* Father's Phone Number */}
                                 <div className="w-full flex flex-col">
@@ -263,8 +263,8 @@ function StudentModal({
                                         type="text"
                                         name="fatherPhoneNumber"
                                         id="fatherPhoneNumber"
-                                        className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600"
-                                        placeholder="998991234567" />
+                                        className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1"
+                                        placeholder="991234567" />
                                 </div>
                                 {/* Mother's Name */}
                                 <div className="w-full flex flex-col">
@@ -275,7 +275,7 @@ function StudentModal({
                                         type="text"
                                         name="mother_name"
                                         id="mother_name"
-                                        className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                                        className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                                 </div>
                                 {/* Mother's Phone Number */}
                                 <div className="w-full flex flex-col">
@@ -286,8 +286,8 @@ function StudentModal({
                                         type="text"
                                         name="motherPhoneNumber"
                                         id="motherPhoneNumber"
-                                        className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600"
-                                        placeholder="998991234567" />
+                                        className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1"
+                                        placeholder="991234567" />
                                 </div>
                             </div>
                         </> : null
@@ -316,7 +316,7 @@ function StudentModal({
                                     type="file"
                                     name="avatar"
                                     id="avatar"
-                                    className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                                    className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                             </div>
                         </> : null
                     }
@@ -325,7 +325,7 @@ function StudentModal({
                     <button
                         disabled={isLoading}
                         onClick={handleCreateAndUpdate}
-                        className="w-fit px-6 py-1 mt-8 pc:text-lg bg-cyan-600 rounded-2xl text-white">
+                        className="w-fit px-6 py-1 mt-8 pc:text-lg bg-main-1 rounded-2xl text-white">
                         {isLoading ? "Loading..." : newStudent._id ? "Saqlash" : "Qo'shish"}
                     </button>
                 </div>

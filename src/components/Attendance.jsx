@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import AuthService from "../config/authService";
+import service from "../config/service";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { MdCheck, MdClose, MdSkipNext, MdSkipPrevious } from "react-icons/md";
 import { NavLink } from "react-router-dom";
@@ -20,7 +20,7 @@ export default function Attendance({ group, isLoading }) {
     // Barcha davomat ro'yhatini olish funksiyasi
     const getAllAttendanceFunction = async () => {
         try {
-            const res = await AuthService.getAllAttendance();
+            const res = await service.getAllAttendance();
             setAttendance(res.data.data);
         } catch (error) {
             console.log(error);
@@ -31,7 +31,7 @@ export default function Attendance({ group, isLoading }) {
         // Bugungi sanani olish
         const getCurrentDateFunction = async () => {
             try {
-                const { data } = await AuthService.getCurrentDate();
+                const { data } = await service.getCurrentDate();
                 setToday(data.today);
                 // Bugungi sana guruh kunlari ichida ekanligini tekshirish
                 const todayIndex = group.course_days.findIndex(date => date >= data.today);
@@ -55,7 +55,7 @@ export default function Attendance({ group, isLoading }) {
 
             // First, try to calculate the teacher's salary
             try {
-                await AuthService.calcTeacherSalary(student, date);
+                await service.calcTeacherSalary(student, date);
             } catch (error) {
                 console.log(error.response?.data.message || error.message);
                 // Toast.fire({
@@ -66,7 +66,7 @@ export default function Attendance({ group, isLoading }) {
 
             // Then, update the attendance record
             try {
-                await AuthService.checkAttendance({ student, date, present }, group._id);
+                await service.checkAttendance({ student, date, present }, group._id);
             } catch (error) {
                 Toast.fire({
                     icon: "error",
@@ -88,7 +88,7 @@ export default function Attendance({ group, isLoading }) {
     const deleteAtdFunction = async (student, date) => {
         try {
             setLoadingCell({ student, date });
-            await AuthService.deleteAttendance(student, date);
+            await service.deleteAttendance(student, date);
             getAllAttendanceFunction();
         } catch (error) {
             console.log(error);
@@ -105,7 +105,7 @@ export default function Attendance({ group, isLoading }) {
             <AiOutlineLoading3Quarters className="animate-spin text-sm pc:text-base m-auto" />
         ) : (
             <button
-                disabled={getCookie("x-auth") === "admin" ? today < date : today !== date}
+                disabled={today < date}
                 // onClick={() => deleteAtdFunction(id, date)}
                 className={`size-4 pc:size-[18px] flex items-center justify-center cursor-pointer m-auto text-white text-sm pc:text-base rounded disabled:opacity-20 ${attendance.some(attendanceRecord => attendanceRecord?.student?._id === id && attendanceRecord.date.slice(0, 10) === date && attendanceRecord.present === "was") ? 'bg-green-500' : attendance.some(attendanceRecord => attendanceRecord.student?._id === id && attendanceRecord.date.slice(0, 10) === date && attendanceRecord.present === "not") ? 'bg-red-500' : 'border border-gray-500'}`}
             >
@@ -160,7 +160,7 @@ export default function Attendance({ group, isLoading }) {
                                                 {currentDates.map(date => (
                                                     <td
                                                         key={date}
-                                                        className={`${(getCookie("x-auth") === "admin" ? today < date : today !== date) ? '' : 'group'} w-20 pc:w-24 text-center text-xl pc:text-2xl relative`}
+                                                        className={`${(today < date) ? '' : 'group'} w-20 pc:w-24 text-center text-xl pc:text-2xl relative`}
                                                     >
                                                         {renderCellContent(student._id, date)}
 

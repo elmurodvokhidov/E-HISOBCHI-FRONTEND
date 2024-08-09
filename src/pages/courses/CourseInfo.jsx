@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
-import AuthService from "../../config/authService";
+import service from "../../config/service";
 import {
     courseFailure,
     courseStart,
@@ -45,7 +45,7 @@ function CourseInfo() {
     const getCourse = async () => {
         try {
             dispatch(courseStart());
-            const { data } = await AuthService.getCourse(id);
+            const { data } = await service.getCourse(id);
             dispatch(getCourseSuccess(data));
         } catch (error) {
             dispatch(courseFailure(error.response?.data.message));
@@ -89,7 +89,7 @@ function CourseInfo() {
             try {
                 dispatch(courseStart());
                 const { _id, __v, color, groups, createdAt, updatedAt, ...newCourseCred } = updatedCourse;
-                const { data } = await AuthService.updateCourse(updatedCourse._id, newCourseCred);
+                const { data } = await service.updateCourse(updatedCourse._id, newCourseCred);
                 // dispatch(getCourseSuccess(data));
                 getCourse();
                 clearModal();
@@ -120,7 +120,7 @@ function CourseInfo() {
         }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(courseStart());
-                AuthService.deleteCourse(id).then(() => {
+                service.deleteCourse(id).then(() => {
                     navigate("/admin/courses");
                     Toast.fire({ icon: "success", title: "Kurs muvaffaqiyatli o'chirildi!" });
                 }).catch((error) => {
@@ -145,28 +145,24 @@ function CourseInfo() {
                                 <figure className="w-48">
                                     <img className="w-full" src={CourseImg} alt="course logo" />
                                 </figure>
-                                {
-                                    auth?.role === "admin" ?
-                                        <div className="flex items-start justify-center gap-2 absolute pc:text-lg top-5 right-6">
-                                            <button
-                                                onClick={openModal}
-                                                className="size-8 pc:size-10 flex items-center justify-center border rounded-full text-white hover:text-cyan-600 hover:bg-white"
-                                            >
-                                                <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
-                                                </svg>
-                                            </button>
-                                            <button
-                                                onClick={deleteCourse}
-                                                className="size-8 pc:size-10 flex items-center justify-center border rounded-full text-white hover:text-cyan-600 hover:bg-white"
-                                            >
-                                                <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"></path>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                        : null
-                                }
+                                <div className="flex items-start justify-center gap-2 absolute pc:text-lg top-5 right-6">
+                                    <button
+                                        onClick={openModal}
+                                        className="size-8 pc:size-10 flex items-center justify-center border rounded-full text-white hover:text-main-1 hover:bg-white"
+                                    >
+                                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
+                                        </svg>
+                                    </button>
+                                    <button
+                                        onClick={deleteCourse}
+                                        className="size-8 pc:size-10 flex items-center justify-center border rounded-full text-white hover:text-main-1 hover:bg-white"
+                                    >
+                                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
                             <div className="flex flex-col gap-4 p-8">
                                 <div>
@@ -194,40 +190,36 @@ function CourseInfo() {
                             </div>
                         </div>
 
-                        {
-                            auth?.role !== "student" ? <>
-                                <div className="lg:w-2/3 lg:mt-0 small:w-full small:mt-8">
-                                    <h1 className="text-gray-500 text-sm pc:text-base border-b-2 py-2">Guruhlar</h1>
+                        <div className="lg:w-2/3 lg:mt-0 small:w-full small:mt-8">
+                            <h1 className="text-gray-500 text-sm pc:text-base border-b-2 py-2">Guruhlar</h1>
 
-                                    <div className="grid md:grid-cols-2 small:grid-cols-1 gap-8 mt-8">
-                                        {
-                                            course.groups.length > 0 ?
-                                                course.groups.map((group, index) => (
-                                                    <NavLink to={`/${getCookie("x-auth")}/group-info/${group._id}`} key={index}>
-                                                        <div className="courseCard md:w-50% small:w-full p-4 cursor-pointer bg-white shadow-smooth rounded">
-                                                            <h1 className="w-fit text-xs pc:text-base rounded px-2 py-1 bg-gray-200">{group.name}</h1>
-                                                            <div className="flex items-start justify-between gap-8">
-                                                                <h2 className="text-sm pc:text-base transition-all duration-300">{group.teacher?.first_name} {group.teacher?.last_name}</h2>
-                                                                <div className="text-xs pc:text-base text-gray-500">
-                                                                    <h1 className="flex items-center gap-1">
-                                                                        <FormattedDate date={group.start_date} />
-                                                                        <GoHorizontalRule />
-                                                                    </h1>
-                                                                    <FormattedDate date={group.end_date} />
-                                                                </div>
-                                                                <div className="text-xs pc:text-base text-gray-500">
-                                                                    <h1>{days.find(day => day.value === group.day)?.title}</h1>
-                                                                    <h1>{group.start_time}</h1>
-                                                                </div>
-                                                            </div>
+                            <div className="grid md:grid-cols-2 small:grid-cols-1 gap-8 mt-8">
+                                {
+                                    course.groups.length > 0 ?
+                                        course.groups.map((group, index) => (
+                                            <NavLink to={`/admin/group-info/${group._id}`} key={index}>
+                                                <div className="courseCard md:w-50% small:w-full p-4 cursor-pointer bg-white shadow-smooth rounded">
+                                                    <h1 className="w-fit text-xs pc:text-base rounded px-2 py-1 bg-gray-200">{group.name}</h1>
+                                                    <div className="flex items-start justify-between gap-8">
+                                                        <h2 className="text-sm pc:text-base transition-all duration-300">{group.teacher?.first_name} {group.teacher?.last_name}</h2>
+                                                        <div className="text-xs pc:text-base text-gray-500">
+                                                            <h1 className="flex items-center gap-1">
+                                                                <FormattedDate date={group.start_date} />
+                                                                <GoHorizontalRule />
+                                                            </h1>
+                                                            <FormattedDate date={group.end_date} />
                                                         </div>
-                                                    </NavLink>
-                                                )) : <h1>Ma'lumot topilmadi!</h1>
-                                        }
-                                    </div>
-                                </div>
-                            </> : null
-                        }
+                                                        <div className="text-xs pc:text-base text-gray-500">
+                                                            <h1>{days.find(day => day.value === group.day)?.title}</h1>
+                                                            <h1>{group.start_time}</h1>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </NavLink>
+                                        )) : <h1>Ma'lumot topilmadi!</h1>
+                                }
+                            </div>
+                        </div>
                     </div>
                 </> :
                     <Skeleton parentWidth={90} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />

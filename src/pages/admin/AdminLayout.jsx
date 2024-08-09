@@ -3,49 +3,29 @@ import Navbar from "../../components/Navbar"
 import AdminSidebar from "./AdminSidebar"
 import { useEffect } from "react";
 import { getCookie } from "../../config/cookiesService";
-import AuthService from "../../config/authService";
+import service from "../../config/service";
 import { useDispatch } from "react-redux";
 import { allStudentSuccess } from "../../redux/slices/studentSlice";
-import {
-    companyFailure,
-    companyStart,
-    companySuccess
-} from "../../redux/slices/companySlice";
 
 function AdminLayout({ modals, handleModal, closeAllModals }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!getCookie("x-token") || getCookie("x-auth") !== "admin") {
-            navigate("/");
-        };
+        if (!getCookie("x-token")) navigate("/");
 
         // O'quvchi balansini hisoblash funksiyasi
         async function caclStudentBalanceFunction() {
             try {
-                await AuthService.caclStudentBalance();
-                const { data } = await AuthService.getAllStudents();
+                await service.caclStudentBalance();
+                const { data } = await service.getAllStudents();
                 dispatch(allStudentSuccess(data));
             } catch (error) {
                 console.error("Error calculate student's balance:", error);
             }
         };
 
-        // Mavjud kompaniyani olish funksiyasi
-        // const getCompanyFunction = async () => {
-        //     try {
-        //         dispatch(companyStart());
-        //         const { data } = await AuthService.getCompany();
-        //         dispatch(companySuccess(data));
-        //     } catch (error) {
-        //         dispatch(companyFailure(error.response?.data.message));
-        //         if (!error.success) navigate('/company');
-        //     }
-        // };
-
         caclStudentBalanceFunction();
-        // getCompanyFunction();
     }, [navigate]);
 
     return (

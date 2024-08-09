@@ -44,13 +44,15 @@ input[type=number]::-webkit-outer-spin-button {
     background: #f8f8f8;
 }
 
-.sidebar a {
+.sidebar a,
+.activeDiv {
     transition-property: all;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 300ms;
 }
 
-.sidebar a.active::before {
+.sidebar a.active::before,
+.activeDiv::before {
     content: "";
     display: inline-block;
     position: absolute;
@@ -62,7 +64,8 @@ input[type=number]::-webkit-outer-spin-button {
     background: rgb(8, 145, 178);
 }
 
-.sidebar a.active {
+.sidebar a.active,
+.activeDiv {
     color: rgb(8, 145, 178);
 }
 
@@ -252,4 +255,23 @@ input[type=number]::-webkit-outer-spin-button {
         font-size: 15px;
         width: 120px;
     }
+}
+
+.reports>div {
+    border: 1px solid silver;
+}
+
+.reports p {
+    border-left: 1px solid silver;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.reports p:hover {
+    color: rgb(8, 114, 141);
+    text-decoration: underline;
+}
+
+.reports p:first-child {
+    border-left: none;
 }

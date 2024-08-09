@@ -1,23 +1,11 @@
 import { CiCoins1 } from "react-icons/ci";
-import SplineChart from "../components/charts/SplineChart";
+import FinanceChart from "../components/charts/FinanceChart";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import {
-    allStudentPayHistorySuccess,
-    studentPayHistoryFailure,
-    studentPayHistoryStart
-} from "../redux/slices/studentPayHistory";
-import AuthService from "../config/authService";
-import {
-    allGroupSuccess,
-    groupFailure,
-    groupStart
-} from "../redux/slices/groupSlice";
-import {
-    allCourseSuccess,
-    courseFailure,
-    courseStart
-} from "../redux/slices/courseSlice";
+import { allStudentPayHistorySuccess, studentPayHistoryFailure, studentPayHistoryStart } from "../redux/slices/studentPayHistory";
+import service from "../config/service";
+import { allGroupSuccess, groupFailure, groupStart } from "../redux/slices/groupSlice";
+import { allCourseSuccess, courseFailure, courseStart } from "../redux/slices/courseSlice";
 import { allTeacherSuccess, teacherFailure, teacherStart } from "../redux/slices/teacherSlice";
 import { NavLink } from "react-router-dom";
 import Skeleton from "../components/loaders/Skeleton";
@@ -25,14 +13,13 @@ import * as XLSX from 'xlsx';
 import { MdFileDownload } from "react-icons/md";
 import { IoRemoveOutline } from "react-icons/io5";
 import { FormattedDate } from "../components/FormattedDate";
-import { costFailure, costStart, costSuccess } from "../redux/slices/costSlice";
+import { companyFailure, companyStart, companySuccess } from "../redux/slices/companySlice";
 
 export default function Payments() {
     const { isLoading } = useSelector(state => state.studentPayHistory);
     const { groups } = useSelector(state => state.group);
     const { courses } = useSelector(state => state.course);
     const { teachers } = useSelector(state => state.teacher);
-    const { costs } = useSelector(state => state.cost);
     const { company } = useSelector(state => state.company);
     const dispatch = useDispatch();
     const [payments, setPayments] = useState([]);
@@ -51,7 +38,7 @@ export default function Payments() {
     const getAllStudentPayHistoryFunction = async () => {
         try {
             dispatch(studentPayHistoryStart());
-            const { data } = await AuthService.getStudentPayHistory();
+            const { data } = await service.getStudentPayHistory();
             dispatch(allStudentPayHistorySuccess(data));
             setPayments(data.data.filter(pay => pay.type === "pay"));
         } catch (error) {
@@ -64,7 +51,7 @@ export default function Payments() {
         const getAllGroupsFunction = async () => {
             try {
                 dispatch(groupStart());
-                const { data } = await AuthService.getAllGroups();
+                const { data } = await service.getAllGroups();
                 dispatch(allGroupSuccess(data));
             } catch (error) {
                 dispatch(groupFailure(error.message));
@@ -75,7 +62,7 @@ export default function Payments() {
         const getAllCoursesFunction = async () => {
             try {
                 dispatch(courseStart());
-                const { data } = await AuthService.getAllCourses();
+                const { data } = await service.getAllCourses();
                 dispatch(allCourseSuccess(data));
             } catch (error) {
                 dispatch(courseFailure(error.message));
@@ -86,21 +73,21 @@ export default function Payments() {
         const getAllTeachersFunction = async () => {
             try {
                 dispatch(teacherStart());
-                const { data } = await AuthService.getAllTeachers();
+                const { data } = await service.getAllTeachers();
                 dispatch(allTeacherSuccess(data));
             } catch (error) {
                 dispatch(teacherFailure(error.message));
             }
         };
 
-        // Barcha xarajatlar ro'yhatini olish funksiyasi
-        const getAllCostFunction = async () => {
+        // Mavjud kompaniyani olish funksiyasi
+        const getCompanyFunction = async () => {
             try {
-                dispatch(costStart());
-                const { data } = await AuthService.getAllCost();
-                dispatch(costSuccess(data));
+                dispatch(companyStart());
+                const { data } = await service.getCompany();
+                dispatch(companySuccess(data));
             } catch (error) {
-                dispatch(costFailure(error.response?.data.message || error.message));
+                dispatch(companyFailure(error.response?.data.message));
             }
         };
 
@@ -108,7 +95,7 @@ export default function Payments() {
         getAllCoursesFunction();
         getAllTeachersFunction();
         getAllStudentPayHistoryFunction();
-        getAllCostFunction();
+        getCompanyFunction();
     }, []);
 
     // Filterlash uchun qiymat olish
@@ -202,7 +189,7 @@ export default function Payments() {
             <h1 className="text-2xl pc:text-3xl">Barcha to'lovlar</h1>
             <div className="lg:flex justify-between gap-10">
                 <div className="w-fit flex flex-col gap-6">
-                    <div className="min-w-[400px] pc:min-w-[450px] flex items-center justify-between gap-6 relative rounded before:w-1 before:h-full before:absolute before:rounded-lg before:bg-cyan-600 bg-white shadow-md text-base pc:text-lg">
+                    <div className="min-w-[400px] pc:min-w-[450px] flex items-center justify-between gap-6 relative rounded before:w-1 before:h-full before:absolute before:rounded-lg before:bg-main-1 bg-white shadow-md text-base pc:text-lg">
                         <div className="my-3 ml-5">
                             <div className="flex items-center gap-2">
                                 <h1 className="flex gap-2">
@@ -215,14 +202,14 @@ export default function Payments() {
                             {/* <h1 className="flex items-center"><GoHorizontalRule />04.06.2024)</h1> */}
                         </div>
 
-                        <CiCoins1 className="text-3xl pc:text-4xl text-cyan-600 mr-4" />
+                        <CiCoins1 className="text-3xl pc:text-4xl text-main-1 mr-4" />
                     </div>
 
-                    <div className="min-w-[400px] pc:min-w-[450px] flex items-center justify-between gap-6 relative rounded before:w-1 before:h-full before:absolute before:rounded-lg before:bg-cyan-600 bg-white shadow-md text-base pc:text-lg">
+                    <div className="min-w-[400px] pc:min-w-[450px] flex items-center justify-between gap-6 relative rounded before:w-1 before:h-full before:absolute before:rounded-lg before:bg-main-1 bg-white shadow-md text-base pc:text-lg">
                         <div className="my-3 ml-5">
                             <div className="flex items-center gap-2">
                                 <h1 className="flex gap-2">
-                                    <span>Sof foyda miqdori:</span>
+                                    <span>Kompaniya budjeti:</span>
                                     <span>{Math.round(company?.budget || 0).toLocaleString()}</span>
                                     <span>UZS</span>
                                 </h1>
@@ -231,7 +218,7 @@ export default function Payments() {
                             {/* <h1 className="flex items-center"><GoHorizontalRule />04.06.2024)</h1> */}
                         </div>
 
-                        <CiCoins1 className="text-3xl pc:text-4xl text-cyan-600 mr-4" />
+                        <CiCoins1 className="text-3xl pc:text-4xl text-main-1 mr-4" />
                     </div>
 
                     <ul className="list-disc rounded shadow-md py-6 px-12 text-sm pc:text-base bg-white">
@@ -254,7 +241,7 @@ export default function Payments() {
                 </div>
 
                 <div className="lg:w-4/6 w-full shadow-md">
-                    <SplineChart />
+                    {payments.length ? <FinanceChart data={payments} /> : null}
                 </div>
             </div>
 
@@ -265,7 +252,7 @@ export default function Payments() {
                     <input
                         value={filters.searchBy}
                         onChange={handleFilterChange}
-                        className="w-48 pc:w-60 p-2 text-xs pc:text-base outline-cyan-600 border rounded bg-[#f8f8f8]"
+                        className="w-48 pc:w-60 p-2 text-xs pc:text-base outline-main-1 border rounded bg-main-2"
                         type="text"
                         name="searchBy"
                         id="searchBy"
@@ -275,7 +262,7 @@ export default function Payments() {
                     <input
                         value={filters.amount}
                         onChange={handleFilterChange}
-                        className="w-36 p-2 text-xs pc:text-base outline-cyan-600 border rounded bg-[#f8f8f8]"
+                        className="w-36 p-2 text-xs pc:text-base outline-main-1 border rounded bg-main-2"
                         type="text"
                         name="amount"
                         id="amount"
@@ -286,7 +273,7 @@ export default function Payments() {
                     <div className="w-28 pc:w-36 relative text-gray-500">
                         <label
                             htmlFor="course"
-                            className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
+                            className="absolute text-xs pc:text-base bg-main-2 -top-1.5 pc:-top-3 left-3">
                             <span>Kurslar</span>
                         </label>
                         <select
@@ -294,7 +281,7 @@ export default function Payments() {
                             onChange={handleFilterChange}
                             name="course"
                             id="course"
-                            className="w-full p-2 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]">
+                            className="w-full p-2 text-sm pc:text-base rounded border outline-main-1 bg-main-2">
                             <option
                                 value=""
                                 className="text-sm pc:text-base italic">
@@ -317,7 +304,7 @@ export default function Payments() {
                     <div className="w-28 pc:w-36 relative text-gray-500">
                         <label
                             htmlFor="group"
-                            className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
+                            className="absolute text-xs pc:text-base bg-main-2 -top-1.5 pc:-top-3 left-3">
                             <span>Guruhlar</span>
                         </label>
                         <select
@@ -325,7 +312,7 @@ export default function Payments() {
                             onChange={handleFilterChange}
                             name="group"
                             id="group"
-                            className="w-full p-2 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]">
+                            className="w-full p-2 text-sm pc:text-base rounded border outline-main-1 bg-main-2">
                             <option
                                 value=""
                                 className="text-sm pc:text-base italic">
@@ -348,7 +335,7 @@ export default function Payments() {
                     <div className="w-28 pc:w-36 relative text-gray-500">
                         <label
                             htmlFor="teacher"
-                            className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
+                            className="absolute text-xs pc:text-base bg-main-2 -top-1.5 pc:-top-3 left-3">
                             <span>O'qituvchi</span>
                         </label>
                         <select
@@ -356,7 +343,7 @@ export default function Payments() {
                             onChange={handleFilterChange}
                             name="teacher"
                             id="teacher"
-                            className="w-full p-2 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]">
+                            className="w-full p-2 text-sm pc:text-base rounded border outline-main-1 bg-main-2">
                             <option
                                 value=""
                                 className="text-sm pc:text-base italic">
@@ -380,7 +367,7 @@ export default function Payments() {
                     <div className="w-28 pc:w-36 relative text-gray-500">
                         <label
                             htmlFor="method"
-                            className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
+                            className="absolute text-xs pc:text-base bg-main-2 -top-1.5 pc:-top-3 left-3">
                             <span>To'lov turi</span>
                         </label>
                         <select
@@ -388,7 +375,7 @@ export default function Payments() {
                             onChange={handleFilterChange}
                             name="method"
                             id="method"
-                            className="w-full p-2 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]">
+                            className="w-full p-2 text-sm pc:text-base rounded border outline-main-1 bg-main-2">
                             <option
                                 value=""
                                 className="text-sm pc:text-base italic">
@@ -411,7 +398,7 @@ export default function Payments() {
                     <div className="relative text-gray-500">
                         <label
                             htmlFor="start_date"
-                            className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
+                            className="absolute text-xs pc:text-base bg-main-2 -top-1.5 pc:-top-3 left-3">
                             <span>Sanadan</span>
                         </label>
                         <input
@@ -420,14 +407,14 @@ export default function Payments() {
                             type="date"
                             name="start_date"
                             id="start_date"
-                            className="w-full p-1.5 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]" />
+                            className="w-full p-1.5 text-sm pc:text-base rounded border outline-main-1 bg-main-2" />
                     </div>
 
                     {/* End Date */}
                     <div className="relative text-gray-500">
                         <label
                             htmlFor="end_date"
-                            className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
+                            className="absolute text-xs pc:text-base bg-main-2 -top-1.5 pc:-top-3 left-3">
                             <span>Sanagacha</span>
                         </label>
                         <input
@@ -436,7 +423,7 @@ export default function Payments() {
                             type="date"
                             name="end_date"
                             id="end_date"
-                            className="w-full p-1.5 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]" />
+                            className="w-full p-1.5 text-sm pc:text-base rounded border outline-main-1 bg-main-2" />
                     </div>
 
                     <button
@@ -450,7 +437,7 @@ export default function Payments() {
                             start_date: "",
                             end_date: ""
                         })}
-                        className="border rounded p-2 text-sm pc:text-base text-gray-700 bg-[#f8f8f8] hover:bg-gray-100 hover:text-gray-500 transition-all"
+                        className="border rounded p-2 text-sm pc:text-base text-gray-700 bg-main-2 hover:bg-gray-100 hover:text-gray-500 transition-all"
                     >
                         Filterni tiklash
                     </button>
@@ -504,7 +491,7 @@ export default function Payments() {
                                                 <h4 className="min-w-[200px] text-base pc:text-lg">
                                                     {
                                                         pay.studentId?.group?.teacher ?
-                                                            <NavLink className="hover:text-cyan-600 transition-all" to={`/admin/teacher-info/${pay.studentId?.group?.teacher?._id}`}>{pay.studentId?.group?.teacher?.first_name + " " + pay.studentId?.group?.teacher?.last_name}</NavLink> :
+                                                            <NavLink className="hover:text-main-1 transition-all" to={`/admin/teacher-info/${pay.studentId?.group?.teacher?._id}`}>{pay.studentId?.group?.teacher?.first_name + " " + pay.studentId?.group?.teacher?.last_name}</NavLink> :
                                                             <IoRemoveOutline />
                                                     }
                                                 </h4>
@@ -537,7 +524,7 @@ export default function Payments() {
                     disabled={isLoading}
                     onClick={exportToExcel}
                     id="downloadExelBtn"
-                    className="size-8 pc:size-10 relative float-end flex items-center justify-center mt-8 text-gray-400 border border-gray-300 outline-cyan-600 text-xl pc:text-2xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all"
+                    className="size-8 pc:size-10 relative float-end flex items-center justify-center mt-8 text-gray-400 border border-gray-300 outline-main-1 text-xl pc:text-2xl rounded-full hover:text-main-1 hover:bg-blue-100 transition-all"
                 >
                     <MdFileDownload />
                 </button>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import AuthService from "../../config/authService";
+import service from "../../config/service";
 import {
     allGroupSuccess,
     groupFailure,
@@ -15,7 +15,7 @@ import { Toast, ToastLeft } from "../../config/sweetToast";
 import StudentModal from "./StudentModal";
 import Skeleton from "../../components/loaders/Skeleton";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { days } from "../../config/days";
 import { IoPersonCircleOutline, IoRemoveOutline } from "react-icons/io5";
 import PaymentModal from "./PaymentModal";
@@ -27,9 +27,11 @@ import { FormattedDate } from "../../components/FormattedDate";
 import Receipt from "../../components/Receipt";
 import { companyFailure, companyStart, companySuccess } from "../../redux/slices/companySlice";
 
-function StudentProfile({ student, isLoading, getStudentFunction }) {
+function StudentProfile() {
     const { auth } = useSelector(state => state.auth);
     const { groups } = useSelector(state => state.group);
+    const { student, isLoading } = useSelector(state => state.student);
+    const { id } = useParams();
     const dispatch = useDispatch();
     const [studentPayment, setStudentPayment] = useState({
         student_balance: "",
@@ -55,7 +57,6 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
         newPassword: "",
         confirmPassword: ""
     });
-
     const [modals, setModals] = useState({
         modal: false,
         createModal: false,
@@ -68,10 +69,26 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
         receiptModal: false,
     });
 
+    const isAdmin = auth?.role === "admin" || auth?.role === "ceo";
+
+    const getStudentFunction = async () => {
+        try {
+            dispatch(studentStart());
+            const { data } = await service.getStudent(id);
+            dispatch(getStudentSuccess(data));
+        } catch (error) {
+            dispatch(studentFailure(error.response?.data.message));
+            Toast.fire({
+                icon: "error",
+                title: error.response?.data.message || error.message,
+            });
+        }
+    };
+
     const getAllGroupsFunc = async () => {
         try {
             dispatch(groupStart());
-            const { data } = await AuthService.getAllGroups();
+            const { data } = await service.getAllGroups();
             dispatch(allGroupSuccess(data));
         } catch (error) {
             dispatch(groupFailure(error.message));
@@ -82,7 +99,7 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
     const getCompanyFunction = async () => {
         try {
             dispatch(companyStart());
-            const { data } = await AuthService.getCompany();
+            const { data } = await service.getCompany();
             dispatch(companySuccess(data));
         } catch (error) {
             dispatch(companyFailure(error.response?.data.message));
@@ -91,6 +108,7 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
     };
 
     useEffect(() => {
+        getStudentFunction();
         getAllGroupsFunc();
     }, []);
 
@@ -146,7 +164,7 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
             if (newPass.newPassword.length >= 8) {
                 try {
                     dispatch(studentStart());
-                    const { data } = await AuthService.updateStudentPass({ ...newPass, _id: newStudent._id });
+                    const { data } = await service.updateStudentPass({ ...newPass, _id: newStudent._id });
                     dispatch(getStudentSuccess(data));
                     clearModal();
                     Toast.fire({ icon: "success", title: data.message });
@@ -170,8 +188,8 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                 try {
                     // o'quvchi ma'lumotlarini o'zgartirish
                     const { _id, __v, password, createdAt, updatedAt, ...newStudentCred } = newStudent;
-                    const { data } = await AuthService.updateStudent(newStudent._id, newStudentCred);
-                    await AuthService.caclStudentBalance();
+                    const { data } = await service.updateStudent(newStudent._id, newStudentCred);
+                    await service.caclStudentBalance();
                     dispatch(getStudentSuccess(data));
                     getStudentFunction();
                     clearModal();
@@ -200,7 +218,7 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
             confirmButtonText: "Ha, albatta!"
         }).then((result) => {
             if (result.isConfirmed) {
-                AuthService.deleteStudentPay(id).then((res) => {
+                service.deleteStudentPay(id).then((res) => {
                     getStudentFunction();
                     clearModal();
                     Toast.fire({ icon: "success", title: res?.data.message });
@@ -256,7 +274,7 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                                         <div>
                                             <h1 className="capitalize text-xl pc:text-2xl">{student?.first_name} {student?.last_name}</h1>
                                             {
-                                                auth?.role === "admin" || auth?.role === "student" ?
+                                                isAdmin || auth?.role === "student" ?
                                                     <h1 className={`${student?.balance > 0 ? 'bg-green-700' : student?.balance < 0 ? 'bg-red-700' : 'bg-gray-500'} w-fit text-xs pc:text-sm text-white px-3 py-px rounded-xl`}>
                                                         {Math.round(student?.balance).toLocaleString()} UZS
                                                     </h1>
@@ -282,7 +300,7 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                                     <div className="flex items-center justify-between gap-20">
                                         <p className="w-fit px-2 rounded bg-gray-200">{student?.gender}</p>
                                         {
-                                            auth?.role === "admin" ?
+                                            isAdmin ?
                                                 <button
                                                     onClick={() => handleModal("payModal", true)}
                                                     className="global_add_btn"
@@ -359,20 +377,16 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                                     }
                                 </div>
 
-                                {
-                                    auth?.role === "admin" ?
-                                        <div className="w-fit h-fit absolute top-0 right-0">
-                                            <button
-                                                disabled={isLoading}
-                                                onClick={openModal}
-                                                className="size-8 pc:size-10 flex items-center justify-center text-lg pc:text-xl border rounded-full text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
-                                                <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                        : null
-                                }
+                                <div className="w-fit h-fit absolute top-0 right-0">
+                                    <button
+                                        disabled={isLoading}
+                                        onClick={openModal}
+                                        className="size-8 pc:size-10 flex items-center justify-center text-lg pc:text-xl border rounded-full text-main-1 border-main-1 hover:bg-main-1 hover:text-white transition-all duration-300">
+                                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </>
@@ -390,7 +404,7 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                                 </> : <>
                                     {
                                         student?.group ?
-                                            <NavLink to={`/${getCookie("x-auth")}/group-info/${student?.group._id}`}>
+                                            <NavLink to={`/admin/group-info/${student?.group._id}`}>
                                                 <div className="courseCard xl:w-50% p-4 cursor-pointer bg-white shadow-smooth rounded">
                                                     <h1 className="w-fit text-xs pc:text-sm rounded px-2 py-1 bg-gray-200">{student?.group.name}</h1>
                                                     <div className="flex items-start justify-between gap-8">
@@ -454,7 +468,7 @@ function StudentProfile({ student, isLoading, getStudentFunction }) {
                                                     </h1>
                                                     {/* more button */}
                                                     {
-                                                        auth?.role === 'admin' ?
+                                                        isAdmin ?
                                                             <div className="flex items-center gap-2 w-fit text-sm pc:text-base">
                                                                 <button
                                                                     className="text-green-500"

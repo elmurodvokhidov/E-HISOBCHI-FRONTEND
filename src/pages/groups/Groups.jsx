@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Toast, ToastLeft } from "../../config/sweetToast";
-import AuthService from "../../config/authService";
+import service from "../../config/service";
 import { useNavigate } from "react-router-dom";
 import { IoMdMore } from "react-icons/io";
 import Swal from "sweetalert2";
@@ -65,7 +65,7 @@ function Groups() {
     const getAllGroupsFunc = async () => {
         try {
             dispatch(groupStart());
-            const { data } = await AuthService.getAllGroups();
+            const { data } = await service.getAllGroups();
             dispatch(allGroupSuccess(data));
         } catch (error) {
             dispatch(groupFailure(error.message));
@@ -75,7 +75,7 @@ function Groups() {
     const getAllCoursesFunc = async () => {
         try {
             dispatch(courseStart());
-            const { data } = await AuthService.getAllCourses();
+            const { data } = await service.getAllCourses();
             dispatch(allCourseSuccess(data));
         } catch (error) {
             dispatch(courseFailure(error.message));
@@ -85,7 +85,7 @@ function Groups() {
     const getAllTeachersFunc = async () => {
         try {
             dispatch(teacherStart());
-            const { data } = await AuthService.getAllTeachers();
+            const { data } = await service.getAllTeachers();
             dispatch(allTeacherSuccess(data));
         } catch (error) {
             dispatch(teacherFailure(error.message));
@@ -95,7 +95,7 @@ function Groups() {
     const getAllRoomsFunc = async () => {
         try {
             dispatch(roomStart());
-            const { data } = await AuthService.getAllRooms();
+            const { data } = await service.getAllRooms();
             dispatch(allRoomSuccess(data));
         } catch (error) {
             dispatch(roomFailure(error.message));
@@ -230,13 +230,13 @@ function Groups() {
             try {
                 dispatch(groupStart());
                 if (!newGroup._id) {
-                    const { data } = await AuthService.addNewGroup(newGroup);
+                    const { data } = await service.addNewGroup(newGroup);
                     getAllGroupsFunc();
                     clearModal();
                     Toast.fire({ icon: "success", title: data.message });
                 } else {
                     const { _id, __v, attendance, due_dates, end_time, students, createdAt, updatedAt, ...updatedGroupCred } = newGroup;
-                    const { data } = await AuthService.updateGroup(newGroup._id, updatedGroupCred);
+                    const { data } = await service.updateGroup(newGroup._id, updatedGroupCred);
                     dispatch(getGroupSuccess(data));
                     getAllGroupsFunc();
                     clearModal();
@@ -266,7 +266,7 @@ function Groups() {
         }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(groupStart());
-                AuthService.deleteGroup(id).then((res) => {
+                service.deleteGroup(id).then((res) => {
                     getAllGroupsFunc();
                     Toast.fire({ icon: "success", title: res?.data.message });
                 }).catch((error) => {
@@ -304,7 +304,7 @@ function Groups() {
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="teacher"
-                        className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
+                        className="absolute text-xs pc:text-base bg-main-2 -top-1.5 pc:-top-3 left-3">
                         <span>O'qituvchi</span>
                     </label>
                     <select
@@ -312,7 +312,7 @@ function Groups() {
                         onChange={handleFilterChange}
                         name="teacher"
                         id="teacher"
-                        className="w-full p-2 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]">
+                        className="w-full p-2 text-sm pc:text-base rounded border outline-main-1 bg-main-2">
                         <option
                             value=""
                             className="text-sm pc:text-base italic">
@@ -335,7 +335,7 @@ function Groups() {
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="course"
-                        className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
+                        className="absolute text-xs pc:text-base bg-main-2 -top-1.5 pc:-top-3 left-3">
                         <span>Kurslar</span>
                     </label>
                     <select
@@ -343,7 +343,7 @@ function Groups() {
                         onChange={handleFilterChange}
                         name="course"
                         id="course"
-                        className="w-full p-2 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]">
+                        className="w-full p-2 text-sm pc:text-base rounded border outline-main-1 bg-main-2">
                         <option
                             value=""
                             className="text-sm italic">
@@ -366,7 +366,7 @@ function Groups() {
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="day"
-                        className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
+                        className="absolute text-xs pc:text-base bg-main-2 -top-1.5 pc:-top-3 left-3">
                         <span>Kunlar</span>
                     </label>
                     <select
@@ -374,7 +374,7 @@ function Groups() {
                         onChange={handleFilterChange}
                         name="day"
                         id="day"
-                        className="w-full p-2 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]">
+                        className="w-full p-2 text-sm pc:text-base rounded border outline-main-1 bg-main-2">
                         <option
                             value=""
                             className="text-sm pc:text-base italic">
@@ -397,7 +397,7 @@ function Groups() {
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="start_date"
-                        className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
+                        className="absolute text-xs pc:text-base bg-main-2 -top-1.5 pc:-top-3 left-3">
                         <span>Boshlanish</span>
                     </label>
                     <input
@@ -406,14 +406,14 @@ function Groups() {
                         type="date"
                         name="start_date"
                         id="start_date"
-                        className="w-full p-1.5 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]" />
+                        className="w-full p-1.5 text-sm pc:text-base rounded border outline-main-1 bg-main-2" />
                 </div>
 
                 {/* End Date */}
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="end_date"
-                        className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
+                        className="absolute text-xs pc:text-base bg-main-2 -top-1.5 pc:-top-3 left-3">
                         <span>Tugash</span>
                     </label>
                     <input
@@ -422,13 +422,13 @@ function Groups() {
                         type="date"
                         name="end_date"
                         id="end_date"
-                        className="w-full p-1.5 text-sm pc:text-base rounded border outline-cyan-600 bg-[#f8f8f8]" />
+                        className="w-full p-1.5 text-sm pc:text-base rounded border outline-main-1 bg-main-2" />
                 </div>
 
                 {/* Clear Filter */}
                 <button
                     onClick={() => setFilters({ teacher: "", course: "", day: "", start_date: "", end_date: "" })}
-                    className="border rounded p-2 text-sm pc:text-lg text-gray-700 bg-[#f8f8f8] hover:bg-gray-100 hover:text-gray-500 transition-all"
+                    className="border rounded p-2 text-sm pc:text-lg text-gray-700 bg-main-2 hover:bg-gray-100 hover:text-gray-500 transition-all"
                 >
                     Filterni tiklash
                 </button>
@@ -486,7 +486,7 @@ function Groups() {
                                         <div onClick={(e) => {
                                             e.stopPropagation();
                                             handleModal("more", group._id);
-                                        }} className="relative cursor-pointer text-cyan-600 text-xl">
+                                        }} className="relative cursor-pointer text-main-1 text-xl">
                                             <IoMdMore />
                                             {/* more btn modal */}
                                             <div className={`${modals.more === group._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute small:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] pc:text-base bg-white`}>
@@ -525,7 +525,7 @@ function Groups() {
                 <button
                     onClick={exportToExcel}
                     id="downloadExelBtn"
-                    className="size-8 pc:size-10 relative float-end flex items-center justify-center small:mt-2 sm:mt-0 text-gray-400 border border-gray-300 outline-cyan-600 text-xl pc:text-2xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all mx-[40px]">
+                    className="size-8 pc:size-10 relative float-end flex items-center justify-center small:mt-2 sm:mt-0 text-gray-400 border border-gray-300 outline-main-1 text-xl pc:text-2xl rounded-full hover:text-main-1 hover:bg-blue-100 transition-all mx-[40px]">
                     <MdFileDownload />
                 </button>
             }

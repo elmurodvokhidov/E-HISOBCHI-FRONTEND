@@ -53,7 +53,7 @@ function GroupModal({
                             type="text"
                             name="name"
                             id="name"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                     </div>
 
                     {/* Course */}
@@ -67,7 +67,7 @@ function GroupModal({
                             value={newGroup.course}
                             name="course"
                             id="course"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600">
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1">
                             <option value="" className="italic">None</option>
                             {
                                 courses.map(course => (
@@ -88,7 +88,7 @@ function GroupModal({
                             value={newGroup.teacher}
                             name="teacher"
                             id="teacher"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600">
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1">
                             <option value="" className="italic">None</option>
                             {
                                 teachers.map(teacher => (
@@ -111,7 +111,7 @@ function GroupModal({
                             value={newGroup.day}
                             name="day"
                             id="day"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600">
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1">
                             <option value="" className="italic">None</option>
                             {
                                 days.map((day, index) => (
@@ -132,7 +132,7 @@ function GroupModal({
                             value={newGroup.room}
                             name="room"
                             id="room"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600">
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1">
                             <option value="" className="italic">None</option>
                             {
                                 rooms.map(room => (
@@ -154,7 +154,7 @@ function GroupModal({
                             type="time"
                             name="start_time"
                             id="start_time"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                     </div>
 
                     {/* Start lesson date */}
@@ -169,7 +169,7 @@ function GroupModal({
                             type="date"
                             name="start_date"
                             id="start_date"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                     </div>
 
                     {/* End lesson date */}
@@ -186,7 +186,7 @@ function GroupModal({
                                 type="date"
                                 name="end_date"
                                 id="end_date"
-                                className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                                className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                         </div>
                     }
 
@@ -194,7 +194,7 @@ function GroupModal({
                     <button
                         disabled={isLoading ? true : false}
                         onClick={handleCreateAndUpdate}
-                        className="w-fit px-6 py-1 mt-8 pc:text-lg bg-cyan-600 rounded-2xl text-white">
+                        className="w-fit px-6 py-1 mt-8 pc:text-lg bg-main-1 rounded-2xl text-white">
                         {isLoading ? "Loading..." : newGroup._id ? "Saqlash" : "Qo'shish"}
                     </button>
                 </div>

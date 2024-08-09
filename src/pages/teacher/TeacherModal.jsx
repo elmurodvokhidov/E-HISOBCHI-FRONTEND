@@ -64,7 +64,7 @@ function TeacherModal({
                                 type="text"
                                 name="first_name"
                                 id="first_name"
-                                className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                                className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                         </div>
 
                         {/* Last Name */}
@@ -80,7 +80,7 @@ function TeacherModal({
                                 type="text"
                                 name="last_name"
                                 id="last_name"
-                                className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                                className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                         </div>
                     </div>
 
@@ -94,7 +94,7 @@ function TeacherModal({
                             type="date"
                             name="dob"
                             id="dob"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                     </div>
 
                     {/* Contact Number */}
@@ -112,7 +112,7 @@ function TeacherModal({
                                 type="number"
                                 name="phoneNumber"
                                 id="phoneNumber"
-                                className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 pc:text-lg outline-cyan-600"
+                                className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 pc:text-lg outline-main-1"
                             />
                         </div>
                     </div>
@@ -133,7 +133,7 @@ function TeacherModal({
                                     type="radio"
                                     name="gender"
                                     id="erkak"
-                                    className="border-gray-300 outline-cyan-600" />
+                                    className="border-gray-300 outline-main-1" />
                                 <label htmlFor="erkak" className="text-sm pc:text-lg">Erkak</label>
                             </div>
 
@@ -146,7 +146,7 @@ function TeacherModal({
                                     type="radio"
                                     name="gender"
                                     id="ayol"
-                                    className="border-gray-300 outline-cyan-600" />
+                                    className="border-gray-300 outline-main-1" />
                                 <label htmlFor="ayol" className="text-sm pc:text-lg">Ayol</label>
                             </div>
                         </div>
@@ -185,7 +185,7 @@ function TeacherModal({
                                     type="text"
                                     name="newPassword"
                                     id="newPassword"
-                                    className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                                    className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                             </div>
                             <div className="flex flex-col">
                                 <label htmlFor="confirmPassword" className="text-sm pc:text-lg">
@@ -198,7 +198,7 @@ function TeacherModal({
                                     type="text"
                                     name="confirmPassword"
                                     id="confirmPassword"
-                                    className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                                    className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                             </div>
                         </> : null
                     }
@@ -226,7 +226,7 @@ function TeacherModal({
                                     type="file"
                                     name="avatar"
                                     id="avatar"
-                                    className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                                    className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                             </div>
                         </> : null
                     }
@@ -235,7 +235,7 @@ function TeacherModal({
                     <button
                         disabled={isLoading ? true : false}
                         onClick={handleCreateAndUpdate}
-                        className="w-fit px-6 py-1 mt-8 pc:text-lg bg-cyan-600 rounded-2xl text-white">
+                        className="w-fit px-6 py-1 mt-8 pc:text-lg bg-main-1 rounded-2xl text-white">
                         {isLoading ? "Loading..." : newTeacher._id ? "Saqlash" : "Qo'shish"}
                     </button>
                 </div>

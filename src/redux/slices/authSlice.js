@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { deleteAllCookies, setCookie } from "../../config/cookiesService";
+import { deleteAllCookies } from "../../config/cookiesService";
 
 const initialState = {
     isLoading: false,
@@ -19,7 +19,6 @@ const AuthSlice = createSlice({
             state.isLoading = false;
             state.isLoggedIn = true;
             state.auth = action.payload?.data;
-            setCookie("x-id", action.payload?.data._id, 30);
         },
         authFailure: (state, action) => {
             state.isLoading = false;

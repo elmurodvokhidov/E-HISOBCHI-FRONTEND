@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { Toast, ToastLeft } from "../../config/sweetToast";
-import {
-    allCourseSuccess,
-    courseFailure,
-    courseStart,
-} from "../../redux/slices/courseSlice";
-import AuthService from "../../config/authService";
+import { allCourseSuccess, courseFailure, courseStart, } from "../../redux/slices/courseSlice";
+import service from "../../config/service";
 import CourseImg from "../../assets/images/sticker.webp";
 import { useNavigate } from "react-router-dom";
 import CourseModal from "./CourseModal";
@@ -15,14 +11,7 @@ import Skeleton from "../../components/loaders/Skeleton";
 function Courses() {
     const { courses, isLoading } = useSelector(state => state.course);
     const dispatch = useDispatch();
-    const [newCourse, setNewCourse] = useState({
-        title: "",
-        code: "",
-        lesson_duration: "",
-        course_duration: "",
-        price: "",
-        description: "",
-    });
+    const [newCourse, setNewCourse] = useState({ title: "", code: "", lesson_duration: "", course_duration: "", price: "", description: "", });
     const [modals, setModals] = useState({
         modal: false,
         createModal: false,
@@ -42,7 +31,7 @@ function Courses() {
     const getAllCourses = async () => {
         try {
             dispatch(courseStart());
-            const { data } = await AuthService.getAllCourses();
+            const { data } = await service.getAllCourses();
             dispatch(allCourseSuccess(data));
         } catch (error) {
             dispatch(courseFailure(error.message));
@@ -84,17 +73,17 @@ function Courses() {
         ) {
             try {
                 dispatch(courseStart());
-                const { data } = await AuthService.addNewCourse({ ...newCourse, color: getRandomColor() });
+                const { data } = await service.addNewCourse({ ...newCourse, color: getRandomColor() });
                 getAllCourses();
                 clearModal();
-                Toast.fire({icon: "success",title: data.message});
+                Toast.fire({ icon: "success", title: data.message });
             } catch (error) {
                 dispatch(courseFailure(error.response?.data.message));
-                ToastLeft.fire({icon: "error",title: error.response?.data.message || error.message});
+                ToastLeft.fire({ icon: "error", title: error.response?.data.message || error.message });
             }
         }
         else {
-            ToastLeft.fire({icon: "error",title: "Iltimos, barcha bo'sh joylarni to'ldiring!"});
+            ToastLeft.fire({ icon: "error", title: "Iltimos, barcha bo'sh joylarni to'ldiring!" });
         }
     };
 

@@ -5,7 +5,7 @@ import {
     companyStart,
     companySuccess
 } from "../../redux/slices/companySlice";
-import AuthService from "../../config/authService";
+import service from "../../config/service";
 import { Toast } from "../../config/sweetToast";
 import { useNavigate } from "react-router-dom";
 
@@ -22,7 +22,7 @@ export default function Company() {
     const getCompanyFunction = async () => {
         try {
             dispatch(companyStart());
-            const { data } = await AuthService.getCompany();
+            const { data } = await service.getCompany();
             if (data.success) navigate('/admin/dashboard');
             dispatch(companySuccess(data));
         } catch (error) {
@@ -56,7 +56,7 @@ export default function Company() {
         e.preventDefault();
         try {
             dispatch(companyStart());
-            const { data } = await AuthService.createNewCompany(companyCred);
+            const { data } = await service.createNewCompany(companyCred);
             dispatch(companySuccess(data));
             navigate('/admin/dashboard')
             clearInput();
@@ -74,7 +74,7 @@ export default function Company() {
     };
 
     return (
-        <div className="w-full h-screen flex items-start justify-center pt-10 bg-[#f8f8f8]">
+        <div className="w-full h-screen flex items-start justify-center pt-10 bg-main-2">
             <div className="w-[450px] flex flex-col gap-6 border rounded-md shadow-smooth px-10 py-8 bg-white">
                 <h1 className="text-3xl">Kompaniya ma'lumotlari</h1>
 
@@ -93,7 +93,7 @@ export default function Company() {
                             type="text"
                             name="name"
                             id="name"
-                            className="w-full border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600"
+                            className="w-full border-2 border-gray-300 rounded px-2 py-1 outline-main-1"
                         />
                     </div>
 
@@ -113,7 +113,7 @@ export default function Company() {
                                 type="number"
                                 name="phoneNumber"
                                 id="phoneNumber"
-                                className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 pc:text-lg outline-cyan-600"
+                                className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 pc:text-lg outline-main-1"
                             />
                         </div>
                     </div>
@@ -122,7 +122,7 @@ export default function Company() {
                     <button
                         disabled={!isLoading && companyCred.name !== "" && companyCred.phoneNumber !== "" ? false : true}
                         onClick={handleCreate}
-                        className="w-fit px-6 py-1 mt-8 bg-cyan-600 rounded-2xl text-white disabled:bg-gray-400">
+                        className="w-fit px-6 py-1 mt-8 bg-main-1 rounded-2xl text-white disabled:bg-gray-400">
                         {isLoading ? "Loading..." : "Kompaniya yaratish"}
                     </button>
                 </form>

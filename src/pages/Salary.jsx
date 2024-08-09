@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import AuthService from "../config/authService";
+import service from "../config/service";
 import {
     allTeacherSuccess,
     teacherFailure,
@@ -41,7 +41,7 @@ export default function Salary() {
     const getAllTeachersFunction = async () => {
         try {
             dispatch(teacherStart());
-            const { data } = await AuthService.getAllTeachers();
+            const { data } = await service.getAllTeachers();
             dispatch(allTeacherSuccess(data));
         } catch (error) {
             dispatch(teacherFailure(error.message));
@@ -60,7 +60,7 @@ export default function Salary() {
             if (salarySettings.globalPer !== "" || salarySettings.salaryPer !== "") {
                 if (salarySettings.id === "") {
                     setLoading("1");
-                    const { data } = await AuthService.setAllTeacherSalaryPer({ salaryPer: salarySettings.globalPer });
+                    const { data } = await service.setAllTeacherSalaryPer({ salaryPer: salarySettings.globalPer });
                     getAllTeachersFunction();
                     clearInput();
                     Toast.fire({ icon: "success", title: data.message });
@@ -68,7 +68,7 @@ export default function Salary() {
                 // Tanlangan o'qituvchiga ish haqi foizini belgilash
                 else {
                     setLoading("2");
-                    const { data } = await AuthService.setTeacherSalaryPer(salarySettings.id, salarySettings.salaryPer);
+                    const { data } = await service.setTeacherSalaryPer(salarySettings.id, salarySettings.salaryPer);
                     getAllTeachersFunction();
                     clearInput();
                     Toast.fire({ icon: "success", title: data.message });
@@ -93,8 +93,8 @@ export default function Salary() {
                 </div>
 
                 <div className="flex items-center gap-6 text-xl pc:text-2xl shadow-md">
-                    <div className="w-[5px] h-[80px] rounded-md bg-cyan-600"></div>
-                    <h1 className="size-14 flex items-center justify-center text-4xl pc:text-5xl text-white border-[3px] border-black bg-cyan-600">1</h1>
+                    <div className="w-[5px] h-[80px] rounded-md bg-main-1"></div>
+                    <h1 className="size-14 flex items-center justify-center text-4xl pc:text-5xl text-white border-[3px] border-black bg-main-1">1</h1>
                     <h1>Barcha o'qituvchilar uchun standart xarajatlarni belgilash parametrlarini ko'rsating</h1>
                 </div>
 
@@ -109,7 +109,7 @@ export default function Salary() {
                                 type="number"
                                 name="globalPer"
                                 id="forAllTeacher"
-                                className="w-full border pc:text-lg border-gray-200 outline-cyan-600 p-2 rounded-l-md"
+                                className="w-full border pc:text-lg border-gray-200 outline-main-1 p-2 rounded-l-md"
                             />
                             <button
                                 disabled
@@ -120,7 +120,7 @@ export default function Salary() {
                         </div>
                         <button
                             onClick={setTeachersSalaryPerFunction}
-                            className="border-2 border-cyan-600 rounded-3xl pc:text-lg text-cyan-600 py-2 px-4"
+                            className="border-2 border-main-1 rounded-3xl pc:text-lg text-main-1 py-2 px-4"
                         >
                             {loading === "1" ? "Loading..." : "Saqlash"}
                         </button>
@@ -128,8 +128,8 @@ export default function Salary() {
                 </form>
 
                 <div className="flex items-center gap-6 text-xl pc:text-2xl shadow-md">
-                    <div className="w-[5px] h-[80px] rounded-md bg-cyan-600"></div>
-                    <h1 className="size-14 flex items-center justify-center text-4xl pc:text-5xl text-white border-[3px] border-black bg-cyan-600">2</h1>
+                    <div className="w-[5px] h-[80px] rounded-md bg-main-1"></div>
+                    <h1 className="size-14 flex items-center justify-center text-4xl pc:text-5xl text-white border-[3px] border-black bg-main-1">2</h1>
                     <h1>Ba'zi o'qituvchilar uchun individual hisoblashni belgilashingiz mumkin</h1>
                 </div>
 
@@ -137,7 +137,7 @@ export default function Salary() {
                 <form className="w-11/12 flex items-center gap-8">
                     <div className="w-1/4 flex flex-col">
                         <label htmlFor="teacher pc:text-lg">O'qituvchini tanlang</label>
-                        <select onChange={getInputValue} value={salarySettings.id} name="id" id="teacher" className="border border-gray-200 outline-cyan-600 py-2 px-4 rounded-md">
+                        <select onChange={getInputValue} value={salarySettings.id} name="id" id="teacher" className="border border-gray-200 outline-main-1 py-2 px-4 rounded-md">
                             <option value="" className="italic pc:text-lg">None</option>
                             {
                                 teachers.map(teacher => (
@@ -159,7 +159,7 @@ export default function Salary() {
                                     type="number"
                                     name="salaryPer"
                                     id="forOneTeacher"
-                                    className="w-full border pc:text-lg border-gray-200 outline-cyan-600 p-2 rounded-l-md"
+                                    className="w-full border pc:text-lg border-gray-200 outline-main-1 p-2 rounded-l-md"
                                 />
                                 <button
                                     disabled
@@ -170,7 +170,7 @@ export default function Salary() {
                             </div>
                             <button
                                 onClick={setTeachersSalaryPerFunction}
-                                className="border-2 border-cyan-600 rounded-3xl pc:text-lg text-cyan-600 py-2 px-4"
+                                className="border-2 border-main-1 rounded-3xl pc:text-lg text-main-1 py-2 px-4"
                             >
                                 {loading === "2" ? "Loading..." : "Saqlash"}
                             </button>

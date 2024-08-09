@@ -51,7 +51,7 @@ function CourseModal({
                             type="text"
                             name="title"
                             id="title"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                     </div>
 
                     {/* Course code */}
@@ -66,7 +66,7 @@ function CourseModal({
                             type="text"
                             name="code"
                             id="code"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                     </div>
 
                     {/* Lesson duration */}
@@ -80,7 +80,7 @@ function CourseModal({
                             value={newCourse.lesson_duration}
                             name="lesson_duration"
                             id="lesson_duration"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600">
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1">
                             {
                                 times.map((time, index) => (
                                     <option value={time} key={index}>{time} daqiqa</option>
@@ -101,7 +101,7 @@ function CourseModal({
                             type="number"
                             name="course_duration"
                             id="course_duration"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                     </div>
 
                     {/* Price */}
@@ -116,7 +116,7 @@ function CourseModal({
                             type="number"
                             name="price"
                             id="price"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                     </div>
 
                     {/* Commentary */}
@@ -129,14 +129,14 @@ function CourseModal({
                             id="description"
                             cols="30"
                             rows="3"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600"></textarea>
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1"></textarea>
                     </div>
 
                     {/* Button */}
                     <button
                         disabled={isLoading ? true : false}
                         onClick={createAndUpdateHandler}
-                        className="w-fit px-6 py-1 mt-8 pc:text-lg bg-cyan-600 rounded-2xl text-white">
+                        className="w-fit px-6 py-1 mt-8 pc:text-lg bg-main-1 rounded-2xl text-white">
                         {isLoading ? "Loading..." : newCourse._id ? "Saqlash" : "Qo'shish"}
                     </button>
                 </div>

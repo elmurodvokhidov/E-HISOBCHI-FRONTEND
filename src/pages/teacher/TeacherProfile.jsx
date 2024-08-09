@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { getTeacherSuccess, teacherFailure, teacherStart } from "../../redux/slices/teacherSlice";
-import AuthService from "../../config/authService";
+import service from "../../config/service";
 import { Toast, ToastLeft } from "../../config/sweetToast";
 import TeacherModal from "./TeacherModal";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import Skeleton from "../../components/loaders/Skeleton";
 import { GoDotFill } from "react-icons/go";
 import { days } from "../../config/days";
@@ -15,8 +15,10 @@ import CostModal from "../cost/CostModal";
 import { costFailure, costStart } from "../../redux/slices/costSlice";
 import Swal from "sweetalert2";
 
-export default function TeacherProfile({ teacher, isLoading, getTeacherFunction }) {
+export default function TeacherProfile() {
     const { auth } = useSelector(state => state.auth);
+    const { teacher, isLoading } = useSelector(state => state.teacher);
+    const { id } = useParams();
     const dispatch = useDispatch();
     const [newTeacher, setNewTeacher] = useState({
         first_name: "",
@@ -45,6 +47,25 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
         method: "",
         author: "",
     });
+    const isAdmin = auth?.role === "admin" || auth?.role === "ceo";
+
+    const getTeacherFunction = async () => {
+        try {
+            dispatch(teacherStart());
+            const { data } = await service.getTeacher(id);
+            dispatch(getTeacherSuccess(data));
+        } catch (error) {
+            dispatch(teacherFailure(error.response?.data.message));
+            Toast.fire({
+                icon: "error",
+                title: error.response?.data.message || error.message,
+            });
+        }
+    };
+
+    useEffect(() => {
+        getTeacherFunction();
+    }, []);
 
     useEffect(() => {
         setNewCost({
@@ -92,7 +113,7 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
             if (newPass.newPassword.length >= 8) {
                 try {
                     dispatch(teacherStart());
-                    const { data } = await AuthService.updateTeacherPass({ ...newPass, _id: newTeacher._id });
+                    const { data } = await service.updateTeacherPass({ ...newPass, _id: newTeacher._id });
                     dispatch(getTeacherSuccess(data));
                     clearModal();
                     Toast.fire({ icon: "success", title: data.message });
@@ -116,7 +137,7 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
                     // o'qituvchi ma'lumotlarini o'zgartirish
                     dispatch(teacherStart());
                     const { _id, __v, groups, password, createdAt, updatedAt, ...newTeacherCred } = newTeacher;
-                    const { data } = await AuthService.updateTeacher(newTeacher._id, newTeacherCred);
+                    const { data } = await service.updateTeacher(newTeacher._id, newTeacherCred);
                     dispatch(getTeacherSuccess(data));
                     clearModal();
                     Toast.fire({ icon: "success", title: data.message });
@@ -155,7 +176,7 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
         }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(costStart());
-                AuthService.deleteCost(id).then((res) => {
+                service.deleteCost(id).then((res) => {
                     getTeacherFunction();
                     Toast.fire({ icon: "success", title: res?.data.message });
                 }).catch((error) => {
@@ -176,7 +197,7 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
         <div className="w-full h-screen overflow-auto pt-24 pc:pt-28 px-10">
             {/* <div className="flex justify-between border-b-2 pb-16 relative">
                 <h1 className="capitalize text-2xl">Hisob qaydnomalari</h1>
-                <p className="absolute bottom-[-1px] border-b-2 uppercase text-xs pb-2 border-cyan-600 text-cyan-600">o'qituvchi</p>
+                <p className="absolute bottom-[-1px] border-b-2 uppercase text-xs pb-2 border-main-1 text-main-1">o'qituvchi</p>
             </div> */}
 
             <div className="xl:flex gap-8 mb-16">
@@ -204,7 +225,7 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
                                                 {teacher?.first_name + " " + teacher?.last_name}
                                             </h1>
                                             {
-                                                auth?.role === "admin" || auth?.role === "teacher" ?
+                                                isAdmin || auth?.role === "teacher" ?
                                                     <h1 className={`${teacher?.balance > 0 ? 'bg-green-700' : teacher?.balance < 0 ? 'bg-red-700' : 'bg-gray-500'} w-fit text-xs pc:text-sm text-white px-3 py-px rounded-xl`}>
                                                         {Math.round(teacher?.balance).toLocaleString()} UZS
                                                     </h1>
@@ -229,7 +250,7 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
                                     <div className="flex items-center justify-between gap-20">
                                         <p className="w-fit px-2 rounded bg-gray-200">{teacher?.gender}</p>
                                         {
-                                            auth?.role === "admin" ?
+                                            isAdmin ?
                                                 <button
                                                     onClick={teacherSalaryModalFunction}
                                                     className="global_add_btn text-xs py-0.5 pc:text-sm"
@@ -241,20 +262,16 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
                                     </div>
                                 </div>
 
-                                {
-                                    auth?.role === "admin" ?
-                                        <div className="w-fit h-fit absolute top-0 right-0">
-                                            <button
-                                                disabled={isLoading}
-                                                onClick={openModal}
-                                                className="size-8 flex items-center justify-center text-lg pc:text-xl border rounded-full text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
-                                                <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                        : null
-                                }
+                                <div className="w-fit h-fit absolute top-0 right-0">
+                                    <button
+                                        disabled={isLoading}
+                                        onClick={openModal}
+                                        className="size-8 flex items-center justify-center text-lg pc:text-xl border rounded-full text-main-1 border-main-1 hover:bg-main-1 hover:text-white transition-all duration-300">
+                                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </>
@@ -272,7 +289,7 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
                                     {
                                         teacher?.groups.length > 0 ?
                                             teacher?.groups.map((group, index) => (
-                                                <NavLink to={`/${getCookie("x-auth")}/group-info/${group._id}`} key={index}>
+                                                <NavLink to={`/admin/group-info/${group._id}`} key={index}>
                                                     <div className="courseCard flex gap-28 w-50% p-5 cursor-pointer bg-white shadow-smooth">
                                                         <div className="flex flex-col text-xs pc:text-base">
                                                             <h1 className="w-fit text-[10px] pc:text-xs rounded px-2 py-1 bg-gray-200">{group.name}</h1>
@@ -294,7 +311,7 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
                                                                     <h1>{group.start_time}</h1>
                                                                 </div>
                                                             </div>
-                                                            <h1 className="w-4 text-center text-xs pc:text-sm text-white rounded bg-cyan-600">{group.students?.length}</h1>
+                                                            <h1 className="w-4 text-center text-xs pc:text-sm text-white rounded bg-main-1">{group.students?.length}</h1>
                                                         </div>
                                                     </div>
                                                 </NavLink>
@@ -336,7 +353,7 @@ export default function TeacherProfile({ teacher, isLoading, getTeacherFunction 
                                                         {pay.name}
                                                     </p>
                                                     {
-                                                        auth?.role === 'admin' ?
+                                                        isAdmin ?
                                                             <div className="flex gap-2 items-center">
                                                                 <button onClick={() => updateBtnFunc(pay)}>
                                                                     <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">

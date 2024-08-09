@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
-import AuthService from "../../config/authService";
+import service from "../../config/service";
 import { Toast, ToastLeft } from "../../config/sweetToast";
 import { useDispatch, useSelector } from "react-redux";
 import { costFailure, costStart } from "../../redux/slices/costSlice";
@@ -41,7 +41,7 @@ export default function CostModal({
         // Xozirgi sanani olish funksiyasi
         const getCurrentDateFunction = async () => {
             try {
-                const { data } = await AuthService.getCurrentDate();
+                const { data } = await service.getCurrentDate();
                 setNewCost({
                     ...newCost,
                     author: auth?._id,
@@ -70,7 +70,7 @@ export default function CostModal({
                 dispatch(costStart());
                 if (!newCost._id) {
                     // yangi xarajat qo'shish
-                    const { data } = await AuthService.createNewCost({ ...newCost, author: auth?._id });
+                    const { data } = await service.createNewCost({ ...newCost, author: auth?._id });
                     getAllCostFunction();
                     clearModal();
                     Toast.fire({
@@ -80,7 +80,7 @@ export default function CostModal({
                 } else {
                     // xarajat ma'lumotlarini tahrirlash
                     const { date, ...others } = newCost;
-                    const { data } = await AuthService.updateCost(newCost._id, { ...others, author: auth?._id });
+                    const { data } = await service.updateCost(newCost._id, { ...others, author: auth?._id });
                     getAllCostFunction();
                     clearModal();
                     Toast.fire({
@@ -142,7 +142,7 @@ export default function CostModal({
                             type="text"
                             name="name"
                             id="name"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                     </div>
 
                     {/* Date */}
@@ -160,7 +160,7 @@ export default function CostModal({
                                     type="date"
                                     name="date"
                                     id="date"
-                                    className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                                    className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                             </div>
                             : null
                     }
@@ -178,7 +178,7 @@ export default function CostModal({
                             type="text"
                             name="receiver"
                             id="receiver"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                     </div>
 
                     {/* Method */}
@@ -197,7 +197,7 @@ export default function CostModal({
                                     type="radio"
                                     name="method"
                                     id="cash"
-                                    className="border-gray-300 outline-cyan-600" />
+                                    className="border-gray-300 outline-main-1" />
                                 <label htmlFor="cash" className="text-sm pc:text-lg">Naqd pul</label>
                             </div>
 
@@ -210,7 +210,7 @@ export default function CostModal({
                                     type="radio"
                                     name="method"
                                     id="card"
-                                    className="border-gray-300 outline-cyan-600" />
+                                    className="border-gray-300 outline-main-1" />
                                 <label htmlFor="card" className="text-sm pc:text-lg">Plastik kartasi</label>
                             </div>
                         </div>
@@ -229,14 +229,14 @@ export default function CostModal({
                             type="number"
                             name="amount"
                             id="amount"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                     </div>
 
                     {/* Button */}
                     <button
                         disabled={isLoading}
                         onClick={createAndUpdateHandle}
-                        className="w-fit px-6 py-1 mt-8 pc:text-lg bg-cyan-600 outline-none rounded-2xl text-white">
+                        className="w-fit px-6 py-1 mt-8 pc:text-lg bg-main-1 outline-none rounded-2xl text-white">
                         {isLoading ? "Loading..." : "Saqlash"}
                     </button>
                 </div>

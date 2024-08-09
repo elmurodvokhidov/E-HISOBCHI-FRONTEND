@@ -49,7 +49,7 @@ export default function LeadsModal({
                                 type="text"
                                 name="first_name"
                                 id="first_name"
-                                className="outline-cyan-600 border-2 border-gray-300 rounded px-2 py-1 pc:text-lg" />
+                                className="outline-main-1 border-2 border-gray-300 rounded px-2 py-1 pc:text-lg" />
                         </div>
 
                         {/* Last Name */}
@@ -64,7 +64,7 @@ export default function LeadsModal({
                                 type="text"
                                 name="last_name"
                                 id="last_name"
-                                className="outline-cyan-600 border-2 border-gray-300 rounded px-2 py-1 pc:text-lg" />
+                                className="outline-main-1 border-2 border-gray-300 rounded px-2 py-1 pc:text-lg" />
                         </div>
                     </div>
 
@@ -79,7 +79,7 @@ export default function LeadsModal({
                             value={newLead.column}
                             name="column"
                             id="column"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600">
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1">
                             <option value="" className="italic">None</option>
                             {
                                 sections.map((column, index) => (
@@ -98,7 +98,7 @@ export default function LeadsModal({
                             type="date"
                             name="dob"
                             id="dob"
-                            className="outline-cyan-600 border-2 border-gray-300 rounded px-2 py-1 pc:text-lg" />
+                            className="outline-main-1 border-2 border-gray-300 rounded px-2 py-1 pc:text-lg" />
                     </div>
 
                     {/* Contact Number */}
@@ -115,7 +115,7 @@ export default function LeadsModal({
                                 type="number"
                                 name="phone"
                                 id="phone"
-                                className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 pc:text-lg outline-cyan-600"
+                                className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 pc:text-lg outline-main-1"
                             />
                         </div>
                     </div>
@@ -124,7 +124,7 @@ export default function LeadsModal({
                     <button
                         disabled={isLoading}
                         onClick={handleCreateAndUpdate}
-                        className="w-fit px-6 py-1 mt-8 bg-cyan-600 rounded-2xl pc:text-lg text-white">
+                        className="w-fit px-6 py-1 mt-8 bg-main-1 rounded-2xl pc:text-lg text-white">
                         {isLoading ? "Loading..." : newLead._id ? "Saqlash" : "Qo'shish"}
                     </button>
                 </div>

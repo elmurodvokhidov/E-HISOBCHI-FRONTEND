@@ -98,7 +98,7 @@ function NoticeEditModal({
                     <button
                         disabled={isLoading ? true : false}
                         onClick={handleCreateAndUpdate}
-                        className="w-fit px-6 py-1 mt-8 bg-cyan-600 rounded-2xl text-white">
+                        className="w-fit px-6 py-1 mt-8 bg-main-1 rounded-2xl text-white">
                         {isLoading ? "Loading..." : newNotice._id ? "Saqlash" : "Qo'shish"}
                     </button>
                 </div>

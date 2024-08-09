@@ -1,71 +1,158 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom"
 import { adminFailure, adminStart, getAdminSuccess } from "../../redux/slices/adminSlice";
-import AuthService from "../../config/authService";
+import service from "../../config/service";
 import Skeleton from "../../components/loaders/Skeleton";
 import { FormattedDate } from "../../components/FormattedDate";
+import { IoRemoveOutline } from "react-icons/io5";
+import AdminModal from "./AdminModal";
+import { Toast, ToastLeft } from "../../config/sweetToast";
 
 function AdminInfo() {
-    const { admin } = useSelector(state => state.admin);
+    const { admin, isLoading } = useSelector(state => state.admin);
     const dispatch = useDispatch();
     const { id } = useParams();
+    const [updatedAdmin, setUpdatedAdmin] = useState({ first_name: "", last_name: "", dob: "", avatar: "", phoneNumber: "", });
+    const [newPass, setNewPass] = useState({ newPassword: "", confirmPassword: "" });
+    const [modals, setModals] = useState({ modal: false, createModal: false, passModal: false, imageModal: false, });
 
     useEffect(() => {
         const getOneAdmin = async () => {
             dispatch(adminStart());
             try {
-                const { data } = await AuthService.getAdmin(id);
+                const { data } = await service.getAdmin(id);
                 dispatch(getAdminSuccess(data));
             } catch (error) {
                 dispatch(adminFailure(error.response?.data.message));
-                Toast.fire({
-                    icon: "error",
-                    title: error.response?.data.message || error.message,
-                });
+                Toast.fire({ icon: "warning", title: error.response?.data.message || error.message, });
             }
         };
 
         getOneAdmin();
     }, [id]);
 
-    return (
-        <div className="admins container">
-            <div>
-                <div className="px-4 sm:px-0">
-                    <h3 className="text-base font-semibold leading-7 text-gray-900">Administrator ma'lumotlari</h3>
-                    <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Shaxsiy ma'lumotlar va ariza.</p>
-                </div>
-                {admin ?
-                    <div className="mt-6 border-t border-gray-100">
-                        <dl className="divide-y divide-gray-100">
-                            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 text-gray-900">First name</dt>
-                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 capitalize">{admin.first_name}</dd>
-                            </div>
-                            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 text-gray-900">Last name</dt>
-                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 capitalize">{admin.last_name}</dd>
-                            </div>
-                            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 text-gray-900">Date of birthday</dt>
-                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><FormattedDate date={admin.dob} /></dd>
-                            </div>
-                            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 text-gray-900">Contact number</dt>
-                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">+(998) {admin.phoneNumber}</dd>
-                            </div>
-                            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 text-gray-900">About</dt>
-                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.</dd>
-                            </div>
-                        </dl>
-                    </div> :
-                    <>
-                        <Skeleton parentWidth={90} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
-                    </>
+    const handleModal = (modalName, value) => {
+        setModals(prevState => ({ ...prevState, [modalName]: value }));
+    };
+
+    const clearModal = () => {
+        setUpdatedAdmin({ first_name: "", last_name: "", dob: "", avatar: "", phoneNumber: "", });
+        setNewPass({ newPassword: "", confirmPassword: "" });
+        setModals({ modal: false, createModal: false, passModal: false, imageModal: false, })
+    };
+
+    const openModal = (admin) => {
+        setUpdatedAdmin(admin);
+        handleModal("modal", true);
+        handleModal("createModal", false);
+    };
+
+    const updateHandler = async (e) => {
+        e.preventDefault();
+        if (modals.passModal) {
+            if (newPass.newPassword.length >= 8) {
+                try {
+                    dispatch(adminStart());
+                    const { data } = await service.updateAdminPass({ ...newPass, phoneNumber: auth?.phoneNumber });
+                    dispatch(getAdminSuccess(data));
+                    clearModal();
+                    Toast.fire({ icon: "success", title: data.message });
+                } catch (error) {
+                    dispatch(authFailure(error.response?.data.message));
+                    Toast.fire({ icon: "warning", title: error.response?.data.message || error.message });
                 }
+            }
+            else {
+                ToastLeft.fire({ icon: "warning", title: "Parol 8 ta belgidan kam bo'lmasligi kerak!" });
+            }
+        }
+        else {
+            if (updatedAdmin.first_name !== "" && updatedAdmin.last_name !== "" && updatedAdmin.dob !== "" && updatedAdmin.phoneNumber !== "") {
+                try {
+                    dispatch(adminStart());
+                    const { _id, __v, password, createdAt, updatedAt, ...newAdminCred } = updatedAdmin;
+                    const { data } = await service.updateAdminProfile(updatedAdmin._id, newAdminCred);
+                    dispatch(getAdminSuccess(data));
+                    clearModal();
+                    Toast.fire({ icon: "success", title: data.message });
+                } catch (error) {
+                    dispatch(authFailure(error.response.data.error));
+                    Toast.fire({ icon: "warning", title: error.response.data.error || error.message });
+                }
+            }
+            else {
+                ToastLeft.fire({ icon: "warning", title: "Iltimos, barcha bo'sh joylarni to'ldiring!" });
+            }
+        }
+    };
+
+    return (
+        <div className="w-full h-screen overflow-auto pt-24 px-10">
+            <div className="flex justify-between border-b-2 pb-16 relative">
+                <h1 className="capitalize text-2xl pc:text-3xl">Hisob qaydnomalari</h1>
+                <p className="absolute bottom-[-1px] border-b-2 uppercase text-xs pc:text-lg pb-2 border-main-1 text-main-1">{admin?.role}</p>
             </div>
+
+            {!admin ?
+                <div className="w-[450px] mt-12">
+                    <Skeleton parentWidth={100} firstChildWidth={85} secondChildWidth={50} thirdChildWidth={65} />
+                </div> : <>
+                    <div className="w-[450px] border-2 py-8 px-6 mt-12 rounded shadow-dim">
+                        <div className="flex relative justify-start">
+                            <div className="w-full flex flex-col gap-4 text-sm pc:text-lg">
+                                <div className="flex items-center gap-4">
+                                    <figure className={`size-20 pc:size-24 border-4 border-white rounded-[50%] overflow-hidden bg-slate-100 ${!admin ? "bg-gray-300 animate-pulse" : null}`}>
+                                        <img className="w-full h-full object-cover" src={admin.avatar} alt="admin avatar" />
+                                    </figure>
+                                    <h1 className="capitalize text-xl pc:text-2xl">{
+                                        admin.first_name + " " + admin.last_name}
+                                    </h1>
+                                </div>
+
+                                <div className="flex justify-between gap-20">
+                                    <span className="text-gray-500">Telefon:</span>
+                                    <span className="text-blue-300">+(998) {admin.phoneNumber}</span>
+                                </div>
+
+                                <div className="flex justify-between gap-20">
+                                    <span className="text-gray-500">Tug'ilgan kun:</span>
+                                    {
+                                        admin.dob ?
+                                            <FormattedDate date={admin.dob} /> :
+                                            <IoRemoveOutline />
+                                    }
+                                </div>
+                            </div>
+
+                            <div className="w-fit h-fit absolute top-0 right-0">
+                                <button
+                                    disabled={admin ? false : true}
+                                    onClick={() => openModal(admin)}
+                                    className="size-8 pc:size-9 flex items-center justify-center text-lg pc:text-xl border rounded-full ml-16 pc:ml-20 text-main-1 border-main-1 hover:bg-main-1 hover:text-white transition-all duration-300">
+                                    <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            }
+
+
+            {/* profile edit modal */}
+            <AdminModal
+                clearModal={clearModal}
+                modals={modals}
+                newAdmin={updatedAdmin}
+                setNewAdmin={setUpdatedAdmin}
+                newPass={newPass}
+                setNewPass={setNewPass}
+                isLoading={isLoading}
+                handleCreateAndUpdate={updateHandler}
+                handleModal={handleModal}
+            />
         </div>
     )
 }

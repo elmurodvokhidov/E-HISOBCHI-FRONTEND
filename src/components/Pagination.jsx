@@ -125,7 +125,7 @@ export default function Pagination({ students, page, setPage, limit, exportToExc
             <button
                 onClick={exportToExcel}
                 id="downloadExelBtn"
-                className="size-8 pc:size-10 relative float-end flex items-center justify-center ml-8 text-gray-400 border border-gray-300 outline-cyan-600 text-xl pc:text-2xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all"
+                className="size-8 pc:size-10 relative float-end flex items-center justify-center ml-8 text-gray-400 border border-gray-300 outline-main-1 text-xl pc:text-2xl rounded-full hover:text-main-1 hover:bg-blue-100 transition-all"
             >
                 <MdFileDownload />
             </button>

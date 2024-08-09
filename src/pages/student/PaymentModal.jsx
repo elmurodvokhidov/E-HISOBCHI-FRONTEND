@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
-import AuthService from "../../config/authService";
+import service from "../../config/service";
 import { Toast, ToastLeft } from "../../config/sweetToast";
 import { getStudentSuccess, studentFailure, studentStart } from "../../redux/slices/studentSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +21,7 @@ function PaymentModal({
     const getStudent = async () => {
         try {
             dispatch(studentStart());
-            const { data } = await AuthService.getStudent(student?._id);
+            const { data } = await service.getStudent(student?._id);
             dispatch(getStudentSuccess(data));
         } catch (error) {
             dispatch(studentFailure(error.response?.data.message));
@@ -54,7 +54,7 @@ function PaymentModal({
     useEffect(() => {
         const getCurrentDateFunction = async () => {
             try {
-                const { data } = await AuthService.getCurrentDate();
+                const { data } = await service.getCurrentDate();
                 setStudentPayment({
                     ...studentPayment,
                     studentId: student?._id,
@@ -80,7 +80,7 @@ function PaymentModal({
                 setIsLoading(true);
                 if (!studentPayment._id) {
                     // yangi ma'lumot qo'shish
-                    const { data } = await AuthService.payForStudent(studentPayment);
+                    const { data } = await service.payForStudent(studentPayment);
                     getStudent();
                     clearModal();
                     Toast.fire({
@@ -92,14 +92,14 @@ function PaymentModal({
                     // ma'lumotni tahrirlash
                     if (studentPayment.type === "debt") {
                         const { method, ...others } = studentPayment;
-                        const { data } = await AuthService.updateStudentPay(studentPayment._id, others);
+                        const { data } = await service.updateStudentPay(studentPayment._id, others);
                         Toast.fire({
                             icon: "success",
                             title: data.message
                         });
                     }
                     else {
-                        const { data } = await AuthService.updateStudentPay(studentPayment._id, studentPayment);
+                        const { data } = await service.updateStudentPay(studentPayment._id, studentPayment);
                         Toast.fire({
                             icon: "success",
                             title: data.message
@@ -160,7 +160,7 @@ function PaymentModal({
                             type="text"
                             name="student"
                             id="student"
-                            className="border-2 border-gray-300 rounded px-2 py-1 outline-cyan-600 disabled:bg-gray-300" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 outline-main-1 disabled:bg-gray-300" />
                     </div>
 
                     {/* Student's balance */}
@@ -189,7 +189,7 @@ function PaymentModal({
                                         type="radio"
                                         name="method"
                                         id="cash"
-                                        className="border-gray-300 outline-cyan-600" />
+                                        className="border-gray-300 outline-main-1" />
                                     <label htmlFor="cash" className="text-sm pc:text-lg">Naqd pul</label>
                                 </div>
 
@@ -202,7 +202,7 @@ function PaymentModal({
                                         type="radio"
                                         name="method"
                                         id="card"
-                                        className="border-gray-300 outline-cyan-600" />
+                                        className="border-gray-300 outline-main-1" />
                                     <label htmlFor="card" className="text-sm pc:text-lg">Plastik kartasi</label>
                                 </div>
                             </div>
@@ -222,7 +222,7 @@ function PaymentModal({
                             type="number"
                             name="amount"
                             id="amount"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                     </div>
 
                     {/* Date */}
@@ -240,7 +240,7 @@ function PaymentModal({
                                 type="date"
                                 name="date"
                                 id="date"
-                                className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                                className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                         </div>
                     }
 
@@ -254,7 +254,7 @@ function PaymentModal({
                             id="description"
                             cols="30"
                             rows="3"
-                            className="border-2 border-gray-300 rounded resize-none px-2 py-1 outline-cyan-600"
+                            className="border-2 border-gray-300 rounded resize-none px-2 py-1 outline-main-1"
                         ></textarea>
                     </div>
 
@@ -262,7 +262,7 @@ function PaymentModal({
                     <button
                         disabled={isLoading}
                         onClick={studentPaymentFunction}
-                        className="w-fit px-6 py-1 mt-8 pc:text-lg bg-cyan-600 outline-none rounded-2xl text-white">
+                        className="w-fit px-6 py-1 mt-8 pc:text-lg bg-main-1 outline-none rounded-2xl text-white">
                         {isLoading ? "Loading..." : "Saqlash"}
                     </button>
                 </div>

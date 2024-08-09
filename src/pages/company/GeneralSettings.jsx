@@ -1,23 +1,18 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import {
-    companyFailure,
-    companyStart,
-    companySuccess
-} from "../../redux/slices/companySlice";
-import AuthService from "../../config/authService";
+import { companyFailure, companyStart, companySuccess } from "../../redux/slices/companySlice";
+import service from "../../config/service";
 import Skeleton from "../../components/loaders/Skeleton";
 import { Toast } from "../../config/sweetToast";
 import api from "../../config/api";
+import { useNavigate } from "react-router-dom";
 
 function GeneralSettings() {
+    const { auth } = useSelector(state => state.auth);
     const { company, isLoading } = useSelector(state => state.company);
     const dispatch = useDispatch();
-    const [companyCred, setCompanyCred] = useState({
-        name: "",
-        phoneNumber: "",
-        image: "",
-    });
+    const navigate = useNavigate();
+    const [companyCred, setCompanyCred] = useState({ name: "", phoneNumber: "", image: "", });
 
     // Kompaniya ma'lumotlarini inputda olish funksiyasi
     const getCompanyCred = (e) => {
@@ -31,7 +26,7 @@ function GeneralSettings() {
     const getCompanyFunction = async () => {
         try {
             dispatch(companyStart());
-            const { data } = await AuthService.getCompany();
+            const { data } = await service.getCompany();
             setCompanyCred({
                 name: data.data.name,
                 phoneNumber: data.data.phoneNumber,
@@ -44,6 +39,8 @@ function GeneralSettings() {
 
     useEffect(() => {
         getCompanyFunction();
+
+        if (auth?.role !== "ceo") navigate("/admin/dashboard");
     }, []);
 
     // Rasm yuklash
@@ -59,7 +56,7 @@ function GeneralSettings() {
         e.preventDefault();
         try {
             dispatch(companyStart());
-            const { data } = await AuthService.updateCompany(companyCred, company._id);
+            const { data } = await service.updateCompany(companyCred, company._id);
             dispatch(companySuccess(data));
             Toast.fire({
                 icon: "success",
@@ -89,7 +86,7 @@ function GeneralSettings() {
                             type="file"
                             name="image"
                             id="image"
-                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                     </div>
 
                     {/* Company Name */}
@@ -107,7 +104,7 @@ function GeneralSettings() {
                             type="text"
                             name="name"
                             id="name"
-                            className="w-full border-2 border-gray-300 rounded pc:text-lg px-2 py-1 outline-cyan-600"
+                            className="w-full border-2 border-gray-300 rounded pc:text-lg px-2 py-1 outline-main-1"
                         />
                     </div>
 
@@ -128,7 +125,7 @@ function GeneralSettings() {
                                 type="number"
                                 name="phoneNumber"
                                 id="phoneNumber"
-                                className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 pc:text-lg outline-cyan-600"
+                                className="w-full border-2 border-gray-300 rounded rounded-l-none px-2 py-1 pc:text-lg outline-main-1"
                             />
                         </div>
                     </div>
@@ -138,7 +135,7 @@ function GeneralSettings() {
                         <button
                             disabled={!isLoading && companyCred.name !== "" && companyCred.phoneNumber !== "" ? false : true}
                             onClick={handleUpdate}
-                            className="w-fit px-6 py-1 mt-8 bg-cyan-600 rounded-2xl pc:text-lg text-white disabled:bg-gray-400">
+                            className="w-fit px-6 py-1 mt-8 bg-main-1 rounded-2xl pc:text-lg text-white disabled:bg-gray-400">
                             {isLoading ? "Loading..." : "Saqlash"}
                         </button>
                     </div>

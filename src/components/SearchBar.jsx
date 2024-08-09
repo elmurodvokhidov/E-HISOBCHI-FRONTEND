@@ -28,7 +28,7 @@ export default function SearchBar({ modals, handleModal }) {
                 />
                 <FaSearch
                     onClick={() => handleModal("searchBarModal", true)}
-                    className="cursor-pointer text-base pc:text-lg text-gray-500 hover:text-cyan-600" />
+                    className="cursor-pointer text-base pc:text-lg text-gray-500 hover:text-main-1" />
             </div>
             <div className={`w-full max-h-64 absolute top-6 flex flex-col mt-4 rounded-b-md overflow-y-auto bg-white shadow-md`}>
                 {

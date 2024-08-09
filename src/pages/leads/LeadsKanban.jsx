@@ -3,7 +3,7 @@ import Column from "./Column";
 import LeadsModal from "./LeadsModal";
 import { Toast, ToastLeft } from "../../config/sweetToast";
 import Swal from "sweetalert2";
-import AuthService from "../../config/authService";
+import service from "../../config/service";
 import { useDispatch, useSelector } from "react-redux";
 import { allLeadSuccess, leadFailure, leadStart } from "../../redux/slices/leadSlice";
 
@@ -22,7 +22,7 @@ export default function LeadsKanban() {
     const getAllLeadFunction = async () => {
         try {
             dispatch(leadStart());
-            const { data } = await AuthService.getAllLead();
+            const { data } = await service.getAllLead();
             dispatch(allLeadSuccess(data));
         } catch (error) {
             dispatch(leadFailure(error.message));
@@ -68,7 +68,7 @@ export default function LeadsKanban() {
         ) {
             try {
                 if (!newLead._id) {
-                    const { data } = await AuthService.addNewLead(newLead);
+                    const { data } = await service.addNewLead(newLead);
                     getAllLeadFunction();
                     clearModal();
                     Toast.fire({
@@ -78,7 +78,7 @@ export default function LeadsKanban() {
                 }
                 else {
                     const { _id, __v, createdAt, updatedAt, ...newLeadCred } = newLead;
-                    const { data } = await AuthService.updateLead(newLead._id, newLeadCred);
+                    const { data } = await service.updateLead(newLead._id, newLeadCred);
                     getAllLeadFunction();
                     clearModal();
                     Toast.fire({
@@ -116,7 +116,7 @@ export default function LeadsKanban() {
         }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(leadStart());
-                AuthService.deleteLead(id).then((res) => {
+                service.deleteLead(id).then((res) => {
                     getAllLeadFunction();
                     Toast.fire({
                         icon: "success",

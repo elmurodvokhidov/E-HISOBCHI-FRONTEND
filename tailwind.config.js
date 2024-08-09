@@ -16,6 +16,12 @@ module.exports = {
         xsm: '375px',
         small: '320px',
         pc: '1700px',
+      },
+      colors: {
+        main: {
+          1: '#4DACE4',
+          2: '#f8f8f8',
+        },
       }
     },
   },

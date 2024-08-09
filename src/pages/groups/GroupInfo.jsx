@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
-import AuthService from "../../config/authService";
+import service from "../../config/service";
 import {
     getGroupSuccess,
     groupFailure,
@@ -62,6 +62,7 @@ function GroupInfo() {
         about: null,
     });
     const [copied, setCopied] = useState("");
+    // const isAdmin = auth?.role === "ceo";
 
     // Matnni nusxalash funksiyasi
     const handleCopy = (text) => {
@@ -107,7 +108,7 @@ function GroupInfo() {
     const getGroupFunc = async () => {
         try {
             dispatch(groupStart());
-            const { data } = await AuthService.getGroup(id);
+            const { data } = await service.getGroup(id);
             dispatch(getGroupSuccess(data));
         } catch (error) {
             dispatch(groupFailure(error.response?.data.message));
@@ -121,7 +122,7 @@ function GroupInfo() {
     const getAllCoursesFunc = async () => {
         try {
             dispatch(courseStart());
-            const { data } = await AuthService.getAllCourses();
+            const { data } = await service.getAllCourses();
             dispatch(allCourseSuccess(data));
         } catch (error) {
             dispatch(courseFailure(error.message));
@@ -131,7 +132,7 @@ function GroupInfo() {
     const getAllTeachersFunc = async () => {
         try {
             dispatch(teacherStart());
-            const { data } = await AuthService.getAllTeachers();
+            const { data } = await service.getAllTeachers();
             dispatch(allTeacherSuccess(data));
         } catch (error) {
             dispatch(teacherFailure(error.message));
@@ -141,7 +142,7 @@ function GroupInfo() {
     const getAllRoomsFunc = async () => {
         try {
             dispatch(roomStart());
-            const { data } = await AuthService.getAllRooms();
+            const { data } = await service.getAllRooms();
             dispatch(allRoomSuccess(data));
         } catch (error) {
             dispatch(roomFailure(error.message));
@@ -169,7 +170,7 @@ function GroupInfo() {
             try {
                 dispatch(groupStart());
                 const { _id, __v, due_dates, students, end_time, attendance, createdAt, updatedAt, ...updatedGroupCred } = newGroup;
-                const { data } = await AuthService.updateGroup(newGroup._id, updatedGroupCred);
+                const { data } = await service.updateGroup(newGroup._id, updatedGroupCred);
                 dispatch(getGroupSuccess(data));
                 getGroupFunc();
                 clearModal();
@@ -197,7 +198,7 @@ function GroupInfo() {
         }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(groupStart());
-                AuthService.deleteGroup(id).then((res) => {
+                service.deleteGroup(id).then((res) => {
                     navigate("/admin/groups");
                     Toast.fire({ icon: "success", title: res?.data.message });
                 }).catch((error) => {
@@ -257,25 +258,17 @@ function GroupInfo() {
                                     <h1 className="w-fit rounded-sm px-2 pc:text-lg bg-gray-200">{group.name}</h1>
 
                                     <div className="flex items-center gap-2 text-lg pc:text-xl">
-                                        {
-                                            auth?.role === "admin" ?
-                                                <NavLink
-                                                    className="hover:text-cyan-600 transition-all"
-                                                    to={`/admin/course-info/${group.course?._id}`}>
-                                                    {group.course.title}
-                                                </NavLink> :
-                                                <span>{group.course.title}</span>
-                                        }
+                                        <NavLink
+                                            className="hover:text-main-1 transition-all"
+                                            to={`/admin/course-info/${group.course?._id}`}>
+                                            {group.course.title}
+                                        </NavLink>
                                         <span><GoDotFill fontSize={6} /></span>
-                                        {
-                                            auth?.role === "admin" ?
-                                                <NavLink
-                                                    className="hover:text-cyan-600 transition-all"
-                                                    to={`/admin/teacher-info/${group.teacher?._id}`}>
-                                                    {group.teacher?.first_name + " " + group.teacher?.last_name}
-                                                </NavLink> :
-                                                <span>{group.teacher?.first_name + " " + group.teacher?.last_name}</span>
-                                        }
+                                        <NavLink
+                                            className="hover:text-main-1 transition-all"
+                                            to={`/admin/teacher-info/${group.teacher?._id}`}>
+                                            {group.teacher?.first_name + " " + group.teacher?.last_name}
+                                        </NavLink>
                                     </div>
 
                                     <div className="text-xs pc:text-base">
@@ -309,111 +302,104 @@ function GroupInfo() {
                                     </div>
                                 </div>
 
-
-                                {
-                                    auth?.role === "admin" ?
-                                        <div className="flex flex-col justify-start gap-2 pc:text-xl">
-                                            <button
-                                                onClick={openModal}
-                                                className="size-8 pc:size-10 flex items-center justify-center border border-cyan-600 rounded-full text-cyan-600 hover:text-white hover:bg-cyan-600">
-                                                <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
-                                                </svg>
-                                            </button>
-                                            <button
-                                                onClick={() => deleteHandler(group._id)}
-                                                className="size-8 pc:size-10 flex items-center justify-center border border-red-500 rounded-full text-red-500 hover:text-white hover:bg-red-500">
-                                                <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"></path>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                        : null
-                                }
+                                <div className="flex flex-col justify-start gap-2 pc:text-xl">
+                                    <button
+                                        onClick={openModal}
+                                        className="size-8 pc:size-10 flex items-center justify-center border border-main-1 rounded-full text-main-1 hover:text-white hover:bg-main-1">
+                                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
+                                        </svg>
+                                    </button>
+                                    <button
+                                        onClick={() => deleteHandler(group._id)}
+                                        className="size-8 pc:size-10 flex items-center justify-center border border-red-500 rounded-full text-red-500 hover:text-white hover:bg-red-500">
+                                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
 
-                            {auth?.role === "admin" || auth?.role === "teacher" ?
-                                <div className="flex flex-col gap-2 mt-6">
-                                    {!isLoading ?
-                                        group.students.length > 0 ?
-                                            <>{group.students.map((student, index) => (
+                            <div className="flex flex-col gap-2 mt-6">
+                                {!isLoading ?
+                                    group.students.length > 0 ?
+                                        <>{group.students.map((student, index) => (
+                                            <div
+                                                className="flex items-center justify-between text-xs pc:text-base"
+                                                key={index}>
+                                                <h1 className="w-6 text-gray-500">{index + 1}.</h1>
+                                                {student.balance < 0 ?
+                                                    <GoDotFill className="text-red-600" />
+                                                    : null}
                                                 <div
-                                                    className="flex items-center justify-between text-xs pc:text-base"
-                                                    key={index}>
-                                                    <h1 className="w-6 text-gray-500">{index + 1}.</h1>
-                                                    {auth?.role === "admin" && student.balance < 0 ?
-                                                        <GoDotFill className="text-red-600" />
-                                                        : null}
-                                                    <div
-                                                        onMouseEnter={() => handleModal("about", student._id)}
-                                                        onMouseLeave={() => handleModal("about", null)}
-                                                        className="w-48 relative hover:text-cyan-600 cursor-pointer"
-                                                    >
-                                                        <h1 className="w-fit">{student.first_name + " " + student.last_name}</h1>
+                                                    onMouseEnter={() => handleModal("about", student._id)}
+                                                    onMouseLeave={() => handleModal("about", null)}
+                                                    className="w-48 relative hover:text-main-1 cursor-pointer"
+                                                >
+                                                    <h1 className="w-fit">{student.first_name + " " + student.last_name}</h1>
 
-                                                        {auth?.role === "admin" && modals.about === student._id ? <>
-                                                            <div className="w-64 pc:w-80 absolute -top-32 pc:-top-36 -right-44 pc:-right-60 z-10 text-black border rounded-md p-4 cursor-auto shadow-smooth bg-white before:w-4 before:h-4 before:bg-white before:absolute before:top-[48%] before:rotate-45 before:-left-2 before:border-b before:border-l">
-                                                                <div className="border-b pb-4">
-                                                                    <p className="text-sm pc:text-lg">{student.first_name} {student.last_name}</p>
-                                                                    <p className={`w-fit px-2 py-1 mt-1 rounded-md text-white ${student.balance < 0 ? "bg-red-500" : ""}`}>{student.balance < 0 ? "Qarzdor" : ""}</p>
-                                                                </div>
-
-                                                                <div className="flex items-center justify-between py-4 border-b">
-                                                                    <p className="text-gray-500">Telefon:</p>
-                                                                    <p className="text-blue-500">{student.phoneNumber}</p>
-                                                                </div>
-
-                                                                <div className="flex items-center justify-between py-4 border-b">
-                                                                    <p className="text-gray-500">Balans:</p>
-                                                                    <p>{Math.round(student?.balance).toLocaleString()} UZS</p>
-                                                                </div>
-
-                                                                <div className="flex items-center justify-between py-4 border-b">
-                                                                    <p className="text-gray-500">Talaba qo'shilgan sana:</p>
-                                                                    <FormattedDate date={student.join_date} />
-                                                                </div>
-
-                                                                <div className="flex justify-end pt-4">
-                                                                    <NavLink
-                                                                        to={`/admin/student-info/${student._id}`}
-                                                                        className="flex items-center gap-1 hover:text-cyan-600">
-                                                                        <span>Profilga o'tish</span>
-                                                                        <IoIosArrowRoundForward className="text-gray-500" />
-                                                                    </NavLink>
-                                                                </div>
+                                                    {modals.about === student._id ? <>
+                                                        <div className="w-64 pc:w-80 absolute -top-32 pc:-top-36 -right-44 pc:-right-60 z-10 text-black border rounded-md p-4 cursor-auto shadow-smooth bg-white before:w-4 before:h-4 before:bg-white before:absolute before:top-[48%] before:rotate-45 before:-left-2 before:border-b before:border-l">
+                                                            <div className="border-b pb-4">
+                                                                <p className="text-sm pc:text-lg">{student.first_name} {student.last_name}</p>
+                                                                <p className={`w-fit px-2 py-1 mt-1 rounded-md text-white ${student.balance < 0 ? "bg-red-500" : ""}`}>{student.balance < 0 ? "Qarzdor" : ""}</p>
                                                             </div>
-                                                        </> : null}
-                                                    </div>
-                                                    <h1
-                                                        onClick={() => handleCopy(student.phoneNumber)}
-                                                        className="w-28 flex items-center gap-1 cursor-pointer"
-                                                    >
-                                                        {student.phoneNumber}
-                                                        <img
-                                                            src={copied === student.phoneNumber ? tick : copy}
-                                                            alt="copy svg"
-                                                            className="size-3" />
-                                                    </h1>
-                                                    <button>
-                                                        <IoMdMore className="text-lg pc:text-xl text-cyan-600" />
-                                                    </button>
-                                                </div>
-                                            ))}
 
-                                                {/* Export to Excel button */}
-                                                <div className="flex justify-end mt-4">
-                                                    <button
-                                                        onClick={exportToExcel}
-                                                        id="downloadExelBtn"
-                                                        className="size-8 pc:size-10 relative float-start flex items-center justify-center text-gray-400 border border-gray-300 outline-cyan-600 text-xl pc:text-2xl rounded-full hover:text-cyan-600 hover:bg-blue-100 transition-all"
-                                                    >
-                                                        <MdFileDownload />
-                                                    </button>
+                                                            <div className="flex items-center justify-between py-4 border-b">
+                                                                <p className="text-gray-500">Telefon:</p>
+                                                                <p className="text-blue-500">{student.phoneNumber}</p>
+                                                            </div>
+
+                                                            <div className="flex items-center justify-between py-4 border-b">
+                                                                <p className="text-gray-500">Balans:</p>
+                                                                <p>{Math.round(student?.balance).toLocaleString()} UZS</p>
+                                                            </div>
+
+                                                            <div className="flex items-center justify-between py-4 border-b">
+                                                                <p className="text-gray-500">Talaba qo'shilgan sana:</p>
+                                                                <FormattedDate date={student.join_date} />
+                                                            </div>
+
+                                                            <div className="flex justify-end pt-4">
+                                                                <NavLink
+                                                                    to={`/admin/student-info/${student._id}`}
+                                                                    className="flex items-center gap-1 hover:text-main-1">
+                                                                    <span>Profilga o'tish</span>
+                                                                    <IoIosArrowRoundForward className="text-gray-500" />
+                                                                </NavLink>
+                                                            </div>
+                                                        </div>
+                                                    </> : null}
                                                 </div>
-                                            </> : <h1 className="text-base">O'quvchilar mavjud emas!</h1> :
-                                        <h1 className="pc:text-lg">Loading...</h1>}
-                                </div>
-                                : null}
+                                                <h1
+                                                    onClick={() => handleCopy(student.phoneNumber)}
+                                                    className="w-28 flex items-center gap-1 cursor-pointer"
+                                                >
+                                                    {student.phoneNumber}
+                                                    <img
+                                                        src={copied === student.phoneNumber ? tick : copy}
+                                                        alt="copy svg"
+                                                        className="size-3" />
+                                                </h1>
+                                                <button>
+                                                    <IoMdMore className="text-lg pc:text-xl text-main-1" />
+                                                </button>
+                                            </div>
+                                        ))}
+
+                                            {/* Export to Excel button */}
+                                            <div className="flex justify-end mt-4">
+                                                <button
+                                                    onClick={exportToExcel}
+                                                    id="downloadExelBtn"
+                                                    className="size-8 pc:size-10 relative float-start flex items-center justify-center text-gray-400 border border-gray-300 outline-main-1 text-xl pc:text-2xl rounded-full hover:text-main-1 hover:bg-blue-100 transition-all"
+                                                >
+                                                    <MdFileDownload />
+                                                </button>
+                                            </div>
+                                        </> : <h1 className="text-base">O'quvchilar mavjud emas!</h1> :
+                                    <h1 className="pc:text-lg">Loading...</h1>}
+                            </div>
                         </div>
 
                         {/* create and update group modal */}
@@ -433,7 +419,7 @@ function GroupInfo() {
                     {/* Davomat jadval */}
                     <div className="2xl:w-2/3 pt-4 px-4 overflow-x-auto">
                         {
-                            (group?.students?.length > 0 && (auth?.role === "admin" || auth?.role === "teacher")) ?
+                            group?.students?.length > 0 ?
                                 <Attendance group={group} isLoading={isLoading} />
                                 : null
                         }

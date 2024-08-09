@@ -7,7 +7,7 @@ import {
     studentFailure,
     studentStart
 } from "../../redux/slices/studentSlice";
-import AuthService from "../../config/authService";
+import service from "../../config/service";
 import { NavLink } from "react-router-dom";
 import { IoMdMore } from "react-icons/io";
 import StudentModal from "./StudentModal";
@@ -75,7 +75,7 @@ function Students() {
     const getAllStudentsFunction = async () => {
         try {
             dispatch(studentStart());
-            const { data } = await AuthService.getAllStudents();
+            const { data } = await service.getAllStudents();
             dispatch(allStudentSuccess(data));
         } catch (error) {
             dispatch(studentFailure(error.message));
@@ -86,7 +86,7 @@ function Students() {
     const getAllGroupsFunc = async () => {
         try {
             dispatch(groupStart());
-            const { data } = await AuthService.getAllGroups();
+            const { data } = await service.getAllGroups();
             dispatch(allGroupSuccess(data));
         } catch (error) {
             dispatch(groupFailure(error.message));
@@ -97,7 +97,7 @@ function Students() {
     const getAllCoursesFunc = async () => {
         try {
             dispatch(courseStart());
-            const { data } = await AuthService.getAllCourses();
+            const { data } = await service.getAllCourses();
             dispatch(allCourseSuccess(data));
         } catch (error) {
             dispatch(courseFailure(error.message));
@@ -243,7 +243,7 @@ function Students() {
             if (newPass.newPassword.length >= 8) {
                 try {
                     dispatch(studentStart());
-                    const { data } = await AuthService.updateStudentPass({ ...newPass, _id: newStudent._id });
+                    const { data } = await service.updateStudentPass({ ...newPass, _id: newStudent._id });
                     dispatch(getStudentSuccess(data));
                     clearModal();
                     Toast.fire({
@@ -278,8 +278,8 @@ function Students() {
                     // yangi o'quvchi qo'shish
                     if (!newStudent._id) {
                         if (newPass.newPassword.length >= 8) {
-                            const { data } = await AuthService.addNewStudent({ ...newStudent, ...newPass });
-                            await AuthService.caclStudentBalance();
+                            const { data } = await service.addNewStudent({ ...newStudent, ...newPass });
+                            await service.caclStudentBalance();
                             getAllStudentsFunction();
                             clearModal();
                             Toast.fire({
@@ -296,8 +296,8 @@ function Students() {
                     } else {
                         // o'quvchi ma'lumotlarini o'zgartirish
                         const { _id, __v, password, createdAt, updatedAt, ...newStudentCred } = newStudent;
-                        const { data } = await AuthService.updateStudent(newStudent._id, newStudentCred);
-                        await AuthService.caclStudentBalance();
+                        const { data } = await service.updateStudent(newStudent._id, newStudentCred);
+                        await service.caclStudentBalance();
                         dispatch(getStudentSuccess(data));
                         getAllStudentsFunction();
                         clearModal();
@@ -337,7 +337,7 @@ function Students() {
         }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(studentStart());
-                AuthService.deleteStudent(id).then((res) => {
+                service.deleteStudent(id).then((res) => {
                     getAllStudentsFunction();
                     Toast.fire({
                         icon: "success",
@@ -382,7 +382,7 @@ function Students() {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         dispatch(studentStart());
-                        AuthService.deleteManyStudent(checkedStudentsList).then((res) => {
+                        service.deleteManyStudent(checkedStudentsList).then((res) => {
                             getAllStudentsFunction();
                             Toast.fire({
                                 icon: "success",
@@ -439,7 +439,7 @@ function Students() {
                 <input
                     value={filters.searchBy}
                     onChange={handleFilterChange}
-                    className="w-56 pc:w-64 px-4 py-2 text-xs pc:text-lg outline-cyan-600 border rounded bg-[#f8f8f8]"
+                    className="w-56 pc:w-64 px-4 py-2 text-xs pc:text-lg outline-main-1 border rounded bg-main-2"
                     type="text"
                     name="searchBy"
                     id="searchBy"
@@ -449,7 +449,7 @@ function Students() {
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="course"
-                        className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
+                        className="absolute text-xs pc:text-base bg-main-2 -top-1.5 pc:-top-3 left-3">
                         <span>Kurslar</span>
                     </label>
                     <select
@@ -457,7 +457,7 @@ function Students() {
                         onChange={handleFilterChange}
                         name="course"
                         id="course"
-                        className="w-full p-2 text-sm pc:text-lg rounded border outline-cyan-600 bg-[#f8f8f8]">
+                        className="w-full p-2 text-sm pc:text-lg rounded border outline-main-1 bg-main-2">
                         <option
                             value=""
                             className="text-sm pc:text-lg italic">
@@ -480,7 +480,7 @@ function Students() {
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="start_date"
-                        className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
+                        className="absolute text-xs pc:text-base bg-main-2 -top-1.5 pc:-top-3 left-3">
                         <span>Boshlanish</span>
                     </label>
                     <input
@@ -489,14 +489,14 @@ function Students() {
                         type="date"
                         name="start_date"
                         id="start_date"
-                        className="w-full p-1.5 text-sm pc:text-lg rounded border outline-cyan-600 bg-[#f8f8f8]" />
+                        className="w-full p-1.5 text-sm pc:text-lg rounded border outline-main-1 bg-main-2" />
                 </div>
 
                 {/* End Date */}
                 <div className="relative text-gray-500">
                     <label
                         htmlFor="end_date"
-                        className="absolute text-xs pc:text-base bg-[#f8f8f8] -top-1.5 pc:-top-3 left-3">
+                        className="absolute text-xs pc:text-base bg-main-2 -top-1.5 pc:-top-3 left-3">
                         <span>Tugash</span>
                     </label>
                     <input
@@ -505,12 +505,12 @@ function Students() {
                         type="date"
                         name="end_date"
                         id="end_date"
-                        className="w-full p-1.5 text-sm pc:text-lg rounded border outline-cyan-600 bg-[#f8f8f8]" />
+                        className="w-full p-1.5 text-sm pc:text-lg rounded border outline-main-1 bg-main-2" />
                 </div>
 
                 <button
                     onClick={() => setFilters({ searchBy: "", course: "", start_date: "", end_date: "" })}
-                    className="border rounded p-2 text-sm pc:text-lg text-gray-700 bg-[#f8f8f8] hover:bg-gray-100 hover:text-gray-500 transition-all outline-cyan-600"
+                    className="border rounded p-2 text-sm pc:text-lg text-gray-700 bg-main-2 hover:bg-gray-100 hover:text-gray-500 transition-all outline-main-1"
                 >
                     Filterni tiklash
                 </button>
@@ -518,7 +518,7 @@ function Students() {
 
             <div className="max-h-[600px] min-h-[200px] overflow-auto pb-16 px-[40px]">
                 <table className="w-full mt-4">
-                    <thead className="sticky top-0 bg-[#f8f8f8] z-[1]">
+                    <thead className="sticky top-0 bg-main-2 z-[1]">
                         <tr className="font-semibold text-xs pc:text-base flex text-left px-4 py-2">
                             <th className="w-fit mr-4">
                                 <input
@@ -545,7 +545,7 @@ function Students() {
                             <th className="w-[120px] pc:w-[170px] text-left">Balans</th>
                             <th className="w-[80px] pc:w-[130px] text-center">
                                 <div className="flex items-center gap-4">
-                                    <button className="size-6 pc:size-8 flex items-center justify-center text-sm pc:text-base border rounded-full text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white transition-all duration-300">
+                                    <button className="size-6 pc:size-8 flex items-center justify-center text-sm pc:text-base border rounded-full text-main-1 border-main-1 hover:bg-main-1 hover:text-white transition-all duration-300">
                                         <RxEnvelopeClosed />
                                     </button>
                                     <button onClick={deleteManyStudents} className="size-6 pc:size-8 flex items-center justify-center text-sm pc:text-base border rounded-full text-red-600 border-red-600 hover:bg-red-600 hover:text-white transition-all duration-300">
@@ -575,7 +575,7 @@ function Students() {
                                             className="align-middle"
                                         />
                                     </td>
-                                    <td className="w-[300px] pc:w-[350px] text-left text-base pc:text-lg hover:text-cyan-600">
+                                    <td className="w-[300px] pc:w-[350px] text-left text-base pc:text-lg hover:text-main-1">
                                         <NavLink to={`/admin/student-info/${student._id}`}>{student.first_name} {student.last_name}</NavLink>
                                     </td>
                                     <td
@@ -587,7 +587,7 @@ function Students() {
                                             alt="copy svg"
                                             className="cursor-pointer" />
                                     </td>
-                                    <td className="w-[200px] pc:w-[250px] text-left text-xs pc:text-base hover:text-cyan-600">
+                                    <td className="w-[200px] pc:w-[250px] text-left text-xs pc:text-base hover:text-main-1">
                                         {
                                             student?.group ? <>
                                                 <NavLink
@@ -632,7 +632,7 @@ function Students() {
                                         <div onClick={(e) => {
                                             e.stopPropagation()
                                             handleModal("more", student._id)
-                                        }} className="relative cursor-pointer text-cyan-600 text-xl">
+                                        }} className="relative cursor-pointer text-main-1 text-xl">
                                             <IoMdMore />
                                             {/* more btn modal */}
                                             <div className={`${modals.more === student._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute small:right-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] pc:text-base bg-white`}>

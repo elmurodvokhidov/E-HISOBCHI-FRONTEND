@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import AuthService from "../../config/authService";
+import service from "../../config/service";
 import { allRoomSuccess, roomFailure, roomStart } from "../../redux/slices/roomSlice";
 import Swal from "sweetalert2";
 import { Toast, ToastLeft } from "../../config/sweetToast";
@@ -24,7 +24,7 @@ function Rooms() {
     const getAllRoomsFunc = async () => {
         try {
             dispatch(roomStart());
-            const { data } = await AuthService.getAllRooms();
+            const { data } = await service.getAllRooms();
             dispatch(allRoomSuccess(data));
         } catch (error) {
             dispatch(roomFailure(error.message));
@@ -70,14 +70,14 @@ function Rooms() {
             try {
                 dispatch(roomStart());
                 if (!newRoom._id) {
-                    const { data } = await AuthService.addNewRoom(newRoom);
+                    const { data } = await service.addNewRoom(newRoom);
                     clearModal();
                     getAllRoomsFunc();
                     Toast.fire({ icon: "success", title: data.message });
                 }
                 else {
                     const { _id, __v, createdAt, updatedAt, ...newRoomCred } = newRoom;
-                    const { data } = await AuthService.updateRoom(newRoom._id, newRoomCred);
+                    const { data } = await service.updateRoom(newRoom._id, newRoomCred);
                     clearModal();
                     getAllRoomsFunc();
                     Toast.fire({ icon: "success", title: data.message });
@@ -105,7 +105,7 @@ function Rooms() {
         }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(roomStart());
-                AuthService.deleteRoom(id).then((res) => {
+                service.deleteRoom(id).then((res) => {
                     getAllRoomsFunc();
                     Toast.fire({ icon: "success", title: res?.data.message });
                 }).catch((error) => {
@@ -219,14 +219,14 @@ function Rooms() {
                                 type="text"
                                 name="name"
                                 id="name"
-                                className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-cyan-600" />
+                                className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                         </div>
 
                         {/* Button */}
                         <button
                             disabled={isLoading ? true : false}
                             onClick={handleCreateAndUpdate}
-                            className="w-fit px-6 py-1 mt-8 bg-cyan-600 rounded-2xl text-white">
+                            className="w-fit px-6 py-1 mt-8 bg-main-1 rounded-2xl text-white">
                             {isLoading ? "Loading..." : newRoom._id ? "Saqlash" : "Qo'shish"}
                         </button>
                     </div>

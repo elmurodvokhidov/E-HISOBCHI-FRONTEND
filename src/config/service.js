@@ -9,10 +9,14 @@ api.interceptors.request.use((req) => {
     return req;
 });
 
-const AuthService = {
+const service = {
     // admin
     async adminLogin(admin) {
         const res = api.post("/admin/login", admin);
+        return res;
+    },
+    async getMe(id) {
+        const res = api.get(`/admin/me`);
         return res;
     },
     async getAdmin(id) {
@@ -47,6 +51,10 @@ const AuthService = {
         const res = api.put("/admin/update-teacher-password", newPass);
         return res;
     },
+    async getTeacher(id) {
+        const res = api.get(`/admin/teacher/${id}`);
+        return res;
+    },
     async getAllTeachers() {
         const res = api.get("/admin/get-all-teacher");
         return res;
@@ -65,6 +73,10 @@ const AuthService = {
     },
     async getAllStudents() {
         const res = api.get("/admin/get-all-student");
+        return res;
+    },
+    async getStudent(id) {
+        const res = api.get(`/admin/student/${id}`);
         return res;
     },
     async updateStudent(id, updatedTeacher) {
@@ -270,28 +282,6 @@ const AuthService = {
 
 
 
-    // teacher
-    async teacherLogin(teacher) {
-        const res = api.post("/teacher/login", teacher);
-        return res;
-    },
-    async getTeacher(id) {
-        const res = api.get(`/teacher/info/${id}`);
-        return res;
-    },
-
-
-
-    // student
-    async studentLogin(student) {
-        const res = api.post("/student/login", student);
-        return res;
-    },
-    async getStudent(id) {
-        const res = api.get(`/student/info/${id}`);
-        return res;
-    },
-
     // date
     async getCurrentDate() {
         const res = api.get("get-current-date");
@@ -299,4 +289,4 @@ const AuthService = {
     },
 };
 
-export default AuthService;
+export default service;
