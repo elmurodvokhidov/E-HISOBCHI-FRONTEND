@@ -62,25 +62,17 @@ export default function Debtors() {
     const filteredDebtors = debtors.filter(debtor => {
         return Object.entries(filters).every(([key, value]) => {
             if (value === "") return true;
-
-            if (key === "searchBy") {
-                return debtor.first_name.toLowerCase().includes(value.toLowerCase().trim()) || debtor.last_name.toLowerCase().includes(value.toLowerCase().trim()) || debtor.phoneNumber.toString().includes(value.toString().trim());
-            }
+            if (key === "searchBy") return debtor.first_name.toLowerCase().includes(value.toLowerCase().trim()) || debtor.last_name.toLowerCase().includes(value.toLowerCase().trim()) || debtor.phoneNumber.toString().includes(value.toString().trim());
 
             if (key === 'amountFrom' || key === 'amountTo') {
                 const deb = Math.round(Math.abs(debtor.balance));
                 const filterAmountFrom = parseInt(filters['amountFrom']);
                 const filterAmountTo = parseInt(filters['amountTo']);
 
-                if (filters['amountFrom'] && filters['amountTo']) {
-                    return deb >= filterAmountFrom && deb <= filterAmountTo;
-                } else if (filters['amountFrom']) {
-                    return deb >= filterAmountFrom;
-                } else if (filters['amountTo']) {
-                    return deb <= filterAmountTo;
-                } else {
-                    return true;
-                }
+                if (filters['amountFrom'] && filters['amountTo']) return deb >= filterAmountFrom && deb <= filterAmountTo;
+                else if (filters['amountFrom']) return deb >= filterAmountFrom;
+                else if (filters['amountTo']) return deb <= filterAmountTo;
+                else return true;
             }
 
             return debtor[key] === value;
@@ -90,7 +82,7 @@ export default function Debtors() {
     // Barcha qarzdorlar ma'lumotlarini exel fayli sifatida yuklab olish funksiyasi
     const exportToExcel = () => {
         const fileName = 'debtors.xlsx';
-        const header = ['O\'quvchi ismi', 'Telefon', 'Qarz', 'Guruh nomi', 'Kurs nomi', 'O\'qituvchi ismi'];
+        const header = ["O'quvchi ismi", "Telefon", "Qarz", "Guruh nomi", "Kurs nomi", "O'qituvchi ismi"];
 
         const wb = XLSX.utils.book_new();
         const data = filteredDebtors.map(debtor => [

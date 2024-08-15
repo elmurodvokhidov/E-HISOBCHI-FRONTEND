@@ -111,49 +111,23 @@ export default function Payments() {
         return Object.entries(filters).every(([key, value]) => {
             if (value === "") return true;
 
-            if (key === "searchBy") {
-                return pay.studentId?.first_name.toLowerCase().includes(value.toLowerCase().trim()) || pay.studentId?.last_name.toLowerCase().includes(value.toLowerCase().trim()) || pay.studentId?.phoneNumber.toString().includes(value.toString().trim());
-            }
-
-            if (key === "amount") {
-                return pay.amount.toString().includes(value.toString().trim());
-            }
-
-            if (key === "course") {
-                return pay.studentId?.group?.course?._id === value;
-            }
-
-            if (key === "group") {
-                return pay.studentId?.group?._id === value;
-            }
-
-            if (key === "teacher") {
-                return pay.studentId?.group?.teacher?._id === value;
-            }
-
-            if (key === "method") {
-                return pay.method === value;
-            }
+            if (key === "searchBy") return pay.studentId?.first_name.toLowerCase().includes(value.toLowerCase().trim()) || pay.studentId?.last_name.toLowerCase().includes(value.toLowerCase().trim()) || pay.studentId?.phoneNumber.toString().includes(value.toString().trim());
+            if (key === "amount") return pay.amount.toString().includes(value.toString().trim());
+            if (key === "course") return pay.studentId?.group?.course?._id === value;
+            if (key === "group") return pay.studentId?.group?._id === value;
+            if (key === "teacher") return pay.studentId?.group?.teacher?._id === value;
+            if (key === "method") return pay.method === value;
 
             if (key === 'start_date' || key === 'end_date') {
                 const studentPayDate = new Date(pay.date);
                 const filterStartDate = new Date(filters['start_date']);
                 const filterEndDate = new Date(filters['end_date']);
 
-                if (filters['start_date'] && filters['end_date']) {
-                    return studentPayDate >= filterStartDate && studentPayDate <= filterEndDate;
-                }
-                else if (filters['start_date']) {
-                    return studentPayDate >= filterStartDate;
-                }
-                else if (filters['end_date']) {
-                    return studentPayDate <= filterEndDate;
-                }
-                else {
-                    return true;
-                }
+                if (filters['start_date'] && filters['end_date']) return studentPayDate >= filterStartDate && studentPayDate <= filterEndDate;
+                else if (filters['start_date']) return studentPayDate >= filterStartDate;
+                else if (filters['end_date']) return studentPayDate <= filterEndDate;
+                else return true;
             }
-
 
             return pay[key] === value;
         });
@@ -162,7 +136,7 @@ export default function Payments() {
     // Barcha o'quvchilar to'lov tarixi ma'lumotlarini exel fayli sifatida yuklab olish funksiyasi
     const exportToExcel = () => {
         const fileName = 'students-pay-history.xlsx';
-        const header = ['Sana', 'O\'quvchi ismi', 'Sum', 'To\'lov turi', 'O\'qituvchi', 'Guruh', 'Izoh'];
+        const header = ["Sana", "O'quvchi ismi", "Sum", "To'lov turi", "O'qituvchi", "Guruh", "Izoh"];
 
         const wb = XLSX.utils.book_new();
         const data = filteredStudentPayHistory.map(pay => [

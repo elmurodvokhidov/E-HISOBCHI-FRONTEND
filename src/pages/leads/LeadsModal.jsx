@@ -24,6 +24,7 @@ export default function LeadsModal({
             style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modals.modal ? "1" : "0", zIndex: modals.modal ? "20" : "-1" }}>
             <form
                 onClick={(e) => e.stopPropagation()}
+                onSubmit={handleCreateAndUpdate}
                 className="lg:w-[27%] small:w-[60%] h-screen fixed top-0 right-0 transition-all duration-300 bg-white"
                 style={{ right: modals.modal ? "0" : "-200%" }}>
                 <div className="flex justify-between text-xl pc:text-2xl p-5 border-b-2">
@@ -123,7 +124,7 @@ export default function LeadsModal({
                     {/* Button */}
                     <button
                         disabled={isLoading}
-                        onClick={handleCreateAndUpdate}
+                        type="submit"
                         className="w-fit px-6 py-1 mt-8 bg-main-1 rounded-2xl pc:text-lg text-white">
                         {isLoading ? "Loading..." : newLead._id ? "Saqlash" : "Qo'shish"}
                     </button>

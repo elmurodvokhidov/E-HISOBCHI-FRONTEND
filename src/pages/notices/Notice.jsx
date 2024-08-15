@@ -2,17 +2,12 @@ import { useEffect, useState } from "react"
 import { IoMdMore } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import service from "../../config/service";
-import {
-    allNoticeSuccess,
-    getNoticeSuccess,
-    // newNoticeSuccess,
-    noticeFailure,
-    noticeStart
-} from "../../redux/slices/noticeSlice";
+import { allNoticeSuccess, getNoticeSuccess, noticeFailure, noticeStart } from "../../redux/slices/noticeSlice";
 import { Toast, ToastLeft } from "../../config/sweetToast";
 import NoticeModal from "./NoticeModal";
 import Swal from "sweetalert2";
 import { FormattedDate } from "../../components/FormattedDate";
+import { Bin, Pencil } from "../../assets/icons/Icons";
 
 function Notice() {
     const { notices, isLoading } = useSelector(state => state.notice);
@@ -82,34 +77,22 @@ function Notice() {
                     const { data } = await service.addNewNotice({ ...newNotice, userId: auth?._id });
                     getAllNoticesFunc();
                     clearModal();
-                    Toast.fire({
-                        icon: "success",
-                        title: data.message
-                    });
+                    Toast.fire({ icon: "success", title: data.message });
                 } else {
                     const { _id, __v, ...others } = newNotice;
                     const { data } = await service.updateNotice(newNotice._id, others);
                     dispatch(getNoticeSuccess(data));
                     getAllNoticesFunc();
                     clearModal();
-                    Toast.fire({
-                        icon: "success",
-                        title: data.message
-                    });
+                    Toast.fire({ icon: "success", title: data.message });
                 }
             } catch (error) {
                 dispatch(noticeFailure(error.response?.data.error));
-                ToastLeft.fire({
-                    icon: "error",
-                    title: error.response?.data.error || error.message
-                });
+                ToastLeft.fire({ icon: "error", title: error.response?.data.error || error.message });
             }
         }
         else {
-            ToastLeft.fire({
-                icon: "error",
-                title: "Iltimos, barcha bo'sh joylarni to'ldiring!"
-            });
+            ToastLeft.fire({ icon: "error", title: "Iltimos, barcha bo'sh joylarni to'ldiring!" });
         }
     };
 
@@ -127,16 +110,10 @@ function Notice() {
                 dispatch(noticeStart());
                 service.deleteNotice(id).then(() => {
                     getAllNoticesFunc();
-                    Toast.fire({
-                        icon: "success",
-                        title: "Xabar muvaffaqiyatli o'chirildi!"
-                    });
+                    Toast.fire({ icon: "success", title: "Xabar muvaffaqiyatli o'chirildi!" });
                 }).catch((error) => {
                     dispatch(noticeFailure(error.response?.data.message));
-                    ToastLeft.fire({
-                        icon: "error",
-                        title: error.response?.data.message || error.message
-                    });
+                    ToastLeft.fire({ icon: "error", title: error.response?.data.message || error.message });
                 });
             }
         });
@@ -242,9 +219,7 @@ function Notice() {
                                                                     onClick={() => openModal(notice._id)}
                                                                     className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"
                                                                 >
-                                                                    <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
-                                                                    </svg>
+                                                                    <Pencil />
                                                                     Tahrirlash
                                                                 </button>
 
@@ -253,9 +228,7 @@ function Notice() {
                                                                     onClick={() => deleteNotice(notice._id)}
                                                                     className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-red-500"
                                                                 >
-                                                                    <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"></path>
-                                                                    </svg>
+                                                                    <Bin />
                                                                     O'chirish
                                                                 </button>
                                                             </div>

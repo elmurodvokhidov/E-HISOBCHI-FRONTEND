@@ -73,34 +73,22 @@ export default function CostModal({
                     const { data } = await service.createNewCost({ ...newCost, author: auth?._id });
                     getAllCostFunction();
                     clearModal();
-                    Toast.fire({
-                        icon: "success",
-                        title: data?.message
-                    });
+                    Toast.fire({ icon: "success", title: data?.message });
                 } else {
                     // xarajat ma'lumotlarini tahrirlash
                     const { date, ...others } = newCost;
                     const { data } = await service.updateCost(newCost._id, { ...others, author: auth?._id });
                     getAllCostFunction();
                     clearModal();
-                    Toast.fire({
-                        icon: "success",
-                        title: data?.message
-                    });
+                    Toast.fire({ icon: "success", title: data?.message });
                 }
             }
             else {
-                ToastLeft.fire({
-                    icon: "error",
-                    title: "Iltimos barcha bo'sh joylarni to'ldiring!"
-                })
+                ToastLeft.fire({ icon: "error", title: "Iltimos barcha bo'sh joylarni to'ldiring!" })
             }
         } catch (error) {
             dispatch(costFailure(error.response?.data.message || error.message));
-            ToastLeft.fire({
-                icon: "error",
-                title: error.response?.data.message || error.message
-            });
+            ToastLeft.fire({ icon: "error", title: error.response?.data.message || error.message });
         }
     };
 
@@ -111,6 +99,7 @@ export default function CostModal({
             style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modals.costModal ? "1" : "0", zIndex: modals.costModal ? "20" : "-1" }}>
             <form
                 onClick={(e) => e.stopPropagation()}
+                onSubmit={createAndUpdateHandle}
                 className="lg:w-[27%] small:w-[60%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white"
                 style={{ right: modals.costModal ? "0" : "-200%" }}>
 
@@ -182,38 +171,21 @@ export default function CostModal({
                     </div>
 
                     {/* Method */}
-                    <div className="w-full">
-                        <p className="text-sm pc:text-lg">
+                    <div className="flex flex-col">
+                        <label htmlFor="method" className="text-sm pc:text-lg">
                             <span>To'lov usuli</span>
                             <span className="ml-1 text-red-500">*</span>
-                        </p>
-                        <div className="flex gap-6">
-                            <div className="flex items-center gap-1">
-                                <input
-                                    disabled={isLoading}
-                                    onChange={getCostCred}
-                                    checked={newCost.method === "cash"}
-                                    value="cash"
-                                    type="radio"
-                                    name="method"
-                                    id="cash"
-                                    className="border-gray-300 outline-main-1" />
-                                <label htmlFor="cash" className="text-sm pc:text-lg">Naqd pul</label>
-                            </div>
-
-                            <div className="flex items-center gap-1">
-                                <input
-                                    disabled={isLoading}
-                                    onChange={getCostCred}
-                                    checked={newCost.method === "card"}
-                                    value="card"
-                                    type="radio"
-                                    name="method"
-                                    id="card"
-                                    className="border-gray-300 outline-main-1" />
-                                <label htmlFor="card" className="text-sm pc:text-lg">Plastik kartasi</label>
-                            </div>
-                        </div>
+                        </label>
+                        <select
+                            onChange={getCostCred}
+                            value={newCost.method}
+                            name="method"
+                            id="method"
+                            className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1">
+                            <option value="" className="italic">None</option>
+                            <option value="cash">Naqd pul</option>
+                            <option value="card">Plastik kartasi</option>
+                        </select>
                     </div>
 
                     {/* Amount */}
@@ -235,7 +207,7 @@ export default function CostModal({
                     {/* Button */}
                     <button
                         disabled={isLoading}
-                        onClick={createAndUpdateHandle}
+                        type="submit"
                         className="w-fit px-6 py-1 mt-8 pc:text-lg bg-main-1 outline-none rounded-2xl text-white">
                         {isLoading ? "Loading..." : "Saqlash"}
                     </button>

@@ -18,7 +18,9 @@ function NoticeEditModal({
         <div onClick={clearModal}
             className="w-full h-screen fixed top-0 left-0 z-20"
             style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modals.modal ? "1" : "0", zIndex: modals.modal ? "20" : "-1" }}>
-            <form onClick={(e) => e.stopPropagation()}
+            <form
+                onClick={(e) => e.stopPropagation()}
+                onSubmit={handleCreateAndUpdate}
                 className="lg:w-[27%] small:w-[60%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white"
                 style={{ right: modals.modal ? "0" : "-200%" }}>
 
@@ -94,10 +96,10 @@ function NoticeEditModal({
                                 className="border-2 border-gray-300 rounded px-2 py-1" />
                         </div>
                     </div>
-                    
+
                     <button
                         disabled={isLoading ? true : false}
-                        onClick={handleCreateAndUpdate}
+                        type="submit"
                         className="w-fit px-6 py-1 mt-8 bg-main-1 rounded-2xl text-white">
                         {isLoading ? "Loading..." : newNotice._id ? "Saqlash" : "Qo'shish"}
                     </button>

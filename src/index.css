@@ -188,16 +188,6 @@ input[type=number]::-webkit-outer-spin-button {
     }
 }
 
-.roomsTable th {
-    padding: 12px 5px;
-    font-size: 12px;
-}
-
-.roomsTable td {
-    padding: 12px 5px;
-    font-size: 14px;
-}
-
 .courseCard:hover h2 {
     color: rgb(8, 145, 178);
 }

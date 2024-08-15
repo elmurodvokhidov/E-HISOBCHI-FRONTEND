@@ -34,6 +34,7 @@ function StudentModal({
             style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modals.modal ? "1" : "0", zIndex: modals.modal ? "20" : "-1" }}>
             <form
                 onClick={(e) => e.stopPropagation()}
+                onSubmit={handleCreateAndUpdate}
                 className="lg:w-[27%] small:w-[60%] h-screen overflow-auto fixed top-0 right-0 transition-all duration-300 bg-white"
                 style={{ right: modals.modal ? "0" : "-200%" }}>
 
@@ -117,41 +118,6 @@ function StudentModal({
                         </div>
                     </div>
 
-                    {/* Gender */}
-                    <div className="w-full">
-                        <p className="text-sm pc:text-lg">
-                            <span>Gender</span>
-                            <span className="ml-1 text-red-500">*</span>
-                        </p>
-                        <div className="flex gap-6">
-                            <div className="flex items-center gap-1">
-                                <input
-                                    disabled={newStudent._id ? modals.passModal : false}
-                                    onChange={getStudentCred}
-                                    checked={newStudent.gender === 'erkak'}
-                                    value="erkak"
-                                    type="radio"
-                                    name="gender"
-                                    id="erkak"
-                                    className="border-gray-300 outline-main-1" />
-                                <label htmlFor="erkak" className="text-sm pc:text-lg">Erkak</label>
-                            </div>
-
-                            <div className="flex items-center gap-1">
-                                <input
-                                    disabled={newStudent._id ? modals.passModal : false}
-                                    onChange={getStudentCred}
-                                    checked={newStudent.gender === 'ayol'}
-                                    value="ayol"
-                                    type="radio"
-                                    name="gender"
-                                    id="ayol"
-                                    className="border-gray-300 outline-main-1" />
-                                <label htmlFor="ayol" className="text-sm pc:text-lg">Ayol</label>
-                            </div>
-                        </div>
-                    </div>
-
                     {/* Groups */}
                     <div className="w-full flex flex-col">
                         <label htmlFor="group" className="text-sm pc:text-lg">Guruh</label>
@@ -192,36 +158,35 @@ function StudentModal({
                         </> : null
                     }
                     {
-                        modals.passModal ? <>
-                            <div className="flex justify-between">
-                                <div className="w-[47%] flex flex-col">
-                                    <label htmlFor="newPassword" className="text-sm pc:text-lg">
-                                        <span>Yangi parol</span>
-                                        <span className="ml-1 text-red-500">*</span>
-                                    </label>
-                                    <input
-                                        onChange={getNewPass}
-                                        value={newStudent.newPassword}
-                                        type="text"
-                                        name="newPassword"
-                                        id="newPassword"
-                                        className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
-                                </div>
-                                <div className="w-[47%] flex flex-col">
-                                    <label htmlFor="confirmPassword" className="text-sm pc:text-lg">
-                                        <span>Parolni tasdiqlang</span>
-                                        <span className="ml-1 text-red-500">*</span>
-                                    </label>
-                                    <input
-                                        onChange={getNewPass}
-                                        value={newStudent.confirmPassword}
-                                        type="text"
-                                        name="confirmPassword"
-                                        id="confirmPassword"
-                                        className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
-                                </div>
+                        modals.passModal &&
+                        <div className="flex justify-between">
+                            <div className="w-[47%] flex flex-col">
+                                <label htmlFor="newPassword" className="text-sm pc:text-lg">
+                                    <span>Yangi parol</span>
+                                    <span className="ml-1 text-red-500">*</span>
+                                </label>
+                                <input
+                                    onChange={getNewPass}
+                                    value={newStudent.newPassword}
+                                    type="text"
+                                    name="newPassword"
+                                    id="newPassword"
+                                    className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
                             </div>
-                        </> : null
+                            <div className="w-[47%] flex flex-col">
+                                <label htmlFor="confirmPassword" className="text-sm pc:text-lg">
+                                    <span>Parolni tasdiqlang</span>
+                                    <span className="ml-1 text-red-500">*</span>
+                                </label>
+                                <input
+                                    onChange={getNewPass}
+                                    value={newStudent.confirmPassword}
+                                    type="text"
+                                    name="confirmPassword"
+                                    id="confirmPassword"
+                                    className="border-2 border-gray-300 rounded px-2 py-1 pc:text-lg outline-main-1" />
+                            </div>
+                        </div>
                     }
 
                     {/* Parents */}
@@ -324,7 +289,7 @@ function StudentModal({
                     {/* Button */}
                     <button
                         disabled={isLoading}
-                        onClick={handleCreateAndUpdate}
+                        type="submit"
                         className="w-fit px-6 py-1 mt-8 pc:text-lg bg-main-1 rounded-2xl text-white">
                         {isLoading ? "Loading..." : newStudent._id ? "Saqlash" : "Qo'shish"}
                     </button>

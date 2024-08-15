@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import service from "../config/service";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { MdCheck, MdClose, MdSkipNext, MdSkipPrevious } from "react-icons/md";
-import { NavLink } from "react-router-dom";
 import Skeleton from "./loaders/Skeleton";
-import { getCookie } from "../config/cookiesService";
 import { Toast } from "../config/sweetToast";
+import calculateCourseDays from "../config/courseDays";
 
 export default function Attendance({ group, isLoading }) {
     const [today, setToday] = useState(null);
@@ -13,9 +12,12 @@ export default function Attendance({ group, isLoading }) {
     const [loadingCell, setLoadingCell] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 13;
+    const { start_date, end_date, day } = group;
 
+    // Guruhni dars bor kunlarini aniqlash
+    const courseDays = calculateCourseDays(start_date, end_date, day);
     // Umumiy sahifalar sonini hisoblash
-    const totalPages = Math.ceil(group.course_days.length / itemsPerPage);
+    const totalPages = Math.ceil(courseDays.length / itemsPerPage);
 
     // Barcha davomat ro'yhatini olish funksiyasi
     const getAllAttendanceFunction = async () => {
@@ -34,7 +36,7 @@ export default function Attendance({ group, isLoading }) {
                 const { data } = await service.getCurrentDate();
                 setToday(data.today);
                 // Bugungi sana guruh kunlari ichida ekanligini tekshirish
-                const todayIndex = group.course_days.findIndex(date => date >= data.today);
+                const todayIndex = courseDays.findIndex(date => date >= data.today);
                 // Agar guruh sanasi topilsa shu sana joylashgan pagination'ga o'tkazish
                 if (todayIndex !== -1) {
                     setCurrentPage(Math.ceil((todayIndex + 1) / itemsPerPage));
@@ -58,20 +60,14 @@ export default function Attendance({ group, isLoading }) {
                 await service.calcTeacherSalary(student, date);
             } catch (error) {
                 console.log(error.response?.data.message || error.message);
-                // Toast.fire({
-                //     icon: "error",
-                //     title: error.response?.data.message || error.message
-                // });
+                Toast.fire({ icon: "error", title: error.response?.data.message || error.message });
             }
 
             // Then, update the attendance record
             try {
                 await service.checkAttendance({ student, date, present }, group._id);
             } catch (error) {
-                Toast.fire({
-                    icon: "error",
-                    title: "Davomatni yangilab bo'lmadi!"
-                });
+                Toast.fire({ icon: "error", title: "Davomatni yangilab bo'lmadi!" });
             }
 
             // Fetch updated attendance data
@@ -119,7 +115,7 @@ export default function Attendance({ group, isLoading }) {
     // Pagination'da ko'rsatiladigan student'larni hisoblash funksiyasi
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentDates = group.course_days.slice(indexOfFirstItem, indexOfLastItem);
+    const currentDates = courseDays.slice(indexOfFirstItem, indexOfLastItem);
 
     // Sanani tegishli oy nomi bilan formatlash funksiyasi
     const formatDate = (date) => {

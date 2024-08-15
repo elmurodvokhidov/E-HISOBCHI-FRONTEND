@@ -279,6 +279,10 @@ const service = {
         const res = api.delete(`/admin/delete-group/${id}`);
         return res;
     },
+    async removeFromGroup(studentId) {
+        const res = api.delete(`/admin/remove-from-group/${studentId}`);
+        return res;
+    },
 
 
 

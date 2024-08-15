@@ -41,6 +41,7 @@ export default function AdminModal({
             style={{ background: "rgba(0, 0, 0, 0.650)", opacity: modals.modal ? "1" : "0", zIndex: modals.modal ? "20" : "-1" }}>
             <form
                 onClick={(e) => e.stopPropagation()}
+                onSubmit={handleCreateAndUpdate}
                 className="lg:w-[27%] small:w-[60%] h-screen fixed top-0 right-0 overflow-y-auto transition-all duration-300 bg-white"
                 style={{ right: modals.modal ? "0" : "-200%" }}>
                 <div className="flex justify-between text-xl pc:text-2xl p-5 border-b-2">
@@ -130,7 +131,7 @@ export default function AdminModal({
                         <input
                             disabled={newAdmin._id ? modals.passModal : false}
                             onChange={getAuthCred}
-                            value={newAdmin.role}
+                            value={newAdmin.role || ""}
                             type="text"
                             name="role"
                             id="role"
@@ -158,7 +159,7 @@ export default function AdminModal({
                                         <span className="ml-1 text-red-500">*</span>
                                     </label>
                                     <input
-                                        onChange={(e) => getNewPass(e)}
+                                        onChange={getNewPass}
                                         type="text"
                                         name="newPassword"
                                         id="newPassword"
@@ -170,7 +171,7 @@ export default function AdminModal({
                                         <span className="ml-1 text-red-500">*</span>
                                     </label>
                                     <input
-                                        onChange={(e) => getNewPass(e)}
+                                        onChange={getNewPass}
                                         type="text"
                                         name="confirmPassword"
                                         id="confirmPassword"
@@ -212,7 +213,7 @@ export default function AdminModal({
                     {/* Button */}
                     <button
                         disabled={isLoading ? true : modals.imageModal ? newAdmin.avatar === "" ? true : false : false}
-                        onClick={handleCreateAndUpdate}
+                        type="submit"
                         className="w-fit px-6 py-1 mt-8 pc:text-lg bg-main-1 rounded-2xl text-white">
                         {isLoading ? "Loading..." : newAdmin._id ? "Saqlash" : "Qo'shish"}
                     </button>

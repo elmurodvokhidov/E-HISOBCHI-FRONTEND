@@ -2,12 +2,7 @@ import { useEffect, useState } from "react"
 import service from "../../config/service";
 import { useDispatch, useSelector } from "react-redux";
 import { IoMdMore } from "react-icons/io";
-import {
-    allTeacherSuccess,
-    getTeacherSuccess,
-    teacherFailure,
-    teacherStart
-} from "../../redux/slices/teacherSlice";
+import { allTeacherSuccess, getTeacherSuccess, teacherFailure, teacherStart } from "../../redux/slices/teacherSlice";
 import { NavLink } from "react-router-dom";
 import { Toast, ToastLeft } from "../../config/sweetToast";
 import TeacherModal from "./TeacherModal";
@@ -17,6 +12,7 @@ import tick from "../../assets/icons/tick.svg";
 import copy from "../../assets/icons/copy.svg";
 import * as XLSX from 'xlsx';
 import { MdFileDownload } from "react-icons/md";
+import { Bin, Pencil } from "../../assets/icons/Icons";
 
 function Teachers() {
     const { teachers, isLoading } = useSelector(state => state.teacher);
@@ -26,7 +22,6 @@ function Teachers() {
         last_name: "",
         dob: "",
         phoneNumber: "",
-        gender: "",
     });
     const [newPass, setNewPass] = useState({
         newPassword: "",
@@ -73,7 +68,6 @@ function Teachers() {
             last_name: "",
             dob: "",
             phoneNumber: "",
-            gender: "",
         });
         setNewPass({ newPassword: "", confirmPassword: "" });
         setModals({
@@ -109,8 +103,7 @@ function Teachers() {
             if (
                 newTeacher.first_name !== "" &&
                 newTeacher.last_name !== "" &&
-                newTeacher.phoneNumber !== "" &&
-                newTeacher.gender !== ""
+                newTeacher.phoneNumber !== ""
             ) {
                 dispatch(teacherStart());
                 try {
@@ -126,7 +119,7 @@ function Teachers() {
                         }
                     } else {
                         // o'qituvchi ma'lumotlarini o'zgartirish
-                        const { _id, __v, groups, password, createdAt, updatedAt, ...newTeacherCred } = newTeacher;
+                        const { _id, __v, createdAt, updatedAt, ...newTeacherCred } = newTeacher;
                         const { data } = await service.updateTeacher(newTeacher._id, newTeacherCred);
                         dispatch(getTeacherSuccess(data));
                         getAllTeachersFunc();
@@ -177,7 +170,7 @@ function Teachers() {
     // Barcha o'qituvchilar ma'lumotlarini exel fayli sifatida yuklab olish funksiyasi
     const exportToExcel = () => {
         const fileName = 'teachers.xlsx';
-        const header = ['Ism', 'Familya', 'Tug\'ilgan sana', 'Telefon', 'Jins'];
+        const header = ["Ism", "Familya", "Tug'ilgan sana", "Telefon"];
 
         const wb = XLSX.utils.book_new();
         const data = teachers.map(teacher => [
@@ -185,7 +178,6 @@ function Teachers() {
             teacher.last_name || '',
             teacher.dob || '',
             (teacher.phoneNumber || '').toString(),
-            teacher.gender || '',
         ]);
         data.unshift(header);
         const ws = XLSX.utils.aoa_to_sheet(data);
@@ -246,18 +238,14 @@ function Teachers() {
                                             onClick={() => openModal(teacher)}
                                             className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"
                                         >
-                                            <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
-                                            </svg>
+                                            <Pencil />
                                             Tahrirlash
                                         </button>
                                         <button
                                             onClick={() => deleteTeacher(teacher._id)}
                                             className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-red-500"
                                         >
-                                            <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"></path>
-                                            </svg>
+                                            <Bin />
                                             O'chirish
                                         </button>
                                     </div>

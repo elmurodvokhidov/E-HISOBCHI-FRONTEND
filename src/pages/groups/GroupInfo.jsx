@@ -1,32 +1,16 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import service from "../../config/service";
-import {
-    getGroupSuccess,
-    groupFailure,
-    groupStart
-} from "../../redux/slices/groupSlice";
+import { getGroupSuccess, groupFailure, groupStart } from "../../redux/slices/groupSlice";
 import { Toast, ToastLeft } from "../../config/sweetToast";
 import { useDispatch, useSelector } from "react-redux";
 import { GoDotFill, GoHorizontalRule } from "react-icons/go";
 import { IoIosArrowRoundForward, IoMdMore } from "react-icons/io";
 import Swal from "sweetalert2";
 import GroupModal from "./GroupModal";
-import {
-    allCourseSuccess,
-    courseFailure,
-    courseStart
-} from "../../redux/slices/courseSlice";
-import {
-    allTeacherSuccess,
-    teacherFailure,
-    teacherStart
-} from "../../redux/slices/teacherSlice";
-import {
-    allRoomSuccess,
-    roomFailure,
-    roomStart
-} from "../../redux/slices/roomSlice";
+import { allCourseSuccess, courseFailure } from "../../redux/slices/courseSlice";
+import { allTeacherSuccess, teacherFailure } from "../../redux/slices/teacherSlice";
+import { allRoomSuccess, roomFailure } from "../../redux/slices/roomSlice";
 import Skeleton from "../../components/loaders/Skeleton";
 import Attendance from "../../components/Attendance";
 import { days } from "../../config/days";
@@ -35,10 +19,10 @@ import copy from "../../assets/icons/copy.svg";
 import { MdFileDownload } from "react-icons/md";
 import * as XLSX from 'xlsx';
 import { FormattedDate } from "../../components/FormattedDate";
+import { Bin, Pencil } from "../../assets/icons/Icons";
 
 function GroupInfo() {
     const { group, isLoading } = useSelector(state => state.group);
-    const { auth } = useSelector(state => state.auth);
     const { courses } = useSelector(state => state.course);
     const { teachers } = useSelector(state => state.teacher);
     const { rooms } = useSelector(state => state.room);
@@ -121,7 +105,6 @@ function GroupInfo() {
 
     const getAllCoursesFunc = async () => {
         try {
-            dispatch(courseStart());
             const { data } = await service.getAllCourses();
             dispatch(allCourseSuccess(data));
         } catch (error) {
@@ -131,7 +114,6 @@ function GroupInfo() {
 
     const getAllTeachersFunc = async () => {
         try {
-            dispatch(teacherStart());
             const { data } = await service.getAllTeachers();
             dispatch(allTeacherSuccess(data));
         } catch (error) {
@@ -141,7 +123,6 @@ function GroupInfo() {
 
     const getAllRoomsFunc = async () => {
         try {
-            dispatch(roomStart());
             const { data } = await service.getAllRooms();
             dispatch(allRoomSuccess(data));
         } catch (error) {
@@ -169,7 +150,7 @@ function GroupInfo() {
         ) {
             try {
                 dispatch(groupStart());
-                const { _id, __v, due_dates, students, end_time, attendance, createdAt, updatedAt, ...updatedGroupCred } = newGroup;
+                const { _id, __v, createdAt, updatedAt, ...updatedGroupCred } = newGroup;
                 const { data } = await service.updateGroup(newGroup._id, updatedGroupCred);
                 dispatch(getGroupSuccess(data));
                 getGroupFunc();
@@ -212,7 +193,7 @@ function GroupInfo() {
     // Guruhdagi barcha o'quvchilar ma'lumotlarini exel fayli sifatida yuklab olish funksiyasi
     const exportToExcel = () => {
         const fileName = 'group_students.xlsx';
-        const header = ['First Name', 'Last Name', 'Father Name', 'Mother Name', 'Date of Birth', 'Contact Number', 'Father Contact Number', 'Mother Contact Number', 'Gender', 'Group'];
+        const header = ["Ism", "Familya", "Otasining ismi", "Onasining ismi", "Tug'ilgan sana", "Telefon raqam", "Otasining raqami", "Onasining raqami", "Guruh nomi"];
 
         const wb = XLSX.utils.book_new();
         const data = group?.students.map(student => [
@@ -224,7 +205,6 @@ function GroupInfo() {
             (student.phoneNumber || '').toString(),
             (student.fatherPhoneNumber || '').toString(),
             (student.motherPhoneNumber || '').toString(),
-            student.gender || '',
             student.group.name || ''
         ]);
         data.unshift(header);
@@ -237,8 +217,34 @@ function GroupInfo() {
         XLSX.writeFile(wb, fileName);
     };
 
+    // Xabar jo'natish
+    const sendSms = () => { };
+
+    // O'quvchini guruhdan chiqarish
+    const removeFromGroup = (studentId) => {
+        Swal.fire({
+            title: "Ishonchingiz komilmi?",
+            text: "Buni qaytara olmaysiz!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Yo'q",
+            confirmButtonText: "Ha, albatta!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                service.removeFromGroup(studentId).then((res) => {
+                    getGroupFunc();
+                    Toast.fire({ icon: "success", title: res?.data.message });
+                }).catch((error) => {
+                    ToastLeft.fire({ icon: "error", title: error.response?.data.message || error.message });
+                });
+            }
+        });
+    };
+
     return (
-        <div className="container">
+        <div className="container" onClick={() => handleModal("more", null)}>
             <div className="flex items-center gap-3 text-2xl pc:text-3xl">
                 {group && <>
                     <span>{group.name}</span>
@@ -306,16 +312,12 @@ function GroupInfo() {
                                     <button
                                         onClick={openModal}
                                         className="size-8 pc:size-10 flex items-center justify-center border border-main-1 rounded-full text-main-1 hover:text-white hover:bg-main-1">
-                                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
-                                        </svg>
+                                        <Pencil />
                                     </button>
                                     <button
                                         onClick={() => deleteHandler(group._id)}
                                         className="size-8 pc:size-10 flex items-center justify-center border border-red-500 rounded-full text-red-500 hover:text-white hover:bg-red-500">
-                                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"></path>
-                                        </svg>
+                                        <Bin />
                                     </button>
                                 </div>
                             </div>
@@ -381,9 +383,28 @@ function GroupInfo() {
                                                         alt="copy svg"
                                                         className="size-3" />
                                                 </h1>
-                                                <button>
-                                                    <IoMdMore className="text-lg pc:text-xl text-main-1" />
-                                                </button>
+                                                {/* more button */}
+                                                <div onClick={(e) => {
+                                                    e.stopPropagation()
+                                                    handleModal("more", student._id)
+                                                }} className="relative cursor-pointer text-main-1 text-xl">
+                                                    <IoMdMore />
+                                                    {/* more btn modal */}
+                                                    <div className={`${modals.more === student._id ? 'flex' : 'hidden'} none w-fit more flex-col absolute small:left-8 top-2 p-1 shadow-smooth rounded-lg text-[13px] pc:text-base pc:p-2 bg-white whitespace-nowrap`}>
+                                                        <button
+                                                            onClick={() => sendSms(student)}
+                                                            className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-green-500"
+                                                        >
+                                                            Xabar jo'natish
+                                                        </button>
+                                                        <button
+                                                            onClick={() => removeFromGroup(student._id)}
+                                                            className="flex items-center gap-3 px-6 py-2 z-[5] hover:bg-gray-100 text-red-500"
+                                                        >
+                                                            Guruhdan chiqarish
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         ))}
 
@@ -419,9 +440,8 @@ function GroupInfo() {
                     {/* Davomat jadval */}
                     <div className="2xl:w-2/3 pt-4 px-4 overflow-x-auto">
                         {
-                            group?.students?.length > 0 ?
-                                <Attendance group={group} isLoading={isLoading} />
-                                : null
+                            group?.students?.length > 0 &&
+                            <Attendance group={group} isLoading={isLoading} />
                         }
                     </div>
                 </> :

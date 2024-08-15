@@ -1,16 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import service from "../../config/service";
-import {
-    allGroupSuccess,
-    groupFailure,
-    groupStart
-} from "../../redux/slices/groupSlice";
-import {
-    getStudentSuccess,
-    studentFailure,
-    studentStart
-} from "../../redux/slices/studentSlice";
+import { allGroupSuccess, groupFailure, groupStart } from "../../redux/slices/groupSlice";
+import { getStudentSuccess, studentFailure, studentStart } from "../../redux/slices/studentSlice";
 import { Toast, ToastLeft } from "../../config/sweetToast";
 import StudentModal from "./StudentModal";
 import Skeleton from "../../components/loaders/Skeleton";
@@ -19,13 +11,12 @@ import { NavLink, useParams } from "react-router-dom";
 import { days } from "../../config/days";
 import { IoPersonCircleOutline, IoRemoveOutline } from "react-icons/io5";
 import PaymentModal from "./PaymentModal";
-import { getCookie } from "../../config/cookiesService";
 import { MdOutlinePrint } from "react-icons/md";
-import { IoMdMore } from "react-icons/io";
 import Swal from "sweetalert2";
 import { FormattedDate } from "../../components/FormattedDate";
 import Receipt from "../../components/Receipt";
 import { companyFailure, companyStart, companySuccess } from "../../redux/slices/companySlice";
+import { Bin, Pencil } from "../../assets/icons/Icons";
 
 function StudentProfile() {
     const { auth } = useSelector(state => state.auth);
@@ -50,7 +41,6 @@ function StudentProfile() {
         phoneNumber: "",
         fatherPhoneNumber: "",
         motherPhoneNumber: "",
-        gender: "",
         group: "",
     });
     const [newPass, setNewPass] = useState({
@@ -78,10 +68,7 @@ function StudentProfile() {
             dispatch(getStudentSuccess(data));
         } catch (error) {
             dispatch(studentFailure(error.response?.data.message));
-            Toast.fire({
-                icon: "error",
-                title: error.response?.data.message || error.message,
-            });
+            Toast.fire({ icon: "error", title: error.response?.data.message || error.message, });
         }
     };
 
@@ -132,7 +119,6 @@ function StudentProfile() {
             phoneNumber: "",
             fatherPhoneNumber: "",
             motherPhoneNumber: "",
-            gender: "",
             group: "",
         });
         setNewPass({ newPassword: "", confirmPassword: "" });
@@ -187,7 +173,7 @@ function StudentProfile() {
                 dispatch(studentStart());
                 try {
                     // o'quvchi ma'lumotlarini o'zgartirish
-                    const { _id, __v, password, createdAt, updatedAt, ...newStudentCred } = newStudent;
+                    const { _id, __v, createdAt, updatedAt, ...newStudentCred } = newStudent;
                     const { data } = await service.updateStudent(newStudent._id, newStudentCred);
                     await service.caclStudentBalance();
                     dispatch(getStudentSuccess(data));
@@ -242,10 +228,7 @@ function StudentProfile() {
     };
 
     return (
-        <div
-            className="container"
-            onClick={() => handleModal("more", null)}
-        >
+        <div className="container" onClick={() => handleModal("more", null)}>
             <div className="lg:flex gap-8">
                 {isLoading || !student ?
                     <div className="w-[410px] pc:w-[460px]">
@@ -266,9 +249,7 @@ function StudentProfile() {
                                                     className="w-full h-full object-cover"
                                                     src={student?.avatar}
                                                     alt="logo"
-                                                /> : <>
-                                                    <IoPersonCircleOutline className="w-full h-full text-gray-400" />
-                                                </>
+                                                /> : <IoPersonCircleOutline className="w-full h-full text-gray-400" />
                                             }
                                         </figure>
                                         <div>
@@ -297,8 +278,7 @@ function StudentProfile() {
                                         }
                                     </div>
 
-                                    <div className="flex items-center justify-between gap-20">
-                                        <p className="w-fit px-2 rounded bg-gray-200">{student?.gender}</p>
+                                    <div className="flex items-center justify-end gap-20">
                                         {
                                             isAdmin ?
                                                 <button
@@ -317,13 +297,7 @@ function StudentProfile() {
                                         onClick={() => handleModal("extra", !modals.extra)}
                                         type="button"
                                         className="flex items-center justify-end gap-1 text-sm pc:text-base outline-none mt-2">
-                                        {
-                                            modals.extra
-                                                ?
-                                                <FaAngleUp />
-                                                :
-                                                <FaAngleDown />
-                                        }
+                                        {modals.extra ? <FaAngleUp /> : <FaAngleDown />}
                                         Batafsil
                                     </button>
                                     {
@@ -382,9 +356,7 @@ function StudentProfile() {
                                         disabled={isLoading}
                                         onClick={openModal}
                                         className="size-8 pc:size-10 flex items-center justify-center text-lg pc:text-xl border rounded-full text-main-1 border-main-1 hover:bg-main-1 hover:text-white transition-all duration-300">
-                                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
-                                        </svg>
+                                        <Pencil />
                                     </button>
                                 </div>
                             </div>
@@ -441,9 +413,9 @@ function StudentProfile() {
                                 <h1 className="text-gray-500 text-base pc:text-lg border-b-2 pb-2">To'lovlar</h1>
                                 <div className="shadow-smooth rounded px-6 pb-4 mt-6 overflow-y-auto bg-white">
                                     <div className="w-fit flex lg:gap-4 p-2 text-sm pc:text-sm sticky top-0 bg-white pt-6">
-                                        <h1 className="min-w-[150px]">Sana</h1>
-                                        <h1 className="min-w-[200px]">Miqdor</h1>
-                                        <h1 className="min-w-[440px]">Izoh</h1>
+                                        <h1 className="min-w-[150px] pc:min-w-[200px]">Sana</h1>
+                                        <h1 className="min-w-[200px] pc:min-w-[250px]">Miqdor</h1>
+                                        <h1 className="min-w-[440px] pc:min-w-[410px]">Izoh</h1>
                                     </div>
                                     <div className="w-fit max-h-60">
                                         {
@@ -468,28 +440,23 @@ function StudentProfile() {
                                                     </h1>
                                                     {/* more button */}
                                                     {
-                                                        isAdmin ?
-                                                            <div className="flex items-center gap-2 w-fit text-sm pc:text-base">
-                                                                <button
-                                                                    className="text-green-500"
-                                                                >
-                                                                    <MdOutlinePrint onClick={() => printReceipt(pay)} className="text-lg pc:text-xl" />
-                                                                </button>
-                                                                <button onClick={() => updateBtnFunc(pay)}>
-                                                                    <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path><path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
-                                                                    </svg>
-                                                                </button>
-                                                                <button
-                                                                    onClick={() => deleteStudentPayHistory(pay._id)}
-                                                                    className="text-red-500"
-                                                                >
-                                                                    <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"></path>
-                                                                    </svg>
-                                                                </button>
-                                                            </div>
-                                                            : null
+                                                        isAdmin &&
+                                                        <div className="flex items-center gap-2 w-fit text-sm pc:text-base">
+                                                            <button
+                                                                className="text-green-500"
+                                                            >
+                                                                <MdOutlinePrint onClick={() => printReceipt(pay)} className="text-lg pc:text-xl" />
+                                                            </button>
+                                                            <button onClick={() => updateBtnFunc(pay)}>
+                                                                <Pencil />
+                                                            </button>
+                                                            <button
+                                                                onClick={() => deleteStudentPayHistory(pay._id)}
+                                                                className="text-red-500"
+                                                            >
+                                                                <Bin />
+                                                            </button>
+                                                        </div>
                                                     }
                                                 </div>
                                             ))
