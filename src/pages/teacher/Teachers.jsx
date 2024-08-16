@@ -86,7 +86,7 @@ function Teachers() {
             if (newPass.newPassword.length >= 8) {
                 try {
                     dispatch(teacherStart());
-                    const { data } = await service.updateTeacherPass({ ...newPass, phoneNumber: newTeacher.phoneNumber });
+                    const { data } = await service.updateTeacherPass({ ...newPass, id: newTeacher._id });
                     dispatch(getTeacherSuccess(data));
                     clearModal();
                     Toast.fire({ icon: "success", title: data.message });

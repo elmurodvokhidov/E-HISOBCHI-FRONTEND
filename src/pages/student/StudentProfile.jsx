@@ -150,7 +150,7 @@ function StudentProfile() {
             if (newPass.newPassword.length >= 8) {
                 try {
                     dispatch(studentStart());
-                    const { data } = await service.updateStudentPass({ ...newPass, _id: newStudent._id });
+                    const { data } = await service.updateStudentPass({ ...newPass, id: newStudent._id });
                     dispatch(getStudentSuccess(data));
                     clearModal();
                     Toast.fire({ icon: "success", title: data.message });

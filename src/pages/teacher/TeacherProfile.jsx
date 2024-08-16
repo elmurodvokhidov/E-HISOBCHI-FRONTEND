@@ -111,7 +111,7 @@ export default function TeacherProfile() {
             if (newPass.newPassword.length >= 8) {
                 try {
                     dispatch(teacherStart());
-                    const { data } = await service.updateTeacherPass({ ...newPass, _id: newTeacher._id });
+                    const { data } = await service.updateTeacherPass({ ...newPass, id: newTeacher._id });
                     dispatch(getTeacherSuccess(data));
                     clearModal();
                     Toast.fire({ icon: "success", title: data.message });
@@ -293,10 +293,10 @@ export default function TeacherProfile() {
                                                             <div className="flex flex-col">
                                                                 <div className="text-xs pc:text-sm text-gray-500">
                                                                     <h1 className="flex items-center gap-1">
-                                                                        <FormattedDate date={group.start_date} />
+                                                                        <FormattedDate date={group?.start_date} />
                                                                         <IoRemoveOutline />
                                                                     </h1>
-                                                                    <FormattedDate date={group.end_date} />
+                                                                    <FormattedDate date={group?.end_date} />
                                                                 </div>
                                                                 <div className="flex items-center gap-1 text-xs pc:text-sm text-gray-500">
                                                                     <h1>{days.find(day => day.value === group.day)?.title}</h1>
@@ -335,7 +335,7 @@ export default function TeacherProfile() {
                                                     className="studentPayHistory flex lg:gap-4 p-2 rounded odd:bg-gray-100"
                                                 >
                                                     <p className="min-w-[150px] text-sm">
-                                                        <FormattedDate date={pay.date} />
+                                                        <FormattedDate date={pay?.date} />
                                                     </p>
                                                     <p className="min-w-[200px] text-base text-red-500">
                                                         <span>-</span>
