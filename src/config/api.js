@@ -1,4 +1,6 @@
 import axios from "axios";
-// const api = axios.create({ baseURL: "https://backend.e-hisobchi.uz/api" });
-const api = axios.create({ baseURL: "http://localhost:5000/api" });
+// const baseURL = "https://backend.e-hisobchi.uz/api";
+const baseURL = "https://uitc-crm-api.onrender.com/api";
+// const baseURL = "http://localhost:5000/api";
+const api = axios.create({ baseURL });
 export default api;

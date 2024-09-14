@@ -61,22 +61,22 @@ input[type=number]::-webkit-outer-spin-button {
     width: 6px;
     height: 100%;
     border-radius: 4px;
-    background: rgb(8, 145, 178);
+    background: #4dace4;
 }
 
 .sidebar a.active,
 .activeDiv {
-    color: rgb(8, 145, 178);
+    color: #4dace4;
 }
 
 .sidebar .cell:hover,
 .extraModal a:hover {
-    color: rgb(8 145 178);
+    color: #4dace4;
 }
 
 .global_add_btn {
     color: white;
-    background-color: rgb(8 145 178);
+    background-color: #4dace4;
     font-size: 0.875rem;
     line-height: 1.25rem;
     border-radius: 1rem;
@@ -88,7 +88,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .global_add_btn:hover {
     color: white;
-    background-color: rgb(8, 114, 141);
+    background-color: #0891b2;
 }
 
 .more::before {
@@ -112,20 +112,6 @@ input[type=number]::-webkit-outer-spin-button {
     left: 90%;
 }
 
-@keyframes jump {
-
-    0%,
-    100% {
-        transform: translateY(-70%);
-        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-    }
-
-    50% {
-        transform: none;
-        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
-    }
-}
-
 .animate-jump {
     animation: jump 1s infinite;
 }
@@ -144,20 +130,6 @@ input[type=number]::-webkit-outer-spin-button {
     animation-range: entry 20% cover 20%;
 }
 
-@keyframes fade {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-
-    0% {
-        opacity: 0;
-    }
-}
-
 .loader_dots_jump {
     width: 30px;
     aspect-ratio: 2.5;
@@ -170,26 +142,8 @@ input[type=number]::-webkit-outer-spin-button {
     animation: l3 1s infinite linear;
 }
 
-@keyframes l3 {
-    20% {
-        background-position: 0% 0%, 50% 50%, 100% 50%
-    }
-
-    40% {
-        background-position: 0% 100%, 50% 0%, 100% 50%
-    }
-
-    60% {
-        background-position: 0% 50%, 50% 100%, 100% 0%
-    }
-
-    80% {
-        background-position: 0% 50%, 50% 50%, 100% 100%
-    }
-}
-
 .courseCard:hover h2 {
-    color: rgb(8, 145, 178);
+    color: #4dace4;
 }
 
 #downloadExelBtn:hover::before {
@@ -229,8 +183,54 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .underscore {
-    border-bottom: 2px solid rgb(8, 145, 178);
-    color: rgb(8, 145, 178);
+    border-bottom: 2px solid #4dace4;
+    color: #4dace4;
+}
+
+@keyframes jump {
+
+    0%,
+    100% {
+        transform: translateY(-70%);
+        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+
+    50% {
+        transform: none;
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+    0% {
+        opacity: 0;
+    }
+}
+
+@keyframes l3 {
+    20% {
+        background-position: 0% 0%, 50% 50%, 100% 50%
+    }
+
+    40% {
+        background-position: 0% 100%, 50% 0%, 100% 50%
+    }
+
+    60% {
+        background-position: 0% 50%, 50% 100%, 100% 0%
+    }
+
+    80% {
+        background-position: 0% 50%, 50% 50%, 100% 100%
+    }
 }
 
 @media screen and (min-width: 1700px) {

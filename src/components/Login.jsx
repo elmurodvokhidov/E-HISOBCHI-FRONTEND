@@ -47,7 +47,7 @@ export default function Login() {
                 alt="background image"
                 className='size-full fixed object-cover'
             />
-            <form className="pc:w-[30%] md:w-[40%] sm:w-[80%] small:w-full flex flex-col items-center gap-10 px-20 py-10 rounded-3xl shadow-smooth bg-white">
+            <form className="pc:w-[30%] md:w-[40%] sm:w-[80%] small:w-full flex flex-col items-center gap-10 px-20 py-10 rounded-3xl shadow-smooth z-0 bg-white">
                 <figure>
                     <img
                         crossOrigin="anonymous"
