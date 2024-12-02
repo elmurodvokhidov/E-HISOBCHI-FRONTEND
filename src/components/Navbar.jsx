@@ -45,7 +45,7 @@ function Navbar({ modals, handleModal }) {
     const logoutHandler = () => {
         dispatch(authStart());
         dispatch(authLogout());
-        navigate("/");
+        navigate("/login");
     };
 
     return (

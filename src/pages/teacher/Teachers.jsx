@@ -214,7 +214,7 @@ function Teachers() {
                 </> : teachers.length > 0 ?
                     teachers.map((teacher, index) => (
                         <div key={index} className="xl:w-4/5 flex justify-between capitalize text-sm pc:text-base border rounded-lg p-4 shadow-sm hover:shadow-md transition-all">
-                            <NavLink to={`/admin/teacher-info/${teacher._id}`} className="hover:text-main-1 pc:text-base">{teacher.first_name} {teacher.last_name}</NavLink>
+                            <NavLink to={`/teacher-info/${teacher._id}`} className="hover:text-main-1 pc:text-base">{teacher.first_name} {teacher.last_name}</NavLink>
                             <div className="flex items-center gap-8 text-xs pc:text-base">
                                 <h3
                                     onClick={() => handleCopy(teacher.phoneNumber)}

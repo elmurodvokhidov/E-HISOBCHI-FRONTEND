@@ -110,7 +110,7 @@ function Courses() {
                     <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 small:grid-cols-1 gap-8 py-8">
                         {
                             courses.length > 0 ? courses.map((course, index) => (
-                                <div key={index} onClick={() => navigate(`/admin/course-info/${course._id}`)} className="shadow-md hover:shadow-xl cursor-pointer rounded bg-white">
+                                <div key={index} onClick={() => navigate(`/course-info/${course._id}`)} className="shadow-md hover:shadow-xl cursor-pointer rounded bg-white">
                                     <div className="flex flex-col items-center justify-center gap-8 pt-14" style={{ background: course.color }}>
                                         <h1 className="text-base pc:text-lg font-bold text-white">{course.title}</h1>
                                         <figure className="w-48">

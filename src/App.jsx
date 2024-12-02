@@ -38,6 +38,7 @@ function App() {
     financeModal: false,
     searchBarModal: false,
   });
+  const token = getCookie("x-token");
 
   // Modal state-ni optimal tarzda o'zgartirish
   const handleModal = (modalName, value) => {
@@ -60,26 +61,23 @@ function App() {
         dispatch(authSuccess(data));
       } catch (error) {
         console.log(error);
-        navigate('/');
+        navigate('/login');
       }
     };
 
-    if (getCookie("x-token")) {
+    if (token) {
       getAuthFunction();
-    };
-  }, []);
+    } else {
+      navigate("/login");
+    }
+  }, [token]);
 
   return (
     <div className="app" onClick={closeAllModals}>
       <Routes>
-        <Route index element={<Login />} />
-        <Route path="*" element={<NotFound />} />
-        <Route path="admin" element={<AdminLayout
-          modals={modals}
-          handleModal={handleModal}
-          closeAllModals={closeAllModals}
-        />}>
-          <Route path="dashboard" element={<AdminDashboard />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={token && <AdminLayout modals={modals} handleModal={handleModal} closeAllModals={closeAllModals} />}>
+          <Route index element={<AdminDashboard />} />
           <Route path="notice" element={<Notice />} />
           <Route path="employees" element={<Employees />} />
           <Route path="admin-info/:id" element={<AdminInfo />} />
@@ -101,6 +99,7 @@ function App() {
           <Route path="debtors" element={<Debtors />} />
           <Route path="reports" element={<Reports />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );

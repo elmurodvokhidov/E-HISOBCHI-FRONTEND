@@ -122,7 +122,7 @@ function CourseInfo() {
             if (result.isConfirmed) {
                 dispatch(courseStart());
                 service.deleteCourse(id).then(() => {
-                    navigate("/admin/courses");
+                    navigate("/courses");
                     Toast.fire({ icon: "success", title: "Kurs muvaffaqiyatli o'chirildi!" });
                 }).catch((error) => {
                     dispatch(courseFailure(error.response?.data.message));
@@ -194,7 +194,7 @@ function CourseInfo() {
                                 {
                                     course.groups.length > 0 ?
                                         course.groups.map((group, index) => (
-                                            <NavLink to={`/admin/group-info/${group._id}`} key={index}>
+                                            <NavLink to={`/group-info/${group._id}`} key={index}>
                                                 <div className="courseCard md:w-50% small:w-full p-4 cursor-pointer bg-white shadow-smooth rounded">
                                                     <h1 className="w-fit text-xs pc:text-base rounded px-2 py-1 bg-gray-200">{group.name}</h1>
                                                     <div className="flex items-start justify-between gap-8">

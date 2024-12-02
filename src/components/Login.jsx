@@ -37,7 +37,7 @@ export default function Login() {
     };
 
     useEffect(() => {
-        if (isLoggedIn) navigate("/admin/dashboard");
+        if (isLoggedIn) navigate("/");
     }, [isLoggedIn]);
 
     return (

@@ -450,7 +450,7 @@ export default function Payments() {
                                                 <h4 className="min-w-[100px] text-sm pc:text-base"><FormattedDate date={pay.date} /></h4>
                                                 <h4 className="min-w-[200px] text-base pc:text-lg">
                                                     <NavLink
-                                                        to={`/admin/student-info/${pay.studentId?._id}`}
+                                                        to={`/student-info/${pay.studentId?._id}`}
                                                         className="hover:text-cyan-500"
                                                     >
                                                         {pay.studentId?.first_name + " "}
@@ -465,7 +465,7 @@ export default function Payments() {
                                                 <h4 className="min-w-[200px] text-base pc:text-lg">
                                                     {
                                                         pay.studentId?.group?.teacher ?
-                                                            <NavLink className="hover:text-main-1 transition-all" to={`/admin/teacher-info/${pay.studentId?.group?.teacher?._id}`}>{pay.studentId?.group?.teacher?.first_name + " " + pay.studentId?.group?.teacher?.last_name}</NavLink> :
+                                                            <NavLink className="hover:text-main-1 transition-all" to={`/teacher-info/${pay.studentId?.group?.teacher?._id}`}>{pay.studentId?.group?.teacher?.first_name + " " + pay.studentId?.group?.teacher?.last_name}</NavLink> :
                                                             <IoRemoveOutline />
                                                     }
                                                 </h4>

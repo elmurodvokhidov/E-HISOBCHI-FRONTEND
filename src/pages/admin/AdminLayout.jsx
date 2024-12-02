@@ -1,19 +1,15 @@
-import { Outlet, useNavigate } from "react-router-dom"
+import { Outlet } from "react-router-dom"
 import Navbar from "../../components/Navbar"
 import AdminSidebar from "./AdminSidebar"
 import { useEffect } from "react";
-import { getCookie } from "../../config/cookiesService";
 import service from "../../config/service";
 import { useDispatch } from "react-redux";
 import { allStudentSuccess } from "../../redux/slices/studentSlice";
 
 function AdminLayout({ modals, handleModal, closeAllModals }) {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     useEffect(() => {
-        if (!getCookie("x-token")) navigate("/");
-
         // O'quvchi balansini hisoblash funksiyasi
         async function caclStudentBalanceFunction() {
             try {
@@ -26,7 +22,7 @@ function AdminLayout({ modals, handleModal, closeAllModals }) {
         };
 
         caclStudentBalanceFunction();
-    }, [navigate]);
+    }, []);
 
     return (
         <div className="w-full h-screen overflow-hidden">

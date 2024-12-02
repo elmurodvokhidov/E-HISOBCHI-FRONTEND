@@ -422,7 +422,7 @@ function Groups() {
                         </> : filteredGroups.length > 0 ?
                             filteredGroups.map((group, index) => (
                                 <tr
-                                    onClick={() => navigate(`/admin/group-info/${group._id}`)}
+                                    onClick={() => navigate(`/group-info/${group._id}`)}
                                     key={index}
                                     className="small:w-full flex items-center justify-between capitalize text-sm pc:text-base border rounded-lg px-4 py-3 cursor-pointer shadow-sm hover:shadow-md transition-all">
                                     <td className="w-[130px] text-left">{group.name}</td>

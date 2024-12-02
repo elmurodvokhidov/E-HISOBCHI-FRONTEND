@@ -507,7 +507,7 @@ function Students() {
                                         />
                                     </td>
                                     <td className="w-[300px] pc:w-[350px] text-left text-base pc:text-lg hover:text-main-1">
-                                        <NavLink to={`/admin/student-info/${student._id}`}>{student.first_name} {student.last_name}</NavLink>
+                                        <NavLink to={`/student-info/${student._id}`}>{student.first_name} {student.last_name}</NavLink>
                                     </td>
                                     <td
                                         onClick={() => handleCopy(student.phoneNumber)}
@@ -522,7 +522,7 @@ function Students() {
                                         {
                                             student?.group ? <>
                                                 <NavLink
-                                                    to={`/admin/group-info/${student.group?._id}`}
+                                                    to={`/group-info/${student.group?._id}`}
                                                     className="flex items-center gap-1">
                                                     <span className="bg-gray-200 p-1 rounded">{student.group?.name}</span>
                                                     <span>{student.group?.course.title}</span>

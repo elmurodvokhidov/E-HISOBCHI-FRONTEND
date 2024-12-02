@@ -180,7 +180,7 @@ function GroupInfo() {
             if (result.isConfirmed) {
                 dispatch(groupStart());
                 service.deleteGroup(id).then((res) => {
-                    navigate("/admin/groups");
+                    navigate("/groups");
                     Toast.fire({ icon: "success", title: res?.data.message });
                 }).catch((error) => {
                     dispatch(groupFailure(error.response?.data.message));
@@ -266,13 +266,13 @@ function GroupInfo() {
                                     <div className="flex items-center gap-2 text-lg pc:text-xl">
                                         <NavLink
                                             className="hover:text-main-1 transition-all"
-                                            to={`/admin/course-info/${group.course?._id}`}>
+                                            to={`/course-info/${group.course?._id}`}>
                                             {group.course.title}
                                         </NavLink>
                                         <span><GoDotFill fontSize={6} /></span>
                                         <NavLink
                                             className="hover:text-main-1 transition-all"
-                                            to={`/admin/teacher-info/${group.teacher?._id}`}>
+                                            to={`/teacher-info/${group.teacher?._id}`}>
                                             {group.teacher?.first_name + " " + group.teacher?.last_name}
                                         </NavLink>
                                     </div>
@@ -364,7 +364,7 @@ function GroupInfo() {
 
                                                             <div className="flex justify-end pt-4">
                                                                 <NavLink
-                                                                    to={`/admin/student-info/${student._id}`}
+                                                                    to={`/student-info/${student._id}`}
                                                                     className="flex items-center gap-1 hover:text-main-1">
                                                                     <span>Profilga o'tish</span>
                                                                     <IoIosArrowRoundForward className="text-gray-500" />

@@ -197,7 +197,7 @@ export default function Debtors() {
                                     >
                                         <h4 className="min-w-[200px] text-base pc:text-lg">
                                             <NavLink
-                                                to={`/admin/student-info/${debtor._id}`}
+                                                to={`/student-info/${debtor._id}`}
                                                 className="hover:text-cyan-500"
                                             >
                                                 {debtor.first_name + " "}

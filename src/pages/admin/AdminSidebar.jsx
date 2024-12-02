@@ -20,7 +20,7 @@ function AdminSidebar({ modals, handleModal, closeAllModals }) {
             <div className={`sidebar md:static absolute z-10 ${modals.sideModal ? "left-0" : "-left-full"} h-screen pt-20 overflow-y-auto shadow-smooth transition-all bg-white`}>
                 <div onClick={() => handleModal("settingsModal", false)}>
                     <NavLink
-                        to="/admin/dashboard"
+                        to="/"
                         onClick={closeAllModals}
                         className="cell relative text-gray-500 border-b-2 py-4 md:px-4 pc:px-6 flex flex-col items-center">
                         <RxDashboard className="pc:text-4xl 2xl:text-3xl text-2xl" />
@@ -87,7 +87,7 @@ function AdminSidebar({ modals, handleModal, closeAllModals }) {
                             handleModal("financeModal", !modals.financeModal);
                             handleModal("settingsModal", false);
                         }}
-                        className={`${(location.pathname === '/admin/payments' || location.pathname === '/admin/cost' || location.pathname === '/admin/salary' || location.pathname === '/admin/debtors') && 'activeDiv'} cell relative text-gray-500 border-b-2 py-4 md:px-4 pc:px-6 flex flex-col items-center cursor-pointer`}>
+                        className={`${(location.pathname === '/payments' || location.pathname === '/cost' || location.pathname === '/salary' || location.pathname === '/debtors') && 'activeDiv'} cell relative text-gray-500 border-b-2 py-4 md:px-4 pc:px-6 flex flex-col items-center cursor-pointer`}>
                         <PiCurrencyDollar className="pc:text-4xl 2xl:text-3xl text-2xl" />
                         <h1 className="pc:text-lg text-base">Moliya</h1>
                     </div>
@@ -98,7 +98,7 @@ function AdminSidebar({ modals, handleModal, closeAllModals }) {
                             handleModal("settingsModal", !modals.settingsModal);
                             handleModal("financeModal", false);
                         }}
-                        className={`${(location.pathname === '/admin/courses' || location.pathname === '/admin/rooms' || location.pathname === '/admin/settings' || location.pathname.includes('course-info')) && 'activeDiv'} cell relative text-gray-500 border-b-2 py-4 md:px-4 pc:px-6 flex flex-col items-center cursor-pointer`}>
+                        className={`${(location.pathname === '/courses' || location.pathname === '/rooms' || location.pathname === '/settings' || location.pathname.includes('course-info')) && 'activeDiv'} cell relative text-gray-500 border-b-2 py-4 md:px-4 pc:px-6 flex flex-col items-center cursor-pointer`}>
                         <IoSettingsOutline className="pc:text-4xl 2xl:text-3xl text-2xl" />
                         <h1 className="pc:text-lg text-base">Sozlamalar</h1>
                     </div>

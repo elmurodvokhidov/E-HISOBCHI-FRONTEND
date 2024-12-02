@@ -38,7 +38,7 @@ const Reports = () => {
         getAllCourses();
         getAllStudentPayHistoryFunction();
 
-        if (auth?.role !== "ceo") navigate("/admin/dashboard");
+        if (auth?.role !== "ceo") navigate("/");
     }, [auth?.role]);
 
     const calcAtdPerFunction = (courseId) => {

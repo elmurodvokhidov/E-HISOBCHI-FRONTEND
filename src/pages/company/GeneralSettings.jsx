@@ -40,7 +40,7 @@ function GeneralSettings() {
     useEffect(() => {
         getCompanyFunction();
 
-        if (auth?.role !== "ceo") navigate("/admin/dashboard");
+        if (auth?.role !== "ceo") navigate("/");
     }, []);
 
     // Rasm yuklash

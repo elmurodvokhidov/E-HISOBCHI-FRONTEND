@@ -34,7 +34,7 @@ export default function SearchBar({ modals, handleModal }) {
                 {
                     results.length > 0 && modals.searchBarModal ? results.map((result, index) => (
                         <Link
-                            to={`/admin/student-info/${result._id}`}
+                            to={`/student-info/${result._id}`}
                             className="flex items-center gap-4 px-5 py-3 pc:text-lg hover:bg-gray-100" key={index}><FaSearch className="text-gray-500" />{result.first_name} {result.last_name}</Link>
                     )) : null
                 }

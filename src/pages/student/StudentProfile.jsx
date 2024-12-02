@@ -376,7 +376,7 @@ function StudentProfile() {
                                 </> : <>
                                     {
                                         student?.group ?
-                                            <NavLink to={`/admin/group-info/${student?.group._id}`}>
+                                            <NavLink to={`/group-info/${student?.group._id}`}>
                                                 <div className="courseCard xl:w-50% p-4 cursor-pointer bg-white shadow-smooth rounded">
                                                     <h1 className="w-fit text-xs pc:text-sm rounded px-2 py-1 bg-gray-200">{student?.group.name}</h1>
                                                     <div className="flex items-start justify-between gap-8">

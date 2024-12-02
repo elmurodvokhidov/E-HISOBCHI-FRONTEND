@@ -43,7 +43,7 @@ export default function Employees() {
     useEffect(() => {
         getAllAdminsFunc();
 
-        if (auth?.role !== "ceo") navigate("/admin/dashboard");
+        if (auth?.role !== "ceo") navigate("/");
     }, []);
 
     const handleModal = (modalName, value) => {
@@ -169,7 +169,7 @@ export default function Employees() {
                         .filter(emp => emp._id !== auth?._id)
                         .map((admin, index) => (
                             <div key={index} className="xl:w-4/5 flex justify-between capitalize text-sm pc:text-base border rounded-lg p-4 shadow-sm hover:shadow-md transition-all">
-                                <NavLink to={`/admin/admin-info/${admin._id}`} className="hover:text-main-1 pc:text-base">
+                                <NavLink to={`/admin-info/${admin._id}`} className="hover:text-main-1 pc:text-base">
                                     {admin.first_name} {admin.last_name}
                                 </NavLink>
                                 <div className="flex items-center gap-8 text-xs pc:text-base">

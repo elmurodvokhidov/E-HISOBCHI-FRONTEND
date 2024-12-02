@@ -23,7 +23,7 @@ export default function Company() {
         try {
             dispatch(companyStart());
             const { data } = await service.getCompany();
-            if (data.success) navigate('/admin/dashboard');
+            if (data.success) navigate('/');
             dispatch(companySuccess(data));
         } catch (error) {
             dispatch(companyFailure(error.response?.data.message));
@@ -58,7 +58,7 @@ export default function Company() {
             dispatch(companyStart());
             const { data } = await service.createNewCompany(companyCred);
             dispatch(companySuccess(data));
-            navigate('/admin/dashboard')
+            navigate('/');
             clearInput();
             Toast.fire({
                 icon: "success",
