@@ -1,7 +1,6 @@
 import { IoCloseOutline } from "react-icons/io5";
 import { FormattedDate } from "./FormattedDate";
 import { FormattedTime } from "./FormattedTime";
-import logo from "../assets/images/UITC 1.png";
 import ReactToPrint from "react-to-print";
 import { useRef } from "react";
 
@@ -31,14 +30,14 @@ export default function Receipt({
 
         <div className="w-full flex flex-col gap-6 items-center py-6">
           <div ref={receiptRef} className="w-72 p-5 border border-gray-300 rounded-lg shadow-dim bg-white">
-            <div className="text-center border-b border-gray-300 pb-4 mb-4">
+            {/* <div className="text-center border-b border-gray-300 pb-4 mb-4">
               <img
                 crossOrigin="anonymous"
                 src={logo}
                 alt="company logo "
                 className="w-24 h-auto mx-auto mb-2"
               />
-            </div>
+            </div> */}
             <div>
               <p><strong>Tekshirish raqami:</strong> <span>№{payment?.verification}</span></p>
               <p><strong>Kompaniya:</strong> <span className="uppercase">{payment?.company}</span></p>

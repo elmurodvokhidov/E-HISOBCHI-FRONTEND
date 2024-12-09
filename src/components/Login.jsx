@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import logo from "../assets/images/UITC 1.png";
 import { authFailure, authStart, authSuccess } from '../redux/slices/authSlice';
 import { Toast } from '../config/sweetToast';
 import service from '../config/service';
@@ -42,21 +41,13 @@ export default function Login() {
 
     return (
         <div className="w-full h-screen relative overflow-y-auto flex flex-col items-center justify-center gap-4 p-6">
-            <img
+            {/* <img
                 src={bgImg}
                 alt="background image"
                 className='size-full fixed object-cover'
-            />
+            /> */}
             <form className="pc:w-[30%] md:w-[40%] sm:w-[80%] small:w-full flex flex-col items-center gap-10 px-20 py-10 rounded-3xl shadow-smooth z-0 bg-white">
-                <figure>
-                    <img
-                        crossOrigin="anonymous"
-                        src={logo}
-                        alt="logo"
-                        className="lg:w-52 small:w-40"
-                    />
-                </figure>
-
+                <h1 className='text-3xl'>Welcome back 👋</h1>
                 <div className="w-full flex flex-col gap-6">
                     {/* Contact Number */}
                     <div className="flex flex-col relative">

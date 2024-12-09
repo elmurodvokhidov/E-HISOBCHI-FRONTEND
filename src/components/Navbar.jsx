@@ -9,11 +9,12 @@ import SearchBar from "./SearchBar";
 import { authLogout, authStart } from "../redux/slices/authSlice";
 import { IoMenuOutline } from "react-icons/io5";
 import { companySuccess } from "../redux/slices/companySlice";
-import logo from "../assets/images/UITC 1.png";
+import logo from "../assets/icons/company-logo.svg";
 
 function Navbar({ modals, handleModal }) {
     const { auth } = useSelector(state => state.auth);
     const { notices } = useSelector(state => state.notice);
+    const { company } = useSelector(state => state.company);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [modal, setModal] = useState(false);
@@ -52,13 +53,10 @@ function Navbar({ modals, handleModal }) {
         <div className="w-full fixed z-20 top-0 flex items-center justify-between py-2 px-10 shadow-dim bg-white">
             <div className="logo w-14 pc:w-16">
                 <Link to="dashboard" className="md:inline-block hidden">
-                    <img
-                        crossOrigin="anonymous"
-                        src={logo}
-                        alt="company logo"
-
-                    />
-
+                    {company?.image ?
+                        <img crossOrigin="anonymous" src={company.image} alt="company logo" />
+                        :
+                        <img crossOrigin="anonymous" src={logo} alt="company logo" />}
                 </Link>
                 <IoMenuOutline
                     onClick={(e) => {
